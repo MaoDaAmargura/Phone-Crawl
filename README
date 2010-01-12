@@ -1,1 +1,5 @@
-Austin has successfully editied this README.
+Okay, so here goes:
+
+I've set up a partition-like file structure. If you're making a class that involves something drawn to the screen, it goes in UI/. If they won't see it, it probably goes in Data/. We can make more partitions later if needed. I think Nathan and I will mostly be handling UI, but we should have a job meeting at some point. 
+
+I'm going to do the HomeTabViewController, to keep the structure simple. 
