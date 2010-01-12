@@ -113,9 +113,10 @@
 		D98DDFE210FD027A0096B5C4 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D98DDFF510FD041A0096B5C4 /* Options */,
-				D98DDFEC10FD03FF0096B5C4 /* Inventory */,
-				D98DDFEB10FD03E40096B5C4 /* WorldView */,
+				D98DDFF910FD06420096B5C4 /* CharacterTab */,
+				D98DDFF510FD041A0096B5C4 /* OptionTab */,
+				D98DDFEC10FD03FF0096B5C4 /* InventoryTab */,
+				D98DDFEB10FD03E40096B5C4 /* WorldViewTab */,
 				28216C950DB411BC00E5133A /* FirstViewController.h */,
 				28216C960DB411BC00E5133A /* FirstViewController.m */,
 				D98DDFDB10FD01FF0096B5C4 /* HomeTabViewController.h */,
@@ -124,25 +125,25 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		D98DDFEB10FD03E40096B5C4 /* WorldView */ = {
+		D98DDFEB10FD03E40096B5C4 /* WorldViewTab */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = WorldView;
+			name = WorldViewTab;
 			sourceTree = "<group>";
 		};
-		D98DDFEC10FD03FF0096B5C4 /* Inventory */ = {
+		D98DDFEC10FD03FF0096B5C4 /* InventoryTab */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Inventory;
+			name = InventoryTab;
 			sourceTree = "<group>";
 		};
-		D98DDFF510FD041A0096B5C4 /* Options */ = {
+		D98DDFF510FD041A0096B5C4 /* OptionTab */ = {
 			isa = PBXGroup;
 			children = (
 			);
-			name = Options;
+			name = OptionTab;
 			sourceTree = "<group>";
 		};
 		D98DDFF710FD04D70096B5C4 /* Data */ = {
@@ -150,6 +151,13 @@
 			children = (
 			);
 			name = Data;
+			sourceTree = "<group>";
+		};
+		D98DDFF910FD06420096B5C4 /* CharacterTab */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = CharacterTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

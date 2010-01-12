@@ -86,6 +86,10 @@
 			D98DDFF410FD040C0096B5C4 /* PBXTextBookmark */ = D98DDFF410FD040C0096B5C4 /* PBXTextBookmark */;
 			D98DDFF610FD04220096B5C4 /* PBXTextBookmark */ = D98DDFF610FD04220096B5C4 /* PBXTextBookmark */;
 			D98DDFF810FD05230096B5C4 /* PBXTextBookmark */ = D98DDFF810FD05230096B5C4 /* PBXTextBookmark */;
+			D98DDFFE10FD069F0096B5C4 /* PBXTextBookmark */ = D98DDFFE10FD069F0096B5C4 /* PBXTextBookmark */;
+			D98DDFFF10FD069F0096B5C4 /* PBXTextBookmark */ = D98DDFFF10FD069F0096B5C4 /* PBXTextBookmark */;
+			D98DE00010FD069F0096B5C4 /* PBXTextBookmark */ = D98DE00010FD069F0096B5C4 /* PBXTextBookmark */;
+			D98DE00110FD069F0096B5C4 /* PBXTextBookmark */ = D98DE00110FD069F0096B5C4 /* PBXTextBookmark */;
 		};
 		sourceControlManager = D98DDFC410FCFDA50096B5C4 /* Source Control */;
 		userBuildSettings = {
@@ -293,5 +297,45 @@
 		rType = 0;
 		vrLen = 758;
 		vrLoc = 189;
+	};
+	D98DDFFE10FD069F0096B5C4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = D98DDFDC10FD01FF0096B5C4 /* HomeTabViewController.m */;
+		name = "HomeTabViewController.m: 30";
+		rLen = 0;
+		rLoc = 792;
+		rType = 0;
+		vrLen = 758;
+		vrLoc = 189;
+	};
+	D98DDFFF10FD069F0096B5C4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623240D0F684500981E51 /* Phone_CrawlAppDelegate.h */;
+		name = "Phone_CrawlAppDelegate.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 486;
+		vrLoc = 0;
+	};
+	D98DE00010FD069F0096B5C4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */;
+		name = "Phone_CrawlAppDelegate.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 666;
+		vrLoc = 48;
+	};
+	D98DE00110FD069F0096B5C4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */;
+		name = "Phone_CrawlAppDelegate.m: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 666;
+		vrLoc = 48;
 	};
 }
