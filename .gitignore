@@ -1,0 +1,22 @@
+# Mac OS X related files to ignore
+.DS_Store
+
+#other version control files, dirs
+.svn
+.hg
+
+# temporary files
+*.swp
+*~
+
+# Xcode droppings
+*~.nib
+.o
+build
+__MACOSX
+*.pbxuser
+*.perspective
+*.perspectivev3
+*.mode1v3
+*.mode2v3
+
