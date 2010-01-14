@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		1D3623260D0F684500981E51 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
@@ -23,12 +22,12 @@
 		D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3AD710FFCE5C00323446 /* OptionsView.xib */; };
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
+		D95F3AF310FFCECF00323446 /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF010FFCECF00323446 /* FirstViewController.m */; };
+		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		1D3623240D0F684500981E51 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Phone_CrawlAppDelegate.h; path = Classes/Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
-		1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Phone_CrawlAppDelegate.m; path = Classes/Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Phone-Crawl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Phone-Crawl.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		282CCBFD0DB6C98000C4EA27 /* SecondView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecondView.xib; sourceTree = "<group>"; };
@@ -51,6 +50,10 @@
 		D95F3AD910FFCE5C00323446 /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
 		D95F3ADA10FFCE5C00323446 /* WorldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldView.m; sourceTree = "<group>"; };
 		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
+		D95F3AEF10FFCECF00323446 /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstViewController.h; sourceTree = "<group>"; };
+		D95F3AF010FFCECF00323446 /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstViewController.m; sourceTree = "<group>"; };
+		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
+		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -169,13 +172,23 @@
 			path = World;
 			sourceTree = "<group>";
 		};
+		D95F3AEE10FFCECF00323446 /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3AEF10FFCECF00323446 /* FirstViewController.h */,
+				D95F3AF010FFCECF00323446 /* FirstViewController.m */,
+				D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */,
+				D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
 			isa = PBXGroup;
 			children = (
 				D95F3AC910FFCE5C00323446 /* UI */,
 				D98DDFF710FD04D70096B5C4 /* Data */,
-				1D3623240D0F684500981E51 /* Phone_CrawlAppDelegate.h */,
-				1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */,
+				D95F3AEE10FFCECF00323446 /* Classes */,
 			);
 			name = PhoneCrawl;
 			sourceTree = "<group>";
@@ -246,12 +259,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
-				1D3623260D0F684500981E51 /* Phone_CrawlAppDelegate.m in Sources */,
 				D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */,
 				D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */,
 				D95F3ADF10FFCE5C00323446 /* InventoryView.m in Sources */,
 				D95F3AE110FFCE5C00323446 /* OptionsView.m in Sources */,
 				D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */,
+				D95F3AF310FFCECF00323446 /* FirstViewController.m in Sources */,
+				D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
