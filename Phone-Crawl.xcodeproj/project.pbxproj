@@ -11,11 +11,18 @@
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		28216C970DB411BC00E5133A /* FirstViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28216C960DB411BC00E5133A /* FirstViewController.m */; };
 		282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 282CCBFD0DB6C98000C4EA27 /* SecondView.xib */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
-		D98DDFDE10FD01FF0096B5C4 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D98DDFDC10FD01FF0096B5C4 /* HomeTabViewController.m */; };
+		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
+		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
+		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
+		D95F3ADF10FFCE5C00323446 /* InventoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AD210FFCE5C00323446 /* InventoryView.m */; };
+		D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3AD310FFCE5C00323446 /* InventoryView.xib */; };
+		D95F3AE110FFCE5C00323446 /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AD610FFCE5C00323446 /* OptionsView.m */; };
+		D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3AD710FFCE5C00323446 /* OptionsView.xib */; };
+		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
+		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,16 +31,26 @@
 		1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Phone_CrawlAppDelegate.m; path = Classes/Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* Phone-Crawl.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Phone-Crawl.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		28216C950DB411BC00E5133A /* FirstViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FirstViewController.h; path = Classes/FirstViewController.h; sourceTree = "<group>"; };
-		28216C960DB411BC00E5133A /* FirstViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FirstViewController.m; path = Classes/FirstViewController.m; sourceTree = "<group>"; };
 		282CCBFD0DB6C98000C4EA27 /* SecondView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SecondView.xib; sourceTree = "<group>"; };
 		288765070DF74369002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		28A0AB4B0D9B1048005BE974 /* Phone_Crawl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_Crawl_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		D98DDFDB10FD01FF0096B5C4 /* HomeTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = HomeTabViewController.h; path = Classes/HomeTabViewController.h; sourceTree = "<group>"; };
-		D98DDFDC10FD01FF0096B5C4 /* HomeTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = HomeTabViewController.m; path = Classes/HomeTabViewController.m; sourceTree = "<group>"; };
+		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
+		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
+		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
+		D95F3ACE10FFCE5C00323446 /* HomeTabViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeTabViewController.h; sourceTree = "<group>"; };
+		D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabViewController.m; sourceTree = "<group>"; };
+		D95F3AD110FFCE5C00323446 /* InventoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryView.h; sourceTree = "<group>"; };
+		D95F3AD210FFCE5C00323446 /* InventoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryView.m; sourceTree = "<group>"; };
+		D95F3AD310FFCE5C00323446 /* InventoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InventoryView.xib; sourceTree = "<group>"; };
+		D95F3AD510FFCE5C00323446 /* OptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsView.h; sourceTree = "<group>"; };
+		D95F3AD610FFCE5C00323446 /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsView.m; sourceTree = "<group>"; };
+		D95F3AD710FFCE5C00323446 /* OptionsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OptionsView.xib; sourceTree = "<group>"; };
+		D95F3AD910FFCE5C00323446 /* WorldView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WorldView.h; sourceTree = "<group>"; };
+		D95F3ADA10FFCE5C00323446 /* WorldView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WorldView.m; sourceTree = "<group>"; };
+		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,51 +116,68 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D95F3AC910FFCE5C00323446 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3ACA10FFCE5C00323446 /* Character */,
+				D95F3AD010FFCE5C00323446 /* Inventory */,
+				D95F3AD410FFCE5C00323446 /* Options */,
+				D95F3AD810FFCE5C00323446 /* World */,
+				D95F3ACE10FFCE5C00323446 /* HomeTabViewController.h */,
+				D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		D95F3ACA10FFCE5C00323446 /* Character */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3ACB10FFCE5C00323446 /* CharacterView.h */,
+				D95F3ACC10FFCE5C00323446 /* CharacterView.m */,
+				D95F3ACD10FFCE5C00323446 /* CharacterView.xib */,
+			);
+			path = Character;
+			sourceTree = "<group>";
+		};
+		D95F3AD010FFCE5C00323446 /* Inventory */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3AD110FFCE5C00323446 /* InventoryView.h */,
+				D95F3AD210FFCE5C00323446 /* InventoryView.m */,
+				D95F3AD310FFCE5C00323446 /* InventoryView.xib */,
+			);
+			path = Inventory;
+			sourceTree = "<group>";
+		};
+		D95F3AD410FFCE5C00323446 /* Options */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3AD510FFCE5C00323446 /* OptionsView.h */,
+				D95F3AD610FFCE5C00323446 /* OptionsView.m */,
+				D95F3AD710FFCE5C00323446 /* OptionsView.xib */,
+			);
+			path = Options;
+			sourceTree = "<group>";
+		};
+		D95F3AD810FFCE5C00323446 /* World */ = {
+			isa = PBXGroup;
+			children = (
+				D95F3AD910FFCE5C00323446 /* WorldView.h */,
+				D95F3ADA10FFCE5C00323446 /* WorldView.m */,
+				D95F3ADB10FFCE5C00323446 /* WorldView.xib */,
+			);
+			path = World;
+			sourceTree = "<group>";
+		};
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
 			isa = PBXGroup;
 			children = (
+				D95F3AC910FFCE5C00323446 /* UI */,
 				D98DDFF710FD04D70096B5C4 /* Data */,
-				D98DDFE210FD027A0096B5C4 /* UI */,
 				1D3623240D0F684500981E51 /* Phone_CrawlAppDelegate.h */,
 				1D3623250D0F684500981E51 /* Phone_CrawlAppDelegate.m */,
 			);
 			name = PhoneCrawl;
-			sourceTree = "<group>";
-		};
-		D98DDFE210FD027A0096B5C4 /* UI */ = {
-			isa = PBXGroup;
-			children = (
-				D98DDFF910FD06420096B5C4 /* CharacterTab */,
-				D98DDFEC10FD03FF0096B5C4 /* InventoryTab */,
-				D98DDFF510FD041A0096B5C4 /* OptionTab */,
-				D98DDFEB10FD03E40096B5C4 /* WorldViewTab */,
-				28216C950DB411BC00E5133A /* FirstViewController.h */,
-				28216C960DB411BC00E5133A /* FirstViewController.m */,
-				D98DDFDB10FD01FF0096B5C4 /* HomeTabViewController.h */,
-				D98DDFDC10FD01FF0096B5C4 /* HomeTabViewController.m */,
-			);
-			name = UI;
-			sourceTree = "<group>";
-		};
-		D98DDFEB10FD03E40096B5C4 /* WorldViewTab */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = WorldViewTab;
-			sourceTree = "<group>";
-		};
-		D98DDFEC10FD03FF0096B5C4 /* InventoryTab */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = InventoryTab;
-			sourceTree = "<group>";
-		};
-		D98DDFF510FD041A0096B5C4 /* OptionTab */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = OptionTab;
 			sourceTree = "<group>";
 		};
 		D98DDFF710FD04D70096B5C4 /* Data */ = {
@@ -151,13 +185,6 @@
 			children = (
 			);
 			name = Data;
-			sourceTree = "<group>";
-		};
-		D98DDFF910FD06420096B5C4 /* CharacterTab */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = CharacterTab;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -204,6 +231,10 @@
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
 				282CCBFE0DB6C98000C4EA27 /* SecondView.xib in Resources */,
+				D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */,
+				D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */,
+				D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */,
+				D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -216,8 +247,11 @@
 			files = (
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* Phone_CrawlAppDelegate.m in Sources */,
-				28216C970DB411BC00E5133A /* FirstViewController.m in Sources */,
-				D98DDFDE10FD01FF0096B5C4 /* HomeTabViewController.m in Sources */,
+				D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */,
+				D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */,
+				D95F3ADF10FFCE5C00323446 /* InventoryView.m in Sources */,
+				D95F3AE110FFCE5C00323446 /* OptionsView.m in Sources */,
+				D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
