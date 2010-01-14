@@ -14,4 +14,6 @@
 	UITabBarController *mainTabController;
 }
 
+@property (nonatomic, retain) UITabBarController *mainTabController;
+
 @end

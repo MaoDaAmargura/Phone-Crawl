@@ -8,12 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
+@class HomeTabViewController;
+
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
     UITabBarController *tabBarController;
+	
+	HomeTabViewController *homeTabController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 @property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
+
+@property (nonatomic, retain) HomeTabViewController *homeTabController;
 
 @end

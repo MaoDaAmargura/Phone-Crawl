@@ -8,17 +8,21 @@
 
 #import "Phone_CrawlAppDelegate.h"
 
+#import "HomeTabViewController.h"
 
 @implementation Phone_CrawlAppDelegate
 
 @synthesize window;
 @synthesize tabBarController;
 
+@synthesize homeTabController;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {
-    
+- (void)applicationDidFinishLaunching:(UIApplication *)application 
+{
+    homeTabController = [[[HomeTabViewController alloc] init] autorelease];
     // Add the tab bar controller's current view as a subview of the window
-    [window addSubview:tabBarController.view];
+    //[window addSubview:tabBarController.view];
+	[window addSubview:homeTabController.view];
 }
 
 
