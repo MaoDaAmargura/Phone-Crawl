@@ -32,6 +32,7 @@
 
 
 
+
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -43,7 +44,7 @@
 
 -(void) loadView
 {
-	mainTabController = [[[UITabBarController alloc] init] autorelease];
+	mainTabController = [[UITabBarController alloc] init];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
 	[tabs addObject:[self newWorldViewController]];
@@ -90,7 +91,7 @@
 
 - (InventoryView*) newInventoryViewController
 {
-	InventoryView *iView = [[[OptionsView alloc] init] autorelease];
+	InventoryView *iView = [[[InventoryView alloc] init] autorelease];
 	//
 	iView.title = @"Inventory";
 	return iView;
@@ -98,7 +99,7 @@
 
 - (OptionsView*) newOptionsViewController
 {
-	OptionsView *oView = [[[InventoryView alloc] init] autorelease];
+	OptionsView *oView = [[[OptionsView alloc] init] autorelease];
 	//
 	oView.title = @"Options";
 	return oView;
