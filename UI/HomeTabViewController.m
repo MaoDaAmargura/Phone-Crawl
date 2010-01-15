@@ -18,10 +18,10 @@
 
 @interface HomeTabViewController (Private)
 
-- (WorldView*) newWorldViewController;
-- (CharacterView*) newCharacterViewController;
-- (InventoryView*) newInventoryViewController;
-- (OptionsView*) newOptionsViewController;
+- (UIViewController*) newWorldViewController;
+- (UIViewController*) newCharacterViewController;
+- (UIViewController*) newInventoryViewController;
+- (UIViewController*) newOptionsViewController;
 
 @end
 
@@ -31,7 +31,8 @@
 @synthesize mainTabController;
 
 
-
+#pragma mark -
+#pragma mark Life Cycle
 
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
@@ -73,40 +74,6 @@
 }
 */
 
-- (WorldView*) newWorldViewController
-{
-	WorldView *wView = [[[WorldView alloc] init] autorelease];
-	//wView.tabBarItem.image = 
-	wView.title = @"World";
-	return wView;
-}
-
-- (CharacterView*) newCharacterViewController
-{
-	CharacterView *cView = [[[CharacterView alloc] init] autorelease];
-	//
-	cView.title = @"Character";
-	return cView;
-}
-
-- (InventoryView*) newInventoryViewController
-{
-	InventoryView *iView = [[[InventoryView alloc] init] autorelease];
-	//
-	iView.title = @"Inventory";
-	return iView;
-}
-
-- (OptionsView*) newOptionsViewController
-{
-	OptionsView *oView = [[[OptionsView alloc] init] autorelease];
-	//
-	oView.title = @"Options";
-	return oView;
-}
-
-
-
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -119,10 +86,60 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc {
     [super dealloc];
 }
+
+#pragma mark -
+#pragma mark New Tab View Controllers
+
+- (UIViewController*) newWorldViewController
+{
+	WorldView *wView = [[[WorldView alloc] init] autorelease];
+	//wView.tabBarItem.image = 
+	wView.title = @"World";
+	return wView;
+}
+
+- (UIViewController*) newCharacterViewController
+{
+	CharacterView *cView = [[[CharacterView alloc] init] autorelease];
+	//
+	cView.title = @"Character";
+	return cView;
+}
+
+- (UIViewController*) newInventoryViewController
+{
+	InventoryView *iView = [[[InventoryView alloc] init] autorelease];
+	//
+	iView.title = @"Inventory";
+	return iView;
+}
+
+- (UIViewController*) newOptionsViewController
+{
+	OptionsView *oView = [[[OptionsView alloc] init] autorelease];
+	UINavigationController *navCont = [[[UINavigationController alloc] initWithRootViewController:oView] autorelease];
+	//
+	navCont.title = @"Options";
+	return navCont;
+}
+
+
+#pragma mark -
+#pragma mark UITabBarControllerDelegate
+
+- (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
+{
+	return YES;
+}
+
+- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
+{
+	
+}
+
 
 
 @end

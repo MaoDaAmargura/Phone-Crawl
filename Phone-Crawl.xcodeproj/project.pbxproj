@@ -22,6 +22,10 @@
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
+		D9C27D2F11004C9A00F7B1FE /* ash01fz8.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */; };
+		D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */; };
+		D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2D11004C9A00F7B1FE /* PItN.jpg */; };
+		D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2E11004C9A00F7B1FE /* pokeball2.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
+		D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash01fz8.png; sourceTree = "<group>"; };
+		D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jeans.jpg; sourceTree = "<group>"; };
+		D9C27D2D11004C9A00F7B1FE /* PItN.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PItN.jpg; sourceTree = "<group>"; };
+		D9C27D2E11004C9A00F7B1FE /* pokeball2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokeball2.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +105,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				D9C27D2A11004C9A00F7B1FE /* Images */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */,
 			);
@@ -192,6 +201,17 @@
 			name = Data;
 			sourceTree = "<group>";
 		};
+		D9C27D2A11004C9A00F7B1FE /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */,
+				D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */,
+				D9C27D2D11004C9A00F7B1FE /* PItN.jpg */,
+				D9C27D2E11004C9A00F7B1FE /* pokeball2.png */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -239,6 +259,10 @@
 				D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */,
 				D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */,
 				D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */,
+				D9C27D2F11004C9A00F7B1FE /* ash01fz8.png in Resources */,
+				D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */,
+				D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */,
+				D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
