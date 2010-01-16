@@ -1,10 +1,10 @@
 To open this project in XCode, use XCode to open the directory:
-	./Phone-Crawl/Phone-Crawl.xcodeproj
+	./Phone-Crawl.xcodeproj
 
 This will tell XCode how to open the project with the right file structure and all the proper files.
 
 Okay, so here goes:
 
-I've set up a partition-like file structure. If you're making a class that involves something drawn to the screen, it goes in UI/. If they won't see it, it probably goes in Data/. We can make more partitions later if needed. I think Nathan and I will mostly be handling UI, but we should have a job meeting at some point. 
+I've set up a partition-like file structure. If you're making a class that involves something drawn to the screen, it goes in UI/. If they won't see it, it probably goes in Data/. The last partition is Classes/. Basically, if it's part of the game engine or it runs on it own, it goes in classes. We can make more partitions later if needed. I think Nathan and I will mostly be handling UI, but we should have a job meeting at some point. 
 
 I'm going to do the HomeTabViewController, to keep the structure simple. 
