@@ -22,6 +22,9 @@
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
+		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
+		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
+		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
 		D9C27D2F11004C9A00F7B1FE /* ash01fz8.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */; };
 		D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */; };
 		D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2D11004C9A00F7B1FE /* PItN.jpg */; };
@@ -53,6 +56,12 @@
 		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
+		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
+		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
+		D9B55D1D11015886007173A3 /* LevelGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelGen.h; sourceTree = "<group>"; };
+		D9B55D1E11015886007173A3 /* LevelGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelGen.m; sourceTree = "<group>"; };
+		D9B55D1F11015886007173A3 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
+		D9B55D2011015886007173A3 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash01fz8.png; sourceTree = "<group>"; };
 		D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jeans.jpg; sourceTree = "<group>"; };
 		D9C27D2D11004C9A00F7B1FE /* PItN.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PItN.jpg; sourceTree = "<group>"; };
@@ -178,6 +187,10 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D9B55D1D11015886007173A3 /* LevelGen.h */,
+				D9B55D1E11015886007173A3 /* LevelGen.m */,
+				D9B55D1F11015886007173A3 /* Util.h */,
+				D9B55D2011015886007173A3 /* Util.m */,
 				D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */,
 				D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */,
 			);
@@ -187,18 +200,20 @@
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
 			isa = PBXGroup;
 			children = (
+				D9B55D1911015878007173A3 /* Data */,
 				D95F3AC910FFCE5C00323446 /* UI */,
-				D98DDFF710FD04D70096B5C4 /* Data */,
 				D95F3AEE10FFCECF00323446 /* Classes */,
 			);
 			name = PhoneCrawl;
 			sourceTree = "<group>";
 		};
-		D98DDFF710FD04D70096B5C4 /* Data */ = {
+		D9B55D1911015878007173A3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				D9B55D1A11015878007173A3 /* Dungeon.h */,
+				D9B55D1B11015878007173A3 /* Dungeon.m */,
 			);
-			name = Data;
+			path = Data;
 			sourceTree = "<group>";
 		};
 		D9C27D2A11004C9A00F7B1FE /* Images */ = {
@@ -280,6 +295,9 @@
 				D95F3AE110FFCE5C00323446 /* OptionsView.m in Sources */,
 				D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */,
 				D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */,
+				D9B55D1C11015878007173A3 /* Dungeon.m in Sources */,
+				D9B55D2111015886007173A3 /* LevelGen.m in Sources */,
+				D9B55D2211015886007173A3 /* Util.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
