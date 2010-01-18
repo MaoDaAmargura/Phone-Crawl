@@ -63,10 +63,10 @@ Generation of the Orc Mines area
 
 29.) Flood Fill is run again to ensure that Z3 remains fully connected.  "Bombing" is performed upon building walls near unreachable floor.  A "bombed" wall has a 1/3 chance of becoming broken wall, 1/3 chance of becoming a door, and 1/3 chance of becoming rubble.  This step is repeated until Z3 is fully connected.
 
-30.) Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Fire pits may only be placed 
+30.) Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Following the placement of a fire pit, all tiles in a one tile perimeter around the pit become stone floor unless they are slopes.
 
 
-support pillars
+
 
 
 

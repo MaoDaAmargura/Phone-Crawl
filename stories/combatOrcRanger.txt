@@ -1,0 +1,54 @@
+Player makes silly decisions in combat and gets killed for it
+-------------------------------------------------------------
+
+Player has been exploring Orc Mines Z1 and handily slaughtering lots of enemies.
+
+Player is dragging his finger to the northeast.  The tile receiving the touch event turns yellow.  Character runs A* to pathfind to the most recently touched tile.  As Character is shown moving, World View keeps him centered and moves the environment around him, so the “moving to” tile will change even without the Player moving his finger.
+
+Each time Character moves a tile during this travel, Engine iterates through all monsters on Z1, assigning each of them a turn of movement if they are not paralyzed, asleep, etc.  (This is a simplification, and the actual algorithm shall be explained in more detail shortly.)
+
+Since none of the monsters know where Character is, they simply chase randomly chosen locations.  The pathfinding algorithms responsible for this “wandering” are sufficiently stupid and quick that Character does not pause in between squares, but continues moving at “real time”.
+
+Character comes within combat range of an orcish ranger in an orcish watchtower that is still off screen to the “northeast”.  The watchtower is a 4 x 4 tile building with stone walls and doors in the four corners.  As a property of the watchtower, the orcish ranger is “asleep” and can take no actions until one of the doors is opened.
+
+The auto-turn switches off in response to entering combat, and Character stops following player’s touch.  The tile intercepting the touch event turns red.  A red emblem depicting a pair of crossed swords (combat marker) appears in the upper right side of the screen, along with a red triangle pointing in the direction of the enemy.
+
+Player performs a pinching motion on the screen.  Scroll View intercepts the event and zooms the view out.  This is repeated twice, and the orcish watchtower comes into view.  The red triangle on the combat marker disappears and the combat marker itself centers over the orcish ranger, which is still out of view (behind the opaque wall of the orcish watchtower.)
+
+Player touches the square diagonally adjacent to Character, which turns yellow, and Character moves into it.  In combat, movement commands which would cause Character to move more than a single square are ignored.
+
+Engine continues cycling through all monsters on the Z-level.  None of them are in combat range of the player, so they continue moving randomly, and Player quickly moves Character to just outside the orcish watchtower, one tile at a time.
+
+Player taps on the southwest door to the watchtower.  The door briefly flashes yellow.  Character performs an animation analogous to opening a door, and the door opens.
+
+Engine iterates through randomly wandering monsters, gets to Orcish Ranger and wakes it up because it is within combat range of Character and no longer being kept asleep by dint of being in a closed orcish watchtower.
+
+The detailed description of the turn arbitration algorithm follows.
+
+At this point, both Character and Ranger have just spent a turn.  Engine begins assigning them (and everything else on the Z level) a number of “action points” (AP) equal to their speed.  Since Ranger moves at 13 speed and Character only 10, Ranger reaches 104 AP when Player has only 80.  Engine assigns Ranger a turn.
+
+Ranger decrements its AP to zero and requests an action from its artificial intelligence object (RAI).  RAI realizes that Ranger and Character are only 2 tiles apart and decides to flee.  It tells Ranger to open the door to the southeast.  Ranger opens the door.
+
+Character gets a turn.  Player moves him into the door to the north.  World View runs a Field of View algorithm during the movement animation and adjusts the “fog of war” in light of the new perspective.  The black “unknown” tiles previously obscuring the watchtower fade out smoothly over a period of time equal to the duration of the movement animation, as does the combat marker showing the position of Ranger.  The interior of the watchtower, including Ranger, are revealed to Player.
+
+Ranger gets another turn and walks into the doorway which it opened last turn.
+
+Player moves Character to chase Ranger out the door.  Ranger quickly outdistances Character.  When Ranger has four tiles of space, RAI tells it to open fire.  Ranger shoots Character with a bow, getting lucky and doing four points of damage.  Character is unlucky and his armor class only mitigates one point.  The rest comes out of Character’s “shield” or “fake hit points” (FHP).  Character now has five “real” hit points and one out of four FHP.
+
+Player moves Character away from Ranger.
+
+Unknown to Player, Ranger’s bow has a maximum range of twelve tiles.  RAI instantly decides to shoot again.  The “dice” are more on Character’s side this time, and Character takes zero damage.
+
+Player scratches his head, taps the inventory tab, and drags a bow from one of Character’s backpack slots into his hand slot.  Inventory View accepts the action, hides itself, and returns control to World View.  Character spends his turn putting away his sword and equipping the bow. 
+
+Ranger shoots Character, inflicting two points of damage.  Character now has four HP.
+
+Player presses down on Ranger’s tile, which turns yellow, signifying that it is possible to attack that tile with the currently equipped weapon.  Player thinks about it for a moment, then drags his finger (without lifting it) into the next tile over.  Ranger’s tile returns to normal color and the new tile turns red, signifying that there is nothing to shoot in that tile.  Player lifts his finger and nothing happens.
+
+Player re-opens the inventory screen and sees that he has three High Healing potions, which he knows will restore him to full HP and FHP from being at even a single point of health.  Not wanting to waste the 3 extra HP he could squeeze out of one of the potions, Player closes the inventory screen and taps on Ranger’s square.
+
+Character fires an arrow at Ranger, inflicting three points of damage.  A small bar appears upon Ranger’s sprite at knee height.  The left two thirds of the bar is filled with yellow, while the right third is black.  (If Character had instead inflicted five points of damage, the bar would be about a third full and dark orange.)
+
+RAI will not flee due to taking damage, only as a result of being close to melee range, so it happily tells Ranger to attack again.  Ranger shoots, inflicting two points of damage.  Ranger’s speed allows it a double turn.  He shoots Character again, inflicting two points of damage.  Character now has zero hit points and dies.
+
+Player screams and throws Phone through Window.
