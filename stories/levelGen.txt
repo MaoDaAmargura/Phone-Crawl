@@ -3,67 +3,60 @@ Generation of the Orc Mines area
 
 - Unless otherwise noted, the "default actor" for all of the following interactions is the Level Generator (LG).
 - By convention, Well Known Algorithm Names Are In Leading Caps, but original algorithms are "in double quotes" or just "informally described."
+- Algorithms detailed in levelGenAlgorithms.txt are in C_POUND_DEFINE_STYLE unless they are well known algorithms.
 - Distances given in terms of squares are to be calculated using the Pythagorean Theorem in terms of the deltas along the X- and Y- axes unless otherwise specified.
 
-1.) The Application Delegate allocates a blank dungeon of size 120 x 120 x 5 and sends it to the LG to be initialized as the Orc Mines.
+The Application Delegate allocates a blank dungeon of size 120 x 120 x 5 and sends it to the LG to be initialized as the Orc Mines.
 
-2.) The LG iterates through the Tile objects (tiles) throughout the entire top Z-level (Z0) and sets them all to dirt floor.  All deeper levels (Z1..4) are initialized to granite wall.
+The LG iterates through the Tile objects (tiles) throughout the entire top Z-level (Z0) and sets them all to dirt floor.  All deeper levels (Z1..4) are initialized to granite wall.
 
-3.) LG places random piles of rubble throughout Z0.  Wherever a chunk of rubble is placed, the original dirt floor tile is reinitialized to be impassable rubble instead.
+LG runs PUT_RUBBLE on Z0.
 
-4.) LG places "buildings" throughout Z0.  All tiles in the wall of a building are reinitialized to be a wall.  All tiles in the interior of a building are reinitialized to be wooden floor.  Walls which would be placed over a wooden floor are instead ignored.  Wooden floor placed over a wall erases the wall.  If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.  Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a broken (passable) wall, and a 1 / 12 chance of being a door.
+LG runs PUT_BUILDING on Z0.
 
-5.) LG places 1 x 1 pit seeds throughout Z0, overwriting whatever was on those squares.  They shall be no less than 40 squares apart to preclude the possibility of overlap upon expansion.
+LG runs PUT_PIT on Z0.  Each pit tile on Z0 is mirrored on Z1 as a stone floor tile.
 
-6.) LG expands the pit seeds to be roughly half-moon shaped.  On Z1, the half moons are reproduced in the same X-Y locations, "carving" passable space out of the solid granite there.
+Flood Fill is run on Z0, considering walls and pits to be impassable, but crumbling walls, doors, up slopes, rubble, and any kind of floor to be passable.  If any wooden floor tiles are found to be unreachable by the Flood Fill, do BOMB_GO_OFF on nearby walls.  A "bombed" tile has a 1 / 3 chance of turning to rubble, a 1 / 3 chance of turning to crumbling wall, and a 1 / 3 chance of remaining unchanged.  The Flood Fill, and, if necessary, bombing is performed again; up to three bombings are permitted.  If Flood Fill still finds tiles unreachable after that, an exception is thrown in the Debug environment, or the entire dungeon is thrown away and regenerated in Production.
 
-7.) LG replaces half moons with down slope tiles on Z0, up slope tiles on Z1.
+LG requests lists from Item Generator and Monster Generator, weighted to be appropriate to Z0 in terms of power, type, etc. and places the items and monsters randomly on Z0.  No item or monster may be placed on anything but a dirt or wooden floor.  Z0 is now finished.
 
-8.) Working out from the "open" side of the crescent down slopes, the LG emplaces pits on Z0 using multiple iterations of a drunken walk algorithm.  Pit tiles may be placed over anything except down slopes.  Each pit tile on Z0 is mirrored on Z1 as a stone floor tile.
+BOMB_GO_OFF is used on Z1, centered around stone floor tiles.  A bombed granite wall may turn into a stalagmite or remain unchanged.
 
-9.) A "fecund" variant of the Game Of Life (GoL) algorithm is used to "smooth off" the edges of the pits on Z0.  In order to avoid having to remember what the pit tiles were originally, any pit tile that "dies" in the course of this algorithm is replaced by a crumbling dirt tile.
+A Game of Life (GoL) variant is used on the stalactites on Z1.  Stalagmites that breed may erase a granite wall or a stone floor, but never an upslope.  Stalagmites that die leave a stone floor tile.
 
-10.) A Flood Fill algorithm is run on Z0, considering walls and pits to be impassable, but crumbling walls, doors, up slopes, rubble, and any kind of floor to be passable.  If any wooden floor tiles are found to be unreachable by the Flood Fill, one or more "bombs go off" on randomly selected, nearby walls.  A "bombed" tile has a 1 / 3 chance of turning to rubble, a 1 / 3 chance of turning to crumbling wall, and a 1 / 3 chance of remaining unchanged.  Neither pit tiles nor up slopes may be affected by a bombing.  The Flood Fill, and, if necessary, bombing is performed again; up to three bombings are permitted.  If Flood Fill still finds tiles unreachable after that, an exception is thrown in the Debug environment, or the entire dungeon is thrown away and regenerated in Production.
+PUT_RUBBLE on Z1.
 
-11.) LG requests lists from Item Generator and Monster Generator, weighted to be appropriate to Z0 in terms of power, type, etc. and places the items and monsters randomly on Z0.  No item or monster may be placed on anything but a dirt or wooden floor.  Z0 is now finished.
+PUT_PIT on Z1 => Z2.  There shall be 2-4 times as many down pits on Z1 as are average on Z0.  They may be as little as 20 squares apart, with correspondingly decreased length of drunken walk algorithm to preclude possibility of overlap.
 
-12.) A variant of the bombing algorithm is used on Z1, centered around stone floor tiles.  A bombed granite wall may turn into a stalagmite or remain unchanged.
+PUT_ORC_WATCHTOWERS on Z1.
 
-13.) A GoL variant is used on the stalactites on Z1.  Stalagmites that breed may erase a granite wall or a stone floor, but never an upslope.  Stalagmites that die leave a stone floor tile.
+Items and monsters are generated and placed on Z1 in a way similar to Z0.  The deeper Z level as an argument to the item and monster generation functions will result in (on average) more powerful monsters and items.  Items and monsters may only be placed on stone floor tiles.
 
-14.) "Patches" of rubble are emplaced in Z1.  They may be placed over cave lichen or stone floor but no other type of tile.
+A request is made to Item and Monster Generators for a small number of items and monsters appropriate to Z3.  These are then placed in the orcish watchtowers.  Z1 is now finished.
 
-15.) In the manner of Z0 => Z1, pits are formed leading from Z1 => Z2.  There shall be 2-4 times as many down pits on Z1 as are average on Z0.  They may be as little as 20 squares apart, with correspondingly decreased length of drunken walk algorithm to preclude possibility of overlap.  Pits may overwrite any other type of terrain except slopes, but pit seeds may not be placed over granite walls, pits, or slopes.
+ACID_FILL the small, rough stone floor areas on Z2.
 
-16.) Orcish watchtowers are emplaced on Z1.  They are 4 x 4 tiles wide and may overwrite any type of tile beside pit, slope, granite wall, or orcish watchtower.  If they would intersect with one of these types of tile, a new location is chosen.
+The still rough, now ugly, but much more open stone floor areas on Z2 are smoothed out, further expanded, and made more attractive by a "barren" GoL variant acting upon the walls.  Stalagmites may be produced when a wall "dies".
 
-17.) Items and monsters are generated and placed on Z1 in a way similar to Z0.  The deeper Z level as an argument to the item and monster generation functions will result in (on average) more powerful monsters and items.  Items and monsters may only be placed on stone floor tiles.
+PUT_TERRAIN_STREAMER_WATER on Z2.
 
-18.) A request is made to Item and Monster Generators for a small number of items and monsters appropriate to Z3.  These are then placed in the orcish watchtowers.  Z1 is now finished.
+4-8 tiles of shallow or deep water are chosen at random such that they are no closer than 10 tiles to any up slope or 20 tiles from one another.  "Bombing" and GoL are used on the tiles in their  vicinity such that most of the tiles immediately surrounding the chosen tile become down slopes, and tiles slightly further away become slick rock.  The chosen tile then becomes a pit, with the special attribute that the pit regularly produces clouds of boiling-hot steam around it during gameplay.
 
-19.) The small, rough stone floor areas on Z2 are connected by an "acid fill" algorithm.  The algorithm will Flood Fill an area of stone floor with a "color."  When that area is completely filled, the algorithm will switch to a different color and fill another stone floor area.  When all stone floor areas are filled, if there is more than one color, the algorithm begins expanding each stone floor area by a combination "bombing" and Drunken Walk algorithm, favoring expanding the sides of the open area that are facing away from the edge of the 120 x 120 map, weighted particularly heavily to expand towards the center of the map.  When two areas of different color meet one another, they both adopt a uniform color.  This process continues until all open areas are filled with the same color.
+PUT_LICHEN on Z2.  PUT_RUBBLE on Z2.  PUT_ORC_WATCHTOWERS on Z2.
 
-20.) The still rough, now ugly stone floor areas on Z2 are smoothed out, further expanded, and made more attractive by a "barren" GoL variant acting upon the walls.  Stalagmites may be produced when a wall "dies".
+All down slopes on Z2 are mirrored by up slopes on Z3.  The pit tiles on Z2 are mirrored as stone floor tiles on Z3.  
 
-21.) "streamers" of water are generated on Z2 with two-pass iterations of Drunken Walk.  For each iteration, a starting point is found with the criteria that it cannot be less than 20 squares of an up slope and that it must be in a wall.  An ending point is chosen that must be at least 20 squares from an up slope and may not be in a wall.  A drunken line represented by an ordered set of Tile objects representing a potential streamer is made between the two.  If a potential streamer would pass within 10 squares of an up slope, it is thrown away and recalculated.  If this happens three times, a new start and end point are calculated.  If successful, all potential streamer tiles become shallow water tiles.
+A DRUNKEN_MINESHAFT algorithm is used to connect the various up slopes.
 
-22.) All shallow water tiles such that 12 or more of the 24 tiles within 3 units of Manhattan Distance from it are shallow or deep water become deep water.
+A large cave is excavated using BOMB_GO_OFF and "barren" GoL.  No part of this cave shall extend out of a 30 x 30 square.  The bounding square is placed in such a spot that it cannot impinge upon up slopes.  A DRUNKEN_MINESHAFT is run between the center of this cave and a new bounding square fitting the same constraints as the original.  The new cave is excavated in a manner analagous to the original.  This process is repeated such that 4-6 total caves are generated.  It is acceptable for them to overlap.
 
-23.) 4-8 tiles of shallow or deep water are chosen at random such that they are no closer than 10 tiles to any up slope or 20 tiles from one another.  "Bombing" and GoL are used on the tiles in their  vicinity such that most of the tiles immediately surrounding the chosen tile become down slopes, and tiles slightly further away become slick rock.  The chosen tile then becomes a pit, with the special attribute that the pit regularly produces clouds of boiling-hot steam around it during gameplay.
+Flood Fill is used to ensure that the dungeon is fully connected.  If it is not, a DRUNKEN_MINESHAFT is made from the center of the final large cave to a randomly chosen upslope, and Flood Fill is performed again.  If it still unconnected, an exception is thrown in Debug environment.  In Production environment, a "harshly barren" GoL will be run upon every granite wall in the entirety of Z3.  Flood Fill shall be run after each three generations until full connectivity is attained.
 
-24.) "Patches" of cave lichen tiles are emplaced in Z2.  They may be placed over stone floor tiles but no other type of tile.  "Patches" of rubble are emplaced next, overwriting stone floor or cave lichen but no other type of tile.  Orcish watchtowers are next, following the same rules as during their emplacement on Z1.  Z2 is finished.
+50 buildings are generated on Z3.  These are generated in exactly the same fashion as the buildings on Z0, but if a building's "footprint" would impinge upon a wall, it is not generated at all.  For this reason, it is likely that far less than 50 buildings will be placed.
 
-25.) All down slopes on Z2 are mirrored by up slopes on Z3.  The pit tiles on Z2 are mirrored as stone floor tiles on Z3.  A "drunken mineshaft" algorithm is used to connect the various up slopes.  This algorithm carves a meandering line of stone floor which varies between 1 and 4 tiles wide in the general direction of the goal.  At no point will the algorithm overwrite an up slope; if it would do so, it instead finds the four nearest stone walls and replaces them with floor.  Each "step" of the algorithm is encapsulated in an object.  The objects will track the error between where the step is actually centered and a straight line between start and finish points.  If this error grows larger than ten, then without filling any of the excavated granite walls back in, the algorithm will "back up" to the most recent step at which the error was less than six and resume execution from that spot.
+Flood Fill is run again to ensure that Z3 remains fully connected.  BOMB_GO_OFF is performed upon building walls near unreachable floor.  A "bombed" wall has a 1/3 chance of becoming broken wall, 1/3 chance of becoming a door, and 1/3 chance of becoming rubble.  This step is repeated until Z3 is fully connected.
 
-26.) A large cave is excavated using "bombing" and "barren" GoL.  No part of this cave shall extend out of a 30 x 30 square.  The bounding square is placed in such a spot that it cannot impinge upon up slopes.  A "drunken mineshaft" is run between the center of this cave and a new bounding square fitting the same constraints as the original.  The new cave is excavated in a manner analagous to the original.  This process is repeated such that 4-6 total caves are generated.  It is acceptable for them to overlap.
-
-27.) Flood Fill is used to ensure that the dungeon is fully connected.  If it is not, a "drunken mineshaft" is made from the center of the final large cave to a randomly chosen upslope, and Flood Fill is performed again.  If it still unconnected, an exception is thrown in Debug environment.  In Production environment, a "harshly barren" GoL will be run upon every granite wall in the entirety of Z3.  Flood Fill shall be run after each three generations until full connectivity is attained.
-
-28.) 50 buildings are generated on Z3.  These are generated in exactly the same fashion as the buildings on Z0, but if a building's "footprint" would impinge upon a wall, it is not generated at all.  For this reason, it is likely that far less than 50 buildings will be placed.
-
-29.) Flood Fill is run again to ensure that Z3 remains fully connected.  "Bombing" is performed upon building walls near unreachable floor.  A "bombed" wall has a 1/3 chance of becoming broken wall, 1/3 chance of becoming a door, and 1/3 chance of becoming rubble.  This step is repeated until Z3 is fully connected.
-
-30.) Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Following the placement of a fire pit, all tiles in a one tile perimeter around the pit become stone floor unless they are slopes.
+Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Following the placement of a fire pit, all tiles in a one tile perimeter around the pit become stone floor unless they are slopes.
 
 
 
