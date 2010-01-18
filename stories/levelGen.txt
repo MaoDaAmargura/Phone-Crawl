@@ -47,10 +47,29 @@ Generation of the Orc Mines area
 
 21.) "streamers" of water are generated on Z2 with two-pass iterations of Drunken Walk.  For each iteration, a starting point is found with the criteria that it cannot be less than 20 squares of an up slope and that it must be in a wall.  An ending point is chosen that must be at least 20 squares from an up slope and may not be in a wall.  A drunken line represented by an ordered set of Tile objects representing a potential streamer is made between the two.  If a potential streamer would pass within 10 squares of an up slope, it is thrown away and recalculated.  If this happens three times, a new start and end point are calculated.  If successful, all potential streamer tiles become shallow water tiles.
 
-22.) All shallow water tiles such that 12 or more of the 24 tiles within 3 units of Manhattan Distance are also shallow water become deep water.
+22.) All shallow water tiles such that 12 or more of the 24 tiles within 3 units of Manhattan Distance from it are shallow or deep water become deep water.
 
 23.) 4-8 tiles of shallow or deep water are chosen at random such that they are no closer than 10 tiles to any up slope or 20 tiles from one another.  "Bombing" and GoL are used on the tiles in their  vicinity such that most of the tiles immediately surrounding the chosen tile become down slopes, and tiles slightly further away become slick rock.  The chosen tile then becomes a pit, with the special attribute that the pit regularly produces clouds of boiling-hot steam around it during gameplay.
 
 24.) "Patches" of cave lichen tiles are emplaced in Z2.  They may be placed over stone floor tiles but no other type of tile.  "Patches" of rubble are emplaced next, overwriting stone floor or cave lichen but no other type of tile.  Orcish watchtowers are next, following the same rules as during their emplacement on Z1.  Z2 is finished.
 
-25.) 
+25.) All down slopes on Z2 are mirrored by up slopes on Z3.  The pit tiles on Z2 are mirrored as stone floor tiles on Z3.  A "drunken mineshaft" algorithm is used to connect the various up slopes.  This algorithm carves a meandering line of stone floor which varies between 1 and 4 tiles wide in the general direction of the goal.  At no point will the algorithm overwrite an up slope; if it would do so, it instead finds the four nearest stone walls and replaces them with floor.  Each "step" of the algorithm is encapsulated in an object.  The objects will track the error between where the step is actually centered and a straight line between start and finish points.  If this error grows larger than ten, then without filling any of the excavated granite walls back in, the algorithm will "back up" to the most recent step at which the error was less than six and resume execution from that spot.
+
+26.) A large cave is excavated using "bombing" and "barren" GoL.  No part of this cave shall extend out of a 30 x 30 square.  The bounding square is placed in such a spot that it cannot impinge upon up slopes.  A "drunken mineshaft" is run between the center of this cave and a new bounding square fitting the same constraints as the original.  The new cave is excavated in a manner analagous to the original.  This process is repeated such that 4-6 total caves are generated.  It is acceptable for them to overlap.
+
+27.) Flood Fill is used to ensure that the dungeon is fully connected.  If it is not, a "drunken mineshaft" is made from the center of the final large cave to a randomly chosen upslope, and Flood Fill is performed again.  If it still unconnected, an exception is thrown in Debug environment.  In Production environment, a "harshly barren" GoL will be run upon every granite wall in the entirety of Z3.  Flood Fill shall be run after each three generations until full connectivity is attained.
+
+28.) 50 buildings are generated on Z3.  These are generated in exactly the same fashion as the buildings on Z0, but if a building's "footprint" would impinge upon a wall, it is not generated at all.  For this reason, it is likely that far less than 50 buildings will be placed.
+
+29.) Flood Fill is run again to ensure that Z3 remains fully connected.  "Bombing" is performed upon building walls near unreachable floor.  A "bombed" wall has a 1/3 chance of becoming broken wall, 1/3 chance of becoming a door, and 1/3 chance of becoming rubble.  This step is repeated until Z3 is fully connected.
+
+30.) Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Fire pits may only be placed 
+
+
+support pillars
+
+
+
+
+
+
