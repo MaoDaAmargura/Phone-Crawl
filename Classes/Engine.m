@@ -50,7 +50,7 @@
  @discussion	highlights the space the user touched, but allows them to change it.
 				user hasn't stopped touching yet
  */
-- (void) worldTouchedAt:(CGPoint)point
+- (void) worldView:(WorldView*)wView touchedAt:(CGPoint)point
 {
 	
 }
@@ -60,7 +60,7 @@
  @abstract		worldView callback for when world gets selected
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
-- (void) worldSelectedAt:(CGPoint)point
+- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point
 {
 	
 }
