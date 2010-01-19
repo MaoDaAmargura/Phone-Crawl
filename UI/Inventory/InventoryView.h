@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCBaseViewController.h"
 
-
-@interface InventoryView : UIViewController {
+@interface InventoryView : PCBaseViewController 
+{
 
 }
 

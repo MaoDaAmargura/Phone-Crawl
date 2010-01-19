@@ -7,9 +7,19 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCBaseViewController.h"
 
 
-@interface WorldView : UIViewController 
+@protocol WorldViewDelegate
+
+- (void) worldTouchedAt:(CGPoint)point;
+- (void) worldSelectedAt:(CGPoint)point;
+
+@end
+
+
+
+@interface WorldView : PCBaseViewController
 {
 	IBOutlet UIImageView *mapImageView;
 }

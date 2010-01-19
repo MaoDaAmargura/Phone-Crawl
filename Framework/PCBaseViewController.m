@@ -1,26 +1,34 @@
 //
-//  OptionsView.m
+//  PCBaseViewController.m
 //  Phone-Crawl
 //
-//  Created by Austin Kelley on 1/13/10.
+//  Created by Austin Kelley on 1/19/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "OptionsView.h"
+#import "PCBaseViewController.h"
 
 
-@implementation OptionsView
+@implementation PCBaseViewController
+
+@synthesize delegate;
 
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)init
+- (id)initWithNibName:(NSString *)nibNameOrNil 
 {
-    if (self = [super initWithNibName:@"OptionsView"]) {
+    if (self = [super initWithNibName:nibNameOrNil bundle:nil]) {
         // Custom initialization
     }
     return self;
 }
 
+
+/*
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView {
+}
+*/
 
 /*
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.

@@ -15,4 +15,15 @@
 
 @implementation Engine
 
+- (id) init
+{
+	if(self = [super init])
+	{
+		
+		return self;
+	}
+	return nil;
+}
+
+
 @end

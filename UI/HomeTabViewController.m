@@ -14,14 +14,16 @@
 #import "OptionsView.h"
 #import "WorldView.h"
 
+#import "Engine.h"
+
 #define NUMBER_OF_TABS 4
 
 @interface HomeTabViewController (Private)
 
-- (UIViewController*) newWorldViewController;
-- (UIViewController*) newCharacterViewController;
-- (UIViewController*) newInventoryViewController;
-- (UIViewController*) newOptionsViewController;
+- (UIViewController*) newWorldViewControllerWithEngine:(Engine*)engine;
+- (UIViewController*) newCharacterViewControllerWithEngine:(Engine*)engine;
+- (UIViewController*) newInventoryViewControllerWithEngine:(Engine*)engine;
+- (UIViewController*) newOptionsViewControllerWithEngine:(Engine*)engine;
 
 @end
 
@@ -47,15 +49,19 @@
 {
 	mainTabController = [[UITabBarController alloc] init];
 	
+	Engine *gameEngine = [[[Engine alloc] init] autorelease];
+	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
-	[tabs addObject:[self newWorldViewController]];
-	[tabs addObject:[self newCharacterViewController]];
-	[tabs addObject:[self newInventoryViewController]];
-	[tabs addObject:[self newOptionsViewController]];
+	[tabs addObject:[self newWorldViewControllerWithEngine:gameEngine]];
+	[tabs addObject:[self newCharacterViewControllerWithEngine:gameEngine]];
+	[tabs addObject:[self newInventoryViewControllerWithEngine:gameEngine]];
+	[tabs addObject:[self newOptionsViewControllerWithEngine:gameEngine]];
 	
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
+	
+	
 	
 }
 
@@ -93,7 +99,7 @@
 #pragma mark -
 #pragma mark New Tab View Controllers
 
-- (UIViewController*) newWorldViewController
+- (UIViewController*) newWorldViewControllerWithEngine:(Engine*) engine
 {
 	WorldView *wView = [[[WorldView alloc] init] autorelease];
 	//wView.tabBarItem.image = 
@@ -101,7 +107,7 @@
 	return wView;
 }
 
-- (UIViewController*) newCharacterViewController
+- (UIViewController*) newCharacterViewControllerWithEngine:(Engine*) engine
 {
 	CharacterView *cView = [[[CharacterView alloc] init] autorelease];
 	//
@@ -109,7 +115,7 @@
 	return cView;
 }
 
-- (UIViewController*) newInventoryViewController
+- (UIViewController*) newInventoryViewControllerWithEngine:(Engine*) engine
 {
 	InventoryView *iView = [[[InventoryView alloc] init] autorelease];
 	//
@@ -117,7 +123,7 @@
 	return iView;
 }
 
-- (UIViewController*) newOptionsViewController
+- (UIViewController*) newOptionsViewControllerWithEngine:(Engine*) engine
 {
 	OptionsView *oView = [[[OptionsView alloc] init] autorelease];
 	UINavigationController *navCont = [[[UINavigationController alloc] initWithRootViewController:oView] autorelease];

@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCBaseViewController.h"
 
-
-@interface CharacterView : UIViewController
+@interface CharacterView : PCBaseViewController
 {
 	IBOutlet UIImageView *characterImageView;
 	IBOutlet UIImageView *weaponImageView;
