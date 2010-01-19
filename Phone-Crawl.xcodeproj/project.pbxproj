@@ -12,6 +12,10 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
+		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
+		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
+		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
+		D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3EC110632DA0032A3DD /* ItemGen.m */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
 		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
@@ -40,6 +44,14 @@
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
+		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
+		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
+		D931C3E6110632A00032A3DD /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
+		D931C3E8110632B60032A3DD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
+		D931C3E9110632B60032A3DD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
+		D931C3EB110632DA0032A3DD /* ItemGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGen.h; sourceTree = "<group>"; };
+		D931C3EC110632DA0032A3DD /* ItemGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGen.m; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
 		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
 		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
@@ -131,6 +143,35 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D931C3E21106322D0032A3DD /* Util */ = {
+			isa = PBXGroup;
+			children = (
+				D9B55D1F11015886007173A3 /* Util.h */,
+				D9B55D2011015886007173A3 /* Util.m */,
+			);
+			name = Util;
+			sourceTree = "<group>";
+		};
+		D931C3E3110632350032A3DD /* Generation */ = {
+			isa = PBXGroup;
+			children = (
+				D9B55D1D11015886007173A3 /* LevelGen.h */,
+				D9B55D1E11015886007173A3 /* LevelGen.m */,
+				D931C3EB110632DA0032A3DD /* ItemGen.h */,
+				D931C3EC110632DA0032A3DD /* ItemGen.m */,
+			);
+			name = Generation;
+			sourceTree = "<group>";
+		};
+		D931C3E4110632430032A3DD /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				D931C3DF1106321A0032A3DD /* Engine.h */,
+				D931C3E01106321A0032A3DD /* Engine.m */,
+			);
+			name = Engine;
+			sourceTree = "<group>";
+		};
 		D95F3AC910FFCE5C00323446 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -187,10 +228,9 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D9B55D1D11015886007173A3 /* LevelGen.h */,
-				D9B55D1E11015886007173A3 /* LevelGen.m */,
-				D9B55D1F11015886007173A3 /* Util.h */,
-				D9B55D2011015886007173A3 /* Util.m */,
+				D931C3E4110632430032A3DD /* Engine */,
+				D931C3E3110632350032A3DD /* Generation */,
+				D931C3E21106322D0032A3DD /* Util */,
 				D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */,
 				D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */,
 			);
@@ -212,6 +252,10 @@
 			children = (
 				D9B55D1A11015878007173A3 /* Dungeon.h */,
 				D9B55D1B11015878007173A3 /* Dungeon.m */,
+				D931C3E5110632A00032A3DD /* Creature.h */,
+				D931C3E6110632A00032A3DD /* Creature.m */,
+				D931C3E8110632B60032A3DD /* Item.h */,
+				D931C3E9110632B60032A3DD /* Item.m */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -298,6 +342,10 @@
 				D9B55D1C11015878007173A3 /* Dungeon.m in Sources */,
 				D9B55D2111015886007173A3 /* LevelGen.m in Sources */,
 				D9B55D2211015886007173A3 /* Util.m in Sources */,
+				D931C3E11106321A0032A3DD /* Engine.m in Sources */,
+				D931C3E7110632A00032A3DD /* Creature.m in Sources */,
+				D931C3EA110632B60032A3DD /* Item.m in Sources */,
+				D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
