@@ -9,8 +9,11 @@
 #import <UIKit/UIKit.h>
 
 
-@interface CharacterView : UIViewController {
-
+@interface CharacterView : UIViewController
+{
+	IBOutlet UIImageView *characterImageView;
+	IBOutlet UIImageView *weaponImageView;
+	IBOutlet UIImageView *armorImageView;
 }
 
 @end
