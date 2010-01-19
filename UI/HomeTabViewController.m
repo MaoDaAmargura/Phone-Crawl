@@ -103,6 +103,7 @@
 {
 	WorldView *wView = [[[WorldView alloc] init] autorelease];
 	//wView.tabBarItem.image = 
+	wView.delegate = engine;
 	wView.title = @"World";
 	return wView;
 }

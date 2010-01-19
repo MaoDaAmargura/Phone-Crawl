@@ -7,11 +7,12 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WorldView.h"
 
 @class Creature;
 @class Dungeon;
 
-@interface Engine : NSObject 
+@interface Engine : NSObject <WorldViewDelegate>
 {
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
