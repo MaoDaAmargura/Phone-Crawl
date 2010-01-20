@@ -14,6 +14,8 @@
 
 @interface Engine : NSObject 
 {
+	NSMutableArray *tileArray;
+	
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
 	

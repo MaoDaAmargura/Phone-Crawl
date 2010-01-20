@@ -34,6 +34,10 @@
 		D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */; };
 		D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2D11004C9A00F7B1FE /* PItN.jpg */; };
 		D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2E11004C9A00F7B1FE /* pokeball2.png */; };
+		D9EBB8E4110686CF00C34836 /* BarkFloor.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E1110686CF00C34836 /* BarkFloor.png */; };
+		D9EBB8E5110686CF00C34836 /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E2110686CF00C34836 /* BlackSquare.png */; };
+		D9EBB8E6110686CF00C34836 /* DirtFloor.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E3110686CF00C34836 /* DirtFloor.png */; };
+		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -81,6 +85,11 @@
 		D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jeans.jpg; sourceTree = "<group>"; };
 		D9C27D2D11004C9A00F7B1FE /* PItN.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PItN.jpg; sourceTree = "<group>"; };
 		D9C27D2E11004C9A00F7B1FE /* pokeball2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokeball2.png; sourceTree = "<group>"; };
+		D9EBB8E1110686CF00C34836 /* BarkFloor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BarkFloor.png; sourceTree = "<group>"; };
+		D9EBB8E2110686CF00C34836 /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
+		D9EBB8E3110686CF00C34836 /* DirtFloor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DirtFloor.png; sourceTree = "<group>"; };
+		D9EBB8ED110688A800C34836 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
+		D9EBB8EE110688A800C34836 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -263,12 +272,9 @@
 		D9B55D1911015878007173A3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				D9B55D1A11015878007173A3 /* Dungeon.h */,
-				D9B55D1B11015878007173A3 /* Dungeon.m */,
-				D931C3E5110632A00032A3DD /* Creature.h */,
-				D931C3E6110632A00032A3DD /* Creature.m */,
-				D931C3E8110632B60032A3DD /* Item.h */,
-				D931C3E9110632B60032A3DD /* Item.m */,
+				D9EBB8EC1106889100C34836 /* Item */,
+				D9EBB8EB1106887F00C34836 /* Creature */,
+				D9EBB8EA1106887700C34836 /* Level */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -276,12 +282,44 @@
 		D9C27D2A11004C9A00F7B1FE /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9EBB8E1110686CF00C34836 /* BarkFloor.png */,
+				D9EBB8E2110686CF00C34836 /* BlackSquare.png */,
+				D9EBB8E3110686CF00C34836 /* DirtFloor.png */,
 				D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */,
 				D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */,
 				D9C27D2D11004C9A00F7B1FE /* PItN.jpg */,
 				D9C27D2E11004C9A00F7B1FE /* pokeball2.png */,
 			);
 			path = Images;
+			sourceTree = "<group>";
+		};
+		D9EBB8EA1106887700C34836 /* Level */ = {
+			isa = PBXGroup;
+			children = (
+				D9B55D1A11015878007173A3 /* Dungeon.h */,
+				D9B55D1B11015878007173A3 /* Dungeon.m */,
+				D9EBB8ED110688A800C34836 /* Tile.h */,
+				D9EBB8EE110688A800C34836 /* Tile.m */,
+			);
+			name = Level;
+			sourceTree = "<group>";
+		};
+		D9EBB8EB1106887F00C34836 /* Creature */ = {
+			isa = PBXGroup;
+			children = (
+				D931C3E5110632A00032A3DD /* Creature.h */,
+				D931C3E6110632A00032A3DD /* Creature.m */,
+			);
+			name = Creature;
+			sourceTree = "<group>";
+		};
+		D9EBB8EC1106889100C34836 /* Item */ = {
+			isa = PBXGroup;
+			children = (
+				D931C3E8110632B60032A3DD /* Item.h */,
+				D931C3E9110632B60032A3DD /* Item.m */,
+			);
+			name = Item;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -335,6 +373,9 @@
 				D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */,
 				D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */,
 				D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */,
+				D9EBB8E4110686CF00C34836 /* BarkFloor.png in Resources */,
+				D9EBB8E5110686CF00C34836 /* BlackSquare.png in Resources */,
+				D9EBB8E6110686CF00C34836 /* DirtFloor.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -360,6 +401,7 @@
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
 				D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */,
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
+				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

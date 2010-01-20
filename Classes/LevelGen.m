@@ -1,6 +1,7 @@
 #import "Util.h"
 #import "Dungeon.h"
 #import "LevelGen.h"
+#import "Tile.h"
 
 #pragma mark --hacks
 

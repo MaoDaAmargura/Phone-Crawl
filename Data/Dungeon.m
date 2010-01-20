@@ -1,20 +1,9 @@
+
 #import "Util.h"
 #import "Dungeon.h"
 #import "LevelGen.h"
 
-#pragma mark Tile
 
-@implementation Tile
-@synthesize blockMove, blockView, sprite;
-
-- (id) init {
-	blockMove = false;
-	blockView = false;
-	sprite = tileNotInitialized;
-	return self;
-}
-
-@end
 
 #pragma mark --hacks
 
@@ -61,10 +50,18 @@ NSMutableArray *tiles = nil;
 	return self;
 }
 
-- (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
-	assert (x < kMapDimension);
-	assert (y < kMapDimension);
-	assert (z < kMapDepth);
+- (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z 
+{
+	if (x<0 || y<0 || z<0) 
+	{
+		NSLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
+		return nil;
+	}
+	if (x >= kMapDimension || y>= kMapDimension || z>kMapDepth)
+	{
+		NSLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, kMapDimension, kMapDimension, kMapDepth);
+		return nil;
+	}
 
 	int location = x;
 	location += y * kMapDimension;

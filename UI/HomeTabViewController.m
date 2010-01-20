@@ -123,7 +123,7 @@
 	
 }
 
-- (void) worldViewDidLoad:(WorldView*) wView
+- (void) worldViewDidLoad:(WorldView*) worldView
 {
 	[gameEngine updateWorldView:wView];
 }

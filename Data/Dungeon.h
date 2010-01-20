@@ -1,27 +1,10 @@
 #define kMapDimension 120
 #define kMapDepth 5
+#import "Tile.h"
+
 @class Coord;		// defined in Util
+@class Tile;
 
-typedef enum levelType {
-	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss
-} levelType;
-
-typedef enum tileSprite {
-	tileNotInitialized, grass, rockFloor, rockWall
-} tileSprite;
-
-#pragma mark -
-
-@interface Tile : NSObject {
-	bool blockView;
-	bool blockMove;
-	tileSprite sprite;
-}
-@property (nonatomic) bool blockView;
-@property (nonatomic) bool blockMove;
-@property (nonatomic) tileSprite sprite;
-
-@end
 
 #pragma mark -
 
