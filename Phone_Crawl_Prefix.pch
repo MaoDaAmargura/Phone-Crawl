@@ -8,9 +8,12 @@
 #endif
 
 
-
 #ifdef DEBUG
 #define DLog(s, ...) NSLog((@"%s:%d => " s), __func__, __LINE__, ## __VA_ARGS__)
 #else
 #define DLog(...) /* BELLY LINT */
 #endif
+
+
+#define MAP_DIMENSION 120
+#define MAP_DEPTH 5

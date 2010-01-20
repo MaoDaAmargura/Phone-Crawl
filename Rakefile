@@ -21,8 +21,8 @@ end
 
 desc 'Open project for editing'
 task :edit do
-  `open Wigglehop.xcodeproj`
-  `mate .gitignore Rakefile`
+  `open *.xcodeproj`
+  `mate .gitignore Rakefile README stories/`
 end
 
 desc 'Delete the database'

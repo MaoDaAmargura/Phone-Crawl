@@ -69,8 +69,8 @@
 
 - (void) updateWorldView:(WorldView*) wView
 {
-	//Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
-	Coord *center = [player location];
+	Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
+	//Coord *center = [player location];
 	int xInd, yInd;
 	int squaresWide = 10, squaresHigh = 10;
 	
@@ -83,9 +83,12 @@
 	
 	int halfWide = squaresWide/2, halfHigh = squaresHigh/2;
 	
-	for (xInd = center.X-halfWide; xInd < center.X+halfWide; ++xInd)
+	CGPoint lowerRight = CGPointMake(center.X+halfWide-1, center.Y+halfHigh-1);
+	CGPoint upperLeft = CGPointMake(center.X-halfWide, center.Y-halfHigh);
+	
+	for (xInd = lowerRight.x; xInd >= upperLeft.x; --xInd)
 	{
-		for(yInd = center.Y-halfHigh; yInd < center.Y+halfHigh; ++yInd)
+		for(yInd = lowerRight.y; yInd >= upperLeft.y; --yInd)
 		{
 			UIImage *img;
 			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
@@ -95,13 +98,13 @@
 				img = [tileArray objectAtIndex:0]; //Black square if the tile doesn't exist
 			
 			// Draw each tile in the proper place
-			CGContextDrawImage(context, CGRectMake((xInd+halfWide-center.X)*imageWidth, (yInd+halfHigh-center.Y)*imageHeight, imageWidth, imageHeight), img.CGImage);
+			CGContextDrawImage(context, CGRectMake((halfWide-xInd-1)*imageWidth, (halfHigh-yInd-1)*imageHeight, imageWidth, imageHeight), img.CGImage);
 		}
 	}
 	
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"ash01fz8.png"];
-	CGContextDrawImage(context, CGRectMake((center.X+halfWide)*imageWidth, (center.Y+halfHigh)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
+	CGContextDrawImage(context, CGRectMake((halfWide-center.X-1)*imageWidth, (halfHigh-center.Y-1)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
 	
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();

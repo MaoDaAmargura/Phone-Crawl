@@ -50,6 +50,7 @@ NSMutableArray *tiles = nil;
 	return self;
 }
 
+<<<<<<< HEAD
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z 
 {
 	if (x<0 || y<0 || z<0) 
@@ -57,11 +58,17 @@ NSMutableArray *tiles = nil;
 		NSLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
 		return nil;
 	}
-	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH)
+	if (x >= kMapDimension || y>= kMapDimension || z>kMapDepth)
 	{
-		NSLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
+		NSLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, kMapDimension, kMapDimension, kMapDepth);
 		return nil;
 	}
+=======
+- (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
+	assert (x < MAP_DIMENSION);
+	assert (y < MAP_DIMENSION);
+	assert (z < MAP_DEPTH);
+>>>>>>> 297684bc87fdb701d1340a153d0b83f49a72a074
 
 	int location = x;
 	location += y * MAP_DIMENSION;
