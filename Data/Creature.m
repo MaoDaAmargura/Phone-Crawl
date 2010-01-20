@@ -17,6 +17,7 @@
 {
 	if(self = [super init])
 	{
+		location = [[[Coord alloc] init] autorelease];
 		return self;
 	}
 	return nil;

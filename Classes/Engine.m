@@ -69,7 +69,8 @@
 
 - (void) updateWorldView:(WorldView*) wView
 {
-	Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
+	//Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
+	Coord *center = [player location];
 	int xInd, yInd;
 	int squaresWide = 10, squaresHigh = 10;
 	
@@ -96,10 +97,14 @@
 				Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
 				img = [tileArray objectAtIndex:t.type];
 			}
-			//img = [UIImage imageNamed:@"pokeball2.png"];//Some tile name
+			// Draw each tile in the proper place
 			CGContextDrawImage(context, CGRectMake((xInd+halfWide-center.X)*imageWidth, (yInd+halfHigh-center.Y)*imageHeight, imageWidth, imageHeight), img.CGImage);
 		}
 	}
+	
+	// Draw the player on the proper tile.
+	UIImage *playerSprite = [UIImage imageNamed:@"ash01fz8.png"];
+	CGContextDrawImage(context, CGRectMake((center.X+halfWide)*imageWidth, (center.Y+halfHigh)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
 	
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
