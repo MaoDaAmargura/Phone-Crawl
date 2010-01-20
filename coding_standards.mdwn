@@ -1,0 +1,159 @@
+# CLASS
+If two or more lines of code appear verbatim or nearly verbatim somewhere in your implementation file, make those two lines into a method.
+
+If you are coding or designing module A and it has a bunch of duplicate logic which calls a method in module B, make the duplicate logic into a method, and PUT THAT METHOD INTO MODULE A.  If you add it to B's implementation file instead, you must expose the method in its header, and at that point you are bloating the interface of module B, making it harder for you and everyone else to conceptualize and work with from that point forward.  Interfaces are best when they are Small and General, worst when they are Large and Specific.
+
+Constant defines that are only used in a single file should be declared at the top of the implementation (.m) file, prefixed with the name of the class in order to avoid naming collisions.
+
+		#define INVENTORY_VIEW_ANIM_DELAY 0.2
+
+Defines that are used in two or more classes go into Phone\_Crawl_Prefix.pch.  (That escape character is a piece of Markdown syntax, ignore it.)
+
+In the case of tightly coupled classes, such as Tile (representing a single unit of terrain) and Dungeon (representing a bunch of tiles), place them into the same file if and only if one of the classes is nothing but a bucket for state information with no interface whatsoever.
+
+# COMMENTS
+A header file shall contain comments regarding the pre and post conditions of the methods in its interface, and explicitly enumerate the circumstances that may cause exceptions to be thrown in each of its methods.
+
+		// returns a set of Tile objects representing the shortest path to the target.
+		// index 0 is the first step and the last index is the target.
+		// returns nil if no such path exists or if it would be more than 15 steps long.
+		// blows up on an assertion if the arguments are outside the bounds of the map.
+		- (NSMutableSet*) pathFindToX: (int) x Y: (int) y Z: (int) z;
+
+It is acceptable and encouraged for method implementations to have no comments whatsoever.  If a line of code needs a comment to be understandable, write one, but think hard about changing the line of code first.
+
+# METHOD
+A method's prototype is designed to read well in functions that call it, even if it looks funny in the header file.
+
+		NSMutableArray *monsters = [Database all: @"monster" by: @"name"];                         // yes
+		NSMutableArray *monsters = [Database getModelsOfType: @"monster" orderedByField: @"name"]; // no
+
+Thou Shalt Not have more than three levels of indentation and shall strive to keep it at zero.
+
+		- (void) fun { 
+			if (myCondition) {
+				while (thisOrThat) {
+					;	// this is the maximum!
+				}
+			}
+		}
+
+In accordance with Cocoa standards, a method with "alloc" or "copy" in its name shall return an object with a retain count of one.  Any other method that creates and returns an object shall autorelease it before returning it.
+
+Pre conditions must be checked in any but the absolutely most silly cases.  Assertions are favored over exceptions in this case.
+
+		assert (argument < [myArray count]);	// yes
+		/* ... */;								// I can't think of a precondition too stupid to check for
+
+Exceptions are thrown in response to violations of post conditions.
+
+		if (! [myArray count]) [NSException raise: "failed to populate myArray" format: nil];
+
+Either an exception or an assertion may be used in the body of the method, as the coder sees fit.
+
+# VARIABLE
+Allocation and initialization of variables are done in the same line whenever practical.
+
+		ClassName *instanceName = [[ClassName alloc] init];	// yes
+		ClassName *instanceName = [ClassName alloc];    	// first half of no
+		instanceName.someValue = 42;                    	// other half of no
+
+Iteration variables may be called anything, and equivalent operations may be used within the limits of common sense and good taste.
+
+		for (int i = 0; i < [array count]; ++i) ...	  														// fine
+		for (int LCV = 0; LCV < [array count]; LCV++) ...													// also fine
+		for (int myCountingVariable = 0; myCountingVariable < [array count]; myCountingVariable += 1) ...	// too long
+		for (unsigned _=FALSE;fputs("BARF",nil,_|=~0x0&1),~_&[array count];) ...							// NO DAMN IT NO
+
+There are only two numbers in the code.  Those numbers are zero and one.  Everything else is a #define.
+
+		animDelay = 0.1;				// no
+		animDelay = ANIM_DELAY_FAST;	// yes
+		bound = 120;					// no
+		bound = [array count] + 1;		// yes
+
+In the case that only a single instance of an object type is local to a method, it is acceptable to name it after its class with a leading lowcase.  If a more descriptive name comes to mind, use that instead.
+
+		MyClass *myClass;				// fine
+		MyClass *returnVal;				// better, assuming you plan to return it at the end of the method
+		MyClass *one, *two, *three;		// bad, don't do
+
+# SYNTAX
+
+Class names are in camel case with a leading capital.
+
+		MyClass
+
+Other variables are in camel case with leading lowcase.
+
+		myInstance
+		someInteger
+
+Constant defines use C-style block caps with underscore delineation.
+
+		animationDelay = DEFAULT_ANIM_DELAY;
+
+Enumerated types, however, are in leading lowcase camel case.  They are always typedef'ed to themselves.
+
+		typedef enum levelType {
+			town, orcMines, kiddyPark
+		} levelType;
+
+The typedef keyword is used in no other circumstances than declaring structs and enumerated types.
+
+Brace style is up to you, as are whitespace conventions.
+
+		fun () {	// ok
+
+		fun ()
+		{			// ok
+
+		fun(){		// ugly but whatever
+
+Equivalent statements in Boolean logic are left to the discretion of the writer.
+
+		if (objectRef != nil)	// fine
+		if (nil != objectRef)	// fine
+		if (objectRef)			// fine
+
+The 'self' keyword is omitted or included at the discretion of the writer.
+
+		- (void) fun {
+			self.attribute = 42;	// fine
+			attribute = 42;			// fine
+		}
+
+The 'dot syntax' for getter and setter methods is used.
+
+		[objectRef setSomeInteger: 42];	// bad
+		objectRef.someInteger = 42;		// good
+
+`if` statements with a single line `then` block may go on one line if it's not very long- 72 characters is way, way too long- and has no `else` or a very short one.  Otherwise, put braces 
+
+		if (condition) return self;		// fine
+
+		if (condition)
+			return self;				// bad
+
+		if (condition || otherCondition && headDoesntFallOff() && ! pantsDown) self.arbitraryAttribute = [[ClassIHaveADotHFileFor classMethod] retain];
+																													//no!
+
+		if (condition || otherCondition && headDoesntFallOff() && ! pantsDown) {
+			self.arbitraryAttribute = [[ClassIHaveADotHFileFor classMethod] retain];	// yes.
+		}
+
+		if (condition || otherCondition && headDoesntFallOff() && ! pantsDown) {
+			self.arbitraryAttribute = [[ClassIHaveADotHFileFor classMethod] retain];	// yes.
+		}
+		else self.arbitraryAttribute = nil;		// no.
+
+		if (condition || otherCondition && headDoesntFallOff() && ! pantsDown) {
+			self.arbitraryAttribute = [[ClassIHaveADotHFileFor classMethod] retain];	// yes.
+		}
+		else {
+			self.arbitraryAttribute = nil;	// yes.
+		}
+
+		if (condition) return self; else return nil;	// no.
+
+If + else if + else = the maximum.
