@@ -20,10 +20,10 @@
 
 @interface HomeTabViewController (Private)
 
-- (UIViewController*) newWorldViewControllerWithEngine:(Engine*)engine;
-- (UIViewController*) newCharacterViewControllerWithEngine:(Engine*)engine;
-- (UIViewController*) newInventoryViewControllerWithEngine:(Engine*)engine;
-- (UIViewController*) newOptionsViewControllerWithEngine:(Engine*)engine;
+- (UIViewController*) initWorldView;
+- (UIViewController*) initCharacterView;
+- (UIViewController*) initInventoryView;
+- (UIViewController*) initOptionsView;
 
 @end
 
@@ -49,28 +49,30 @@
 {
 	mainTabController = [[UITabBarController alloc] init];
 	
-	Engine *gameEngine = [[[Engine alloc] init] autorelease];
+	gameEngine = [[[Engine alloc] init] autorelease];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
-	[tabs addObject:[self newWorldViewControllerWithEngine:gameEngine]];
-	[tabs addObject:[self newCharacterViewControllerWithEngine:gameEngine]];
-	[tabs addObject:[self newInventoryViewControllerWithEngine:gameEngine]];
-	[tabs addObject:[self newOptionsViewControllerWithEngine:gameEngine]];
+	[tabs addObject:[self initWorldView]];
+	[tabs addObject:[self initCharacterView]];
+	[tabs addObject:[self initInventoryView]];
+	[tabs addObject:[self initOptionsView]];
 	
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
 	
-	
+
 	
 }
 
-/*
+
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
+	[gameEngine updateWorldView:wView];
 }
-*/
+
 
 /*
 // Override to allow orientations other than the default portrait orientation.
@@ -97,36 +99,66 @@
 }
 
 #pragma mark -
+#pragma mark Delegate Callbacks
+
+#pragma mark WorldView
+/*!
+ @method		worldTouchedAt
+ @abstract		worldView callback for when world gets touched 
+ @discussion	highlights the space the user touched, but allows them to change it.
+ user hasn't stopped touching yet
+ */
+- (void) worldView:(WorldView*)wView touchedAt:(CGPoint)point
+{
+	
+}
+
+/*!
+ @method		worldSelectedAt
+ @abstract		worldView callback for when world gets selected
+ @discussion	uses square as final choice for touch. Changes highlighted square
+ */
+- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point
+{
+	
+}
+
+- (void) worldViewDidLoad:(WorldView*) wView
+{
+	[gameEngine updateWorldView:wView];
+}
+
+#pragma mark -
 #pragma mark New Tab View Controllers
 
-- (UIViewController*) newWorldViewControllerWithEngine:(Engine*) engine
+- (UIViewController*) initWorldView
 {
-	WorldView *wView = [[[WorldView alloc] init] autorelease];
+	wView = [[[WorldView alloc] init] autorelease];
 	//wView.tabBarItem.image = 
-	wView.delegate = engine;
+	wView.delegate = self;
 	wView.title = @"World";
 	return wView;
 }
 
-- (UIViewController*) newCharacterViewControllerWithEngine:(Engine*) engine
+- (UIViewController*) initCharacterView
 {
-	CharacterView *cView = [[[CharacterView alloc] init] autorelease];
+	cView = [[[CharacterView alloc] init] autorelease];
 	//
 	cView.title = @"Character";
 	return cView;
 }
 
-- (UIViewController*) newInventoryViewControllerWithEngine:(Engine*) engine
+- (UIViewController*) initInventoryView
 {
-	InventoryView *iView = [[[InventoryView alloc] init] autorelease];
+	iView = [[[InventoryView alloc] init] autorelease];
 	//
 	iView.title = @"Inventory";
 	return iView;
 }
 
-- (UIViewController*) newOptionsViewControllerWithEngine:(Engine*) engine
+- (UIViewController*) initOptionsView
 {
-	OptionsView *oView = [[[OptionsView alloc] init] autorelease];
+	oView = [[[OptionsView alloc] init] autorelease];
 	UINavigationController *navCont = [[[UINavigationController alloc] initWithRootViewController:oView] autorelease];
 	//
 	navCont.title = @"Options";
@@ -146,7 +178,6 @@
 {
 	
 }
-
 
 
 @end

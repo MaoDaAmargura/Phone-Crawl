@@ -12,5 +12,7 @@
 
 - (id) init;
 
++ (Coord*) newCoordWithX:(int)x Y:(int)y Z:(int)z;
+
 @end
 

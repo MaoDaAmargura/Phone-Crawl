@@ -19,13 +19,14 @@
 
 - (void) setDelegate:(id<WorldViewDelegate>) delegate;
 
-@property (nonatomic, retain) UIImageView *mapImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *mapImageView;
 
 @end
 
 @protocol WorldViewDelegate
 
-- (void) worldView:(WorldView*)wView touchedAt:(CGPoint)point;
+- (void) worldView:(WorldView*) wView touchedAt:(CGPoint)point;
 - (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point;
+- (void) worldViewDidLoad:(WorldView*) wView;
 
 @end

@@ -11,4 +11,15 @@
 
 @implementation Creature
 
+@synthesize location;
+
+- (id) init
+{
+	if(self = [super init])
+	{
+		return self;
+	}
+	return nil;
+}
+
 @end

@@ -30,41 +30,53 @@
 	return nil;
 }
 
-- (void) dealloc
+- (void) releaseResources
 {
-	[super dealloc];
 	[liveEnemies release];
 	[deadEnemies release];
 	[player release];
 	[currentDungeon release];
+}
+
+- (void) dealloc
+{
+	[self releaseResources];
+	[super dealloc];
 	
 }
 
-#pragma mark -
-#pragma mark Delegate Callbacks
-
-#pragma mark WorldView
-/*!
- @method		worldTouchedAt
- @abstract		worldView callback for when world gets touched 
- @discussion	highlights the space the user touched, but allows them to change it.
-				user hasn't stopped touching yet
- */
-- (void) worldView:(WorldView*)wView touchedAt:(CGPoint)point
+- (void) loadDungeon:(Dungeon *)dungeon
 {
 	
 }
 
-/*!
- @method		worldSelectedAt
- @abstract		worldView callback for when world gets selected
- @discussion	uses square as final choice for touch. Changes highlighted square
- */
-- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point
+- (void) updateWorldView:(WorldView*) wView
 {
+	Coord *center = [Coord newCoordWithX:5 Y:5 Z:1];
+	int xInd, yInd;
+	int windowWidth = 10, windowHeight = 10;
 	
+	CGRect bounds = wView.mapImageView.bounds;
+	int imageWidth = bounds.size.width/windowWidth;
+	int imageHeight = bounds.size.height/windowHeight;
+	
+	UIGraphicsBeginImageContext(bounds.size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	
+	for (xInd = center.X-windowWidth/2; xInd < center.X+windowWidth/2; ++xInd)
+	{
+		for(yInd = center.Y-windowHeight/2; yInd < center.Y+windowHeight/2; ++yInd)
+		{
+			UIImage *img = [UIImage imageNamed:@"pokeball2.png"];//Some tile name
+			CGContextDrawImage(context, CGRectMake(xInd*imageWidth, yInd*imageHeight, imageWidth, imageHeight), img.CGImage);
+		}
+	}
+	
+	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	wView.mapImageView.image = result;
 }
-
-
 
 @end

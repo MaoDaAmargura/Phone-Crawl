@@ -7,10 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Util.h"
 
-
-@interface Creature : NSObject {
-
+@interface Creature : NSObject 
+{
+	Coord *location;
 }
+
+@property (nonatomic, retain) Coord *location;
 
 @end
