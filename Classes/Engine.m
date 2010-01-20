@@ -88,15 +88,12 @@
 		for(yInd = center.Y-halfHigh; yInd < center.Y+halfHigh; ++yInd)
 		{
 			UIImage *img;
-			if(xInd < 0 || yInd < 0 || xInd >= kMapDimension || yInd >= kMapDimension)
-			{
-				img = [tileArray objectAtIndex:0];
-			}
+			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
+			if(t)
+				img = [tileArray objectAtIndex:t.type]; //Get tile from array by index if it exists
 			else
-			{
-				Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
-				img = [tileArray objectAtIndex:t.type];
-			}
+				img = [tileArray objectAtIndex:0]; //Black square if the tile doesn't exist
+			
 			// Draw each tile in the proper place
 			CGContextDrawImage(context, CGRectMake((xInd+halfWide-center.X)*imageWidth, (yInd+halfHigh-center.Y)*imageHeight, imageWidth, imageHeight), img.CGImage);
 		}
