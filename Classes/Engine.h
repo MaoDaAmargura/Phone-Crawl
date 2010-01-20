@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "WorldView.h"
 
 @class Creature;
 @class Dungeon;
@@ -19,8 +20,11 @@
 	Creature *player;
 	
 	Dungeon *currentDungeon;
+	
 }
 
 - (id) init;
+
+- (void) updateWorldView:(WorldView*) wView;
 
 @end

@@ -7,13 +7,26 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PCBaseViewController.h"
+
+@protocol WorldViewDelegate;
 
 
-@interface WorldView : UIViewController 
+@interface WorldView : PCBaseViewController
 {
 	IBOutlet UIImageView *mapImageView;
 }
 
-@property (nonatomic, retain) UIImageView *mapImageView;
+- (void) setDelegate:(id<WorldViewDelegate>) delegate;
+
+@property (nonatomic, retain) IBOutlet UIImageView *mapImageView;
+
+@end
+
+@protocol WorldViewDelegate
+
+- (void) worldView:(WorldView*) wView touchedAt:(CGPoint)point;
+- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point;
+- (void) worldViewDidLoad:(WorldView*) wView;
 
 @end

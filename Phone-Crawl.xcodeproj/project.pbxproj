@@ -16,6 +16,7 @@
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
 		D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3EC110632DA0032A3DD /* ItemGen.m */; };
+		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
 		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
@@ -52,6 +53,8 @@
 		D931C3E9110632B60032A3DD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; };
 		D931C3EB110632DA0032A3DD /* ItemGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGen.h; sourceTree = "<group>"; };
 		D931C3EC110632DA0032A3DD /* ItemGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGen.m; sourceTree = "<group>"; };
+		D931C40911063B790032A3DD /* PCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBaseViewController.h; sourceTree = "<group>"; };
+		D931C40A11063B790032A3DD /* PCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBaseViewController.m; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
 		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
 		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
@@ -172,6 +175,15 @@
 			name = Engine;
 			sourceTree = "<group>";
 		};
+		D931C40511063B4D0032A3DD /* Framework */ = {
+			isa = PBXGroup;
+			children = (
+				D931C40911063B790032A3DD /* PCBaseViewController.h */,
+				D931C40A11063B790032A3DD /* PCBaseViewController.m */,
+			);
+			path = Framework;
+			sourceTree = "<group>";
+		};
 		D95F3AC910FFCE5C00323446 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +252,7 @@
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
 			isa = PBXGroup;
 			children = (
+				D931C40511063B4D0032A3DD /* Framework */,
 				D9B55D1911015878007173A3 /* Data */,
 				D95F3AC910FFCE5C00323446 /* UI */,
 				D95F3AEE10FFCECF00323446 /* Classes */,
@@ -346,6 +359,7 @@
 				D931C3E7110632A00032A3DD /* Creature.m in Sources */,
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
 				D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */,
+				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

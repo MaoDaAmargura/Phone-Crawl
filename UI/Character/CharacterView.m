@@ -13,7 +13,7 @@
 
 - (id) init 
 {
-	if(self = [super initWithNibName:@"CharacterView" bundle:nil])
+	if(self = [super initWithNibName:@"CharacterView"])
 	{
 		return self;
 	}
