@@ -39,9 +39,9 @@ NSMutableArray *tiles = nil;
 }
 
 - (Tile*) setTileAtX: (int) x Y: (int) y Z: (int) z {
-	assert (x < kMapDimension);
-	assert (y < kMapDimension);
-	assert (z < kMapDepth);
+	assert (x < MAP_DIMENSION);
+	assert (y < MAP_DIMENSION);
+	assert (z < MAP_DEPTH);
 
 	
 	return nil;
@@ -51,8 +51,8 @@ NSMutableArray *tiles = nil;
 
 - (Dungeon*) initWithType: (levelType) lvlType {
 	if (!tiles) {
-		tiles = [[NSMutableArray alloc] initWithCapacity: kMapDimension * kMapDimension * kMapDepth];
-		for (int LCV = 0; LCV < kMapDimension * kMapDimension * kMapDepth; LCV++) {
+		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
+		for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH; LCV++) {
 			[tiles addObject: [[Tile alloc] init]];
 		}
 	}
@@ -62,13 +62,13 @@ NSMutableArray *tiles = nil;
 }
 
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
-	assert (x < kMapDimension);
-	assert (y < kMapDimension);
-	assert (z < kMapDepth);
+	assert (x < MAP_DIMENSION);
+	assert (y < MAP_DIMENSION);
+	assert (z < MAP_DEPTH);
 
 	int location = x;
-	location += y * kMapDimension;
-	location += z * kMapDimension * kMapDimension;
+	location += y * MAP_DIMENSION;
+	location += z * MAP_DIMENSION * MAP_DIMENSION;
 
 	return [tiles objectAtIndex: location];
 }

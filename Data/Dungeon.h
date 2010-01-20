@@ -1,5 +1,3 @@
-#define kMapDimension 120
-#define kMapDepth 5
 @class Coord;		// defined in Util
 
 typedef enum levelType {
