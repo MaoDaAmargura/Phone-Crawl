@@ -8,10 +8,22 @@
 
 #import <Foundation/Foundation.h>
 
+typedef enum {
+	ITEM_WEAPON,
+	ITEM_ARMOR,
+	ITEM_POTION} item_type;
 
 @interface Item : NSObject 
 {
-
+	NSString *name;
+	item_type type;
+	int amount; // used for damage of weapon, defense of armor,
+				// number of coins, ect
 }
+
+-(Item *)init:(NSString *)name :(item_type)type :(int)amount;
+-(NSString *)getName;
+-(item_type)getType;
+-(int)getAmount;
 
 @end

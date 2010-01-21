@@ -11,4 +11,27 @@
 
 @implementation Item
 
+-(Item *)init:(NSString *)n :(item_type)t :(int)a {
+	if (self = [super init]) {
+		name = n;
+		type = t;
+		amount = a;
+		return self;
+	}
+	return nil;
+}
+
+-(NSString *)getName {
+	return name;
+}
+
+-(item_type)getType {
+	return type;
+}
+
+-(int)getAmount {
+	return amount;
+}
+
+
 @end
