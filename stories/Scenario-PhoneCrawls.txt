@@ -1,0 +1,105 @@
+Scenario: World: Movement - Around an obstacle
+--------------------------------------------------------------------------
+- Avatar at (13, 17, 1)
+- Rock wall formation running north-south from (15, 10, 1) to (15, 20, 1)
+- No enemies in sight
+
+Player touches (17, 17, 1) on the other side of the wall from their current position. Using a simple pathfinding algorithm, a shortest path route is calculated around the wall to the destination. First the avatar walks south to (13, 21, 1), then east to (17, 21, 1), then north to (17, 17, 1). Then, the game waits for the player to do something else. 
+
+
+Scenario: World: Movement - Into the Danger Zone
+--------------------------------------------------------------------------
+- Agent's avatar located at (16, 9, 1).
+- Enemy located at (13, 13, 1).
+- Pillar located (10,15,1).
+- There is a staircase at (13, 11, 1).
+- Player is not currently in battle mode.
+
+Agent touches the screen in world view, two units north and 3 units east. This touch is interpreted as the square they want to move to (13, 11, 1) and the square is highlighted. Because the character is not currently in battle, it moves one unit north immediately. Because there is a pillar at (15, 10, 1) disallowing a left turn here, the avatar moves one more north then 1 unit left, entering the monster's line of sight and battle mode. Now, the remaining two units east are interpreted as a new command in battle mode, and questioned, allowing the player to decide a new course of action.
+
+The player confirms this course of action (continues what he was doing in spite of battle) and so their avatar moves two units left onto the staircase. This takes the player's avatar to (13, 12, 2) one down, and forward off the staircase automatically. The monster loses sight of the player, so battle mode ends. 
+
+
+Scenario: World: Combat - An Attack
+--------------------------------------------------------------------------
+Note: Damage calculation model may change. 
+
+- Player Avatar (actor) at (22, 3, 2), wields: sharp bastard sword of shock
+- Enemy at (24, 5, 3), armed with a ring-mail of health and an aquatic shield.
+- Stairs at (24, 3, 2) leading to (24, 3, 3)
+- Not in battle mode.
+
+Player touches the tile at (24, 3, 2) and their avatar begins to walk to the stairs at that location. Upon reaching the stairs, the agent is taken down the stairs to (24, 3, 3) and steps off the stairs to (23, 4, 3). Agent's proximity to the enemy at (24, 5, 3) initiates battle mode, giving the player and enemy a more tactical movement environment. An options window opens, allowing the choices of move, fight, and item (for now).
+
+After touching Fight!, the Player touches the tile containing the enemy, indicating they wish to attack it in melee combat. A basic attack is performed, calculated from the base damage of the sword (14-19) at 17. Getting lucky, the sharp sword causes critical damage (2x) and deals lightning damage for a base damage of 34. The ring-mail of health provides the enemy with some defense (AR 60) and the shield as well (+15) but being an aquatic shield, it provides additional frost and fire defense at the cost of weakness to lightning (AR -10). The enemy's total Armor Rating is 65 for the hit, and they take 91% of the damage, or 31 hit points.
+
+
+Scenario: World: Combat - A Spell
+--------------------------------------------------------------------------
+- Player Avatar (Level 4 - SAI - 7, 11, 14) at (22, 3, 2)
+- Enemy at (24, 5, 2) wearing frost armor
+- In battle mode.
+
+Player selects move from the options window. All spaces they can move to this turn are highlighted. Player touches the tile at (24, 2, 2) and their avatar walks to the location. Now in spell range, the player then selects Fight! from the menu, select Spell, and cast an Ice Shard. 
+
+The Ice Shard's damage is calculated based on the player's level (4) and intelligence (14) at a base power of 20. The enemies frost armor provides 70 AR,  with a bonus of 15 AR against frost damage, granting a base AR of 85. This means they take approximately 65% of the original 20 damage, and only lose 13 hit points. Ice shard's mana cost is deducted from the player's current MP.
+
+
+Scenario: World: Combat - An Item
+--------------------------------------------------------------------------
+- Player at (25, 19, 1)
+- Two enemies, (25, 20, 1) and (25, 22, 1)
+- In combat mode
+
+From the combat menu, our player selects Item. A pop-up window provides a navigable selection of items that can be used from their inventory. The player selects a Wand of Inferno. The inferno spell does damage to multiple targets in a radius of 1 (all squares adjacent to the target) and the player selects ((25, 21, 1) as the center. Both enemies die from the blast. 
+
+
+Scenario: Inventory: Equipping an Item
+--------------------------------------------------------------------------
+- Character screen contains a number of item slots, for equipping items (and maybe hotkeying them).
+- Player's inventory contains 2 leather armors (one equipped), and one chain-mail. They also have a bastard sword (equipped), a knife, a shield (equipped) and a spear. 
+
+The player selects the character window. It displays an image of the player avatar, as well as the several items the player has equipped. Agent selects the leather armor, and a window opens displaying items in their inventory that can replace that item. The player selects the chain mail, and the leather armor they have equipped is replaced by the chain-mail. (As a wish item, a window may open showing the stat changes and allowing an equip/cancel menu at this point instead). 
+
+The player then selects weapon slot 1, and picks the spear to equip. A two handed weapon, the spear causes both the bastard sword and the shield to be unequipped. Realizing the extra cost of the weapon, the player selects the weapon slot again and selects the knife. They then select weapon slot 2 and put the shield back on. Finished, the agent selects the world map and continues their fight for glory. 
+
+
+Scenario: World: Interaction: Purchasing Items
+--------------------------------------------------------------------------
+- Player is carrying 100 gold
+- Player has 8 inventory slots, 5 of which are free.
+- Player is holding (in inventory): sword of fire, basic leather armor, wand
+- Player is in the town, at position (12,15,0)
+- Item shop has a door at position (12,10,0)
+- Shopkeeper at (13,8,0)
+- Shop sells health potion, 10 gold, basic sword, 50 gold, basic leather armor, 50 gold
+
+Player taps inventory button. Inventory window opens over main map showing the player's items. Player notices they have no health potions and so decides to go to the store to buy some. Player taps map button, causing inventory window to close.
+
+Player then taps the store's door on the map. The player's avatar moves to the door and enters.
+When the player enters the item shop, the room becomes transparent, allowing the player to see inside.  There is a shopkeeper at (13,8,0) and a few chests (unimportant) scattered around the room. The player taps the shopkeeper and actor walks to stand near the shopkeeper. A split-screen view opens, on the left showing the items the shop has to offer, and on the right showing the player's items. The player locates the health potion in the shop's screen and selects to buy it.
+
+If the player has enough gold, the cost of the potion is deducted and the potion appears in the player's inventory screen. The player does this again, and again. After the shop has sold 3 health potions to the player a message comes up warning player that the shop will only sell 3 health potions at a time (to prevent item spamming).
+
+Player then decides to sell the old leather armor. The game calculates a reduced buy-back price of 30 gold, credits player by this amount, and removes the armor from player's inventory.
+
+Player taps the map button, closing the buy-sell screen, and taps the doorway of the item shop. Player walks to the door and exits the shop.
+
+
+Scenario: Inventory: Using an Item - Spell Book
+--------------------------------------------------------------------------
+- Character has a "Book" item in inventory, which teaches a new spell
+- Character is not in combat
+- Character does not already know the spell
+
+Player taps the Inventory button. Player taps the item slot with item "Spellbook: Lesser Fireball". A confirmation box opens to confirm that Player wishes to teach Character the spell "Lesser Fireball". Player taps "Yes", and the Inventory screen goes away, returning Player to the main world view. The spell "Lesser Fireball" is added to the character's list of spells.
+
+
+Scenario: Inventory: Using an Item - Restorative
+--------------------------------------------------------------------------
+- Character has a 2/5 real hit points (HP) and 0/5 shield hit points (SP)
+- Character has health potion in his inventory called Full Heal that will heal him to 5/5 HP and 5/5 FHP
+
+Player has just finished a battle in one of the game areas, and is low on hit points. Not wanting to risk being found by another monster while low on health in order to avoid having to waste a turn during combat itself, or risk having the monster attack first and kill him, Player taps the Inventory tab, and taps on a health potion. A confirmation box pops up to confirm that Player did, in fact, intend to use the item that was selected. If Player selected the wrong item, Player can tap "No" and either select again or leave the inventory screen.
+
+Player selects "Yes". Game system calls the method for the spell that goes with the potion, and Player's health is increased immediately. Inventory screen goes away, and Player is returned to main world view.
