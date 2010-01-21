@@ -4,7 +4,7 @@ Scenario: World: Movement - Around an obstacle
 - Rock wall formation running north-south from (15, 10, 1) to (15, 20, 1)
 - No enemies in sight
 
-Player touches (17, 17, 1) on the other side of the wall from their current position. Using a simple pathfinding algorithm, a shortest path route is calculated around the wall to the destination. First the avatar walks south to (13, 21, 1), then east to (17, 21, 1), then north to (17, 17, 1). Then, the game waits for the player to do something else. 
+The agent wants to move his or her avatar to the other side of the wall.  The agent touches the screen in world view four tiles east. This touch is interpreted as a movement command to the tile at (17, 17, 1). The agent is given feedback for his or her input by lighting the touched tile.  Using a simple pathfinding algorithm, a shortest path route is calculated around the wall to the destination. First the avatar walks south to (13, 21, 1) as part of the calculated route.  Moving the avatar south is depicted by moving everything on the screen upwards and holding the image of the avatar in the center of the screen.  This results in the avatar moving south relative to the map, yet keeping the avatar in the center of the screen. After moving south, the avatar immediately turns and moves east to (17, 21, 1), then turns and moves north to (17, 17, 1). The avatar has then reached the touched tile and, the game waits for the player to give more input. 
 
 
 Scenario: World: Movement - Into the Danger Zone
@@ -12,12 +12,12 @@ Scenario: World: Movement - Into the Danger Zone
 - Agent's avatar located at (16, 9, 1).
 - Enemy located at (13, 13, 1).
 - Pillar located (10,15,1).
-- There is a staircase at (13, 11, 1).
+- There is a staircase downwards at (13, 11, 1).
 - Player is not currently in battle mode.
 
-Agent touches the screen in world view, two units north and 3 units east. This touch is interpreted as the square they want to move to (13, 11, 1) and the square is highlighted. Because the character is not currently in battle, it moves one unit north immediately. Because there is a pillar at (15, 10, 1) disallowing a left turn here, the avatar moves one more north then 1 unit left, entering the monster's line of sight and battle mode. Now, the remaining two units east are interpreted as a new command in battle mode, and questioned, allowing the player to decide a new course of action.
+Agent wants to use the stairs, so he or she touches the screen in world view, two units north and 3 units west of the current position. This touch is interpreted as "move to square (13, 11, 1)" and the square is highlighted. Because the avatar is not currently in battle, it moves one unit north immediately to (16, 10, 1). Because there is a pillar at (15, 10, 1) disallowing movement west, the avatar immediately moves one more north then 1 unit west. The avatar is then in the position (15, 11, 1). This position is within the monster's sight, so the game enters battle mode. Battle mode is depicted by a new set of interface buttons at the bottom of the screen for additional actions.  Upon entering battle mode, the remaining movements required to reach the destination of (13, 11, 1) are canceled.  Movement can only continue with an explicit command for each movement across a single square.
 
-The player confirms this course of action (continues what he was doing in spite of battle) and so their avatar moves two units left onto the staircase. This takes the player's avatar to (13, 12, 2) one down, and forward off the staircase automatically. The monster loses sight of the player, so battle mode ends. 
+The agent does not want to engage battle and so he or she touches the stairs on the screen again.  The avatar immediately moves one square east towards the stairs. The agent touches the stairs again. The avatar moves on top of the stairs. Standing on a tile with stairs implies using those stairs.  Without additional input, the avatar moves down the stairs and north one tile, ending on position (13, 12, 2). This takes the player's avatar to a different level in the dungeon. The entire screen is redrawn to show the map, monsters, and other items that exist on this new level of the dungeon. The monster on the previous level cannot see the character through the stairs, so battle mode ends. 
 
 
 Scenario: World: Combat - An Attack
@@ -25,18 +25,19 @@ Scenario: World: Combat - An Attack
 Note: Damage calculation model may change. 
 
 - Player Avatar (actor) at (22, 3, 2), wields: sharp bastard sword of shock
-- Enemy at (24, 5, 3), armed with a ring-mail of health and an aquatic shield.
 - Stairs at (24, 3, 2) leading to (24, 3, 3)
+- Enemy at (24, 5, 3), armed with a ring-mail of health and an aquatic shield.
 - Not in battle mode.
 
-Player touches the tile at (24, 3, 2) and their avatar begins to walk to the stairs at that location. Upon reaching the stairs, the agent is taken down the stairs to (24, 3, 3) and steps off the stairs to (23, 4, 3). Agent's proximity to the enemy at (24, 5, 3) initiates battle mode, giving the player and enemy a more tactical movement environment. An options window opens, allowing the choices of move, fight, and item (for now).
+Player touches the stair tile at (24, 3, 2) and their avatar begins to walk to the stairs at that location. Upon reaching the stairs, the agent is taken down the stairs to (24, 3, 3) and steps off the stairs to (23, 4, 3). Agent's proximity to the enemy at (24, 5, 3) initiates battle mode, preventing long movements and showing additional interface buttons.
 
-After touching Fight!, the Player touches the tile containing the enemy, indicating they wish to attack it in melee combat. A basic attack is performed, calculated from the base damage of the sword (14-19) at 17. Getting lucky, the sharp sword causes critical damage (2x) and deals lightning damage for a base damage of 34. The ring-mail of health provides the enemy with some defense (AR 60) and the shield as well (+15) but being an aquatic shield, it provides additional frost and fire defense at the cost of weakness to lightning (AR -10). The enemy's total Armor Rating is 65 for the hit, and they take 91% of the damage, or 31 hit points.
+The player wants to attack the enemy. The player touches the button "Attack" and then touches the tile containing the enemy, indicating they wish to attack it in melee combat. A basic attack is performed, calculated from the base damage of the sword (14-19) at 17. Getting lucky, the sharp sword causes critical damage (2x) and deals lightning damage for a base damage of 34. The ring-mail of health provides the enemy with some defense (AR 60) and the shield as well (+15) but being an aquatic shield, it provides additional frost and fire defense at the cost of weakness to lightning (AR -10). The enemy's total Armor Rating is 65 for the hit, and it takes 91% of the sword's damage. The enemy takes 31 points of damage.
 
 
 Scenario: World: Combat - A Spell
 --------------------------------------------------------------------------
-- Player Avatar (Level 4 - SAI - 7, 11, 14) at (22, 3, 2)
+- Player Avatar (Level 4 - Strength 7 - Agility 11 -Intelligence 14)
+- Player Avatar at position (22, 3, 2)
 - Enemy at (24, 5, 2) wearing frost armor
 - In battle mode.
 
@@ -103,3 +104,4 @@ Scenario: Inventory: Using an Item - Restorative
 Player has just finished a battle in one of the game areas, and is low on hit points. Not wanting to risk being found by another monster while low on health in order to avoid having to waste a turn during combat itself, or risk having the monster attack first and kill him, Player taps the Inventory tab, and taps on a health potion. A confirmation box pops up to confirm that Player did, in fact, intend to use the item that was selected. If Player selected the wrong item, Player can tap "No" and either select again or leave the inventory screen.
 
 Player selects "Yes". Game system calls the method for the spell that goes with the potion, and Player's health is increased immediately. Inventory screen goes away, and Player is returned to main world view.
+
