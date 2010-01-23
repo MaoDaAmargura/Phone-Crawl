@@ -3,6 +3,7 @@
 #import "Dungeon.h"
 #import "LevelGen.h"
 
+#include <stdio.h>
 
 
 #pragma mark --hacks
@@ -71,6 +72,15 @@ NSMutableArray *tiles = nil;
 }
 
 - (Coord*) playerLocation {
+	return nil;
+}
+
+
+#pragma mark -
+#pragma mark Static
+
++ (Dungeon*) loadDungeonFromFile:(NSString *)filename
+{
 	return nil;
 }
 

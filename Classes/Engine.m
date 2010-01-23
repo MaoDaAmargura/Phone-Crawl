@@ -81,6 +81,8 @@
 	CGPoint lowerRight = CGPointMake(center.X+halfWide-1, center.Y+halfHigh-1);
 	CGPoint upperLeft = CGPointMake(center.X-halfWide, center.Y-halfHigh);
 	
+	UIGraphicsPushContext(context);
+	
 	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
 	{
 		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
@@ -91,19 +93,23 @@
 				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
 			else
 				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
-			
+
+			[img drawInRect:CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
 			// Draw each tile in the proper place
-			CGContextDrawImage(context, CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight), img.CGImage);
+			//CGContextDrawImage(context, CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight), img.CGImage);
 			// Draw each tile in inverted place. Is useless because image is upside down, not inverted.
 			//CGContextDrawImage(context, CGRectMake((lowerRight.x - xInd)*imageWidth, (lowerRight.x - yInd)*imageHeight, imageWidth, imageHeight), img.CGImage);
 		}
 	}
 	
 	// Draw the player on the proper tile.
-	UIImage *playerSprite = [UIImage imageNamed:@"ash01fz8.png"];
-	CGContextDrawImage(context, CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
+	UIImage *playerSprite = [UIImage imageNamed:@"human.png"];
+	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
+	//CGContextDrawImage(context, CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
 	// Draws player tile on proper tile for inverted view. Is useless.
 	//CGContextDrawImage(context, CGRectMake((lowerRight.x - center.X)*imageWidth, (lowerRight.y - center.Y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
+	
+	UIGraphicsPopContext();
 	
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();

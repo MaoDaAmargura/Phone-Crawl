@@ -13,4 +13,6 @@
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z;
 - (Coord*) playerLocation;
 
++ (Dungeon*) loadDungeonFromFile:(NSString*)filename;
+
 @end
