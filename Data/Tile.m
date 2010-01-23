@@ -44,8 +44,10 @@
 	{
 		tileImageArray = [[NSMutableArray alloc] initWithCapacity:TILE_M_NUMBER_OF_TILES];
 		[tileImageArray addObject:[UIImage imageNamed:@"BlackSquare.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"DirtFloor.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"BarkFloor.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"grass.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"concrete.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"dirt.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"wood.png"]];
 	}
 }
 

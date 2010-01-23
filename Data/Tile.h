@@ -17,7 +17,7 @@ typedef enum {
 } levelType;
 
 typedef enum {
-	tileNone, tileGrass, tileRockFloor, tileRockWall
+	tileNone, tileGrass, tileConcrete, tileDirt, tileWood, tileRockFloor, tileRockWall
 } tileType;
 
 NSMutableArray *tileImageArray;

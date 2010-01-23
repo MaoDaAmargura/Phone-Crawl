@@ -430,9 +430,9 @@
 				D9FFB0E4110BA8E000536EA7 /* Consumable */,
 				D9FFB0F1110BA8E000536EA7 /* Equipable */,
 				D9FFB102110BA8E000536EA7 /* FloorTile */,
+				D9FFB117110BA8E000536EA7 /* old walls */,
 				D9FFB115110BA8E000536EA7 /* human.png */,
 				D9FFB116110BA8E000536EA7 /* human1.png */,
-				D9FFB117110BA8E000536EA7 /* old walls */,
 			);
 			path = Images;
 			sourceTree = "<group>";
