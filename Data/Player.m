@@ -72,12 +72,12 @@
 	return weaponRight;
 }
 
--(void)setHp:(int)hp {
-	self.hp = hp;
+-(void)setHp:(int)health {
+	hp = health;
 }
 	
--(void)setShield:(int)shield {
-	self.shield = shield;
+-(void)setShield:(int)sp {
+	shield = sp;
 }
 	 
 

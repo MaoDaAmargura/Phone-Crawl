@@ -26,6 +26,11 @@
 }
 
 
+- (void)applicationWillTerminate:(UIApplication *)application
+{
+	//Save here.
+}
+
 /*
 // Optional UITabBarControllerDelegate method
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {

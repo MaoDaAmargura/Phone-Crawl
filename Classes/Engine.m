@@ -86,9 +86,9 @@
 	CGPoint lowerRight = CGPointMake(center.X+halfWide-1, center.Y+halfHigh-1);
 	CGPoint upperLeft = CGPointMake(center.X-halfWide, center.Y-halfHigh);
 	
-	for (xInd = lowerRight.x; xInd >= upperLeft.x; --xInd)
+	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
 	{
-		for(yInd = lowerRight.y; yInd >= upperLeft.y; --yInd)
+		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
 		{
 			UIImage *img;
 			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
@@ -98,13 +98,17 @@
 				img = [tileArray objectAtIndex:0]; //Black square if the tile doesn't exist
 			
 			// Draw each tile in the proper place
-			CGContextDrawImage(context, CGRectMake((halfWide-xInd-1)*imageWidth, (halfHigh-yInd-1)*imageHeight, imageWidth, imageHeight), img.CGImage);
+			CGContextDrawImage(context, CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight), img.CGImage);
+			// Draw each tile in inverted place. Is useless because image is upside down, not inverted.
+			//CGContextDrawImage(context, CGRectMake((lowerRight.x - xInd)*imageWidth, (lowerRight.x - yInd)*imageHeight, imageWidth, imageHeight), img.CGImage);
 		}
 	}
 	
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"ash01fz8.png"];
-	CGContextDrawImage(context, CGRectMake((halfWide-center.X-1)*imageWidth, (halfHigh-center.Y-1)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
+	CGContextDrawImage(context, CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
+	// Draws player tile on proper tile for inverted view. Is useless.
+	//CGContextDrawImage(context, CGRectMake((lowerRight.x - center.X)*imageWidth, (lowerRight.y - center.Y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
 	
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
