@@ -20,7 +20,7 @@ typedef enum {
 	tileNone, tileGrass, tileRockFloor, tileRockWall
 } tileType;
 
-#pragma mark -
+NSMutableArray *tileImageArray;
 
 @interface Tile : NSObject {
 	bool blockView;
@@ -30,5 +30,8 @@ typedef enum {
 @property (nonatomic) bool blockView;
 @property (nonatomic) bool blockMove;
 @property (nonatomic) tileType type;
+
++ (void) initialize;
++ (UIImage*) imageForType:(tileType)type;
 
 @end

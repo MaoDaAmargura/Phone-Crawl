@@ -32,14 +32,63 @@
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
-		D9C27D2F11004C9A00F7B1FE /* ash01fz8.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */; };
-		D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */; };
-		D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2D11004C9A00F7B1FE /* PItN.jpg */; };
-		D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9C27D2E11004C9A00F7B1FE /* pokeball2.png */; };
-		D9EBB8E4110686CF00C34836 /* BarkFloor.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E1110686CF00C34836 /* BarkFloor.png */; };
-		D9EBB8E5110686CF00C34836 /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E2110686CF00C34836 /* BlackSquare.png */; };
-		D9EBB8E6110686CF00C34836 /* DirtFloor.png in Resources */ = {isa = PBXBuildFile; fileRef = D9EBB8E3110686CF00C34836 /* DirtFloor.png */; };
 		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
+		D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E5110BA8E000536EA7 /* potion-brown.png */; };
+		D9FFB121110BA8E000536EA7 /* potion-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E6110BA8E000536EA7 /* potion-green.png */; };
+		D9FFB122110BA8E000536EA7 /* potion-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E7110BA8E000536EA7 /* potion-purple.png */; };
+		D9FFB123110BA8E000536EA7 /* potion-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E8110BA8E000536EA7 /* potion-red.png */; };
+		D9FFB124110BA8E000536EA7 /* potion-white.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E9110BA8E000536EA7 /* potion-white.png */; };
+		D9FFB125110BA8E000536EA7 /* rope.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0EA110BA8E000536EA7 /* rope.png */; };
+		D9FFB126110BA8E000536EA7 /* scroll-book.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0EB110BA8E000536EA7 /* scroll-book.png */; };
+		D9FFB127110BA8E000536EA7 /* scroll1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0EC110BA8E000536EA7 /* scroll1.png */; };
+		D9FFB128110BA8E000536EA7 /* scroll2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0ED110BA8E000536EA7 /* scroll2.png */; };
+		D9FFB129110BA8E000536EA7 /* wand1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0EE110BA8E000536EA7 /* wand1.png */; };
+		D9FFB12A110BA8E000536EA7 /* wand2.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0EF110BA8E000536EA7 /* wand2.png */; };
+		D9FFB12B110BA8E000536EA7 /* wand3.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F0110BA8E000536EA7 /* wand3.png */; };
+		D9FFB12C110BA8E000536EA7 /* armor-heavy.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F2110BA8E000536EA7 /* armor-heavy.png */; };
+		D9FFB12D110BA8E000536EA7 /* armor-light.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F3110BA8E000536EA7 /* armor-light.png */; };
+		D9FFB12E110BA8E000536EA7 /* bow.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F4110BA8E000536EA7 /* bow.png */; };
+		D9FFB12F110BA8E000536EA7 /* cloak-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F5110BA8E000536EA7 /* cloak-blue.png */; };
+		D9FFB130110BA8E000536EA7 /* cloak-grey.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F6110BA8E000536EA7 /* cloak-grey.png */; };
+		D9FFB131110BA8E000536EA7 /* cloak-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F7110BA8E000536EA7 /* cloak-red.png */; };
+		D9FFB132110BA8E000536EA7 /* dagger.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F8110BA8E000536EA7 /* dagger.png */; };
+		D9FFB133110BA8E000536EA7 /* ring-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0F9110BA8E000536EA7 /* ring-blue.png */; };
+		D9FFB134110BA8E000536EA7 /* ring-gold.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FA110BA8E000536EA7 /* ring-gold.png */; };
+		D9FFB135110BA8E000536EA7 /* ring-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FB110BA8E000536EA7 /* ring-green.png */; };
+		D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */; };
+		D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FD110BA8E000536EA7 /* ring-red.png */; };
+		D9FFB138110BA8E000536EA7 /* shield.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FE110BA8E000536EA7 /* shield.png */; };
+		D9FFB139110BA8E000536EA7 /* shield1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FF110BA8E000536EA7 /* shield1.png */; };
+		D9FFB13A110BA8E000536EA7 /* staff.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB100110BA8E000536EA7 /* staff.png */; };
+		D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB101110BA8E000536EA7 /* sworddual.png */; };
+		D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB103110BA8E000536EA7 /* BlackSquare.png */; };
+		D9FFB13D110BA8E000536EA7 /* concrete.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB104110BA8E000536EA7 /* concrete.png */; };
+		D9FFB13E110BA8E000536EA7 /* dirt.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB105110BA8E000536EA7 /* dirt.png */; };
+		D9FFB13F110BA8E000536EA7 /* grass.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB106110BA8E000536EA7 /* grass.png */; };
+		D9FFB140110BA8E000536EA7 /* wall-door-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB107110BA8E000536EA7 /* wall-door-vertical.png */; };
+		D9FFB141110BA8E000536EA7 /* wall-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB108110BA8E000536EA7 /* wall-door.png */; };
+		D9FFB142110BA8E000536EA7 /* wallv2-300.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB109110BA8E000536EA7 /* wallv2-300.png */; };
+		D9FFB143110BA8E000536EA7 /* wallv2-330.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10A110BA8E000536EA7 /* wallv2-330.png */; };
+		D9FFB144110BA8E000536EA7 /* wallv2-900.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10B110BA8E000536EA7 /* wallv2-900.png */; };
+		D9FFB145110BA8E000536EA7 /* wallv2-930.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10C110BA8E000536EA7 /* wallv2-930.png */; };
+		D9FFB146110BA8E000536EA7 /* wallv2-cross.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10D110BA8E000536EA7 /* wallv2-cross.png */; };
+		D9FFB147110BA8E000536EA7 /* wallv2-E.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10E110BA8E000536EA7 /* wallv2-E.png */; };
+		D9FFB148110BA8E000536EA7 /* wallv2-H.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB10F110BA8E000536EA7 /* wallv2-H.png */; };
+		D9FFB149110BA8E000536EA7 /* wallv2-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB110110BA8E000536EA7 /* wallv2-horizontal.png */; };
+		D9FFB14A110BA8E000536EA7 /* wallv2-T.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB111110BA8E000536EA7 /* wallv2-T.png */; };
+		D9FFB14B110BA8E000536EA7 /* wallv2-Tinverted.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB112110BA8E000536EA7 /* wallv2-Tinverted.png */; };
+		D9FFB14C110BA8E000536EA7 /* wallv2-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB113110BA8E000536EA7 /* wallv2-vertical.png */; };
+		D9FFB14D110BA8E000536EA7 /* wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB114110BA8E000536EA7 /* wood.png */; };
+		D9FFB14E110BA8E000536EA7 /* human.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB115110BA8E000536EA7 /* human.png */; };
+		D9FFB14F110BA8E000536EA7 /* human1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB116110BA8E000536EA7 /* human1.png */; };
+		D9FFB150110BA8E000536EA7 /* wall-stone-bottomleft.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB118110BA8E000536EA7 /* wall-stone-bottomleft.png */; };
+		D9FFB151110BA8E000536EA7 /* wall-stone-bottomright.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB119110BA8E000536EA7 /* wall-stone-bottomright.png */; };
+		D9FFB152110BA8E000536EA7 /* wall-stone-crumbling.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11A110BA8E000536EA7 /* wall-stone-crumbling.png */; };
+		D9FFB153110BA8E000536EA7 /* wall-stone-left.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11B110BA8E000536EA7 /* wall-stone-left.png */; };
+		D9FFB154110BA8E000536EA7 /* wall-stone-right.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11C110BA8E000536EA7 /* wall-stone-right.png */; };
+		D9FFB155110BA8E000536EA7 /* wall-stone-topleft.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11D110BA8E000536EA7 /* wall-stone-topleft.png */; };
+		D9FFB156110BA8E000536EA7 /* wall-stone-topright.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11E110BA8E000536EA7 /* wall-stone-topright.png */; };
+		D9FFB157110BA8E000536EA7 /* wall-stone.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB11F110BA8E000536EA7 /* wall-stone.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -87,15 +136,64 @@
 		D9B55D1E11015886007173A3 /* LevelGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelGen.m; sourceTree = "<group>"; };
 		D9B55D1F11015886007173A3 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		D9B55D2011015886007173A3 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
-		D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ash01fz8.png; sourceTree = "<group>"; };
-		D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Jeans.jpg; sourceTree = "<group>"; };
-		D9C27D2D11004C9A00F7B1FE /* PItN.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = PItN.jpg; sourceTree = "<group>"; };
-		D9C27D2E11004C9A00F7B1FE /* pokeball2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pokeball2.png; sourceTree = "<group>"; };
-		D9EBB8E1110686CF00C34836 /* BarkFloor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BarkFloor.png; sourceTree = "<group>"; };
-		D9EBB8E2110686CF00C34836 /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
-		D9EBB8E3110686CF00C34836 /* DirtFloor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DirtFloor.png; sourceTree = "<group>"; };
 		D9EBB8ED110688A800C34836 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		D9EBB8EE110688A800C34836 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		D9FFB0E5110BA8E000536EA7 /* potion-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-brown.png"; sourceTree = "<group>"; };
+		D9FFB0E6110BA8E000536EA7 /* potion-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-green.png"; sourceTree = "<group>"; };
+		D9FFB0E7110BA8E000536EA7 /* potion-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-purple.png"; sourceTree = "<group>"; };
+		D9FFB0E8110BA8E000536EA7 /* potion-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red.png"; sourceTree = "<group>"; };
+		D9FFB0E9110BA8E000536EA7 /* potion-white.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-white.png"; sourceTree = "<group>"; };
+		D9FFB0EA110BA8E000536EA7 /* rope.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rope.png; sourceTree = "<group>"; };
+		D9FFB0EB110BA8E000536EA7 /* scroll-book.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "scroll-book.png"; sourceTree = "<group>"; };
+		D9FFB0EC110BA8E000536EA7 /* scroll1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scroll1.png; sourceTree = "<group>"; };
+		D9FFB0ED110BA8E000536EA7 /* scroll2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = scroll2.png; sourceTree = "<group>"; };
+		D9FFB0EE110BA8E000536EA7 /* wand1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wand1.png; sourceTree = "<group>"; };
+		D9FFB0EF110BA8E000536EA7 /* wand2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wand2.png; sourceTree = "<group>"; };
+		D9FFB0F0110BA8E000536EA7 /* wand3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wand3.png; sourceTree = "<group>"; };
+		D9FFB0F2110BA8E000536EA7 /* armor-heavy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armor-heavy.png"; sourceTree = "<group>"; };
+		D9FFB0F3110BA8E000536EA7 /* armor-light.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "armor-light.png"; sourceTree = "<group>"; };
+		D9FFB0F4110BA8E000536EA7 /* bow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bow.png; sourceTree = "<group>"; };
+		D9FFB0F5110BA8E000536EA7 /* cloak-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloak-blue.png"; sourceTree = "<group>"; };
+		D9FFB0F6110BA8E000536EA7 /* cloak-grey.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloak-grey.png"; sourceTree = "<group>"; };
+		D9FFB0F7110BA8E000536EA7 /* cloak-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "cloak-red.png"; sourceTree = "<group>"; };
+		D9FFB0F8110BA8E000536EA7 /* dagger.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dagger.png; sourceTree = "<group>"; };
+		D9FFB0F9110BA8E000536EA7 /* ring-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-blue.png"; sourceTree = "<group>"; };
+		D9FFB0FA110BA8E000536EA7 /* ring-gold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-gold.png"; sourceTree = "<group>"; };
+		D9FFB0FB110BA8E000536EA7 /* ring-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-green.png"; sourceTree = "<group>"; };
+		D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-pearl.png"; sourceTree = "<group>"; };
+		D9FFB0FD110BA8E000536EA7 /* ring-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-red.png"; sourceTree = "<group>"; };
+		D9FFB0FE110BA8E000536EA7 /* shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield.png; sourceTree = "<group>"; };
+		D9FFB0FF110BA8E000536EA7 /* shield1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield1.png; sourceTree = "<group>"; };
+		D9FFB100110BA8E000536EA7 /* staff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = staff.png; sourceTree = "<group>"; };
+		D9FFB101110BA8E000536EA7 /* sworddual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sworddual.png; sourceTree = "<group>"; };
+		D9FFB103110BA8E000536EA7 /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
+		D9FFB104110BA8E000536EA7 /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
+		D9FFB105110BA8E000536EA7 /* dirt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dirt.png; sourceTree = "<group>"; };
+		D9FFB106110BA8E000536EA7 /* grass.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = grass.png; sourceTree = "<group>"; };
+		D9FFB107110BA8E000536EA7 /* wall-door-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-door-vertical.png"; sourceTree = "<group>"; };
+		D9FFB108110BA8E000536EA7 /* wall-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-door.png"; sourceTree = "<group>"; };
+		D9FFB109110BA8E000536EA7 /* wallv2-300.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-300.png"; sourceTree = "<group>"; };
+		D9FFB10A110BA8E000536EA7 /* wallv2-330.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-330.png"; sourceTree = "<group>"; };
+		D9FFB10B110BA8E000536EA7 /* wallv2-900.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-900.png"; sourceTree = "<group>"; };
+		D9FFB10C110BA8E000536EA7 /* wallv2-930.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-930.png"; sourceTree = "<group>"; };
+		D9FFB10D110BA8E000536EA7 /* wallv2-cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-cross.png"; sourceTree = "<group>"; };
+		D9FFB10E110BA8E000536EA7 /* wallv2-E.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-E.png"; sourceTree = "<group>"; };
+		D9FFB10F110BA8E000536EA7 /* wallv2-H.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-H.png"; sourceTree = "<group>"; };
+		D9FFB110110BA8E000536EA7 /* wallv2-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-horizontal.png"; sourceTree = "<group>"; };
+		D9FFB111110BA8E000536EA7 /* wallv2-T.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-T.png"; sourceTree = "<group>"; };
+		D9FFB112110BA8E000536EA7 /* wallv2-Tinverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-Tinverted.png"; sourceTree = "<group>"; };
+		D9FFB113110BA8E000536EA7 /* wallv2-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-vertical.png"; sourceTree = "<group>"; };
+		D9FFB114110BA8E000536EA7 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
+		D9FFB115110BA8E000536EA7 /* human.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human.png; sourceTree = "<group>"; };
+		D9FFB116110BA8E000536EA7 /* human1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human1.png; sourceTree = "<group>"; };
+		D9FFB118110BA8E000536EA7 /* wall-stone-bottomleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-bottomleft.png"; sourceTree = "<group>"; };
+		D9FFB119110BA8E000536EA7 /* wall-stone-bottomright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-bottomright.png"; sourceTree = "<group>"; };
+		D9FFB11A110BA8E000536EA7 /* wall-stone-crumbling.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-crumbling.png"; sourceTree = "<group>"; };
+		D9FFB11B110BA8E000536EA7 /* wall-stone-left.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-left.png"; sourceTree = "<group>"; };
+		D9FFB11C110BA8E000536EA7 /* wall-stone-right.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-right.png"; sourceTree = "<group>"; };
+		D9FFB11D110BA8E000536EA7 /* wall-stone-topleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-topleft.png"; sourceTree = "<group>"; };
+		D9FFB11E110BA8E000536EA7 /* wall-stone-topright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-topright.png"; sourceTree = "<group>"; };
+		D9FFB11F110BA8E000536EA7 /* wall-stone.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,7 +242,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				D9C27D2A11004C9A00F7B1FE /* Images */,
+				D9FFB0E3110BA8E000536EA7 /* Images */,
 				28AD73870D9D96C1002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */,
 			);
@@ -297,20 +395,6 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		D9C27D2A11004C9A00F7B1FE /* Images */ = {
-			isa = PBXGroup;
-			children = (
-				D9EBB8E1110686CF00C34836 /* BarkFloor.png */,
-				D9EBB8E2110686CF00C34836 /* BlackSquare.png */,
-				D9EBB8E3110686CF00C34836 /* DirtFloor.png */,
-				D9C27D2B11004C9A00F7B1FE /* ash01fz8.png */,
-				D9C27D2C11004C9A00F7B1FE /* Jeans.jpg */,
-				D9C27D2D11004C9A00F7B1FE /* PItN.jpg */,
-				D9C27D2E11004C9A00F7B1FE /* pokeball2.png */,
-			);
-			path = Images;
-			sourceTree = "<group>";
-		};
 		D9EBB8EA1106887700C34836 /* Level */ = {
 			isa = PBXGroup;
 			children = (
@@ -338,6 +422,101 @@
 				D931C3E9110632B60032A3DD /* Item.m */,
 			);
 			name = Item;
+			sourceTree = "<group>";
+		};
+		D9FFB0E3110BA8E000536EA7 /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				D9FFB0E4110BA8E000536EA7 /* Consumable */,
+				D9FFB0F1110BA8E000536EA7 /* Equipable */,
+				D9FFB102110BA8E000536EA7 /* FloorTile */,
+				D9FFB115110BA8E000536EA7 /* human.png */,
+				D9FFB116110BA8E000536EA7 /* human1.png */,
+				D9FFB117110BA8E000536EA7 /* old walls */,
+			);
+			path = Images;
+			sourceTree = "<group>";
+		};
+		D9FFB0E4110BA8E000536EA7 /* Consumable */ = {
+			isa = PBXGroup;
+			children = (
+				D9FFB0E5110BA8E000536EA7 /* potion-brown.png */,
+				D9FFB0E6110BA8E000536EA7 /* potion-green.png */,
+				D9FFB0E7110BA8E000536EA7 /* potion-purple.png */,
+				D9FFB0E8110BA8E000536EA7 /* potion-red.png */,
+				D9FFB0E9110BA8E000536EA7 /* potion-white.png */,
+				D9FFB0EA110BA8E000536EA7 /* rope.png */,
+				D9FFB0EB110BA8E000536EA7 /* scroll-book.png */,
+				D9FFB0EC110BA8E000536EA7 /* scroll1.png */,
+				D9FFB0ED110BA8E000536EA7 /* scroll2.png */,
+				D9FFB0EE110BA8E000536EA7 /* wand1.png */,
+				D9FFB0EF110BA8E000536EA7 /* wand2.png */,
+				D9FFB0F0110BA8E000536EA7 /* wand3.png */,
+			);
+			path = Consumable;
+			sourceTree = "<group>";
+		};
+		D9FFB0F1110BA8E000536EA7 /* Equipable */ = {
+			isa = PBXGroup;
+			children = (
+				D9FFB0F2110BA8E000536EA7 /* armor-heavy.png */,
+				D9FFB0F3110BA8E000536EA7 /* armor-light.png */,
+				D9FFB0F4110BA8E000536EA7 /* bow.png */,
+				D9FFB0F5110BA8E000536EA7 /* cloak-blue.png */,
+				D9FFB0F6110BA8E000536EA7 /* cloak-grey.png */,
+				D9FFB0F7110BA8E000536EA7 /* cloak-red.png */,
+				D9FFB0F8110BA8E000536EA7 /* dagger.png */,
+				D9FFB0F9110BA8E000536EA7 /* ring-blue.png */,
+				D9FFB0FA110BA8E000536EA7 /* ring-gold.png */,
+				D9FFB0FB110BA8E000536EA7 /* ring-green.png */,
+				D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */,
+				D9FFB0FD110BA8E000536EA7 /* ring-red.png */,
+				D9FFB0FE110BA8E000536EA7 /* shield.png */,
+				D9FFB0FF110BA8E000536EA7 /* shield1.png */,
+				D9FFB100110BA8E000536EA7 /* staff.png */,
+				D9FFB101110BA8E000536EA7 /* sworddual.png */,
+			);
+			path = Equipable;
+			sourceTree = "<group>";
+		};
+		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
+			isa = PBXGroup;
+			children = (
+				D9FFB103110BA8E000536EA7 /* BlackSquare.png */,
+				D9FFB104110BA8E000536EA7 /* concrete.png */,
+				D9FFB105110BA8E000536EA7 /* dirt.png */,
+				D9FFB106110BA8E000536EA7 /* grass.png */,
+				D9FFB107110BA8E000536EA7 /* wall-door-vertical.png */,
+				D9FFB108110BA8E000536EA7 /* wall-door.png */,
+				D9FFB109110BA8E000536EA7 /* wallv2-300.png */,
+				D9FFB10A110BA8E000536EA7 /* wallv2-330.png */,
+				D9FFB10B110BA8E000536EA7 /* wallv2-900.png */,
+				D9FFB10C110BA8E000536EA7 /* wallv2-930.png */,
+				D9FFB10D110BA8E000536EA7 /* wallv2-cross.png */,
+				D9FFB10E110BA8E000536EA7 /* wallv2-E.png */,
+				D9FFB10F110BA8E000536EA7 /* wallv2-H.png */,
+				D9FFB110110BA8E000536EA7 /* wallv2-horizontal.png */,
+				D9FFB111110BA8E000536EA7 /* wallv2-T.png */,
+				D9FFB112110BA8E000536EA7 /* wallv2-Tinverted.png */,
+				D9FFB113110BA8E000536EA7 /* wallv2-vertical.png */,
+				D9FFB114110BA8E000536EA7 /* wood.png */,
+			);
+			path = FloorTile;
+			sourceTree = "<group>";
+		};
+		D9FFB117110BA8E000536EA7 /* old walls */ = {
+			isa = PBXGroup;
+			children = (
+				D9FFB118110BA8E000536EA7 /* wall-stone-bottomleft.png */,
+				D9FFB119110BA8E000536EA7 /* wall-stone-bottomright.png */,
+				D9FFB11A110BA8E000536EA7 /* wall-stone-crumbling.png */,
+				D9FFB11B110BA8E000536EA7 /* wall-stone-left.png */,
+				D9FFB11C110BA8E000536EA7 /* wall-stone-right.png */,
+				D9FFB11D110BA8E000536EA7 /* wall-stone-topleft.png */,
+				D9FFB11E110BA8E000536EA7 /* wall-stone-topright.png */,
+				D9FFB11F110BA8E000536EA7 /* wall-stone.png */,
+			);
+			path = "old walls";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -387,13 +566,62 @@
 				D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */,
 				D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */,
 				D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */,
-				D9C27D2F11004C9A00F7B1FE /* ash01fz8.png in Resources */,
-				D9C27D3011004C9A00F7B1FE /* Jeans.jpg in Resources */,
-				D9C27D3111004C9A00F7B1FE /* PItN.jpg in Resources */,
-				D9C27D3211004C9A00F7B1FE /* pokeball2.png in Resources */,
-				D9EBB8E4110686CF00C34836 /* BarkFloor.png in Resources */,
-				D9EBB8E5110686CF00C34836 /* BlackSquare.png in Resources */,
-				D9EBB8E6110686CF00C34836 /* DirtFloor.png in Resources */,
+				D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */,
+				D9FFB121110BA8E000536EA7 /* potion-green.png in Resources */,
+				D9FFB122110BA8E000536EA7 /* potion-purple.png in Resources */,
+				D9FFB123110BA8E000536EA7 /* potion-red.png in Resources */,
+				D9FFB124110BA8E000536EA7 /* potion-white.png in Resources */,
+				D9FFB125110BA8E000536EA7 /* rope.png in Resources */,
+				D9FFB126110BA8E000536EA7 /* scroll-book.png in Resources */,
+				D9FFB127110BA8E000536EA7 /* scroll1.png in Resources */,
+				D9FFB128110BA8E000536EA7 /* scroll2.png in Resources */,
+				D9FFB129110BA8E000536EA7 /* wand1.png in Resources */,
+				D9FFB12A110BA8E000536EA7 /* wand2.png in Resources */,
+				D9FFB12B110BA8E000536EA7 /* wand3.png in Resources */,
+				D9FFB12C110BA8E000536EA7 /* armor-heavy.png in Resources */,
+				D9FFB12D110BA8E000536EA7 /* armor-light.png in Resources */,
+				D9FFB12E110BA8E000536EA7 /* bow.png in Resources */,
+				D9FFB12F110BA8E000536EA7 /* cloak-blue.png in Resources */,
+				D9FFB130110BA8E000536EA7 /* cloak-grey.png in Resources */,
+				D9FFB131110BA8E000536EA7 /* cloak-red.png in Resources */,
+				D9FFB132110BA8E000536EA7 /* dagger.png in Resources */,
+				D9FFB133110BA8E000536EA7 /* ring-blue.png in Resources */,
+				D9FFB134110BA8E000536EA7 /* ring-gold.png in Resources */,
+				D9FFB135110BA8E000536EA7 /* ring-green.png in Resources */,
+				D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */,
+				D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */,
+				D9FFB138110BA8E000536EA7 /* shield.png in Resources */,
+				D9FFB139110BA8E000536EA7 /* shield1.png in Resources */,
+				D9FFB13A110BA8E000536EA7 /* staff.png in Resources */,
+				D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */,
+				D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */,
+				D9FFB13D110BA8E000536EA7 /* concrete.png in Resources */,
+				D9FFB13E110BA8E000536EA7 /* dirt.png in Resources */,
+				D9FFB13F110BA8E000536EA7 /* grass.png in Resources */,
+				D9FFB140110BA8E000536EA7 /* wall-door-vertical.png in Resources */,
+				D9FFB141110BA8E000536EA7 /* wall-door.png in Resources */,
+				D9FFB142110BA8E000536EA7 /* wallv2-300.png in Resources */,
+				D9FFB143110BA8E000536EA7 /* wallv2-330.png in Resources */,
+				D9FFB144110BA8E000536EA7 /* wallv2-900.png in Resources */,
+				D9FFB145110BA8E000536EA7 /* wallv2-930.png in Resources */,
+				D9FFB146110BA8E000536EA7 /* wallv2-cross.png in Resources */,
+				D9FFB147110BA8E000536EA7 /* wallv2-E.png in Resources */,
+				D9FFB148110BA8E000536EA7 /* wallv2-H.png in Resources */,
+				D9FFB149110BA8E000536EA7 /* wallv2-horizontal.png in Resources */,
+				D9FFB14A110BA8E000536EA7 /* wallv2-T.png in Resources */,
+				D9FFB14B110BA8E000536EA7 /* wallv2-Tinverted.png in Resources */,
+				D9FFB14C110BA8E000536EA7 /* wallv2-vertical.png in Resources */,
+				D9FFB14D110BA8E000536EA7 /* wood.png in Resources */,
+				D9FFB14E110BA8E000536EA7 /* human.png in Resources */,
+				D9FFB14F110BA8E000536EA7 /* human1.png in Resources */,
+				D9FFB150110BA8E000536EA7 /* wall-stone-bottomleft.png in Resources */,
+				D9FFB151110BA8E000536EA7 /* wall-stone-bottomright.png in Resources */,
+				D9FFB152110BA8E000536EA7 /* wall-stone-crumbling.png in Resources */,
+				D9FFB153110BA8E000536EA7 /* wall-stone-left.png in Resources */,
+				D9FFB154110BA8E000536EA7 /* wall-stone-right.png in Resources */,
+				D9FFB155110BA8E000536EA7 /* wall-stone-topleft.png in Resources */,
+				D9FFB156110BA8E000536EA7 /* wall-stone-topright.png in Resources */,
+				D9FFB157110BA8E000536EA7 /* wall-stone.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

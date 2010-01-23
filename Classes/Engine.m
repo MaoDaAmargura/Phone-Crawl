@@ -21,8 +21,6 @@
 
 @interface Engine (Private)
 
-- (void) initTileArray;
-
 @end
 
 
@@ -34,13 +32,11 @@
 {
 	if(self = [super init])
 	{
-		tileArray = [[NSMutableArray alloc] init];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
 		currentDungeon = [[Dungeon alloc] initWithType:town];
 		
-		[self initTileArray];
 		return self;
 	}
 	return nil;
@@ -48,7 +44,6 @@
 
 - (void) releaseResources
 {
-	[tileArray release];
 	[liveEnemies release];
 	[deadEnemies release];
 	[player release];
@@ -93,9 +88,9 @@
 			UIImage *img;
 			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
 			if(t)
-				img = [tileArray objectAtIndex:t.type]; //Get tile from array by index if it exists
+				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
 			else
-				img = [tileArray objectAtIndex:0]; //Black square if the tile doesn't exist
+				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
 			
 			// Draw each tile in the proper place
 			CGContextDrawImage(context, CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight), img.CGImage);
@@ -116,17 +111,6 @@
 	wView.mapImageView.image = result;
 }
 
-/*!
- @method		initTileArray
- @abstract		helper function initializes the tile array
- @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
-				to that which they are declared in the tileType enum in Tile.h
- */
-- (void) initTileArray
-{
-	[tileArray addObject:[UIImage imageNamed:@"BlackSquare.png"]];
-	[tileArray addObject:[UIImage imageNamed:@"DirtFloor.png"]];
-	[tileArray addObject:[UIImage imageNamed:@"BarkFloor.png"]];
-}
+
 
 @end

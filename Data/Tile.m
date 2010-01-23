@@ -8,17 +8,50 @@
 
 #import "Tile.h"
 
-#pragma mark Tile
+#define TILE_M_NUMBER_OF_TILES 10
 
 @implementation Tile
 
 @synthesize blockMove, blockView, type;
 
-- (id) init {
-	blockMove = false;
-	blockView = false;
+
+#pragma mark -
+#pragma mark Life Cycle
+
+- (id) init 
+{
+	blockMove = NO;
+	blockView = NO;
 	type = tileGrass;
 	return self;
+}
+
+
+
+
+#pragma mark -
+#pragma mark Static
+/*!
+ @method		initTileArray
+ @abstract		helper function initializes the tile array
+ @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
+ to that which they are declared in the tileType enum in Tile.h
+ */
++ (void) initialize
+{
+	[super initialize];
+	if(!tileImageArray)
+	{
+		tileImageArray = [[NSMutableArray alloc] initWithCapacity:TILE_M_NUMBER_OF_TILES];
+		[tileImageArray addObject:[UIImage imageNamed:@"BlackSquare.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"DirtFloor.png"]];
+		[tileImageArray addObject:[UIImage imageNamed:@"BarkFloor.png"]];
+	}
+}
+
++ (UIImage*) imageForType:(tileType)type
+{
+	return [tileImageArray objectAtIndex:type];
 }
 
 @end
