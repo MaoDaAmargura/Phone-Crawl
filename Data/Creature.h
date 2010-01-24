@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Util.h"
+#import "Item.h"
 
 @interface Creature : NSObject 
 {
