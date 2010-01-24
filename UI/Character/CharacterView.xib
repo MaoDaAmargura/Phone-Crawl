@@ -43,7 +43,7 @@
 					<object class="IBUIImageView" id="865749219">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">274</int>
-						<string key="NSFrame">{{84, 79}, {140, 220}}</string>
+						<string key="NSFrame">{{34, 20}, {204, 352}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -51,13 +51,13 @@
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 						<object class="NSCustomResource" key="IBUIImage">
 							<string key="NSClassName">NSImage</string>
-							<string key="NSResourceName">human.png</string>
+							<string key="NSResourceName">1elf-warrior-elvina-1.jpg</string>
 						</object>
 					</object>
 					<object class="IBUIImageView" id="799079735">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{10, 64}, {80, 80}}</string>
+						<string key="NSFrame">{{20, 40}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -70,7 +70,7 @@
 					<object class="IBUIImageView" id="381806404">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{10, 164}, {80, 80}}</string>
+						<string key="NSFrame">{{0, 161}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -83,7 +83,7 @@
 					<object class="IBUIImageView" id="261400602">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{20, 351}, {80, 80}}</string>
+						<string key="NSFrame">{{20, 335}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -96,7 +96,7 @@
 					<object class="IBUIImageView" id="269100921">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{220, 56}, {80, 80}}</string>
+						<string key="NSFrame">{{209, 20}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -109,7 +109,7 @@
 					<object class="IBUIImageView" id="266539724">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{220, 164}, {80, 80}}</string>
+						<string key="NSFrame">{{234, 123}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -122,7 +122,7 @@
 					<object class="IBUIImageView" id="889541766">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{108, 351}, {80, 80}}</string>
+						<string key="NSFrame">{{108, 335}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -135,7 +135,7 @@
 					<object class="IBUIImageView" id="535120410">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{209, 351}, {80, 80}}</string>
+						<string key="NSFrame">{{209, 335}, {80, 80}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<bool key="IBUIOpaque">NO</bool>
 						<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -204,14 +204,14 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="261400602"/>
-							<reference ref="865749219"/>
-							<reference ref="799079735"/>
-							<reference ref="381806404"/>
-							<reference ref="269100921"/>
 							<reference ref="266539724"/>
 							<reference ref="889541766"/>
 							<reference ref="535120410"/>
+							<reference ref="865749219"/>
+							<reference ref="269100921"/>
+							<reference ref="799079735"/>
+							<reference ref="381806404"/>
+							<reference ref="261400602"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
