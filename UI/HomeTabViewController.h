@@ -14,7 +14,7 @@
 #import "Engine.h"
 
 
-@interface HomeTabViewController : UIViewController <WorldViewDelegate>
+@interface HomeTabViewController : UIViewController <WorldViewDelegate, InventoryViewDelegate>
 {
 	UITabBarController *mainTabController;
 	WorldView *wView;

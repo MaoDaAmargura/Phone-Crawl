@@ -7,6 +7,7 @@
 //
 
 #import "InventoryView.h"
+#import "Item.h"
 
 
 @implementation InventoryView
@@ -15,8 +16,9 @@
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)init
 {
-    if (self = [super initWithNibName:@"InventoryView"]) {
-        // Custom initialization
+    if (self = [super initWithNibName:@"InventoryView"]) 
+	{
+		drawnItems = [[NSMutableArray alloc] init];
     }
     return self;
 }
@@ -29,13 +31,12 @@
 }
 */
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[delegate needRefreshForInventoryView:self];
+	
 }
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -52,7 +53,23 @@
 
 - (void)dealloc {
     [super dealloc];
+	
+	[drawnItems release];
 }
 
+
+#pragma mark -
+#pragma mark Custom
+- (void) updateWithItemArray:(NSArray*) items
+{
+	[drawnItems removeAllObjects];
+	int index = 0;
+	
+	for(Item *i in items)
+	{
+		//draw items in the right place. too tired for the math now.
+		
+	}
+}
 
 @end

@@ -128,6 +128,12 @@
 	[gameEngine updateWorldView:wView];
 }
 
+#pragma mark InventoryView
+- (void) needRefreshForInventoryView:(InventoryView*) iView
+{
+	
+}
+
 #pragma mark -
 #pragma mark New Tab View Controllers
 

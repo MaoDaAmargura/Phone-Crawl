@@ -12,6 +12,8 @@
 @interface Creature : NSObject 
 {
 	Coord *creatureLocation;
+	
+	NSMutableArray *inventory;
 
 	int level;
 	int health;
@@ -20,6 +22,8 @@
 }
 
 @property (nonatomic, retain) Coord *creatureLocation;
+@property (nonatomic, retain) NSMutableArray *inventory;
+
 @property (nonatomic) int level;
 @property (nonatomic) int health;
 @property (nonatomic) int shield;

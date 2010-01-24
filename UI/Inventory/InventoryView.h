@@ -11,7 +11,19 @@
 
 @interface InventoryView : PCBaseViewController 
 {
-
+	NSMutableArray *drawnItems;
 }
 
+- (void) updateWithItemArray:(NSArray*) items;
+
 @end
+
+#pragma mark -
+#pragma mark InventoryViewDelegate
+
+@protocol InventoryViewDelegate
+
+- (void) needRefreshForInventoryView:(InventoryView*) iView;
+
+@end
+

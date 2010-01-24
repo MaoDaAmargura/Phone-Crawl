@@ -12,6 +12,7 @@
 @implementation Creature
 
 @synthesize creatureLocation;
+@synthesize inventory;
 @synthesize level, health, shield, mana;
 
 #pragma mark -
