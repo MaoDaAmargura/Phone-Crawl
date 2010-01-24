@@ -35,6 +35,7 @@
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
+		[player takeDamage:150];
 		currentDungeon = [[Dungeon alloc] initWithType:town];
 		
 		return self;
@@ -78,7 +79,7 @@
 	
 	int halfWide = squaresWide/2, halfHigh = squaresHigh/2;
 	
-	CGPoint lowerRight = CGPointMake(center.X+halfWide-1, center.Y+halfHigh-1);
+	CGPoint lowerRight = CGPointMake(center.X+halfWide-(squaresWide-1)%2, center.Y+halfHigh-(squaresHigh-1)%2);
 	CGPoint upperLeft = CGPointMake(center.X-halfWide, center.Y-halfHigh);
 	
 	UIGraphicsPushContext(context);
@@ -94,20 +95,14 @@
 			else
 				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
 
-			[img drawInRect:CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
 			// Draw each tile in the proper place
-			//CGContextDrawImage(context, CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight), img.CGImage);
-			// Draw each tile in inverted place. Is useless because image is upside down, not inverted.
-			//CGContextDrawImage(context, CGRectMake((lowerRight.x - xInd)*imageWidth, (lowerRight.x - yInd)*imageHeight, imageWidth, imageHeight), img.CGImage);
+			[img drawInRect:CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
 		}
 	}
 	
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
-	//CGContextDrawImage(context, CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
-	// Draws player tile on proper tile for inverted view. Is useless.
-	//CGContextDrawImage(context, CGRectMake((lowerRight.x - center.X)*imageWidth, (lowerRight.y - center.Y)*imageHeight, imageWidth, imageHeight), playerSprite.CGImage);
 	
 	UIGraphicsPopContext();
 	
@@ -115,6 +110,13 @@
 	UIGraphicsEndImageContext();
 	
 	wView.mapImageView.image = result;
+	
+	int base = [player statBase];
+	[wView setDisplay:displayStatHealth withAmount:player.health ofMax:base];
+	[wView setDisplay:displayStatShield withAmount:player.shield ofMax:base];
+	[wView setDisplay:displayStatMana withAmount:player.mana ofMax:base];
+	
+	
 }
 
 

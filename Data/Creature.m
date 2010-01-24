@@ -11,16 +11,54 @@
 
 @implementation Creature
 
-@synthesize location;
+@synthesize creatureLocation;
+@synthesize level, health, shield, mana;
 
-- (id) init
+#pragma mark -
+#pragma mark Life Cycle
+
+- (id) initWithLevel:(int) lvl
 {
 	if(self = [super init])
 	{
-		location = [[[Coord alloc] init] autorelease];
+		level = lvl;
+		health = shield = mana = [self statBase];
 		return self;
 	}
 	return nil;
+}
+
+- (id) init
+{
+	return [self initWithLevel:0];
+}
+
+#pragma mark -
+#pragma mark Helpers
+
+- (int) statBase
+{
+	return 100 + 25*level;
+}
+
+- (void) takeDamage:(int) amount
+{
+	int localAMT = amount;
+	if(shield > localAMT)
+	{ 
+		shield -= localAMT;
+	}
+	else
+	{
+		localAMT -= shield;
+		shield = 0;
+		health -= localAMT;
+	}
+	
+	if(health <= 0)
+	{
+		//die
+	}
 }
 
 @end
