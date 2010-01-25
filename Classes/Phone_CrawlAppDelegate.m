@@ -1,11 +1,3 @@
-//
-//  Phone_CrawlAppDelegate.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/12/10.
-//  Copyright __MyCompanyName__ 2010. All rights reserved.
-//
-
 #import "Phone_CrawlAppDelegate.h"
 
 #import "HomeTabViewController.h"

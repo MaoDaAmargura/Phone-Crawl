@@ -1,11 +1,3 @@
-//
-//  WorldView.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/13/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "WorldView.h"
 
 @implementation WorldView
@@ -36,13 +28,10 @@
 {
     [super viewDidLoad];
 
-	
 	displayBarArray = [[NSArray arrayWithObjects:healthBar, shieldBar, manaBar, nil] retain];
 	displayLabelArray = [[NSArray arrayWithObjects:healthLabel, shieldLabel, manaLabel, nil] retain];
-	
-	
-	[delegate worldViewDidLoad:self];
 
+	[delegate worldViewDidLoad:self];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -80,10 +69,32 @@
 #pragma mark UIResponder
 
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
-{
-	[delegate worldView: self touchedAt: CGPointMake(0.0, 0.0)];
+- (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
+	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
+	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
+	DLog (@"%d %d", (int)loc.x, (int)loc.y);
+
+
+//	[delegate worldView: self touchedAt: CGPointMake(0.0, 0.0)];
 	[super touchesBegan:touches withEvent:event];
+
+
+//	[UIView beginAnimations:nil context: context];
+//	[UIView setAnimationDuration: DROP_ANIM_DURATION];
+//	[UIView setAnimationDelegate:self];
+//	[UIView setAnimationDidStopSelector:@selector(finishedMoveOut:finished:context:)];
+//	
+//	CGPoint center = left.view.center;
+//	
+//	center.x -= 133.5;
+//	left.view.center = center;
+//	center = right.view.center;
+//	center.x -= 133.5;
+//	right.view.center = center;
+//	
+//	[UIView commitAnimations];
+	
+	
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event

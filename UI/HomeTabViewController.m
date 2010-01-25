@@ -1,11 +1,3 @@
-//
-//  HomeTabViewController.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/12/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "HomeTabViewController.h"
 
 //Individual View Classes
@@ -60,9 +52,6 @@
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
-	
-
-	
 }
 
 
@@ -108,9 +97,9 @@
  @discussion	highlights the space the user touched, but allows them to change it.
  user hasn't stopped touching yet
  */
-- (void) worldView:(WorldView*)wView touchedAt:(CGPoint)point
+- (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point
 {
-	
+	DLog(@"worldView:(WorldView*)wView touchedAt:(CGPoint)point");
 }
 
 /*!
@@ -118,13 +107,15 @@
  @abstract		worldView callback for when world gets selected
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
-- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point
+- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point
 {
-	
+	DLog(@"worldView:(WorldView*) wView selectedAt:(CGPoint)point");
+
 }
 
 - (void) worldViewDidLoad:(WorldView*) worldView
 {
+	DLog(@"worldViewDidLoad:(WorldView*) worldView");
 	[gameEngine updateWorldView:wView];
 }
 

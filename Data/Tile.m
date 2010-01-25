@@ -1,16 +1,10 @@
-//
-//  Tile.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/19/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Tile.h"
 
 #define TILE_M_NUMBER_OF_TILES 10
 
 @implementation Tile
+
+static NSMutableArray *tileImageArray;
 
 @synthesize blockMove, blockView, type;
 
