@@ -9,6 +9,9 @@
 #import <Foundation/Foundation.h>
 
 #define NUM_SPELLS 100
+#define ITEM_HEAL_SPELL_ID 100 //Temporary assignment
+#define ITEM_MANA_SPELL_ID 101 //Temporary assignment
+#define ITEM_BOOK_SPELL_ID 102 //Temporary assignment
 
 typedef enum {FIRE,COLD,LIGHTNING,POISON,DARK} elemType;
 typedef enum {DAMAGE, CONDITION} spellType;

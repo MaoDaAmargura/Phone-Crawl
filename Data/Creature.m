@@ -42,48 +42,80 @@
 		chest = [[[Item alloc] init] autorelease];
 		r_hand = [[[Item alloc] init] autorelease];
 		l_hand = [[[Item alloc] init] autorelease];
-		
+		[self Set_Base_Stats];
 		level = 5;
-		max_hp = 100 + level * 25;
-		max_shield = max_hp;
 		money = 10000;
-		strength = 5;
-		dexterity = 5;
-		willpower = 5;
-		fire = 20;
-		cold = 20;
-		lightning = 20;
-		poison = 20;
-		dark = 20;
-		armor = 0;
 		condition = NO_CONDITION;
-		
 		return self;
 	}
 	return nil;
 }
 
+- (void) Set_Base_Stats {
+	turn_speed = 1.05;
+	max_hp = max_shield = max_mana = 100 + level * 25;
+	strength = dexterity = willpower = 5;
+	fire = cold = lightning =	poison = dark = 20;
+	armor = 0;
+	[self Update_Stats_Item:head];
+	[self Update_Stats_Item:chest];
+	[self Update_Stats_Item:l_hand];
+	[self Update_Stats_Item:r_hand];
+}
+
+- (void) Update_Stats_Item: (Item*) item {
+	max_hp += item.hp;
+	max_shield += item.shield;
+	max_mana += item.mana;
+	if(curr_hp > max_hp)
+		curr_hp = max_hp;
+	if(curr_shield > max_shield)
+		curr_shield = max_shield;
+	if(curr_mana > max_mana)
+		curr_mana = max_mana;
+	//Resists
+	fire += item.fire;
+	cold += item.cold;
+	lightning += item.lightning;
+	poison += item.poison;
+	dark += item.dark;
+	armor += item.armor;
+}
+
+- (void) Take_Damage: (int) amount {
+	curr_shield -= amount;
+	if (curr_shield < 0) {
+		curr_hp += curr_shield;
+		curr_shield = 0;
+	}
+	if (curr_hp <= 0) {
+		curr_hp = 0;
+		//return @"Death!";
+	}
+}
+
+- (void) Heal: (int) amount {
+	curr_hp += amount;
+	if (curr_hp > max_hp) {
+		curr_shield += (curr_hp - max_hp);
+		curr_hp = max_hp;
+		if (curr_shield > max_shield)
+			curr_shield = max_shield;
+	}
+}
 
 - (void) Add_Condition: (conditionType) new_condition { condition |= (1 << new_condition); }
 - (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ (1 << new_condition); }
+- (void) Clear_Condition { condition = NO_CONDITION; }
 
 - (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
 	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
-		new_item.item_slot == BOTH && dest_slot == LEFT){
+		new_item.item_slot == BOTH && dest_slot == RIGHT){
 		//Item fits in slot
-		if (new_item.item_slot == BOTH && dest_slot == LEFT && r_hand != nil)
-			[self Remove_Equipment: RIGHT];
+		if (new_item.item_slot == BOTH && dest_slot == RIGHT && l_hand != nil)
+			[self Remove_Equipment: LEFT];
 
-		max_hp += new_item.hp;
-		max_shield += new_item.shield;
-		max_mana += new_item.mana;
-		//Resists
-		fire += new_item.fire;
-		cold += new_item.cold;
-		lightning += new_item.lightning;
-		poison += new_item.poison;
-		dark += new_item.dark;
-		armor += new_item.armor;
+		[self Update_Stats_Item:new_item];
 		switch (dest_slot) {
 			case HEAD:
 				head = new_item;
@@ -97,7 +129,7 @@
 			case RIGHT:
 				r_hand = new_item;
 				break;				
-		}
+		};
 	} else {
 		//Item slot error
 	}
@@ -124,14 +156,14 @@
 			rem_item = r_hand;
 			r_hand = nil;
 			break;				
-	}
+	};
 	max_hp -= rem_item.hp;
+	max_shield -= rem_item.shield;
+	max_mana -= rem_item.mana;
 	if(curr_hp > max_hp)
 		curr_hp = max_hp;
-	max_shield -= rem_item.shield;
 	if(curr_shield > max_shield)
 		curr_shield = max_shield;
-	max_mana -= rem_item.mana;
 	if(curr_mana > max_mana)
 		curr_mana = max_mana;
 	//Resists

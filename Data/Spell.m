@@ -83,20 +83,35 @@ BOOL have_set_spells = FALSE;
 	return @"Spell cast error!"
 };
 
+- (NSString *) cond_spell:(Creature *)caster target:(Creature *)target {
+	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
+	switch (elem_type) {
+		case FIRE:
+			[target Add_Condition:FIRE_HASTE];
+			break;
+		case COLD:
+			[target Add_Condition:COLD_SLOW];
+			break;
+		case LIGHTNING:
+			[target Clear_Condition];
+			[target Take_Damage:damage];
+			break;
+		case POISON:
+			[target Add_Condition:WEAKENED];
+			// Max health debuff...how to store original max_hp and update new one? Do in combat system?
+			// Max health is formulaically calculated -- have a check that does if(weakened) reset_max_hp?
+			break;
+		case DARK:
+			[target Add_Condition:CONFUSION];
+			//See note about Max health debuff
+			break;
+	}
 
 //Return string listing damage and if condition was added to target
 //Add formatted string creation for return
 - (NSString *) detr_spell: (Creature *) caster target: (Creature *) target {
 	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
-	target.curr_fhp -= damage;
-	if (target.curr_fhp < 0) {
-		target.curr_hp += target.curr_fhp;
-		target.curr_fhp = 0;
-	}
-	if (target.curr_hp <= 0) {
-		target.curr_hp = 0;
-		return @"Death!";
-	}
+	[target Take_Damage:damage];
 	if ((arc4random() % STAT_MAX + 1) > 10 * spell_level ) {
 		switch (elem_type) {
 			case FIRE:

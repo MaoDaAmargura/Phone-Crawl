@@ -27,7 +27,11 @@ typedef enum {
 	CHILLED		  = 2,
 	HASTENED	  = 3,
 	POISONED	  = 4,
-	CURSED		  = 5
+	CURSED		  = 5,
+	FIRE_HASTE    = 6, //Fire turn-speed buff
+	COLD_SLOW     = 7, //Cold turn-speed debuff
+	WEAKENED      = 8, //Max health debuff
+	CONFUSION     = 9  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
 } conditionType;
 
 
@@ -36,7 +40,7 @@ typedef enum {
     Coord *location;
 	int aggro_range;
     int   level;
-    float attack_speed;
+    float turn_speed;
     int   curr_hp;
     int   curr_shield;
     int   curr_mana;
@@ -63,7 +67,7 @@ typedef enum {
 	Item* r_hand;
 	Item* l_hand;
 	
-    Item  inventory[NUM_INV_SLOTS];
+	NSMutableArray *inventory;
 	
 	//Spells aren't going to be randomly generated (not without creating a
 	//much more complex spell system than we want to deal with), thus we
@@ -77,8 +81,15 @@ typedef enum {
 	int abilities[MAX_NUM_ABILITIES];
 }
 
+- (void) Update_Stats_Item: (Item *);
+- (void) Set_Base_Stats;
+
+- (void) Take_Damage: (int) amount;
+- (void) Heal: (int) amount;
+
 - (void) Add_Condition: (conditionType) new_condition;
 - (void) Remove_Condition: (conditionType) rem_condition;
+- (void) Clear_Condition;
 
 - (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot;
 - (void) Remove_Equipment: (slotType) dest_slot;
@@ -86,22 +97,24 @@ typedef enum {
 - (void) Remove_Inventory: (int) inv_slot;
 
 @property (nonatomic, retain) Coord *location;
-@property int curr_hp;
-@property int curr_shield;
-@property int curr_mana;
+@property (nonatomic, retain) NSMutableArray inventory;
+
 @property int money;
-@property int max_hp;
-@property int max_shield;
-@property int max_mana;
-@property int strength;
-@property int dexterity;
-@property int willpower;
-@property int fire;
-@property int cold;
-@property int lightning;
-@property int poison;
-@property int dark;
-@property int armor;
+@property int curr_mana;
+@property (readonly) int curr_hp;
+@property (readonly) int curr_shield;
+@property (readonly) int max_hp;
+@property (readonly) int max_shield;
+@property (readonly) int max_mana;
+@property (readonly) int strength;
+@property (readonly) int dexterity;
+@property (readonly) int willpower;
+@property (readonly) int fire;
+@property (readonly) int cold;
+@property (readonly) int lightning;
+@property (readonly) int poison;
+@property (readonly) int dark;
+@property (readonly) int armor;
 @property (nonatomic,retain) Item* head;
 @property (nonatomic,retain) Item* chest;
 @property (nonatomic,retain) Item* r_hand;
