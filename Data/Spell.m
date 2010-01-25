@@ -8,8 +8,7 @@
 
 #import "Spell.h"
 
-
-NSArray spell_list[NUM_SPELLS];
+//Spell spell_list[NUM_SPELLS];
 BOOL have_set_spells = FALSE;
 
 #define LEVEL_DIFF_MULT 2
@@ -62,15 +61,13 @@ BOOL have_set_spells = FALSE;
 	}
 	int level_diff = caster.level - target.level;
 	if(level_diff < 0)
-		resist = STAT_MAX - resist_stat * LEVEL_DIFF_MULT / level_diff;
-	else if(level_diff == 0)
-		resist = resist_stat;
-	else
-		resist = resist_stat * LEVEL_DIFF_MULT / level_diff;
-	if(arc4random() % (STAT_MAX + 1)) <= resist)
+		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
+	else if(level_diff > 0)
+		resist = resist * LEVEL_DIFF_MULT / level_diff;
+	if((arc4random() % (STAT_MAX + 1)) <= resist)
 		return @"Target resisted spell";
 	
-	switch (spellType) {
+	switch (spell_type) {
 		case DAMAGE:
 			return [self detr_spell:caster target:target];
 			break;
@@ -79,8 +76,8 @@ BOOL have_set_spells = FALSE;
 			break;
 		default:
 			break;
-	}
-	return @"Spell cast error!"
+	};
+	return @"Spell cast error!";
 };
 
 - (NSString *) cond_spell:(Creature *)caster target:(Creature *)target {
@@ -106,6 +103,8 @@ BOOL have_set_spells = FALSE;
 			//See note about Max health debuff
 			break;
 	}
+	return @"Added <condition> to <target>";
+}
 
 //Return string listing damage and if condition was added to target
 //Add formatted string creation for return

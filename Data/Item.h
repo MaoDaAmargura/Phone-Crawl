@@ -8,18 +8,12 @@
 
 #import <Foundation/Foundation.h>
 #import "Spell.h"
+#import "Util.h"
 
-//Items can always go in Bag, need non-bag slot to go in more
-typedef enum {
-    HEAD = 0,
-    CHEST = 1,
-    LEFT = 2,
-    RIGHT = 3,
-    BOTH = 4,
-    EITHER = 5,
-    BAG = 6
-} slotType;
 
+
+#define MIN_BOW_RANGE 2
+#define NUM_ITEM_TYPES 11
 typedef enum {
 	SWO = 0, // 1 handed sword
 	SWT = 1, // 2 handed sword
@@ -33,6 +27,8 @@ typedef enum {
 	WND = 9, // Wand
 	SCR = 10 // Scroll
 } itemType;
+
+
 
 @interface Item : NSObject {
 	NSString *item_name;
@@ -57,32 +53,45 @@ typedef enum {
 	int armor;
 }
 
+@property (nonatomic) slotType item_slot;
+@property (nonatomic) elemType elem_type;
+@property (nonatomic) itemType item_type;
+
+@property (nonatomic) int hp;
+@property (nonatomic) int shield;
+@property (nonatomic) int mana;
+@property (nonatomic) int fire;
+@property (nonatomic) int cold;
+@property (nonatomic) int lightning;
+@property (nonatomic) int poison;
+@property (nonatomic) int dark;
+@property (nonatomic) int armor;
+@property (nonatomic) int effect_amount;
+@property (nonatomic) int range;
+@property (nonatomic) int charges;
+
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generate_random_item: (int) dungeon_level
 					 elem_type: (elemType) elem_type;
 
 +(int) item_val : (Item *) item;
 
--(Item *)init:(NSString *) name 
-	item_slot: (slotType) item_slot 
-	elem_type: (elemType) elem_type 
-	item_type: (itemType) item_type 
-effect_amount: (int) effect_amount 
-		range: (int) range 
-	 charges : (int) charges
-		   hp: (int) hp 
-	   shield: (int) shield 
-		 mana: (int) mana 
-		 fire: (int) fire 
-		 cold: (int) cold 
-	lightning: (int) lightning 
-	   poison: (int) poison 
-		 dark: (int) dark 
-		armor: (int) armor
-	 spell_id: (int) spell_id;
-
--(NSString *)getName;
--(itemType)getType;
--(int)getAmount;
+-(Item *)initWithStats: (NSString *) in_name 
+			 item_slot: (slotType) in_item_slot 
+			 elem_type: (elemType) in_elem_type 
+			 item_type: (itemType) in_item_type 
+		 effect_amount: (int) in_effect_amount 
+			   charges: (int) in_charges
+				 range: (int) in_range
+					hp: (int) in_hp 
+				shield: (int) in_shield 
+				  mana: (int) in_mana 
+				  fire: (int) in_fire 
+				  cold: (int) in_cold 
+			 lightning: (int) in_lightning 
+				poison: (int) in_poison 
+				  dark: (int) in_dark 
+				 armor: (int) in_armor
+			  spell_id: (int) in_spell_id;
 
 @end

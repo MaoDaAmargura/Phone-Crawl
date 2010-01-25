@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 #import "Util.h"
+#import "../Classes/Util.h"
 #import "Item.h"
-#import "Spell.h"
 
 //#define NUM_EQUIP_SLOTS 4
 #define NUM_INV_SLOTS 20
@@ -34,22 +34,21 @@ typedef enum {
 	CONFUSION     = 9  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
 } conditionType;
 
-
-@interface Creature : NSObject
-{
+@class Item,Coord;
+@interface Creature : NSObject {
 	Coord *creatureLocation;
 	
 	int aggro_range;
     int   level;
     float turn_speed;
-    int   curr_hp;
+    int   curr_health;
     int   curr_shield;
     int   curr_mana;
 	int   money;
 	
 	//Base stats
 	condition_bitset condition;
-	int max_hp;
+	int max_health;
 	int max_shield;
 	int max_mana;
 	int strength;
@@ -63,10 +62,10 @@ typedef enum {
 	int dark;
 	int armor;
     //currently 4 (Head, Chest, Right Hand, Left Hand)
-    Item* head;
-	Item* chest;
-	Item* r_hand;
-	Item* l_hand;
+    Item *head;
+	Item *chest;
+	Item *r_hand;
+	Item *l_hand;
 	
 	NSMutableArray *inventory;
 	
@@ -82,7 +81,8 @@ typedef enum {
 	int abilities[MAX_NUM_ABILITIES];
 }
 
-- (void) Update_Stats_Item: (Item *);
+- (int) statBase;
+- (void) Update_Stats_Item: (Item *) item;
 - (void) Set_Base_Stats;
 
 - (void) Take_Damage: (int) amount;
@@ -98,25 +98,25 @@ typedef enum {
 - (void) Remove_Inventory: (int) inv_slot;
 
 @property (nonatomic, retain) Coord *creatureLocation;
-@property (nonatomic, retain) NSMutableArray inventory;
+@property (nonatomic, retain) NSMutableArray *inventory;
 
 @property int money;
 @property int curr_mana;
-
-@property (nonatomic,readonly) int curr_hp;
-@property (nonatomic,readonly) int curr_shield;
-@property (nonatomic,readonly) int max_hp;
-@property (nonatomic,readonly) int max_shield;
-@property (nonatomic,readonly) int max_mana;
-@property (nonatomic,readonly) int strength;
-@property (nonatomic,readonly) int dexterity;
-@property (nonatomic,readonly) int willpower;
-@property (nonatomic,readonly) int fire;
-@property (nonatomic,readonly) int cold;
-@property (nonatomic,readonly) int lightning;
-@property (nonatomic,readonly) int poison;
-@property (nonatomic,readonly) int dark;
-@property (nonatomic,readonly) int armor;
+@property (readonly) int level;
+@property (nonatomic) int curr_health;
+@property (nonatomic) int curr_shield;
+@property (nonatomic) int max_health;
+@property (nonatomic) int max_shield;
+@property (nonatomic) int max_mana;
+@property (nonatomic) int strength;
+@property (nonatomic) int dexterity;
+@property (nonatomic) int willpower;
+@property (nonatomic) int fire;
+@property (nonatomic) int cold;
+@property (nonatomic) int lightning;
+@property (nonatomic) int poison;
+@property (nonatomic) int dark;
+@property (nonatomic) int armor;
 
 @property (nonatomic,retain) Item* head;
 @property (nonatomic,retain) Item* chest;

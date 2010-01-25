@@ -8,15 +8,19 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Creature.h"
+#import "Item.h"
+#import "Util.h"
+
 #define NUM_SPELLS 100
 #define ITEM_HEAL_SPELL_ID 100 //Temporary assignment
 #define ITEM_MANA_SPELL_ID 101 //Temporary assignment
 #define ITEM_BOOK_SPELL_ID 102 //Temporary assignment
 
-typedef enum {FIRE,COLD,LIGHTNING,POISON,DARK} elemType;
 typedef enum {DAMAGE, CONDITION} spellType;
 typedef enum {SELF,SINGLE} targetType;
 
+@class Creature;
 @interface Spell : NSObject {
 	NSString *name;
 	spellType spell_type; //Hurt or Help
@@ -27,11 +31,11 @@ typedef enum {SELF,SINGLE} targetType;
 	int range;
 	int spell_level; //Minor,Lesser, (unnamed regular), Major, Superior
 	int spell_id; //Index in spell_list array of the spell
-};
-
-+(void) BuildSpellSet; //construct spell_list array
+}
 
 - (NSString *) detr_spell: (Creature *) caster target: (Creature *) target;
 - (NSString *) cond_spell: (Creature *) caster target: (Creature *) target;
+
++(void) BuildSpellSet; //construct spell_list array
 
 @end

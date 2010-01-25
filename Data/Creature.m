@@ -11,14 +11,14 @@
 
 @implementation Creature
 
+@synthesize level;
 @synthesize creatureLocation;
 @synthesize inventory;
-@synthesize location;
-@synthesize curr_hp;
+@synthesize curr_health;
 @synthesize curr_shield;
 @synthesize curr_mana;
 @synthesize money;
-@synthesize max_hp;
+@synthesize max_health;
 @synthesize max_shield;
 @synthesize max_mana;
 @synthesize strength;
@@ -42,7 +42,7 @@
 {
 	if(self = [super init])
 	{
-		location = [[[Coord alloc] init] autorelease];
+		creatureLocation = [[[Coord alloc] init] autorelease];
 		head = [[[Item alloc] init] autorelease];
 		chest = [[[Item alloc] init] autorelease];
 		r_hand = [[[Item alloc] init] autorelease];
@@ -56,6 +56,11 @@
 	return nil;
 }
 
+- (int) statBase
+{
+	return 100 + 25*level;
+}
+
 - (id) init
 {
 	return [self initWithLevel:0];
@@ -66,7 +71,8 @@
 
 - (void) Set_Base_Stats {
 	turn_speed = 1.05;
-	max_hp = max_shield = max_mana = 100 + level * 25;
+	max_health = max_shield = max_mana = 100 + level * 25;
+	curr_health = curr_shield = curr_mana = max_health;
 	strength = dexterity = willpower = 5;
 	fire = cold = lightning =	poison = dark = 20;
 	armor = 0;
@@ -77,11 +83,11 @@
 }
 
 - (void) Update_Stats_Item: (Item*) item {
-	max_hp += item.hp;
+	max_health += item.hp;
 	max_shield += item.shield;
 	max_mana += item.mana;
-	if(curr_hp > max_hp)
-		curr_hp = max_hp;
+	if(curr_health > max_health)
+		curr_health = max_health;
 	if(curr_shield > max_shield)
 		curr_shield = max_shield;
 	if(curr_mana > max_mana)
@@ -98,27 +104,27 @@
 - (void) Take_Damage: (int) amount {
 	curr_shield -= amount;
 	if (curr_shield < 0) {
-		curr_hp += curr_shield;
+		curr_health += curr_shield;
 		curr_shield = 0;
 	}
-	if (curr_hp <= 0) {
-		curr_hp = 0;
+	if (curr_health <= 0) {
+		curr_health = 0;
 		//return @"Death!";
 	}
 }
 
 - (void) Heal: (int) amount {
-	curr_hp += amount;
-	if (curr_hp > max_hp) {
-		curr_shield += (curr_hp - max_hp);
-		curr_hp = max_hp;
+	curr_health += amount;
+	if (curr_health > max_health) {
+		curr_shield += (curr_health - max_health);
+		curr_health = max_health;
 		if (curr_shield > max_shield)
 			curr_shield = max_shield;
 	}
 }
 
 - (void) Add_Condition: (conditionType) new_condition { condition |= (1 << new_condition); }
-- (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ (1 << new_condition); }
+- (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ (1 << rem_condition); }
 - (void) Clear_Condition { condition = NO_CONDITION; }
 
 - (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
@@ -170,11 +176,11 @@
 			r_hand = nil;
 			break;				
 	};
-	max_hp -= rem_item.hp;
+	max_health -= rem_item.hp;
 	max_shield -= rem_item.shield;
 	max_mana -= rem_item.mana;
-	if(curr_hp > max_hp)
-		curr_hp = max_hp;
+	if(curr_health > max_health)
+		curr_health = max_health;
 	if(curr_shield > max_shield)
 		curr_shield = max_shield;
 	if(curr_mana > max_mana)
@@ -193,7 +199,7 @@
 - (void) Add_Inventory: (Item *) new_item inv_slot: (int) inv_slot {
 	if (inv_slot == FIRST_AVAIL_INV_SLOT) {
 		for (inv_slot = 0; inv_slot < NUM_INV_SLOTS; ++inv_slot) {
-			if (inventory[inv_slot] == nil)
+			if ([inventory objectAtIndex:inv_slot] == nil)
 				break;
 		}
 		if (inv_slot >= NUM_INV_SLOTS) {
@@ -204,7 +210,7 @@
 		//Invalid inventory slot
 		return;
 	}
-	inventory inv_slot = new_item;
+	[inventory insertObject:new_item atIndex:inv_slot];
 	//Remove item from cursor
 };
 	
@@ -213,7 +219,8 @@
 		//No free inventory slots
 		return;
 	}
-	Item *rem_item = inventory[inv_slot];
+	Item *rem_item = [inventory objectAtIndex:inv_slot];
+	[inventory insertObject:nil atIndex:inv_slot];
 	//return rem_item;
 };
 

@@ -21,15 +21,15 @@
  WND = 9, // Wand
  SCR = 10 // Scroll
  */
-const NSString **name_string{
-	{"Sword", "Bastard Sword", "Blade", "Scimitar","Rapier"},
-	{"Broadsword", "Greatsword", "Falchion","Claymore","Glaive",},
-	{"Bow","Crossbow"},
-	{"Dagger","Knife","Shank","Dirk","Stiletto"},
-	{"Staff", "Rod", "Stave"},
-	{"Plate Armor","Chainmail Armor","Steel Armor"},
-	{"Cloth Armor", "Leather Armor","Useless Armor"},
-	{"Shield", "Tower Shield", "Kite Shield", "Aegis", "Buckler"},
+const NSString *name_string[8][2] = {
+	{@"Sword",@"Scimitar"},
+	{@"Greatsword",@"Glaive",},
+	{@"Bow",@"Crossbow"},
+	{@"Dagger",@"Dirk"},
+	{@"Staff", @"Stave"},
+	{@"Plate Armor",@"Chainmail Armor"},
+	{@"Cloth Armor", @"Leather Armor"},
+	{@"Tower Shield", @"Kite Shield"},
 };
 
 /*
@@ -47,52 +47,69 @@ const NSString **name_string{
  }
  */
 
-const NSString *elem_string1 = {"Fiery","Icy","Shocking","Venomous","Dark"};
-const NSString *elem_string2 = {"Fire","Ice","Lightning","Poison","Darkness"};
-const NSString *spell_name = {"Lesser","Minor","","Major","Superior"};
+const NSString *elem_string1[] = {@"Fiery",@"Icy",@"Shocking",@"Venomous",@"Dark"};
+const NSString *elem_string2[] = {@"Fire",@"Ice",@"Lightning",@"Poison",@"Darkness"};
+const NSString *spell_name[] = {@"Lesser",@"Minor",@"",@"Major",@"Superior"};
 
 @implementation Item
 
--(Item *)init:(NSString *) name 
-    item_slot: (slotType) item_slot 
-    elem_type: (elemType) elem_type 
-    item_type: (itemType) item_type 
-effect_amount: (int) effect_amount 
-        range: (int) range
-     charges : (int) charges
-           hp: (int) hp 
-       shield: (int) shield 
-         mana: (int) mana 
-         fire: (int) fire 
-         cold: (int) cold 
-    lightning: (int) lightning 
-       poison: (int) poison 
-         dark: (int) dark 
-        armor: (int) armor
-     spell_id: (int) spell_id;
+@synthesize item_slot;
+@synthesize elem_type;
+@synthesize item_type;
+
+@synthesize hp;
+@synthesize shield;
+@synthesize mana;
+@synthesize fire;
+@synthesize cold;
+@synthesize lightning;
+@synthesize poison;
+@synthesize dark;
+@synthesize armor;
+@synthesize effect_amount;
+@synthesize range;
+@synthesize charges;
+
+-(Item *)initWithStats: (NSString *) in_name 
+    item_slot: (slotType) in_item_slot 
+    elem_type: (elemType) in_elem_type 
+    item_type: (itemType) in_item_type 
+effect_amount: (int) in_effect_amount 
+      charges: (int) in_charges
+        range: (int) in_range
+           hp: (int) in_hp 
+       shield: (int) in_shield 
+         mana: (int) in_mana 
+         fire: (int) in_fire 
+         cold: (int) in_cold 
+    lightning: (int) in_lightning 
+       poison: (int) in_poison 
+         dark: (int) in_dark 
+        armor: (int) in_armor
+     spell_id: (int) in_spell_id
 {
 	if (self = [super init]) {
-        self.item_name = [NSString stringWithString: name];
-        self.effect_amount = effect_amount;
-        self.range = range;
-        self.item_slot = item_slot;
-        self.elem_type = elem_type;
-        self.item_type = item_type;
+        item_name = [NSString stringWithString: in_name];
+        effect_amount = in_effect_amount;
+        range = in_range;
+        item_slot = in_item_slot;
+        elem_type = in_elem_type;
+        item_type = in_item_type;
         
-        self.charges = charges;
-        self.range = range;
-        self.hp = hp;
-        self.shield = shield; 
-        self.mana = mana; 
-        self.fire = fire; 
-        self.cold = cold; 
-        self.lightning = lightning; 
-        self.poison = poison; 
-        self.dark = dark; 
-        self.armor = armor;
-        self.spell_id = spell_id;
+        charges = in_charges;
+        range = in_range;
+        hp = in_hp;
+        shield = in_shield; 
+        mana = in_mana; 
+        fire = in_fire; 
+        cold = in_cold; 
+        lightning = in_lightning; 
+        poison = in_poison; 
+        dark = in_dark; 
+        armor = in_armor;
+        spell_id = in_spell_id;
         
-        self.point_val = [Item item_val:self];
+        point_val = [Item item_val:self];
         
         /* Left to do:
          * - item_slot / item_type checking
@@ -101,26 +118,15 @@ effect_amount: (int) effect_amount
 		return self;
 	}
 	return nil;
-}
+};
 
--(NSString *)getName {
-	return name;
-}
-
--(item_type)getType {
-	return type;
-}
-
--(int)getAmount {
-	return amount;
-}
-
-@implementation Item
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generate_random_item: (int) dungeon_level
 					  elem_type: (elemType) elem_type {
     itemType item_type = arc4random() % NUM_ITEM_TYPES + SWO;
     slotType slot_type;
+    NSString *item_name;
+    int range;
     switch(item_type) {
         case SWO:
         case DAG:
@@ -141,7 +147,7 @@ effect_amount: (int) effect_amount
         case POT:
             if (arc4random()%2) {
                 //sprintf(item_name,"%s Potion of Healing",spell_name[dungeon_level]);
-                return [[Item alloc] init : item_name 
+                return [[Item alloc] initWithStats : item_name 
                                 item_slot : BAG 
                                 elem_type : DARK 
                                 item_type : POT 
@@ -160,11 +166,12 @@ effect_amount: (int) effect_amount
                                  spell_id : ITEM_HEAL_SPELL_ID];
             } else {
                 //sprintf(item_name,"%s Potion of Mana",spell_name[dungeon_level]);
-                return [[Item alloc] init : item_name 
+                return [[Item alloc] initWithStats : item_name 
                                 item_slot : BAG 
                                 elem_type : DARK 
                                 item_type : POT 
-                            effect_amount : 1
+                            effect_amount : 1 
+                                  charges : 1
                                     range : 1 
                                        hp : 0 
                                    shield : 0 
@@ -180,7 +187,7 @@ effect_amount: (int) effect_amount
             
         case WND:
 			//sprintf(item_name,"%s Wand of %s Magic",spell_name[dungeon_level],elem_string1[dungeon_level]);
-            return [[Item alloc] init : item_name
+            return [[Item alloc] initWithStats : item_name
                             item_slot : BAG
                             elem_type : DARK
                             item_type : WND
@@ -199,7 +206,7 @@ effect_amount: (int) effect_amount
                              spell_id : ITEM_MANA_SPELL_ID];
         case SCR:
 			//sprintf(item_name,"Tome of Knowledge");
-            return [[Item alloc] init: item_name
+            return [[Item alloc] initWithStats: item_name
                             item_slot: BAG
                            elem_type : DARK
                            item_type : WND
@@ -223,10 +230,9 @@ effect_amount: (int) effect_amount
     if(item_type == BOW)
         range = arc4random() % (MIN_BOW_RANGE + 2 * dungeon_level) + MIN_BOW_RANGE;
     else if(item_type == STF)
-		range = arc4random % (4) + dungeon_level;
+		range = arc4random() % 4 + dungeon_level;
 	else range = 1;
 	
-    NSString *item_name;
 	//Name Generation:
 	switch (item_type) {
         case SWO:
@@ -245,22 +251,24 @@ effect_amount: (int) effect_amount
 			break;
 	
 	}
-	
-	return [[Item alloc] init : item_name 
-                    item_slot : slot_type 
-					elem_type : elem_type 
-					item_type : item_type 
-                effect_amount : effect_amount 
-                        range : range 
-                           hp : hp 
-                       shield : shield 
-                         mana : mana 
-                         fire : fire 
-                         cold : cold 
-                    lightning : lightning
-                       poison : poison 
-						 dark : dark 
-						armor : armor];
+	int effect_amount,charges,hp,shield,mana,fire,cold,lightning,poison,dark,armor;
+	return [[Item alloc] initWithStats: item_name 
+                    item_slot: slot_type 
+					elem_type: elem_type 
+					item_type: item_type 
+                effect_amount: effect_amount 
+                      charges: charges
+                        range: range
+                           hp: hp 
+                       shield: shield 
+                         mana: mana 
+                         fire: fire 
+                         cold: cold 
+                    lightning: lightning
+                       poison: poison 
+						 dark: dark 
+						armor: armor
+                     spell_id: ITEM_MANA_SPELL_ID];
 	
     /* Left to do:
      *  - effect_amount generation (need to get spells / HP done first, combat system outlined)
@@ -269,7 +277,7 @@ effect_amount: (int) effect_amount
      *  - spell effects generation (need to get spells done first)
      */
 	
-}
+};
 
 +(int) item_val : (Item *) item {
     int point_val = 0;
@@ -301,6 +309,7 @@ effect_amount: (int) effect_amount
      * - Determine point values for stats / slots / types / range / effect_amnt
      * - Need to decide overall point system before this can be done
      */
-}
+};
+
 
 @end
