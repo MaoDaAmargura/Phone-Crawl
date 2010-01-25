@@ -21,7 +21,7 @@
 	int shield;
 	int mana;
 	
-	Item *weaponleft;
+	Item *weaponLeft;
 	Item *weaponRight;
 	Item *armorHead;
 	Item *armorBody;
@@ -34,10 +34,10 @@
 @property (nonatomic) int health;
 @property (nonatomic) int shield;
 @property (nonatomic) int mana;
-@property (nonatomic) Item *weaponLeft;
-@property (nonatomic) Item *weaponRight;
-@property (nonatomic) Item *armorHead;
-@property (nonatomic) Item *armorBody;
+@property (nonatomic, retain) Item *weaponLeft;
+@property (nonatomic, retain) Item *weaponRight;
+@property (nonatomic, retain) Item *armorHead;
+@property (nonatomic, retain) Item *armorBody;
 
 - (id) initWithLevel:(int) lvl;
 - (id) init;

@@ -14,6 +14,7 @@
 @synthesize creatureLocation;
 @synthesize inventory;
 @synthesize level, health, shield, mana;
+@synthesize weaponLeft, weaponRight, armorHead, armorBody;
 
 #pragma mark -
 #pragma mark Life Cycle
