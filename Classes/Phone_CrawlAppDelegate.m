@@ -9,20 +9,21 @@
 #import "Phone_CrawlAppDelegate.h"
 
 #import "HomeTabViewController.h"
+#import "MainMenu.h"
 
 @implementation Phone_CrawlAppDelegate
 
 @synthesize window;
-@synthesize tabBarController;
 
 @synthesize homeTabController;
+@synthesize mainMenu;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
-    // Add the tab bar controller's current view as a subview of the window
-    //[window addSubview:tabBarController.view];
+	mainMenu = [[[MainMenu alloc] init] autorelease];
 	[window addSubview:homeTabController.view];
+	//[window addSubview:mainMenu.view];
 }
 
 
@@ -45,7 +46,6 @@
 
 
 - (void)dealloc {
-    [tabBarController release];
     [window release];
     [super dealloc];
 }

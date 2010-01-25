@@ -29,6 +29,9 @@
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
 		D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */; };
+		D9888070110D273C00AFFB2E /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D988806E110D273C00AFFB2E /* MainMenu.m */; };
+		D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D988806F110D273C00AFFB2E /* MainMenu.xib */; };
+		D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */ = {isa = PBXBuildFile; fileRef = D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
@@ -129,6 +132,10 @@
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
 		D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1elf-warrior-elvina-1.jpg"; sourceTree = "<group>"; };
+		D988806D110D273C00AFFB2E /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
+		D988806E110D273C00AFFB2E /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
+		D988806F110D273C00AFFB2E /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
+		D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wcrftbkgrd.png; sourceTree = "<group>"; };
 		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
 		D9B55D1D11015886007173A3 /* LevelGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelGen.h; sourceTree = "<group>"; };
@@ -301,6 +308,7 @@
 		D95F3AC910FFCE5C00323446 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				D988806B110D272C00AFFB2E /* Menu */,
 				D95F3ACA10FFCE5C00323446 /* Character */,
 				D95F3AD010FFCE5C00323446 /* Inventory */,
 				D95F3AD410FFCE5C00323446 /* Options */,
@@ -363,6 +371,16 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		D988806B110D272C00AFFB2E /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				D988806D110D273C00AFFB2E /* MainMenu.h */,
+				D988806E110D273C00AFFB2E /* MainMenu.m */,
+				D988806F110D273C00AFFB2E /* MainMenu.xib */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
 			isa = PBXGroup;
 			children = (
@@ -416,6 +434,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */,
 				D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */,
 				D9FFB0E4110BA8E000536EA7 /* Consumable */,
 				D9FFB0F1110BA8E000536EA7 /* Equipable */,
@@ -613,6 +632,8 @@
 				D9FFB156110BA8E000536EA7 /* wall-stone-topright.png in Resources */,
 				D9FFB157110BA8E000536EA7 /* wall-stone.png in Resources */,
 				D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */,
+				D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */,
+				D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -640,6 +661,7 @@
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,
+				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
