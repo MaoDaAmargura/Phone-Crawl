@@ -82,6 +82,7 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+	[delegate worldView: self touchedAt: CGPointMake(0.0, 0.0)];
 	[super touchesBegan:touches withEvent:event];
 }
 
