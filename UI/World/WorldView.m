@@ -28,7 +28,8 @@
 
 - (void) setDelegate:(id<WorldViewDelegate>) idOfDelegate
 {
-	delegate = idOfDelegate;
+	[delegate release];
+	delegate = [idOfDelegate retain];
 }
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.

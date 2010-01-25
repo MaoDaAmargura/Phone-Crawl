@@ -49,7 +49,7 @@ typedef enum {
 #pragma mark -
 #pragma mark WorldViewDelegate
 
-@protocol WorldViewDelegate
+@protocol WorldViewDelegate <NSObject>
 
 - (void) worldView:(WorldView*) wView touchedAt:(CGPoint)point;
 - (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point;
