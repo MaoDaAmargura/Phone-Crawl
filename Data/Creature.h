@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Util.h"
+#import "Item.h"
 
 @interface Creature : NSObject 
 {
@@ -19,6 +20,11 @@
 	int health;
 	int shield;
 	int mana;
+	
+	Item *weaponleft;
+	Item *weaponRight;
+	Item *armorHead;
+	Item *armorBody;
 }
 
 @property (nonatomic, retain) Coord *creatureLocation;
@@ -28,6 +34,10 @@
 @property (nonatomic) int health;
 @property (nonatomic) int shield;
 @property (nonatomic) int mana;
+@property (nonatomic) Item *weaponLeft;
+@property (nonatomic) Item *weaponRight;
+@property (nonatomic) Item *armorHead;
+@property (nonatomic) Item *armorBody;
 
 - (id) initWithLevel:(int) lvl;
 - (id) init;
