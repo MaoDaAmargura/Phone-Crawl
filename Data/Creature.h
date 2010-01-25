@@ -2,47 +2,125 @@
 //  Creature.h
 //  Phone-Crawl
 //
-//  Created by Austin Kelley on 1/19/10.
+//  Created by Benjamin Sangster on 1/23/10. 
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import "Util.h"
 #import "Item.h"
+#import "Spell.h"
 
-@interface Creature : NSObject 
+//#define NUM_EQUIP_SLOTS 4
+#define NUM_INV_SLOTS 20
+#define MAX_NUM_SPELLS 50
+#define MAX_NUM_ABILITIES 100
+#define STAT_MAX 100
+#define STAT_MIN 0
+#define FIRST_AVAIL_INV_SLOT -1
+
+//Conditions
+typedef uint32_t condition_bitset;
+typedef enum {
+	NO_CONDITION  = 0,
+	BURNED        = 1,
+	CHILLED		  = 2,
+	HASTENED	  = 3,
+	POISONED	  = 4,
+	CURSED		  = 5,
+	FIRE_HASTE    = 6, //Fire turn-speed buff
+	COLD_SLOW     = 7, //Cold turn-speed debuff
+	WEAKENED      = 8, //Max health debuff
+	CONFUSION     = 9  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
+} conditionType;
+
+
+@interface Creature : NSObject
 {
 	Coord *creatureLocation;
 	
-	NSMutableArray *inventory;
-
-	int level;
-	int health;
-	int shield;
-	int mana;
+	int aggro_range;
+    int   level;
+    float turn_speed;
+    int   curr_hp;
+    int   curr_shield;
+    int   curr_mana;
+	int   money;
 	
-	Item *weaponLeft;
-	Item *weaponRight;
-	Item *armorHead;
-	Item *armorBody;
+	//Base stats
+	condition_bitset condition;
+	int max_hp;
+	int max_shield;
+	int max_mana;
+	int strength;
+	int dexterity;
+	int willpower;
+	//Resists
+	int fire;
+	int cold;
+	int lightning;
+	int poison;
+	int dark;
+	int armor;
+    //currently 4 (Head, Chest, Right Hand, Left Hand)
+    Item* head;
+	Item* chest;
+	Item* r_hand;
+	Item* l_hand;
+	
+	NSMutableArray *inventory;
+	
+	//Spells aren't going to be randomly generated (not without creating a
+	//much more complex spell system than we want to deal with), thus we
+	//only need to store which spells in the pre-made block are unlocked
+	
+	//Spells stored in an NSArray, and a spellbook will be a list of the spell IDs
+	int spellbook[MAX_NUM_SPELLS];
+	
+	
+	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
+	int abilities[MAX_NUM_ABILITIES];
 }
 
+- (void) Update_Stats_Item: (Item *);
+- (void) Set_Base_Stats;
+
+- (void) Take_Damage: (int) amount;
+- (void) Heal: (int) amount;
+
+- (void) Add_Condition: (conditionType) new_condition;
+- (void) Remove_Condition: (conditionType) rem_condition;
+- (void) Clear_Condition;
+
+- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot;
+- (void) Remove_Equipment: (slotType) dest_slot;
+- (void) Add_Inventory: (Item *) new_item inv_slot: (int) inv_slot;
+- (void) Remove_Inventory: (int) inv_slot;
+
 @property (nonatomic, retain) Coord *creatureLocation;
-@property (nonatomic, retain) NSMutableArray *inventory;
+@property (nonatomic, retain) NSMutableArray inventory;
 
-@property (nonatomic) int level;
-@property (nonatomic) int health;
-@property (nonatomic) int shield;
-@property (nonatomic) int mana;
-@property (nonatomic, retain) Item *weaponLeft;
-@property (nonatomic, retain) Item *weaponRight;
-@property (nonatomic, retain) Item *armorHead;
-@property (nonatomic, retain) Item *armorBody;
+@property int money;
+@property int curr_mana;
 
-- (id) initWithLevel:(int) lvl;
-- (id) init;
+@property (nonatomic,readonly) int curr_hp;
+@property (nonatomic,readonly) int curr_shield;
+@property (nonatomic,readonly) int max_hp;
+@property (nonatomic,readonly) int max_shield;
+@property (nonatomic,readonly) int max_mana;
+@property (nonatomic,readonly) int strength;
+@property (nonatomic,readonly) int dexterity;
+@property (nonatomic,readonly) int willpower;
+@property (nonatomic,readonly) int fire;
+@property (nonatomic,readonly) int cold;
+@property (nonatomic,readonly) int lightning;
+@property (nonatomic,readonly) int poison;
+@property (nonatomic,readonly) int dark;
+@property (nonatomic,readonly) int armor;
 
-- (int) statBase;
-- (void) takeDamage:(int) amount;
+@property (nonatomic,retain) Item* head;
+@property (nonatomic,retain) Item* chest;
+@property (nonatomic,retain) Item* r_hand;
+@property (nonatomic,retain) Item* l_hand;
 
 @end
