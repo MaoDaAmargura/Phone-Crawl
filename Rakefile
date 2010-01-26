@@ -22,7 +22,7 @@ end
 desc 'Open project for editing'
 task :edit do
   `open *.xcodeproj`
-  `mate .gitignore Rakefile README stories/`
+  `mate .gitignore Rakefile README Docs/`
 end
 
 desc 'Delete the database'
