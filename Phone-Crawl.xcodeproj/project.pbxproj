@@ -32,6 +32,9 @@
 		D9888070110D273C00AFFB2E /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D988806E110D273C00AFFB2E /* MainMenu.m */; };
 		D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D988806F110D273C00AFFB2E /* MainMenu.xib */; };
 		D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */ = {isa = PBXBuildFile; fileRef = D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */; };
+		D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = D9888090110D55B800AFFB2E /* CharacterCreation.m */; };
+		D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9888091110D55B800AFFB2E /* CharacterCreation.xib */; };
+		D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
@@ -136,6 +139,10 @@
 		D988806E110D273C00AFFB2E /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
 		D988806F110D273C00AFFB2E /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wcrftbkgrd.png; sourceTree = "<group>"; };
+		D988808F110D55B800AFFB2E /* CharacterCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterCreation.h; sourceTree = "<group>"; };
+		D9888090110D55B800AFFB2E /* CharacterCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterCreation.m; sourceTree = "<group>"; };
+		D9888091110D55B800AFFB2E /* CharacterCreation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterCreation.xib; sourceTree = "<group>"; };
+		D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "BB Watershed 8-03 003.jpg"; sourceTree = "<group>"; };
 		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
 		D9B55D1D11015886007173A3 /* LevelGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelGen.h; sourceTree = "<group>"; };
@@ -377,6 +384,9 @@
 				D988806D110D273C00AFFB2E /* MainMenu.h */,
 				D988806E110D273C00AFFB2E /* MainMenu.m */,
 				D988806F110D273C00AFFB2E /* MainMenu.xib */,
+				D988808F110D55B800AFFB2E /* CharacterCreation.h */,
+				D9888090110D55B800AFFB2E /* CharacterCreation.m */,
+				D9888091110D55B800AFFB2E /* CharacterCreation.xib */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -434,6 +444,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */,
 				D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */,
 				D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */,
 				D9FFB0E4110BA8E000536EA7 /* Consumable */,
@@ -634,6 +645,8 @@
 				D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */,
 				D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */,
 				D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */,
+				D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */,
+				D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -662,6 +675,7 @@
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,
 				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
+				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

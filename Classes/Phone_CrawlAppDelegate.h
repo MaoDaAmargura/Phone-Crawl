@@ -10,17 +10,20 @@
 
 @class HomeTabViewController;
 @class MainMenu;
+@class CharacterCreation;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
 
 	MainMenu *mainMenu;
 	HomeTabViewController *homeTabController;
+	CharacterCreation *cCreate;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) HomeTabViewController *homeTabController;
 @property (nonatomic, retain) MainMenu *mainMenu;
+@property (nonatomic, retain) CharacterCreation *cCreate;
 
 @end
