@@ -12,36 +12,80 @@ There shall be five dungeons of five levels each, each 120 x 120 tiles across th
 
 The Orc Mines area
 ------------------
-DLVL 1 contains buildings and rubble.  Empty squares are dirt.  Pits lead downward to DLVL 2.  All open ground is reachable from all other open ground on the level through some combination of movement of traversing open ground and opening doors.
+1.1.1) DLVL 1 contains buildings and rubble.
+1.1.2) Empty squares are dirt.
+1.1.3) Pits lead downward to DLVL 2.
+1.1.4) All open ground is reachable from all other open ground on the level through some combination of movement of traversing open ground and opening doors.
 
-DLVL 2 contains rounded, "natural looking" open spaces with stone floor around the bottoms of the pits leading up to DLVL 1.  Some open floor is taken up by stalactites, cave lichen, orcish watchtowers, and rubble.  Other squares are rock wall.  Connectivity within the clear squares of a given "cave" is guaranteed, but connectivity between the caves are not.  Pits are placed in reachable areas on DLVL 2 leading to DLVL 3.
+1.2.1) DLVL 2 contains rounded, "natural looking" open spaces with stone floor around the bottoms of the pits leading up to DLVL 1.
+1.2.2) Some open floor is taken up by stalactites, cave lichen, orcish watchtowers, and rubble.
+1.2.3) Other squares are rock wall.
+1.2.4) Connectivity within the clear squares of a given "cave" is guaranteed, but connectivity between the caves are not.
+1.2.5) Pits are placed in reachable areas on DLVL 2 leading to DLVL 3.
 
-DLVL 3 has characteristics similar to DLVL 2.  Connectivity is assured between the pit bases, that is, there is only a single large cave.  "Streamers" of shallow and deep water tiles are placed in the level.  There is only one pit leading down on DLVL 3.  It is surrounded with slick rock tiles, and regularly produces clouds of boiling-hot steam around it during gameplay.
+1.3.1) DLVL 3 has characteristics similar to DLVL 2.
+1.3.2) Connectivity is assured between the pit bases, that is, there is only a single large cave.
+1.3.3) "Streamers" of shallow and deep water tiles are placed in the level.
+1.3.4) There is only one pit leading down on DLVL 3.
+1.3.5) It is surrounded with slick rock tiles, and regularly produces clouds of boiling-hot steam around it during gameplay.
 
-DLVL 4 has a larger number of small caves.  Connectivity is assured between them, but the connections are thin, meandering "mineshafts".  One of these caves lies at the base of the pit from DLVL 3.  It is acceptable for these caves to overlap.  Stalactites and rubble scatter the level.  Full connectivity is assured between all open squares.  A variable number of buildings are emplaced in the caves such that they do not impinge upon the walls.  Fiery pits lead to DLVL 5.
+1.4.1) DLVL 4 has a larger number of small caves.
+1.4.2) Connectivity is assured between them, but the connections are thin, meandering "mineshafts".
+1.4.3) One of these caves lies at the base of the pit from DLVL 3.
+1.4.4) It is acceptable for these caves to overlap.
+1.4.5) Stalactites and rubble scatter the level.
+1.4.6) Full connectivity is assured between all open squares.
+1.4.7) A variable number of buildings are emplaced in the caves such that they do not impinge upon the walls.
+1.4.8) Fiery pits lead to DLVL 5.
 
-DLVL 5 is made up of small islands connected by meandering paths of open stone.  Stalagmites, rubble, and boulders are placed.  Surrounding these islands are tiles of lava.
+1.5.1) DLVL 5 is made up of small islands connected by...
+1.5.2) ...meandering paths of open stone. 
+1.5.3) Stalagmites, rubble, and boulders are placed.
+1.5.4) Surrounding these islands are tiles of lava.
 
 
 The Crypts area
 ---------------
-All five DLVLs in the Crypts are generated in a similar fashion.  Randomly generated rectangular, spherical and trapezoidal rooms are emplaced upon a grid.  These rooms contain one or more "dungeon features" from the following list: square pillars from 1 x 1 to 3 x 3 in size around the perimeter of the room, a rectangular room in the center of the room with 1-4 doors, 1 x 2 stone sarcophogi at regular intervals throughout the room, 1 x 2 wooden coffins at either regular or irregular intervals throughout the room, staircase leading to next lower DLVL.  Each room has 1-4 exits, which may have a door and will lead to a corridor 1-3 tiles wide, which in turn lead to another room, or may split and lead to two or more rooms.  A corridor wider than 1 square may have 1 x 1 pillars at regular intervals along one or both walls.  A corridor that is 3 squares wide may have pillars along the center of the corridor as well.  Connectivity is assured between all open squares.
+All five DLVLs in the Crypts are generated in a similar fashion.
+
+2.1) Randomly generated rectangular, spherical and trapezoidal rooms are emplaced upon a grid.
+2.2) These rooms contain one or more "dungeon features" from the following list: square pillars from 1 x 1 to 3 x 3 in size around the perimeter of the room, a rectangular room in the center of the room with 1-4 doors, 1 x 2 stone sarcophogi at regular intervals throughout the room, 1 x 2 wooden coffins at either regular or irregular intervals throughout the room, staircase leading to next lower DLVL.
+2.3) Each room has 1-4 exits, which may have a door and will lead to a corridor 1-3 tiles wide, which in turn lead to another room, or may split and lead to two or more rooms.
+2.4) A corridor wider than 1 square may have 1 x 1 pillars at regular intervals along one or both walls.
+2.5) A corridor that is 3 squares wide may have pillars along the center of the corridor as well. 2.6) Connectivity is assured between all open squares on a given DLVL.
 
 
 The Morlock Pits area
 ---------------------
-All five DLVLs in the Morlock Pits are generated in a similar fashion.  A central tunnel begins on DLVL 1.  At regular intervals, a tunnel may fork into two, dead end into a pit leading to the next DLVL up or down (unless this would take it up from DLVL 1 or down from DLVL 5) and generate a new tunnel leading from that pit on the new DLVL, continue, turn, or dead end into a hard coded room.  If all tunnels have dead ended, a room is chosen at random to produce a new tunnel.  Connectivity is assured between all open squares, even across the Z-axis.  It is furthermore assured that no less than four and no more than six rooms are placed on each DLVL.
+All five DLVLs in the Morlock Pits are generated in a similar fashion.
+
+3.1) A central tunnel begins on DLVL 1.
+3.2) At regular intervals, a tunnel may fork into two, dead end into a pit leading to the next DLVL up or down (unless this would take it up from DLVL 1 or down from DLVL 5) and generate a new tunnel leading from that pit on the new DLVL, continue, turn, or dead end into a hard coded room.
+3.3) If all tunnels have dead ended, a room is chosen at random to produce a new tunnel.
+3.4) Connectivity is assured between all open squares, even across the Z-axis.
+3.5) It is furthermore assured that no less than four and no more than six rooms are placed on each DLVL.
 
 The overall appearance is to be that of an antfarm dug by giant ants through Pompeii.
 
 
 The Underground Forest area
 ---------------------------
-DLVL 5 has several large tree trunks surrounded by impassable roots.  It is ensured that all open space is connected here.  The passable area is strewn with cave lichen.  All other spaces are plain grass tiles.
+4.5.1) DLVL 5 has several large tree trunks surrounded by impassable roots.
+4.5.2) It is ensured that all open space is connected here.
+4.5.3) The passable area is strewn with cave lichen.
+4.5.4) All other spaces are plain grass tiles.
 
-The top four DLVLs of the Underground Forest are generated identically.  Each tree trunk from DLVL 5 is replicated across the X-Y axes.  Each tree trunk produces four or more branches, which are passable terrain.  Each branch produces four or more thinner, shorter sub branches, and so on, until the next generation of sub branch would be too small.  Each branch that was too small to produce a new generation instead produces four or more leaves, which range from 1 x 1 to 2 x 4 in size and are also passable.  Each square of branch may produce a mushroom, which act as a ladder upward.  Each mushroom produces a mushroom top on the next DLVL upward, which is passable terrain.  Many of the branches also connect to branches on other trees via "bridges" of vines.
+The top four DLVLs of the Underground Forest are generated identically.
 
-Connectivity is ascertained by allowing upward and downward movement along any tree trunk.
+4.1) Each tree trunk from DLVL 5 is replicated across the X-Y axes.
+4.2) Each tree trunk produces four or more branches, which are passable terrain.
+4.3) Each branch produces four or more thinner, shorter sub branches, and so on, until the next generation of sub branch would be too small.
+4.4) Each branch that was too small to produce a new generation instead produces four or more leaves, which range from 1 x 1 to 2 x 4 in size and are also passable.
+4.5) Each square of branch may produce a mushroom, which act as a ladder upward.
+4.6) Each mushroom produces a mushroom top on the next DLVL upward, which is passable terrain.
+4.7) Many of the branches also connect to branches on other trees via "bridges" of vines.
+
+4.8) Connectivity is ascertained by allowing upward and downward movement along any tree trunk.
 
 The overall appearance is to be a lush rain forest of gigantic plants.
 
@@ -50,5 +94,7 @@ The Abyss area
 --------------
 The Abyss is unique among the areas in that it spontaneously re-generates itself during play.
 
-An individual abyssal area may be filled with crumbling buildings, mountainous rubble, a twisted maze, or arbitrary combinations of these and other types of area.  At any given time, there is exactly one pit leading downward on all DLVLs 1-4.  All areas outside a certain distance from the player are subject to regeneration, which means that the player may have to explore a given abyssal layer multiple times before finding the exit.
+5.1) An individual abyssal area may be filled with crumbling buildings, mountainous rubble, a twisted maze, or arbitrary combinations of these and other types of area.
+5.2) At any given time, there is exactly one pit leading downward on all DLVLs 1-4.
+5.3) All areas outside a certain distance from the player are subject to regeneration, which means that the player may have to explore a given abyssal layer multiple times before finding the exit.
 
