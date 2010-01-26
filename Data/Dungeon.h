@@ -1,4 +1,8 @@
 #import "Tile.h"
+typedef enum {
+	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss
+} levelType;
+
 
 @class Coord;		// defined in Util
 @class Tile;

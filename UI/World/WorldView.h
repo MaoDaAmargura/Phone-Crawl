@@ -1,11 +1,3 @@
-//
-//  WorldView.h
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/13/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
@@ -51,8 +43,8 @@ typedef enum {
 
 @protocol WorldViewDelegate <NSObject>
 
-- (void) worldView:(WorldView*) wView touchedAt:(CGPoint)point;
-- (void) worldView:(WorldView*) wView selectedAt:(CGPoint)point;
-- (void) worldViewDidLoad:(WorldView*) wView;
+- (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point;
+- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point;
+- (void) worldViewDidLoad:(WorldView*) worldView;
 
 @end

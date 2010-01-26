@@ -7,13 +7,18 @@
     #import <UIKit/UIKit.h>
 #endif
 
+// i don't know why the DEBUG flag isn't getting set in my local environment, leaving this always on for now
+// - nathan
 
-#ifdef DEBUG
 #define DLog(s, ...) NSLog((@"%s:%d => " s), __func__, __LINE__, ## __VA_ARGS__)
-#else
-#define DLog(...) /* BELLY LINT */
-#endif
+
+//#ifdef DEBUG
+//#define DLog(s, ...) NSLog((@"%s:%d => " s), __func__, __LINE__, ## __VA_ARGS__)
+//#else
+//#define DLog(...) /* BELLY LINT */
+//#endif
 
 
 #define MAP_DIMENSION 120
 #define MAP_DEPTH 5
+#define TILE_SIZE_PX 32

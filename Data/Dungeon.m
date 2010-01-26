@@ -33,7 +33,6 @@ NSMutableArray *tiles = nil;
 	assert (y < MAP_DIMENSION);
 	assert (z < MAP_DEPTH);
 
-	
 	return nil;
 }
 
