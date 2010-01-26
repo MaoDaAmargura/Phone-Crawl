@@ -65,6 +65,7 @@
 		D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */; };
 		D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FD110BA8E000536EA7 /* ring-red.png */; };
 		D9FFB138110BA8E000536EA7 /* shield.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FE110BA8E000536EA7 /* shield.png */; };
+		D9FFB139110BA8E000536EA7 /* shield1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FF110BA8E000536EA7 /* shield1.png */; };
 		D9FFB13A110BA8E000536EA7 /* staff.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB100110BA8E000536EA7 /* staff.png */; };
 		D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB101110BA8E000536EA7 /* sworddual.png */; };
 		D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB103110BA8E000536EA7 /* BlackSquare.png */; };
@@ -179,6 +180,7 @@
 		D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-pearl.png"; sourceTree = "<group>"; };
 		D9FFB0FD110BA8E000536EA7 /* ring-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-red.png"; sourceTree = "<group>"; };
 		D9FFB0FE110BA8E000536EA7 /* shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield.png; sourceTree = "<group>"; };
+		D9FFB0FF110BA8E000536EA7 /* shield1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield1.png; sourceTree = "<group>"; };
 		D9FFB100110BA8E000536EA7 /* staff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = staff.png; sourceTree = "<group>"; };
 		D9FFB101110BA8E000536EA7 /* sworddual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sworddual.png; sourceTree = "<group>"; };
 		D9FFB103110BA8E000536EA7 /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
@@ -521,6 +523,7 @@
 				D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */,
 				D9FFB0FD110BA8E000536EA7 /* ring-red.png */,
 				D9FFB0FE110BA8E000536EA7 /* shield.png */,
+				D9FFB0FF110BA8E000536EA7 /* shield1.png */,
 				D9FFB100110BA8E000536EA7 /* staff.png */,
 				D9FFB101110BA8E000536EA7 /* sworddual.png */,
 			);
@@ -639,6 +642,7 @@
 				D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */,
 				D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */,
 				D9FFB138110BA8E000536EA7 /* shield.png in Resources */,
+				D9FFB139110BA8E000536EA7 /* shield1.png in Resources */,
 				D9FFB13A110BA8E000536EA7 /* staff.png in Resources */,
 				D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */,
 				D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */,
@@ -702,8 +706,11 @@
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,
 				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
-				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
+<<<<<<< HEAD
 				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,
+=======
+				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
+>>>>>>> f7d5b9abab199900f6727389f3642f8b4f6b415a
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
