@@ -1,0 +1,68 @@
+Generation of the Orc Mines area
+--------------------------------
+
+- Unless otherwise noted, the "default actor" for all of the following interactions is the Level Generator (LG).
+- By convention, Well Known Algorithm Names Are In Leading Caps, but original algorithms are "in double quotes" or just "informally described."
+- Algorithms detailed in levelGenAlgorithms.txt are in C_POUND_DEFINE_STYLE unless they are well known algorithms.
+- Distances given in terms of squares are to be calculated using the Pythagorean Theorem in terms of the deltas along the X- and Y- axes unless otherwise specified.
+
+The Application Delegate allocates a blank dungeon of size 120 x 120 x 5 and sends it to the LG to be initialized as the Orc Mines.
+
+The LG iterates through the Tile objects (tiles) throughout the entire top Z-level (Z0) and sets them all to dirt floor.  All deeper levels (Z1..4) are initialized to granite wall.
+
+LG runs PUT_RUBBLE on Z0.
+
+LG runs PUT_BUILDING on Z0.
+
+LG runs PUT_PIT on Z0.  Each pit tile on Z0 is mirrored on Z1 as a stone floor tile.
+
+Flood Fill is run on Z0, considering walls and pits to be impassable, but crumbling walls, doors, up slopes, rubble, and any kind of floor to be passable.  If any wooden floor tiles are found to be unreachable by the Flood Fill, do BOMB_GO_OFF on nearby walls.  A "bombed" tile has a 1 / 3 chance of turning to rubble, a 1 / 3 chance of turning to crumbling wall, and a 1 / 3 chance of remaining unchanged.  The Flood Fill, and, if necessary, bombing is performed again; up to three bombings are permitted.  If Flood Fill still finds tiles unreachable after that, an exception is thrown in the Debug environment, or the entire dungeon is thrown away and regenerated in Production.
+
+LG requests lists from Item Generator and Monster Generator, weighted to be appropriate to Z0 in terms of power, type, etc. and places the items and monsters randomly on Z0.  No item or monster may be placed on anything but a dirt or wooden floor.  Z0 is now finished.
+
+BOMB_GO_OFF is used on Z1, centered around stone floor tiles.  A bombed granite wall may turn into a stalagmite or remain unchanged.
+
+A Game of Life (GoL) variant is used on the stalactites on Z1.  Stalagmites that breed may erase a granite wall or a stone floor, but never an upslope.  Stalagmites that die leave a stone floor tile.
+
+PUT_RUBBLE on Z1.
+
+PUT_PIT on Z1 => Z2.  There shall be 2-4 times as many down pits on Z1 as are average on Z0.  They may be as little as 20 squares apart, with correspondingly decreased length of drunken walk algorithm to preclude possibility of overlap.
+
+PUT_ORC_WATCHTOWERS on Z1.
+
+Items and monsters are generated and placed on Z1 in a way similar to Z0.  The deeper Z level as an argument to the item and monster generation functions will result in (on average) more powerful monsters and items.  Items and monsters may only be placed on stone floor tiles.
+
+A request is made to Item and Monster Generators for a small number of items and monsters appropriate to Z3.  These are then placed in the orcish watchtowers.  Z1 is now finished.
+
+ACID_FILL the small, rough stone floor areas on Z2.
+
+The still rough, now ugly, but much more open stone floor areas on Z2 are smoothed out, further expanded, and made more attractive by a "barren" GoL variant acting upon the walls.  Stalagmites may be produced when a wall "dies".
+
+PUT_TERRAIN_STREAMER_WATER on Z2.
+
+4-8 tiles of shallow or deep water are chosen at random such that they are no closer than 10 tiles to any up slope or 20 tiles from one another.  "Bombing" and GoL are used on the tiles in their  vicinity such that most of the tiles immediately surrounding the chosen tile become down slopes, and tiles slightly further away become slick rock.  The chosen tile then becomes a pit, with the special attribute that the pit regularly produces clouds of boiling-hot steam around it during gameplay.
+
+PUT_LICHEN on Z2.  PUT_RUBBLE on Z2.  PUT_ORC_WATCHTOWERS on Z2.
+
+All down slopes on Z2 are mirrored by up slopes on Z3.  The pit tiles on Z2 are mirrored as stone floor tiles on Z3.  
+
+A DRUNKEN_MINESHAFT algorithm is used to connect the various up slopes.
+
+A large cave is excavated using BOMB_GO_OFF and "barren" GoL.  No part of this cave shall extend out of a 30 x 30 square.  The bounding square is placed in such a spot that it cannot impinge upon up slopes.  A DRUNKEN_MINESHAFT is run between the center of this cave and a new bounding square fitting the same constraints as the original.  The new cave is excavated in a manner analagous to the original.  This process is repeated such that 4-6 total caves are generated.  It is acceptable for them to overlap.
+
+Flood Fill is used to ensure that the dungeon is fully connected.  If it is not, a DRUNKEN_MINESHAFT is made from the center of the final large cave to a randomly chosen upslope, and Flood Fill is performed again.  If it still unconnected, an exception is thrown in Debug environment.  In Production environment, a "harshly barren" GoL will be run upon every granite wall in the entirety of Z3.  Flood Fill shall be run after each three generations until full connectivity is attained.
+
+50 buildings are generated on Z3.  These are generated in exactly the same fashion as the buildings on Z0, but if a building's "footprint" would impinge upon a wall, it is not generated at all.  For this reason, it is likely that far less than 50 buildings will be placed.
+
+Flood Fill is run again to ensure that Z3 remains fully connected.  BOMB_GO_OFF is performed upon building walls near unreachable floor.  A "bombed" wall has a 1/3 chance of becoming broken wall, 1/3 chance of becoming a door, and 1/3 chance of becoming rubble.  This step is repeated until Z3 is fully connected.
+
+Using the standard pit generation constraints, fire pits are placed on Z3.  Instead of the usual "generous" up and down slope placement, only a single up and corresponding down slope are placed.  Following the placement of a fire pit, all tiles in a one tile perimeter around the pit become stone floor unless they are slopes.
+
+
+
+
+
+
+
+
+

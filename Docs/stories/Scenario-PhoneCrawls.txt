@@ -1,0 +1,115 @@
+Scenario: World: Movement - Around an obstacle
+--------------------------------------------------------------------------
+- Avatar at (13, 17, 1)
+- Rock wall formation running north-south from (15, 10, 1) to (15, 20, 1)
+- No enemies in sight
+
+The agent wants to move his or her avatar to the other side of the wall. The agent touches the screen in world view four tiles east. This touch is interpreted as a movement command to the tile at (17, 17, 1). The agent is given feedback for his or her input by lighting the touched tile. Using a simple pathfinding algorithm, a shortest path route is calculated around the wall to the destination. First the avatar walks south to (13, 21, 1) as part of the calculated route. Moving the avatar south is depicted by moving everything on the screen upwards and holding the image of the avatar in the center of the screen. This results in the avatar moving south relative to the map, yet keeping the avatar in the center of the screen. After moving south, the avatar immediately turns and moves east to (17, 21, 1), then turns and moves north to (17, 17, 1). The avatar has then reached the touched tile and, the game waits for the player to give more input. 
+
+
+Scenario: World: Movement - Into the Danger Zone
+--------------------------------------------------------------------------
+- Agent's avatar located at (16, 9, 1).
+- Enemy located at (13, 13, 1).
+- Pillar located (10,15,1).
+- There is a staircase downwards at (13, 11, 1).
+- Player is not currently in battle mode.
+
+Agent wants to use the stairs, so he or she touches the screen in world view, two units north and 3 units west of the current position. This touch is interpreted as "move to square (13, 11, 1)" and the square is highlighted. Because the avatar is not currently in battle, it moves one unit north immediately to (16, 10, 1). Because there is a pillar at (15, 10, 1) disallowing movement west, the avatar immediately moves one more north then 1 unit west. The avatar is then in the position (15, 11, 1). This position is within the monster's sight, so the game enters battle mode. Battle mode is depicted by a new set of interface buttons at the bottom of the screen for additional actions. Upon entering battle mode, the remaining movements required to reach the destination of (13, 11, 1) are canceled. Movement can only continue with an explicit command for each movement across a single square.
+
+The agent does not want to engage battle and so he or she touches the stairs on the screen again. The avatar immediately moves one square east towards the stairs. The agent touches the stairs again. The avatar moves on top of the stairs. Standing on a tile with stairs implies using those stairs. Without additional input, the avatar moves down the stairs and north one tile, ending on position (13, 12, 2). This takes the player's avatar to a different level in the dungeon. The entire screen is redrawn to show the map, monsters, and other items that exist on this new level of the dungeon. The monster on the previous level cannot see the character through the stairs, so battle mode ends. 
+
+
+Scenario: World: Combat - An Attack
+--------------------------------------------------------------------------
+Note: Damage calculation model may change. 
+
+- Player Avatar (actor) at (22, 3, 2), wields: sharp bastard sword of shock
+- Stairs at (24, 3, 2) leading to (24, 3, 3)
+- Enemy at (24, 5, 3), armed with a ring-mail of health and an aquatic shield.
+- Not in battle mode.
+
+Player touches the stair tile at (24, 3, 2) and their avatar begins to walk to the stairs at that location. Upon reaching the stairs, the agent is taken down the stairs to (24, 3, 3) and steps off the stairs to (23, 4, 3). Agent's proximity to the enemy at (24, 5, 3) initiates battle mode, preventing long movements and showing additional interface buttons.
+
+The player wants to attack the enemy. The player touches the button "Attack" and then touches the tile containing the enemy, indicating they wish to attack it in melee combat. A basic attack is performed, calculated from the base damage of the sword (14-19) at 17. Getting lucky, the sharp sword causes critical damage (2x) and deals lightning damage for a base damage of 34. The ring-mail of health provides the enemy with some defense (AR 60) and the shield as well (+15) but being an aquatic shield, it provides additional frost and fire defense at the cost of weakness to lightning (AR -10). The enemy's total Armor Rating is 65 for the hit, and it takes 91% of the sword's damage. The enemy takes 31 points of damage.
+
+
+Scenario: World: Combat - A Spell
+--------------------------------------------------------------------------
+- Player Avatar (Level 4 - Strength 7 - Agility 11 -Intelligence 14)
+- Player Avatar at position (24, 1, 2)
+- Enemy at (24, 5, 2) wearing frost armor
+- In battle mode.
+
+The player wants to cast a spell on the enemy, but the avatar is too far away to cast the spell. This is indicated by the deactivated Spells button. The player selects move from the options window. Player touches the tile at (24, 2, 2) and their avatar walks toward the location. Now in spell range, the player then selects Fight! from the menu. A set of submenu items appear on the screen as buttons including Spells. The player touches the Spells button. A list of spells is now displayed and the player selects Ice Shard. All lists and submenus vanish to show the map. The player touches the enemy to indicate the target.
+
+The Ice Shard's damage is calculated based on the player's level (4) and intelligence (14) at a base power of 20. The enemies frost armor provides 70 points of armor, with a bonus of 15 points of armor against frost damage, granting a base armor of 85 points. This means they take approximately 65% of the original 20 damage, and only lose 13 hit points. Ice Shard's mana cost is deducted from the player's current mana pool.
+
+
+Scenario: World: Combat - An Item
+--------------------------------------------------------------------------
+- Player at (25, 19, 1)
+- Two enemies, (25, 20, 1) and (25, 22, 1)
+- In combat mode
+
+From the combat menu, our player selects Item. A pop-up window provides a navigable selection of items that can be used from their inventory. The player selects a Wand of Inferno. Pop-ups are closed to show the map, and the player selects (25, 21, 1) as the center. The inferno spell does damage to multiple targets in a radius of 1 of the target (all squares adjacent to the target). Both enemies die from the blast. 
+
+
+Scenario: Inventory: Equipping an Item
+--------------------------------------------------------------------------
+- Player's inventory contains leather armor, chain-mail, a knife, and a spear
+- Player currently has equipped: leather armor, bastard sword, and a shield 
+
+The player selects the character window. It displays an image of the player avatar and slots for equipment.  The left hand, right hand, and body equipment slots are currently filled with a shield, and bastard sword, and leather armor respectively. The agent touches the body equipment slot currently filled with the leather armor, and a window opens displaying all relevant items in the character's inventory that can replace that item. The player selects the chain mail, and the leather armor currently in the body equipment slot is replaced by the chain-mail. 
+
+The player then selects the right hand slot.  A list of relevant items is displayed again, and the player chooses to equip the spear. The spear is a two handed weapon, so equipping the spear to the right hand automatically evicts the shield from the left hand slot and returns it to the inventory. The player decides not to use a two handed weapon, so he or she selects the right hand slot again and selects the knife, then he or she selects the left hand slot and re-equips the shield. The player closes the character window and resumes standard actions.  
+
+
+Scenario: World: Interaction: Purchasing Items
+--------------------------------------------------------------------------
+- Player is carrying 100 gold
+- Player has 8 inventory slots
+- Three inventory slots are taken by items: sword of fire, basic leather armor, and a wand
+- Player is in the town, at position (12,15,0)
+- Item shop has a door at position (12,10,0)
+- Shopkeeper at (13,8,0)
+- Shop sells: health potion - 10 gold, basic sword - 50 gold, basic leather armor - 50 gold
+
+Player taps inventory button. Inventory window opens over main map showing the player's items. Player inspects the inventory and decides to buy health potions. Player taps map button, causing inventory window to close.
+
+Player then taps the store's door on the map. The player's avatar moves to the door and enters. When the player enters the item shop, the roof tiles become transparent, allowing the player to see inside. The player taps the shopkeeper and the avatar walks to stand near the shopkeeper. A split-screen view opens, on the left showing the items the shop has to offer, and on the right showing the player's inventory. The player touches the health potion in the shop's screen to buy it.
+
+The player has enough gold for this transaction, so the cost of the potion is deducted and the potion appears in the player's inventory screen. The player does this twice more. After the shop has sold 3 health potions to the player a message comes up warning player that the shop will only sell 3 health potions at a time.
+
+Player then decides to sell the old leather armor. He or she accomplishes this by touching the armor in the avatar's inventory. The game calculates a reduced buy-back price of 30 gold, credits player by this amount, and removes the armor from player's inventory.
+
+Player taps the map button, closing the buy-sell screen and showing the map, then taps the doorway of the item shop. Player walks to the door and exits the shop.
+
+
+Scenario: Inventory: Using an Item - Spell Book
+--------------------------------------------------------------------------
+- Character has a "Book" item in inventory, which teaches a new spell
+- Character is not in combat
+- Character does not already know the spell
+
+Player taps the Inventory button. Player taps the item slot with item "Spellbook: Lesser Fireball". A confirmation box opens to confirm that Player wishes to teach Character the spell "Lesser Fireball". Player taps "Yes", and the Inventory screen goes away, returning Player to the main world view. The spell "Lesser Fireball" is added to the character's list of spells.
+
+
+Scenario: Inventory: Using an Item - Restorative
+--------------------------------------------------------------------------
+- Character has a 2/5 real hit points (HP) and 0/5 shield hit points (SP)
+- Character has health potion in his inventory called Full Heal that will heal him to 5/5 HP and 5/5 FHP
+
+Player has just finished a battle in one of the game areas, and is low on hit points. Not wanting to risk being found by another monster while low on health in order to avoid having to waste a turn during combat itself, or risk having the monster attack first and kill him, Player taps the Inventory tab, and taps on a health potion. A confirmation box pops up to confirm that Player did, in fact, intend to use the item that was selected. If Player selected the wrong item, Player can tap "No" and either select again or leave the inventory screen.
+
+Player selects "Yes". Game system calls the method for the spell that goes with the potion, and Player's health is increased immediately. Inventory screen goes away, and Player is returned to main world view.
+
+
+Scenario: General: Saving and Loading
+--------------------------------------------------------------------------
+- Character is in town
+- Player has previously saved the game
+
+Player wants to save the status of his game in order to revisit it at a later time. The player navigates to and touches the Historian character in the town. A dialog box appears, asking the player if he or she wishes to save the current game or load a previously saved game. The player selects the save button in the dialog box. A keypad appears on the screen and prompts the user for a brief text description of the save. After entering a text description, all windows close and return the player to the map view.  The current character and current world is saved and can be loaded later.
+
+Player wants to load a previously saved game. The player touches the town Historian again and views the same load/save dialog box. Selecting the load option this time, a list of previously saved games appears in a scrollable window.  The items in the list display a timestamp of when the game was saved and the description that the player entered upon making that saved game. The player touches an item in this list to load it. All information about the current character and current world is replaced by the saved character and saved world. The game returns to the map view and the player can continue playing with the loaded character.

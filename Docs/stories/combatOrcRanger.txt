@@ -1,0 +1,29 @@
+Scenario: World: Combat - Death
+-------------------------------------------------------------
+- minimum range of bows be two tiles.
+- maximum range of bows be ten tiles.
+- hit points in this are in terms of the display to the player, not in terms of the actual damage calculations.
+- Characters begin with 5/5 hit points (HP) and 4/4 shield points (SP).  
+- let top Ranger begin with 9/9 hp displayed.
+- bottom ranger has 8/8 hp displayed.
+
+Player has been exploring Orc Mines Z1 and handily slaughtering lots of enemies.  In doing so, he has found a bow and several healing potions which will instantly restore him to full health. He is wielding a sword.
+
+Player touches a square to the northeast. The touched tile turns yellow. The player avatar walks to the position, World View keeps him centered. 
+
+Character comes within sight range of two orc rangers in a watchtower that is  3 north and 4 east of the player.  (The watchtower is a 4 x 4 tile building with stone walls and doors in the four corners. The watchtower extends the orcs' sight and weapon range.) Combat mode activates.
+
+Player selects Move, and picks a square on the way to the watchtower. Not in attack range, he Waits. The enemies get to take a turn, but since only the rangers are in combat, the others in the level continue moving randomly. One  ranger moves to the edge of the tower wall and fires an arrow. It takes away 3 shield, and Player closes the distance to the tower. 
+
+Player taps on the southwest door to the watchtower.  The door opens, and costs the player the rest of his movement for the turn. With the player at the base of the tower, the ranger on top waits for a shot. The other ranger takes a shot and hits for the remaining shield and 1 hp. The player uses his turn to reach the stairs, and comes to the top of the tower. 
+
+The top ranger takes another shot, hitting for the remaining 3 hp. It then decides the best course of action is to run around the player and down the stairs.
+
+The player, almost dead, uses a Greater Restore to refill his health and shield. Then they wait a turn in safety at the top of the stairs.
+
+The rangers use their movement to back away from the stairs to the outer walls, and wait. The player comes downstairs and charges an archer. Reaching combat range he selects a basic attack, and knocks off 4 of this archers 8 life. The wounded ranger takes his turn, backing away and firing point blank at the player for 5 visible points. The other archer moves into range, and fires, taking the players last 4 life. 
+
+Player screams and throws iPhone out a window.
+
+Phone, now tucked neatly into a bush outside, displays a game over screen in response to Engine requesting a change of flow of control from World View to Game Over View.  A nearby squirrel is prompted select DIE WITH HONOR or CHEAT DEATH.  Squirrel selects CHEAT DEATH. Player's score is docked by a penalty (as a consequence of respawning) and the player's avatar is displayed in the main town.
+
