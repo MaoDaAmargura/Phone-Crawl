@@ -55,6 +55,28 @@ All five DLVLs in the Crypts are generated in a similar fashion.
 2.5) A corridor that is 3 squares wide may have pillars along the center of the corridor as well. 2.6) Connectivity is assured between all open squares on a given DLVL.
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Our brave hero decides that caution is required.
+
 The Morlock Pits area
 ---------------------
 All five DLVLs in the Morlock Pits are generated in a similar fashion.
