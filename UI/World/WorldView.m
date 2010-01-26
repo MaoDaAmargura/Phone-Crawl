@@ -1,4 +1,5 @@
 #import "WorldView.h"
+#import "Tile.h"
 
 @implementation WorldView
 
@@ -69,47 +70,41 @@
 #pragma mark -
 #pragma mark UIResponder
 
-
+/*!
+ @abstract		highlight the Tile which the user is touching
+ @discussion	static UIImageView *highlight is a silly, hackish workaround, used only in these methods.
+				it is to be removed when we know if a Tile has a UIButton / UIImage / whatever.
+ */
+static UIImageView *highlight = nil;
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
-	DLog (@"%d %d", (int)loc.x, (int)loc.y);
+//	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
 
+	if (!highlight) {
+		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
+	}
+	highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	highlight.center = loc;
+	[self.view addSubview: highlight];
 
-//	[delegate worldView: self touchedAt: CGPointMake(0.0, 0.0)];
+	[delegate worldView: self touchedAt: loc];
 	[super touchesBegan:touches withEvent:event];
-
-
-//	[UIView beginAnimations:nil context: context];
-//	[UIView setAnimationDuration: DROP_ANIM_DURATION];
-//	[UIView setAnimationDelegate:self];
-//	[UIView setAnimationDidStopSelector:@selector(finishedMoveOut:finished:context:)];
-//	
-//	CGPoint center = left.view.center;
-//	
-//	center.x -= 133.5;
-//	left.view.center = center;
-//	center = right.view.center;
-//	center.x -= 133.5;
-//	right.view.center = center;
-//	
-//	[UIView commitAnimations];
-	
-	
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
+	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
+	highlight.center = loc;
 	[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+	[highlight removeFromSuperview];
 	[super touchesEnded:touches withEvent:event];
 }
 
-- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event {
+	[highlight removeFromSuperview];
 	[super touchesCancelled:touches withEvent:event];
 }
 

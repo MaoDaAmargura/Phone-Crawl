@@ -100,6 +100,27 @@
 - (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point
 {
 	DLog(@"worldView:(WorldView*)wView touchedAt:(CGPoint)point");
+
+
+
+//	imageForType
+
+
+	
+//	[UIView beginAnimations:nil context: context];
+//	[UIView setAnimationDuration: DROP_ANIM_DURATION];
+//	[UIView setAnimationDelegate:self];
+//	[UIView setAnimationDidStopSelector:@selector(finishedMoveOut:finished:context:)];
+//	
+//	CGPoint center = left.view.center;
+//	
+//	center.x -= 133.5;
+//	left.view.center = center;
+//	center = right.view.center;
+//	center.x -= 133.5;
+//	right.view.center = center;
+//	
+//	[UIView commitAnimations];
 }
 
 /*!

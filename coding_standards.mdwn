@@ -33,7 +33,9 @@ Thou Shalt Not have more than three levels of indentation and shall strive to ke
 		- (void) fun { 
 			if (myCondition) {
 				while (thisOrThat) {
-					;	// this is the maximum!
+					if (bangBang) {
+						;	// this is the maximum!
+					}
 				}
 			}
 		}
