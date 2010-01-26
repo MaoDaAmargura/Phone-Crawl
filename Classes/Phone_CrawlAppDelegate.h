@@ -9,17 +9,18 @@
 #import <UIKit/UIKit.h>
 
 @class HomeTabViewController;
+@class MainMenu;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
-    UITabBarController *tabBarController;
-	
+
+	MainMenu *mainMenu;
 	HomeTabViewController *homeTabController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UITabBarController *tabBarController;
 
 @property (nonatomic, retain) HomeTabViewController *homeTabController;
+@property (nonatomic, retain) MainMenu *mainMenu;
 
 @end

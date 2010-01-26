@@ -35,7 +35,7 @@
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
-		[player takeDamage:150];
+		[player Take_Damage:150];
 		currentDungeon = [[Dungeon alloc] initWithType:town];
 		
 		return self;
@@ -112,9 +112,9 @@
 	wView.mapImageView.image = result;
 	
 	int base = [player statBase];
-	[wView setDisplay:displayStatHealth withAmount:player.health ofMax:base];
-	[wView setDisplay:displayStatShield withAmount:player.shield ofMax:base];
-	[wView setDisplay:displayStatMana withAmount:player.mana ofMax:base];
+	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
+	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
+	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
 	
 	
 }
