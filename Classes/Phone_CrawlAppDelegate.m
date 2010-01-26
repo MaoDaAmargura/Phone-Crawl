@@ -2,6 +2,7 @@
 
 #import "HomeTabViewController.h"
 #import "MainMenu.h"
+#import "CharacterCreation.h"
 
 @implementation Phone_CrawlAppDelegate
 
@@ -9,13 +10,17 @@
 
 @synthesize homeTabController;
 @synthesize mainMenu;
+@synthesize cCreate;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	mainMenu = [[[MainMenu alloc] init] autorelease];
+	cCreate = [[[CharacterCreation alloc] init] autorelease];
 	[window addSubview:homeTabController.view];
 	//[window addSubview:mainMenu.view];
+	//[window addSubview:cCreate.view];
+
 }
 
 

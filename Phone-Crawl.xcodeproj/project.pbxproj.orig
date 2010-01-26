@@ -14,8 +14,6 @@
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
 		65E8F37D110BFC06000BF581 /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E8F37C110BFC06000BF581 /* Spell.m */; };
 		B09D78AB1107EEDC004C9922 /* Battle.m in Sources */ = {isa = PBXBuildFile; fileRef = B09D78AA1107EEDC004C9922 /* Battle.m */; };
-		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
-		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
@@ -67,6 +65,7 @@
 		D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */; };
 		D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FD110BA8E000536EA7 /* ring-red.png */; };
 		D9FFB138110BA8E000536EA7 /* shield.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FE110BA8E000536EA7 /* shield.png */; };
+		D9FFB139110BA8E000536EA7 /* shield1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0FF110BA8E000536EA7 /* shield1.png */; };
 		D9FFB13A110BA8E000536EA7 /* staff.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB100110BA8E000536EA7 /* staff.png */; };
 		D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB101110BA8E000536EA7 /* sworddual.png */; };
 		D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB103110BA8E000536EA7 /* BlackSquare.png */; };
@@ -113,8 +112,6 @@
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		B09D78A91107EEDC004C9922 /* Battle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Battle.h; sourceTree = "<group>"; };
 		B09D78AA1107EEDC004C9922 /* Battle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Battle.m; sourceTree = "<group>"; };
-		D76B4F8E110D2A6500BBF5C0 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
-		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
 		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
@@ -183,6 +180,7 @@
 		D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-pearl.png"; sourceTree = "<group>"; };
 		D9FFB0FD110BA8E000536EA7 /* ring-red.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ring-red.png"; sourceTree = "<group>"; };
 		D9FFB0FE110BA8E000536EA7 /* shield.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield.png; sourceTree = "<group>"; };
+		D9FFB0FF110BA8E000536EA7 /* shield1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shield1.png; sourceTree = "<group>"; };
 		D9FFB100110BA8E000536EA7 /* staff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = staff.png; sourceTree = "<group>"; };
 		D9FFB101110BA8E000536EA7 /* sworddual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sworddual.png; sourceTree = "<group>"; };
 		D9FFB103110BA8E000536EA7 /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
@@ -477,8 +475,6 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D76B4F90110D2A6E00BBF5C0 /* blank.png */,
-				D76B4F8E110D2A6500BBF5C0 /* highlight.png */,
 				D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */,
 				D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */,
 				D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */,
@@ -527,6 +523,7 @@
 				D9FFB0FC110BA8E000536EA7 /* ring-pearl.png */,
 				D9FFB0FD110BA8E000536EA7 /* ring-red.png */,
 				D9FFB0FE110BA8E000536EA7 /* shield.png */,
+				D9FFB0FF110BA8E000536EA7 /* shield1.png */,
 				D9FFB100110BA8E000536EA7 /* staff.png */,
 				D9FFB101110BA8E000536EA7 /* sworddual.png */,
 			);
@@ -645,6 +642,7 @@
 				D9FFB136110BA8E000536EA7 /* ring-pearl.png in Resources */,
 				D9FFB137110BA8E000536EA7 /* ring-red.png in Resources */,
 				D9FFB138110BA8E000536EA7 /* shield.png in Resources */,
+				D9FFB139110BA8E000536EA7 /* shield1.png in Resources */,
 				D9FFB13A110BA8E000536EA7 /* staff.png in Resources */,
 				D9FFB13B110BA8E000536EA7 /* sworddual.png in Resources */,
 				D9FFB13C110BA8E000536EA7 /* BlackSquare.png in Resources */,
@@ -676,8 +674,6 @@
 				D9FFB156110BA8E000536EA7 /* wall-stone-topright.png in Resources */,
 				D9FFB157110BA8E000536EA7 /* wall-stone.png in Resources */,
 				D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */,
-				D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */,
-				D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */,
 				D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */,
 				D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */,
 				D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */,
@@ -710,8 +706,11 @@
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,
 				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
-				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
+<<<<<<< HEAD
 				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,
+=======
+				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
+>>>>>>> f7d5b9abab199900f6727389f3642f8b4f6b415a
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
