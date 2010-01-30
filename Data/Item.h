@@ -11,28 +11,29 @@
 #import "Util.h"
 
 
-
+#define STAFF_RANGE 5
 #define MIN_BOW_RANGE 2
 #define NUM_ITEM_TYPES 11
 typedef enum {
-	SWO = 0, // 1 handed sword
-	SWT = 1, // 2 handed sword
+	SWORD_ONE_HAND = 0, // 1 handed sword
+	SWORD_TWO_HAND = 1, // 2 handed sword
 	BOW = 2, // Bow
-	DAG = 3, // Dagger
-	STF = 4, // Staff
-	HVY = 5, // Heavy armor
-	LHT = 6, // Light armor
-	SHD = 7, // Shield
-	POT = 8, // Potion
-	WND = 9, // Wand
-	SCR = 10 // Scroll
+	DAGGER = 3, // Dagger
+	STAFF = 4, // Staff
+	HEAVY = 5, // Heavy armor
+	LIGHT = 6, // Light armor
+	SHIELD = 7, // Shield
+	POTION = 8, // Potion
+	WAND = 9, // Wand
+	SCROLL = 10 // Scroll
 } itemType;
 
 
 
 @interface Item : NSObject {
 	NSString *item_name;
-	int effect_amount;
+	int damage;
+	int elem_damage;
 	int range; //Ranged damage for bow, staff
 	int charges;
 	int point_val; //Sell value + high score point value
@@ -66,7 +67,8 @@ typedef enum {
 @property (nonatomic) int poison;
 @property (nonatomic) int dark;
 @property (nonatomic) int armor;
-@property (nonatomic) int effect_amount;
+@property (nonatomic) int damage;
+@property (nonatomic) int elem_damage;
 @property (nonatomic) int range;
 @property (nonatomic) int charges;
 
@@ -74,13 +76,16 @@ typedef enum {
 +(Item *) generate_random_item: (int) dungeon_level
 					 elem_type: (elemType) elem_type;
 
+-(Item *)initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
+
 +(int) item_val : (Item *) item;
 
 -(Item *)initWithStats: (NSString *) in_name 
 			 item_slot: (slotType) in_item_slot 
 			 elem_type: (elemType) in_elem_type 
 			 item_type: (itemType) in_item_type 
-		 effect_amount: (int) in_effect_amount 
+				damage: (int) in_damage 
+		   elem_damage: (int) in_elem_damage
 			   charges: (int) in_charges
 				 range: (int) in_range
 					hp: (int) in_hp 

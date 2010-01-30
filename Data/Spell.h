@@ -16,6 +16,7 @@
 #define ITEM_HEAL_SPELL_ID 100 //Temporary assignment
 #define ITEM_MANA_SPELL_ID 101 //Temporary assignment
 #define ITEM_BOOK_SPELL_ID 102 //Temporary assignment
+#define ITEM_NO_SPELL -1
 
 typedef enum {DAMAGE, CONDITION} spellType;
 typedef enum {SELF,SINGLE} targetType;
