@@ -295,13 +295,6 @@
 			name = Spell;
 			sourceTree = "<group>";
 		};
-		B09D78A31107EEC9004C9922 /* Player */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Player;
-			sourceTree = "<group>";
-		};
 		D931C3E21106322D0032A3DD /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -436,7 +429,6 @@
 			isa = PBXGroup;
 			children = (
 				65E8F378110BFBDC000BF581 /* Spell */,
-				B09D78A31107EEC9004C9922 /* Player */,
 				D9EBB8EC1106889100C34836 /* Item */,
 				D9EBB8EB1106887F00C34836 /* Creature */,
 				D9EBB8EA1106887700C34836 /* Level */,

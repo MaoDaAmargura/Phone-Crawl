@@ -13,6 +13,7 @@
 
 #define STAFF_RANGE 5
 #define MIN_BOW_RANGE 2
+#define MAX_BOW_RANGE 6
 #define NUM_ITEM_TYPES 11
 typedef enum {
 	SWORD_ONE_HAND = 0, // 1 handed sword

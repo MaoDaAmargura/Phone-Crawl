@@ -36,6 +36,7 @@ typedef enum {
 
 @class Item,Coord;
 @interface Creature : NSObject {
+	NSString *name;
 	Coord *creatureLocation;
 	
 	int aggro_range;
@@ -45,6 +46,7 @@ typedef enum {
     int   curr_shield;
     int   curr_mana;
 	int   money;
+	int   ability_points;
 	
 	//Base stats
 	condition_bitset condition;
@@ -81,12 +83,17 @@ typedef enum {
 	int abilities[MAX_NUM_ABILITIES];
 }
 
+- (id) initWithLevel: (int) lvl;
+- (id) initWithInfo: (NSString *) in_name level: (int) lvl;
+
+
 - (int) statBase;
 - (void) Update_Stats_Item: (Item *) item;
 - (void) Set_Base_Stats;
 
 - (void) Take_Damage: (int) amount;
 - (void) Heal: (int) amount;
+- (void) Mana_Heal: (int) amount;
 
 - (void) Add_Condition: (conditionType) new_condition;
 - (void) Remove_Condition: (conditionType) rem_condition;
@@ -100,8 +107,10 @@ typedef enum {
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
 
+@property (readonly) NSString *name;
 @property int money;
 @property int curr_mana;
+@property int ability_points;
 @property (readonly) int level;
 @property (nonatomic) int curr_health;
 @property (nonatomic) int curr_shield;

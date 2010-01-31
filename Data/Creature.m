@@ -11,6 +11,8 @@
 
 @implementation Creature
 
+@synthesize name;
+@synthesize ability_points;
 @synthesize level;
 @synthesize creatureLocation;
 @synthesize inventory;
@@ -38,10 +40,15 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initWithLevel:(int) lvl
+- (id) initWithLevel: (int) lvl {
+	return [self initWithInfo:@"Bob" level: lvl];
+}
+
+- (id) initWithInfo: (NSString *) in_name level: (int) lvl
 {
 	if(self = [super init])
 	{
+		name = in_name;
 		creatureLocation = [[[Coord alloc] init] autorelease];
 		head = [[[Item alloc] init] autorelease];
 		chest = [[[Item alloc] init] autorelease];
@@ -50,6 +57,7 @@
 		[self Set_Base_Stats];
 		level = lvl;
 		money = 10000;
+		ability_points = 10;
 		condition = NO_CONDITION;
 		return self;
 	}
@@ -120,6 +128,13 @@
 		curr_health = max_health;
 		if (curr_shield > max_shield)
 			curr_shield = max_shield;
+	}
+}
+
+- (void) Mana_Heal:(int)amount {
+	curr_mana += amount;
+	if (curr_mana > max_mana) {
+		curr_mana = max_mana;
 	}
 }
 
