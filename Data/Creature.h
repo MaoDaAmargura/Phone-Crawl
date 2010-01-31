@@ -42,6 +42,7 @@ typedef enum {
 	int aggro_range;
     int   level;
     float turn_speed;
+
     int   curr_health;
     int   curr_shield;
     int   curr_mana;
@@ -53,9 +54,6 @@ typedef enum {
 	int max_health;
 	int max_shield;
 	int max_mana;
-	int strength;
-	int dexterity;
-	int willpower;
 	//Resists
 	int fire;
 	int cold;
@@ -81,11 +79,21 @@ typedef enum {
 	
 	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
 	int abilities[MAX_NUM_ABILITIES];
+	
+	@private
+	
+	int real_max_health;
+	int real_max_shield;
+	int real_max_mana;
+	float real_turn_speed;
 }
 
 - (id) initWithLevel: (int) lvl;
 - (id) initWithInfo: (NSString *) in_name level: (int) lvl;
 
+
+//Reset stats modified by conditions during combat
+- (void) Reset_Stats;
 
 - (int) statBase;
 - (void) Update_Stats_Item: (Item *) item;
@@ -112,14 +120,12 @@ typedef enum {
 @property int curr_mana;
 @property int ability_points;
 @property (readonly) int level;
+@property (nonatomic) float turn_speed;
 @property (nonatomic) int curr_health;
 @property (nonatomic) int curr_shield;
 @property (nonatomic) int max_health;
 @property (nonatomic) int max_shield;
 @property (nonatomic) int max_mana;
-@property (nonatomic) int strength;
-@property (nonatomic) int dexterity;
-@property (nonatomic) int willpower;
 @property (nonatomic) int fire;
 @property (nonatomic) int cold;
 @property (nonatomic) int lightning;

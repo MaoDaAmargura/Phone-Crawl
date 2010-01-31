@@ -35,17 +35,12 @@ BOOL have_set_spells = FALSE;
 	return nil;
 }
 
-+ (void) BuildSpellSet
-{
-	//Fill spell_list with Spell* pointers to all of the spells from pre-made data
-	//have_set_spells = TRUE
-}
-
 //FIRE,COLD,LIGHTNING,POISON,DARK
 - (NSString *) cast : (Creature *) caster target: (Creature *) target {
 	if(target.curr_mana < mana_cost)
 		return @"Not enough mana to cast this spell!";
 
+	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
 	switch (spell_type) {
 		case DAMAGE:
 			if ([self Resist_Check:caster target:target]) 
@@ -101,7 +96,6 @@ BOOL have_set_spells = FALSE;
 }
 
 - (NSString *) cond_spell:(Creature *)caster target:(Creature *)target {
-	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
 	switch (elem_type) {
 		case FIRE:
 			[target Add_Condition:FIRE_HASTE];
@@ -130,7 +124,6 @@ BOOL have_set_spells = FALSE;
 //Return string listing damage and if condition was added to target
 //Add formatted string creation for return
 - (NSString *) detr_spell: (Creature *) caster target: (Creature *) target {
-	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
 	[target Take_Damage:damage];
 	if ((arc4random() % STAT_MAX + 1) > 10 * spell_level ) {
 		switch (elem_type) {
@@ -157,12 +150,12 @@ BOOL have_set_spells = FALSE;
 };
 
 - (NSString *) heal_potion: (Creature *) caster target: (Creature *) target {
-	[target Heal: damage];
+	[caster Heal: damage];
 	return [NSString stringWithFormat:@"Healed for <%d> health points!",damage];
 }
 
 - (NSString *) mana_potion: (Creature *) caster target: (Creature *) target {
-	[target Mana_Heal: damage];
+	[caster Mana_Heal: damage];
 	return [NSString stringWithFormat:@"<%d> mana points replenished!",damage];
 }
 	
@@ -177,6 +170,38 @@ BOOL have_set_spells = FALSE;
 	return @"You gained an ability point!";
 }
 
+- (NSString *) haste: (Creature *) caster target: (Creature *) target {
+	[caster Add_Condition:HASTENED];
+	caster.turn_speed += caster.turn_speed * (damage/100.0); // Increase turn speed by percentage
+	return @"Hastened";
+}
+
+- (NSString *) freeze: (Creature *) caster target: (Creature *) target {
+	[target Add_Condition:CHILLED];
+	target.turn_speed -= target.turn_speed * (damage / 100.0); // Decrease turn speed by percentage
+	return @"Chilled!";
+}
+
+- (NSString *) purge: (Creature *) caster target: (Creature *) target {
+	[target Clear_Condition];
+	[target Take_Damage:damage];
+	[caster Take_Damage:(damage / spell_level)];
+	return @"Target has been purged of all conditions!";
+}
+	
+- (NSString *) taint: (Creature *) caster target: (Creature *) target {
+	[target Add_Condition:WEAKENED];
+	target.max_health -= target.max_health * (damage / 100.0); // Decrease max health by percentage
+	target.max_shield -= target.max_shield * (damage / 100.0); // Decrease max shield by percentage
+	return @"Target has been weakened by the taint!";
+}
+
+- (NSString *) confusion: (Creature *) caster target: (Creature *) target {
+	[target Add_Condition:CONFUSION];
+	//What is confusion supposed to do?
+	return @"Target is confused!";
+}
+
 + (void) initialize {
 	[super initialize];
 	int id_cnt = 0, spell_lvl = 1;
@@ -184,6 +209,11 @@ BOOL have_set_spells = FALSE;
 	IMP heal_potion = [Spell methodForSelector:@selector(heal_potion:target:)];
 	IMP mana_potion = [Spell methodForSelector:@selector(mana_potion:target:)];
 	IMP wand = [Spell methodForSelector:@selector(wand:target:)];
+	IMP haste = [Spell methodForSelector:@selector(haste:target:)];
+	IMP freeze = [Spell methodForSelector:@selector(freeze:target:)];
+	IMP purge = [Spell methodForSelector:@selector(purge:target:)];
+	IMP taint = [Spell methodForSelector:@selector(taint:target:)];
+	IMP confusion = [Spell methodForSelector:@selector(confusion:target:)];
 	
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Tome of Knowledge" spell_type:ITEM target_type:SINGLE elem_type:DARK mana_cost:0 damage:0 range:MAX_BOW_RANGE
 										  spell_level:1 spell_id:id_cnt++ spell_fn:scroll]];
@@ -210,7 +240,7 @@ BOOL have_set_spells = FALSE;
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Mana Potion" spell_type:ITEM target_type:SINGLE elem_type:DARK mana_cost:0 damage:500 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5+1 spell_id:id_cnt++ spell_fn:mana_potion]];
 	
-	
+	//PC spells
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Fireball" spell_type:DAMAGE target_type:SINGLE elem_type:FIRE mana_cost:50 damage:50 range:MAX_BOW_RANGE 
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Fireball" spell_type:DAMAGE target_type:SINGLE elem_type:FIRE mana_cost:50 damage:50 range:MAX_BOW_RANGE 
@@ -257,14 +287,71 @@ BOOL have_set_spells = FALSE;
 	
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
-	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
-	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Drain Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
-	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
-	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Drain" spell_type:DAMAGE target_type:SINGLE elem_type:DARK mana_cost:50 damage:30 range:MAX_BOW_RANGE
 										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:nil]];
+	
+	//Condition spells
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Haste" spell_type:CONDITION target_type:SELF elem_type:FIRE mana_cost:80 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:haste]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Haste" spell_type:CONDITION target_type:SELF elem_type:FIRE mana_cost:80 damage:15 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:haste]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Haste" spell_type:CONDITION target_type:SELF elem_type:FIRE mana_cost:80 damage:20 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:haste]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Haste" spell_type:CONDITION target_type:SELF elem_type:FIRE mana_cost:80 damage:25 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:haste]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Haste" spell_type:CONDITION target_type:SELF elem_type:FIRE mana_cost:80 damage:30 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:haste]];
+	
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Freeze" spell_type:CONDITION target_type:SINGLE elem_type:COLD mana_cost:50 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:freeze]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Freeze" spell_type:CONDITION target_type:SINGLE elem_type:COLD mana_cost:65 damage:20 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:freeze]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Freeze" spell_type:CONDITION target_type:SINGLE elem_type:COLD mana_cost:80 damage:30 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:freeze]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Freeze" spell_type:CONDITION target_type:SINGLE elem_type:COLD mana_cost:90 damage:40 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:freeze]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Freeze" spell_type:CONDITION target_type:SINGLE elem_type:COLD mana_cost:105 damage:50 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:freeze]];
+	
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Purge" spell_type:CONDITION target_type:SINGLE elem_type:LIGHTNING mana_cost:60 damage:20 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:purge]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Purge" spell_type:CONDITION target_type:SINGLE elem_type:LIGHTNING mana_cost:75 damage:40 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:purge]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Purge" spell_type:CONDITION target_type:SINGLE elem_type:LIGHTNING mana_cost:90 damage:60 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:purge]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Purge" spell_type:CONDITION target_type:SINGLE elem_type:LIGHTNING mana_cost:110 damage:80 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:purge]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Purge" spell_type:CONDITION target_type:SINGLE elem_type:LIGHTNING mana_cost:60 damage:60 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:purge]];
+	
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Taint" spell_type:CONDITION target_type:SINGLE elem_type:POISON mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:taint]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Taint" spell_type:CONDITION target_type:SINGLE elem_type:POISON mana_cost:50 damage:15 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:taint]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Taint" spell_type:CONDITION target_type:SINGLE elem_type:POISON mana_cost:60 damage:20 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:taint]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Taint" spell_type:CONDITION target_type:SINGLE elem_type:POISON mana_cost:70 damage:25 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:taint]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Taint" spell_type:CONDITION target_type:SINGLE elem_type:POISON mana_cost:80 damage:30 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:taint]];
+	
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Confusion" spell_type:CONDITION target_type:SINGLE elem_type:DARK mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:confusion]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Lesser Confusion" spell_type:CONDITION target_type:SINGLE elem_type:DARK mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:confusion]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Confusion" spell_type:CONDITION target_type:SINGLE elem_type:DARK mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:confusion]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Major Confusion" spell_type:CONDITION target_type:SINGLE elem_type:DARK mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:confusion]];
+	[spell_list addObject:[[Spell alloc] initWithInfo:@"Superior Confusion" spell_type:CONDITION target_type:SINGLE elem_type:DARK mana_cost:40 damage:10 range:MAX_BOW_RANGE
+										  spell_level:spell_lvl++%5 + 1 spell_id:id_cnt++ spell_fn:confusion]];
+	
 	
 	//Wand spells
 	[spell_list addObject:[[Spell alloc] initWithInfo:@"Minor Fireball" spell_type:DAMAGE target_type:SINGLE elem_type:FIRE mana_cost:0 damage:50 range:MAX_BOW_RANGE 

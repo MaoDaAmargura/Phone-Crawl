@@ -10,7 +10,7 @@
 
 #import "Creature.h"
 #import "Item.h"
-#import "Util.h"
+#import "Util.h" 
 
 #define ITEM_HEAL_SPELL_ID 100 //Temporary assignment
 #define ITEM_MANA_SPELL_ID 101 //Temporary assignment
@@ -50,7 +50,10 @@ NSMutableArray *spell_list;
 - (NSString *) mana_potion: (Creature *) caster target: (Creature *) target;
 - (NSString *) wand: (Creature *) caster target: (Creature *) target;
 - (NSString *) scroll: (Creature *) caster target: (Creature *) target;
-
-+(void) BuildSpellSet; //construct spell_list array
+- (NSString *) haste: (Creature *) caster target: (Creature *) target;
+- (NSString *) freeze: (Creature *) caster target: (Creature *) target;
+- (NSString *) purge: (Creature *) caster target: (Creature *) target;
+- (NSString *) taint: (Creature *) caster target: (Creature *) target;
+- (NSString *) confusion: (Creature *) caster target: (Creature *) target;
 
 @end
