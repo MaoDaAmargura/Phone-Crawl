@@ -14,8 +14,6 @@ typedef enum {
 {
 	IBOutlet UIImageView *mapImageView;
 	
-	IBOutlet UIProgressView *hpview;
-	
 	IBOutlet UIView *healthBar;
 	IBOutlet UIView *shieldBar;
 	IBOutlet UIView	*manaBar;
