@@ -208,7 +208,7 @@ const int base_item_stats[10][9] = {
                                              poison: 0 
                                                dark: 0 
                                               armor: 0
-                                           spell_id: ITEM_HEAL_SPELL_ID];
+                                           spell_id: ITEM_HEAL_SPELL_ID + dungeon_level - 1];
             else
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Mana",spell_name[dungeon_level]]
                                           item_slot: BAG 
@@ -227,7 +227,7 @@ const int base_item_stats[10][9] = {
                                              poison: 0 
                                                dark: 0 
                                               armor: 0
-                                           spell_id: ITEM_MANA_SPELL_ID];
+                                           spell_id: ITEM_MANA_SPELL_ID + dungeon_level - 1];
         case WAND:
             return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Wand of %s Magic",spell_name[dungeon_level],elem_string1[dungeon_level]] 
                                       item_slot: BAG
@@ -246,7 +246,7 @@ const int base_item_stats[10][9] = {
                                          poison: 0 
                                            dark: 0 
                                           armor: 0
-                                       spell_id: ITEM_MANA_SPELL_ID];
+                                       spell_id: START_WAND_SPELLS + elem_type * 5];
         case SCROLL:
             return [[Item alloc] initWithStats: @"Tome of Knowledge"
                                      item_slot: BAG
@@ -265,7 +265,7 @@ const int base_item_stats[10][9] = {
                                         poison: 0 
                                           dark: 0 
                                          armor: 0
-                                      spell_id: ITEM_MANA_SPELL_ID];
+                                      spell_id: ITEM_BOOK_SPELL_ID];
         default:
             //NSLog("Error in random item generation");
             return nil;
