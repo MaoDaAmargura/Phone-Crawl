@@ -87,7 +87,6 @@
 		D9FFB14B110BA8E000536EA7 /* wallv2-Tinverted.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB112110BA8E000536EA7 /* wallv2-Tinverted.png */; };
 		D9FFB14C110BA8E000536EA7 /* wallv2-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB113110BA8E000536EA7 /* wallv2-vertical.png */; };
 		D9FFB14D110BA8E000536EA7 /* wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB114110BA8E000536EA7 /* wood.png */; };
-		D9FFB14E110BA8E000536EA7 /* human.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB115110BA8E000536EA7 /* human.png */; };
 		D9FFB14F110BA8E000536EA7 /* human1.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB116110BA8E000536EA7 /* human1.png */; };
 		D9FFB150110BA8E000536EA7 /* wall-stone-bottomleft.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB118110BA8E000536EA7 /* wall-stone-bottomleft.png */; };
 		D9FFB151110BA8E000536EA7 /* wall-stone-bottomright.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB119110BA8E000536EA7 /* wall-stone-bottomright.png */; };
@@ -203,7 +202,6 @@
 		D9FFB112110BA8E000536EA7 /* wallv2-Tinverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-Tinverted.png"; sourceTree = "<group>"; };
 		D9FFB113110BA8E000536EA7 /* wallv2-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-vertical.png"; sourceTree = "<group>"; };
 		D9FFB114110BA8E000536EA7 /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
-		D9FFB115110BA8E000536EA7 /* human.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human.png; sourceTree = "<group>"; };
 		D9FFB116110BA8E000536EA7 /* human1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human1.png; sourceTree = "<group>"; };
 		D9FFB118110BA8E000536EA7 /* wall-stone-bottomleft.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-bottomleft.png"; sourceTree = "<group>"; };
 		D9FFB119110BA8E000536EA7 /* wall-stone-bottomright.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-stone-bottomright.png"; sourceTree = "<group>"; };
@@ -478,7 +476,6 @@
 				D9FFB0F1110BA8E000536EA7 /* Equipable */,
 				D9FFB102110BA8E000536EA7 /* FloorTile */,
 				D9FFB117110BA8E000536EA7 /* old walls */,
-				D9FFB115110BA8E000536EA7 /* human.png */,
 				D9FFB116110BA8E000536EA7 /* human1.png */,
 			);
 			path = Images;
@@ -657,7 +654,6 @@
 				D9FFB14B110BA8E000536EA7 /* wallv2-Tinverted.png in Resources */,
 				D9FFB14C110BA8E000536EA7 /* wallv2-vertical.png in Resources */,
 				D9FFB14D110BA8E000536EA7 /* wood.png in Resources */,
-				D9FFB14E110BA8E000536EA7 /* human.png in Resources */,
 				D9FFB14F110BA8E000536EA7 /* human1.png in Resources */,
 				D9FFB150110BA8E000536EA7 /* wall-stone-bottomleft.png in Resources */,
 				D9FFB151110BA8E000536EA7 /* wall-stone-bottomright.png in Resources */,
