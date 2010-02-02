@@ -19,6 +19,5 @@
 @property (nonatomic, retain) UITabBarController *mainTabController;
 
 - (bool) highlightShouldBeYellowAtPoint: (CGPoint) point;
-+ (HomeTabViewController*) instance;
 
 @end

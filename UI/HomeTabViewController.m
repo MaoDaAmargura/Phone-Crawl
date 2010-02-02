@@ -25,13 +25,6 @@
 @synthesize mainTabController;
 static HomeTabViewController *singleton = nil;
 
-#pragma mark -
-#pragma mark access
-
-+ (HomeTabViewController*) instance {
-	return singleton;
-}
-
 
 #pragma mark -
 #pragma mark Life Cycle

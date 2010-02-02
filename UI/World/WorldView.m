@@ -88,7 +88,7 @@
 }
 
 - (void) showHighLightAtPoint: (CGPoint) point {
-	if ([[HomeTabViewController instance] highlightShouldBeYellowAtPoint: point]) {
+	if ([delegate highlightShouldBeYellowAtPoint: point]) {
 		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 	}
 	else {
