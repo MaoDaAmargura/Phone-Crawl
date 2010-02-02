@@ -19,6 +19,4 @@
 @property (nonatomic, retain) UITabBarController *mainTabController;
 @property (nonatomic, retain) Engine *gameEngine;
 
-- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point;
-
 @end
