@@ -77,11 +77,17 @@
 				it is to be removed when we know if a Tile has a UIButton / UIImage / whatever.
  */
 
+// point argument is to be given in terms of pixels.
+- (CGRect) rectAtPoint: (CGPoint) point {
+	float x = (floor(point.x / TILE_SIZE_PX)) * TILE_SIZE_PX;
+	float y = (floor(point.y / TILE_SIZE_PX)) * TILE_SIZE_PX;
+	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
+}
+
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-//	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
+	highlight.frame = [self rectAtPoint: loc];
 	[self.view addSubview: highlight];
-	highlight.center = loc;
 
 	[delegate worldView: self touchedAt: loc];
 	[super touchesBegan:touches withEvent:event];
@@ -89,7 +95,7 @@
 
 - (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	highlight.center = loc;
+	highlight.frame = [self rectAtPoint: loc];
 	[super touchesMoved:touches withEvent:event];
 }
 
