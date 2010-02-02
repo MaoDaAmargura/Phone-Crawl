@@ -148,6 +148,11 @@ static HomeTabViewController *singleton = nil;
  @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
  */
 - (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
+//	float x = floor(point.x / TILE_SIZE_PX);
+//	float y = floor(point.y / TILE_SIZE_PX);
+	
+	
+
 	return point.x < 160;
 }
 
