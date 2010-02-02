@@ -10,12 +10,26 @@
 
 #import "Creature.h"
 #import "Item.h"
-#import "Util.h"
+#import "Util.h" 
 
-#define ITEM_HEAL_SPELL_ID 100 //Temporary assignment
-#define ITEM_MANA_SPELL_ID 101 //Temporary assignment
-#define ITEM_BOOK_SPELL_ID 102 //Temporary assignment
 #define ITEM_NO_SPELL -1
+
+#define NUM_POTION_SPELLS 5
+#define NUM_PC_SPELLS 50
+#define NUM_DMG_SPELLS 25
+#define NUM_WAND_SPELLS NUM_DMG_SPELLS
+#define NUM_COND_SPELLS 25
+
+#define ITEM_BOOK_SPELL_ID 0
+#define ITEM_HEAL_SPELL_ID ITEM_BOOK_SPELL_ID + 1
+#define ITEM_MANA_SPELL_ID ITEM_HEAL_SPELL_ID + NUM_POTION_SPELLS
+#define START_PC_SPELLS ITEM_MANA_SPELL_ID + NUM_POTION_SPELLS
+#define END_PC_SPELLS START_PC_SPELLS + NUM_PC_SPELLS
+#define START_COND_SPELLS START_PC_SPELLS + NUM_DMG_SPELLS
+#define END_COND_SPELLS START_COND_SPELLS + NUM_COND_SPELLS
+#define START_WAND_SPELLS END_PC_SPELLS + 1
+#define END_WANT_SPELLS START_WAND_SPELLS + 25
+
 
 typedef enum {DAMAGE, CONDITION, ITEM} spellType;
 typedef enum {SELF,SINGLE} targetType;
@@ -50,7 +64,10 @@ NSMutableArray *spell_list;
 - (NSString *) mana_potion: (Creature *) caster target: (Creature *) target;
 - (NSString *) wand: (Creature *) caster target: (Creature *) target;
 - (NSString *) scroll: (Creature *) caster target: (Creature *) target;
-
-+(void) BuildSpellSet; //construct spell_list array
+- (NSString *) haste: (Creature *) caster target: (Creature *) target;
+- (NSString *) freeze: (Creature *) caster target: (Creature *) target;
+- (NSString *) purge: (Creature *) caster target: (Creature *) target;
+- (NSString *) taint: (Creature *) caster target: (Creature *) target;
+- (NSString *) confusion: (Creature *) caster target: (Creature *) target;
 
 @end

@@ -11,6 +11,7 @@
 
 @implementation Creature
 
+@synthesize turn_speed;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;
@@ -23,9 +24,6 @@
 @synthesize max_health;
 @synthesize max_shield;
 @synthesize max_mana;
-@synthesize strength;
-@synthesize dexterity;
-@synthesize willpower;
 @synthesize fire;
 @synthesize cold;
 @synthesize lightning;
@@ -74,6 +72,18 @@
 	return [self initWithLevel:0];
 }
 
+
+- (void) Reset_Stats {
+	[self Clear_Condition];
+	max_health = real_max_health;
+	max_shield = real_max_shield;
+	max_mana = real_max_mana;
+	turn_speed = real_turn_speed;
+	if (curr_health > max_health) curr_health = max_health;
+	if (curr_mana > max_mana) curr_mana = max_mana;
+	if (curr_shield > max_shield) curr_shield = max_shield;
+}
+
 #pragma mark -
 #pragma mark Helpers
 
@@ -81,7 +91,6 @@
 	turn_speed = 1.05;
 	max_health = max_shield = max_mana = 100 + level * 25;
 	curr_health = curr_shield = curr_mana = max_health;
-	strength = dexterity = willpower = 5;
 	fire = cold = lightning =	poison = dark = 20;
 	armor = 0;
 	[self Update_Stats_Item:head];
