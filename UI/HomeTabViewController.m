@@ -151,6 +151,7 @@
 	float y = floor(point.y / TILE_SIZE_PX);
 
 	CGPoint localCoord = CGPointMake(x,y);
+	DLog(@"retain count without autorelease: %d", [gameEngine retainCount]);
 	return [gameEngine validTileAtLocalCoord: localCoord];
 }
 
