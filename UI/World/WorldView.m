@@ -3,9 +3,8 @@
 
 @implementation WorldView
 
-@synthesize mapImageView;
+@synthesize mapImageView, highlight;
 @synthesize healthBar, shieldBar, manaBar;
-
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -14,6 +13,8 @@
 {
 	if(self = [super initWithNibName:@"WorldView"])
 	{
+		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 		return self;
 	}
 	return nil;
@@ -75,17 +76,12 @@
  @discussion	static UIImageView *highlight is a silly, hackish workaround, used only in these methods.
 				it is to be removed when we know if a Tile has a UIButton / UIImage / whatever.
  */
-static UIImageView *highlight = nil;
+
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
 //	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
-
-	if (!highlight) {
-		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
-	}
-	highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
-	highlight.center = loc;
 	[self.view addSubview: highlight];
+	highlight.center = loc;
 
 	[delegate worldView: self touchedAt: loc];
 	[super touchesBegan:touches withEvent:event];
