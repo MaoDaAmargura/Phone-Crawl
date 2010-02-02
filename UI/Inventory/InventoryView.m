@@ -63,7 +63,7 @@
 - (void) updateWithItemArray:(NSArray*) items
 {
 	[drawnItems removeAllObjects];
-	int index = 0;
+//	int index = 0;
 	
 	for(Item *i in items)
 	{

@@ -6,6 +6,16 @@ require 'json'
 require 'pp'
 require 'stringio'
 
+def all_source_files
+  
+  
+end
+
+desc 'underscore delineation to camel case'
+task :to_camel do
+
+
+end
 
 
 def all_sql_files

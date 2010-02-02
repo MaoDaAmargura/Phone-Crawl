@@ -71,7 +71,7 @@ NSMutableArray *tiles = nil;
 }
 
 - (Coord*) playerLocation {
-	return nil;
+	return [Coord newCoordWithX: 2 Y: 2 Z: 0];
 }
 
 

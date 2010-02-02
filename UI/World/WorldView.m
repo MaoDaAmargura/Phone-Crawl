@@ -1,19 +1,19 @@
 #import "WorldView.h"
 #import "Tile.h"
+#import "HomeTabViewController.h"
 
 @implementation WorldView
 
-@synthesize mapImageView;
+@synthesize mapImageView, highlight;
 @synthesize healthBar, shieldBar, manaBar;
-
 
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) init
-{
-	if(self = [super initWithNibName:@"WorldView"])
-	{
+- (id) init {
+	if(self = [super initWithNibName:@"WorldView"]) {
+		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 		return self;
 	}
 	return nil;
@@ -72,40 +72,60 @@
 
 /*!
  @abstract		highlight the Tile which the user is touching
- @discussion	static UIImageView *highlight is a silly, hackish workaround, used only in these methods.
-				it is to be removed when we know if a Tile has a UIButton / UIImage / whatever.
+ @discussion	arguments requiring points are to be given in terms of pixels.
+				all touch events outside a rectangle (0,0,320,320) are ignored.
+				if a drag event occurs outside this rectangle, the highlight is hidden.
  */
-static UIImageView *highlight = nil;
+
+- (CGRect) rectAtPoint: (CGPoint) point {
+	float x = (floor(point.x / TILE_SIZE_PX)) * TILE_SIZE_PX;
+	float y = (floor(point.y / TILE_SIZE_PX)) * TILE_SIZE_PX;
+	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
+}
+
+- (bool) pointIsInWorldView: (CGPoint) point {
+	return (point.x < WORLD_VIEW_SIZE_PX && point.y < WORLD_VIEW_SIZE_PX);
+}
+
+- (void) showHighLightAtPoint: (CGPoint) point {
+	if ([delegate highlightShouldBeYellowAtPoint: point]) {
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	}
+	else {
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+	}
+	
+	highlight.frame = [self rectAtPoint: point];
+	if (![highlight superview]) [self.view addSubview: highlight];
+}
+
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-//	loc.x /= TILE_SIZE_PX, loc.y /= TILE_SIZE_PX;
+	if (![self pointIsInWorldView: loc]) return;
 
-	if (!highlight) {
-		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
-	}
-	highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
-	highlight.center = loc;
-	[self.view addSubview: highlight];
+	[self showHighLightAtPoint: loc];
 
 	[delegate worldView: self touchedAt: loc];
-	[super touchesBegan:touches withEvent:event];
 }
 
 - (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	highlight.center = loc;
-	[super touchesMoved:touches withEvent:event];
+	if (![self pointIsInWorldView: loc]) {
+		[highlight removeFromSuperview];
+	}
+	else {
+		[self showHighLightAtPoint: loc];
+	}
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
 	[highlight removeFromSuperview];
-	[super touchesEnded:touches withEvent:event];
+	[delegate worldView: self selectedAt: loc];
 }
 
 - (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event {
 	[highlight removeFromSuperview];
-	[super touchesCancelled:touches withEvent:event];
 }
 
 @end

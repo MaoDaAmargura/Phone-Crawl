@@ -7,6 +7,7 @@
 #import "WorldView.h"
 
 #import "Engine.h"
+#import "Util.h"
 
 #define NUMBER_OF_TABS 4
 
@@ -22,8 +23,7 @@
 
 @implementation HomeTabViewController
 
-@synthesize mainTabController;
-@synthesize gameEngine;
+@synthesize mainTabController, gameEngine;
 
 
 #pragma mark -
@@ -42,7 +42,7 @@
 {
 	mainTabController = [[UITabBarController alloc] init];
 	
-	gameEngine = [[[Engine alloc] init] autorelease];
+	gameEngine = [[Engine alloc] init];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
 	[tabs addObject:[self initWorldView]];
@@ -140,6 +140,21 @@
 	DLog(@"worldViewDidLoad:(WorldView*) worldView");
 	[gameEngine updateWorldView:wView];
 }
+
+/*!
+ @method		highlightShouldBeYellowAtPoint:
+ @abstract		called by WorldView in response to a touch
+ @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
+ */
+- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
+	float x = floor(point.x / TILE_SIZE_PX);
+	float y = floor(point.y / TILE_SIZE_PX);
+
+	CGPoint localCoord = CGPointMake(x,y);
+	DLog(@"retain count without autorelease: %d", [gameEngine retainCount]);
+	return [gameEngine validTileAtLocalCoord: localCoord];
+}
+
 
 #pragma mark InventoryView
 - (void) needRefreshForInventoryView:(InventoryView*) iView
