@@ -100,7 +100,6 @@
 	[self showHighLightAtPoint: loc];
 
 	[delegate worldView: self touchedAt: loc];
-	[super touchesBegan:touches withEvent:event];
 }
 
 - (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
@@ -111,19 +110,16 @@
 	else {
 		[self showHighLightAtPoint: loc];
 	}
-
-	[super touchesMoved:touches withEvent:event];
 }
 
-- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
 	[highlight removeFromSuperview];
-	[super touchesEnded:touches withEvent:event];
+	[delegate worldView: self selectedAt: loc];
 }
 
 - (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event {
 	[highlight removeFromSuperview];
-	[super touchesCancelled:touches withEvent:event];
 }
 
 @end

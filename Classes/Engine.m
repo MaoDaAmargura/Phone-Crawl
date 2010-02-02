@@ -111,7 +111,7 @@
 	
 	wView.mapImageView.image = result;
 	
-	int base = [player statBase];
+//	int base = [player statBase];
 	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
 	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
 	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];

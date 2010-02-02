@@ -243,7 +243,7 @@
 		//No free inventory slots
 		return;
 	}
-	Item *rem_item = [inventory objectAtIndex:inv_slot];
+//	Item *rem_item = [inventory objectAtIndex:inv_slot];
 	[inventory insertObject:nil atIndex:inv_slot];
 	//return rem_item;
 };

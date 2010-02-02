@@ -1,11 +1,3 @@
-//
-//  Spell.m
-//  Phone-Crawl
-//
-//  Created by Benjamin Sangster on 1/23/10. 
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Spell.h"
 
 //Spell spell_list[NUM_SPELLS];
@@ -54,7 +46,7 @@ BOOL have_set_spells = FALSE;
 			else return @"Target resisted spell!";
 
 		case ITEM:
-			return [self spell_fn: caster target: target];
+//			return [self spell_fn: caster target: target];
 		default:
 			break;
 	};
