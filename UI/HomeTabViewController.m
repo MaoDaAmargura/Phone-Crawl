@@ -7,6 +7,7 @@
 #import "WorldView.h"
 
 #import "Engine.h"
+#import "Util.h"
 
 #define NUMBER_OF_TABS 4
 
@@ -22,8 +23,7 @@
 
 @implementation HomeTabViewController
 
-@synthesize mainTabController;
-static HomeTabViewController *singleton = nil;
+@synthesize mainTabController, gameEngine;
 
 
 #pragma mark -
@@ -42,7 +42,7 @@ static HomeTabViewController *singleton = nil;
 {
 	mainTabController = [[UITabBarController alloc] init];
 	
-	gameEngine = [[[Engine alloc] init] autorelease];
+	gameEngine = [[Engine alloc] init];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
 	[tabs addObject:[self initWorldView]];
@@ -61,7 +61,6 @@ static HomeTabViewController *singleton = nil;
 {
     [super viewDidLoad];
 	[gameEngine updateWorldView:wView];
-	singleton = self;
 }
 
 
@@ -148,12 +147,11 @@ static HomeTabViewController *singleton = nil;
  @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
  */
 - (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
-//	float x = floor(point.x / TILE_SIZE_PX);
-//	float y = floor(point.y / TILE_SIZE_PX);
-	
-	
+	float x = floor(point.x / TILE_SIZE_PX);
+	float y = floor(point.y / TILE_SIZE_PX);
 
-	return point.x < 160;
+	CGPoint localCoord = CGPointMake(x,y);
+	return [gameEngine validTileAtLocalCoord: localCoord];
 }
 
 

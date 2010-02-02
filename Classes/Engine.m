@@ -119,6 +119,28 @@
 	
 }
 
+#pragma mark -
+#pragma mark control
+/*!
+ @abstract		check the tile at the screen-relative given coordinates to see if it is reachable.
+ @discussion	'int offset' is a hack based on the player being at the center of the screen.
+				(to be changed.)
+				this DOES NOT CHECK with regards to missile attacks.  it is only for movement.
+ */
+
+- (bool) validTileAtLocalCoord: (CGPoint) localCoord {
+	Coord *playerCoord = [currentDungeon playerLocation];
+	int offset = 5;	// FIXME
+	localCoord.x -= offset, localCoord.y -= offset;
+	int absoluteX = localCoord.x + playerCoord.X;
+	int absoluteY = localCoord.y + playerCoord.Y;
+
+	if (absoluteX < 0 || absoluteX >= MAP_DIMENSION) return false;
+	if (absoluteY < 0 || absoluteY >= MAP_DIMENSION) return false;
+
+	Tile *tile = [currentDungeon tileAtX: absoluteX Y: absoluteY Z: playerCoord.Z];
+	return (tile.blockMove)? false : true;
+}
 
 
 @end

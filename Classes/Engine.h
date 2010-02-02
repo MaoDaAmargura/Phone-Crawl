@@ -20,4 +20,6 @@
 
 - (void) updateWorldView:(WorldView*) wView;
 
+- (bool) validTileAtLocalCoord: (CGPoint) localCoord;
+
 @end
