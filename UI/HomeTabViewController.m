@@ -23,6 +23,7 @@
 @implementation HomeTabViewController
 
 @synthesize mainTabController;
+@synthesize gameEngine;
 
 
 #pragma mark -

@@ -25,13 +25,13 @@ typedef enum {
 	NO_CONDITION  = 0,
 	BURNED        = 1,
 	CHILLED		  = 2,
-	HASTENED	  = 3,
-	POISONED	  = 4,
-	CURSED		  = 5,
-	FIRE_HASTE    = 6, //Fire turn-speed buff
-	COLD_SLOW     = 7, //Cold turn-speed debuff
-	WEAKENED      = 8, //Max health debuff
-	CONFUSION     = 9  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
+	HASTENED	  = 4,
+	POISONED	  = 8,
+	CURSED		  = 16,
+	FIRE_HASTE    = 32, //Fire turn-speed buff
+	COLD_SLOW     = 64, //Cold turn-speed debuff
+	WEAKENED      = 128, //Max health debuff
+	CONFUSION     = 256  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
 } conditionType;
 
 @class Item,Coord;
