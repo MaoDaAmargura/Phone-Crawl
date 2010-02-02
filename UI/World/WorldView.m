@@ -73,21 +73,31 @@
 
 /*!
  @abstract		highlight the Tile which the user is touching
- @discussion	static UIImageView *highlight is a silly, hackish workaround, used only in these methods.
-				it is to be removed when we know if a Tile has a UIButton / UIImage / whatever.
+ @discussion	arguments requiring points are to be given in terms of pixels.
+				all touch events outside a rectangle (0,0,320,320) are ignored.
+				if a drag event occurs outside this rectangle, the highlight is hidden.
  */
 
-// point argument is to be given in terms of pixels.
 - (CGRect) rectAtPoint: (CGPoint) point {
 	float x = (floor(point.x / TILE_SIZE_PX)) * TILE_SIZE_PX;
 	float y = (floor(point.y / TILE_SIZE_PX)) * TILE_SIZE_PX;
 	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
 }
 
+- (bool) pointIsInWorldView: (CGPoint) point {
+	return (point.x < WORLD_VIEW_SIZE_PX && point.y < WORLD_VIEW_SIZE_PX);
+}
+
+- (void) showHighLightAtPoint: (CGPoint) point {
+	highlight.frame = [self rectAtPoint: point];
+	if (![highlight superview]) [self.view addSubview: highlight];
+}
+
 - (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	highlight.frame = [self rectAtPoint: loc];
-	[self.view addSubview: highlight];
+	if (![self pointIsInWorldView: loc]) return;
+
+	[self showHighLightAtPoint: loc];
 
 	[delegate worldView: self touchedAt: loc];
 	[super touchesBegan:touches withEvent:event];
@@ -95,7 +105,13 @@
 
 - (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	highlight.frame = [self rectAtPoint: loc];
+	if (![self pointIsInWorldView: loc]) {
+		[highlight removeFromSuperview];
+	}
+	else {
+		[self showHighLightAtPoint: loc];
+	}
+
 	[super touchesMoved:touches withEvent:event];
 }
 
