@@ -23,6 +23,14 @@
 @implementation HomeTabViewController
 
 @synthesize mainTabController;
+static HomeTabViewController *singleton = nil;
+
+#pragma mark -
+#pragma mark access
+
++ (HomeTabViewController*) instance {
+	return singleton;
+}
 
 
 #pragma mark -
@@ -60,6 +68,7 @@
 {
     [super viewDidLoad];
 	[gameEngine updateWorldView:wView];
+	singleton = self;
 }
 
 
@@ -139,6 +148,16 @@
 	DLog(@"worldViewDidLoad:(WorldView*) worldView");
 	[gameEngine updateWorldView:wView];
 }
+
+/*!
+ @method		highlightShouldBeYellowAtPoint:
+ @abstract		called by WorldView in response to a touch
+ @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
+ */
+- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
+	return point.x < 160;
+}
+
 
 #pragma mark InventoryView
 - (void) needRefreshForInventoryView:(InventoryView*) iView

@@ -12,13 +12,14 @@ typedef enum {
 
 @interface WorldView : PCBaseViewController
 {
+	// updated by Engine
 	IBOutlet UIImageView *mapImageView;
-	
+
 	IBOutlet UIView *healthBar;
 	IBOutlet UIView *shieldBar;
 	IBOutlet UIView	*manaBar;
 	NSArray *displayBarArray;
-	
+
 	IBOutlet UILabel *healthLabel;
 	IBOutlet UILabel *shieldLabel;
 	IBOutlet UILabel *manaLabel;

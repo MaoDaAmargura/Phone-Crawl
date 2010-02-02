@@ -1,5 +1,6 @@
 #import "WorldView.h"
 #import "Tile.h"
+#import "HomeTabViewController.h"
 
 @implementation WorldView
 
@@ -9,10 +10,8 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) init
-{
-	if(self = [super initWithNibName:@"WorldView"])
-	{
+- (id) init {
+	if(self = [super initWithNibName:@"WorldView"]) {
 		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
 		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 		return self;
@@ -89,6 +88,13 @@
 }
 
 - (void) showHighLightAtPoint: (CGPoint) point {
+	if ([[HomeTabViewController instance] highlightShouldBeYellowAtPoint: point]) {
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	}
+	else {
+		highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+	}
+	
 	highlight.frame = [self rectAtPoint: point];
 	if (![highlight superview]) [self.view addSubview: highlight];
 }
