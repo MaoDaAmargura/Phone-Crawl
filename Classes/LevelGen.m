@@ -33,11 +33,6 @@
 	return ((rand() % range) + lowBound);
 }
 
-
-//If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.  
-//Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
-//			broken (passable) wall, and a 1 / 12 chance of being a door.
-
 #define BLDG_SIZE 12
 + (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
 	int addX = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
@@ -65,17 +60,32 @@
 			bool inRoomOnXAxis = false;
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
 
+			// corner case.
+			bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
+			tile.cornerWall = corner;	
+
 			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
 				tile.type = tileWoodFloor;
 			}
 			else {
 				tile.blockMove = true;
-				tile.type = tileWoodWall;
+				tile.type = (existing.type == tileWoodFloor)? tileWoodFloor : tileWoodWall;  // i lost track of what this line does, gimme a break, I'm 13 beers in
 			}
 
 			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
 			[dungeon setTile: tile at: curr];
+
+			
+			// FIXME: implement the following.
+			
+			// If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.
+			// leverage the 'corner' attribute for this.
+
+
+			//Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
+			//			broken (passable) wall, and a 1 / 12 chance of being a door.
+
 		}
 	}
 }

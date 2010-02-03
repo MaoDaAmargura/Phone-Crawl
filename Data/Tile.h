@@ -11,11 +11,21 @@ typedef enum {
 	bool blockMove;
 	bool smashable;
 	tileType type;
+
+
+	// level gen
+	int placementOrder;
+	bool cornerWall;
 }
 @property (nonatomic) bool blockShoot;
 @property (nonatomic) bool blockMove;
 @property (nonatomic) bool smashable;
 @property (nonatomic) tileType type;
+
+
+// level gen
+@property (nonatomic) int placementOrder;
+@property (nonatomic) bool cornerWall;
 
 + (void) initialize;
 + (UIImage*) imageForType:(tileType)type;

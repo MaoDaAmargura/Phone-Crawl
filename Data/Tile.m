@@ -9,20 +9,31 @@ static NSMutableArray *tileImageArray;
 @synthesize blockMove, blockShoot, type, smashable;
 
 
+// level gen
+@synthesize placementOrder, cornerWall;
+
+
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) init 
+// level gen
+static int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 0;
+
+- (id) init
 {
 	blockMove = NO;
 	blockShoot = NO;
 	smashable = false;
 	type = tileGrass;
+
+
+	// level gen
+	placementOrder = placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
+	cornerWall = false;
+
+
 	return self;
 }
-
-
-
 
 #pragma mark -
 #pragma mark Static
