@@ -18,6 +18,9 @@
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
 		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
+		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
+		D7D42F0B1119FA2700A8D7FF /* wood-door-broken.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F081119FA2700A8D7FF /* wood-door-broken.png */; };
+		D7D42F0C1119FA2700A8D7FF /* wood-door-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F091119FA2700A8D7FF /* wood-door-open.png */; };
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
@@ -117,6 +120,9 @@
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
 		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
+		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
+		D7D42F081119FA2700A8D7FF /* wood-door-broken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-broken.png"; sourceTree = "<group>"; };
+		D7D42F091119FA2700A8D7FF /* wood-door-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-open.png"; sourceTree = "<group>"; };
 		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
 		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
@@ -519,6 +525,9 @@
 		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
 			isa = PBXGroup;
 			children = (
+				D7D42F071119FA2700A8D7FF /* saloon-door.png */,
+				D7D42F081119FA2700A8D7FF /* wood-door-broken.png */,
+				D7D42F091119FA2700A8D7FF /* wood-door-open.png */,
 				D7D42DBA1119197800A8D7FF /* door-wood.png */,
 				D7D42DBB1119197800A8D7FF /* wall-wood.png */,
 				D9FFB103110BA8E000536EA7 /* BlackSquare.png */,
@@ -668,6 +677,9 @@
 				D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */,
 				D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */,
 				D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */,
+				D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */,
+				D7D42F0B1119FA2700A8D7FF /* wood-door-broken.png in Resources */,
+				D7D42F0C1119FA2700A8D7FF /* wood-door-open.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

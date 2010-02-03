@@ -2,7 +2,7 @@
 
 typedef enum {
 	tileNone, tileGrass, tileConcrete, tileDirt, tileWoodWall,
-	tileWoodDoor, tileWoodFloor,
+	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
 	tileRockFloor, tileRockWall		// FIXME import images on this line
 } tileType;
 
@@ -29,5 +29,6 @@ typedef enum {
 
 + (void) initialize;
 + (UIImage*) imageForType:(tileType)type;
+- (Tile*) initWithType: (tileType) _type;
 
 @end

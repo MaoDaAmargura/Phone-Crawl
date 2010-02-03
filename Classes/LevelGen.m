@@ -10,6 +10,8 @@
 - (bool) setTile: (Tile*) tile at: (Coord*) coord;
 @end
 
+extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+
 #pragma mark --private
 
 @interface LevelGen ()
@@ -35,6 +37,8 @@
 
 #define BLDG_SIZE 12
 + (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
+	placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
+
 	int addX = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
 	int addY = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
 
@@ -47,10 +51,9 @@
 		#define END_Y (startY + BLDG_SIZE + addY)
 		for (int y = startY; y < END_Y; y++) {
 
-			// walls or floors which would be placed over a wooden floor are instead ignored.  continue.
 			Tile *existing = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (existing.type == tileWoodFloor) continue;
-
+			if (existing.cornerWall) continue;
 			
 			Tile *tile = [[Tile alloc] init];
 			
@@ -62,30 +65,69 @@
 
 			// corner case.
 			bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
-			tile.cornerWall = corner;	
+			tile.cornerWall = corner;
 
 			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
 				tile.type = tileWoodFloor;
 			}
 			else {
-				tile.blockMove = true;
-				tile.type = (existing.type == tileWoodFloor)? tileWoodFloor : tileWoodWall;  // i lost track of what this line does, gimme a break, I'm 13 beers in
+				[tile initWithType: tileWoodWall];
 			}
 
 			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
 			[dungeon setTile: tile at: curr];
-
-			
-			// FIXME: implement the following.
 			
 			// If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.
 			// leverage the 'corner' attribute for this.
+			
+			// FIXME: this is painfully slow.  leaving it out for now.
+/*			if (tile.cornerWall) tile.type = tileConcrete;
 
+			if (tile.type == tileWoodWall && !tile.cornerWall) {
+				Tile *left = [dungeon tileAtX: x - 1 Y: y Z: coord.Z];
+				Tile *right = [dungeon tileAtX: x + 1 Y: y Z: coord.Z];
+				Tile *up = [dungeon tileAtX: x Y: y - 1 Z: coord.Z];
+				Tile *down = [dungeon tileAtX: x Y: y + 1 Z: coord.Z];
+
+				NSArray *neighbors = [NSArray arrayWithObjects: left, right, up, down, nil];
+				for (Tile *neighbor in neighbors) {
+					if (neighbor.type != tileWoodWall) continue;
+					if (neighbor.cornerWall) continue;
+					if (neighbor.placementOrder == tile.placementOrder) continue;
+					neighbor.type = tileWoodDoor;
+					neighbor.blockMove = false;
+					neighbor.blockShoot = false;
+					neighbor.smashable = false;
+
+					tile.type = tileNone;
+					tile.blockMove = false;
+					tile.blockShoot = false;
+					tile.smashable = false;					
+				}
+			}
+*/
+			
+			
 
 			//Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
 			//			broken (passable) wall, and a 1 / 12 chance of being a door.
 
+			if (tile.type == tileWoodFloor || tile.cornerWall) continue;
+
+			switch ([self min:1 max:12]) {
+				case 1:
+					tile.type = (tile.type == tileWoodWall)? tileWoodDoorOpen : tileDirt;
+					break;
+				case 2:
+					tile.type = (tile.type == tileWoodWall)? tileWoodDoorBroken : tileDirt;
+					break;
+				case 3:
+					tile.type = (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileDirt;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

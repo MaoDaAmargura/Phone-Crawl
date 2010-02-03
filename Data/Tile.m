@@ -16,22 +16,31 @@ static NSMutableArray *tileImageArray;
 #pragma mark -
 #pragma mark Life Cycle
 
-// level gen
-static int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 0;
+int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 0;
 
-- (id) init
-{
+- (id) init {
 	blockMove = NO;
 	blockShoot = NO;
 	smashable = false;
 	type = tileGrass;
 
-
-	// level gen
-	placementOrder = placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
 	cornerWall = false;
 
+	return self;
+}
 
+- (Tile*) initWithType: (tileType) _type {
+	type = _type;
+	switch (type) {
+		case tileWoodWall:
+			blockMove = true;
+			blockShoot = true;
+			smashable = false;
+			placementOrder = placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+			break;
+		default:
+			break;
+	}
 	return self;
 }
 
@@ -54,14 +63,16 @@ static int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		#define ADD(thing) [tileImageArray addObject: [UIImage imageNamed: thing]]
 
 		ADD(@"BlackSquare.png");
-
 		ADD(@"grass.png"    );
 		ADD(@"concrete.png" );
 		ADD(@"dirt.png"     );
 		ADD(@"wall-wood.png");
-		ADD(@"door-wood.png");
 
+		ADD(@"door-wood.png");
 		ADD(@"wood.png");
+		ADD(@"wood-door-open.png");
+		ADD(@"saloon-door.png");
+		ADD(@"wood-door-broken.png");
 	}
 }
 
