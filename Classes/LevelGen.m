@@ -55,16 +55,22 @@
 		#define END_Y (startY + BLDG_SIZE + addY)
 		for (int y = startY; y < END_Y; y++) {
 
-			// place only a 1 tile thick wall
+			Tile *tile = [[Tile alloc] init];
+			
+			// check to see if we're inside the 1 tile thick perimeter (of walls)
 			bool inRoomOnYAxis = false;
 			if (y > startY && y < END_Y - 1) inRoomOnYAxis = true;
 			bool inRoomOnXAxis = false;
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
-			if (inRoomOnXAxis && inRoomOnYAxis) continue;
 
-			Tile *tile = [[Tile alloc] init];
-			tile.blockMove = true;
-			tile.type = tileWoodWall;
+			// place either a wall or a floor.
+			if (inRoomOnXAxis && inRoomOnYAxis) {
+				tile.type = tileWoodFloor;
+			}
+			else {
+				tile.blockMove = true;
+				tile.type = tileWoodWall;				
+			}
 
 			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
 			[dungeon setTile: tile at: curr];
