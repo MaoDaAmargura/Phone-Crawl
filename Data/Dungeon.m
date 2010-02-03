@@ -21,6 +21,7 @@ NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
+@synthesize playerLocation;
 #pragma mark --private
 
 #pragma mark --friend
@@ -47,6 +48,7 @@ NSMutableArray *tiles = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
+	playerLocation = [[Coord newCoordWithX: 2 Y: 2 Z: 0] retain];
 	return self;
 }
 
@@ -69,11 +71,6 @@ NSMutableArray *tiles = nil;
 
 	return [tiles objectAtIndex: location];
 }
-
-- (Coord*) playerLocation {
-	return [Coord newCoordWithX: 2 Y: 2 Z: 0];
-}
-
 
 #pragma mark -
 #pragma mark Static
