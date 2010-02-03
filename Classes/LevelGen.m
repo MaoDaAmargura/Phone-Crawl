@@ -33,10 +33,7 @@
 	return ((rand() % range) + lowBound);
 }
 
-//LG places "buildings" throughout Z0.  All tiles in the wall of a building are reinitialized to be a wall.
-//All tiles in the interior of a building are reinitialized to be wooden floor.  
-//Walls which would be placed over a wooden floor are instead ignored.  
-//Wooden floor placed over a wall erases the wall.  
+
 //If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.  
 //Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
 //			broken (passable) wall, and a 1 / 12 chance of being a door.
@@ -55,6 +52,11 @@
 		#define END_Y (startY + BLDG_SIZE + addY)
 		for (int y = startY; y < END_Y; y++) {
 
+			// walls or floors which would be placed over a wooden floor are instead ignored.  continue.
+			Tile *existing = [dungeon tileAtX: x Y: y Z: coord.Z];
+			if (existing.type == tileWoodFloor) continue;
+
+			
 			Tile *tile = [[Tile alloc] init];
 			
 			// check to see if we're inside the 1 tile thick perimeter (of walls)
@@ -63,13 +65,13 @@
 			bool inRoomOnXAxis = false;
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
 
-			// place either a wall or a floor.
+			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
 				tile.type = tileWoodFloor;
 			}
 			else {
 				tile.blockMove = true;
-				tile.type = tileWoodWall;				
+				tile.type = tileWoodWall;
 			}
 
 			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
@@ -125,8 +127,8 @@
 #pragma mark -
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
-	[self putBuildings: dungeon onZLevel: 0];
-	return [self putRubble: dungeon onZLevel: 0];
+	[self putRubble: dungeon onZLevel: 0];
+	return [self putBuildings: dungeon onZLevel: 0];
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {
