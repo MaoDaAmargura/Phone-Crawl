@@ -98,7 +98,7 @@
 	}
 	
 	// Draw the player on the proper tile.
-	UIImage *playerSprite = [UIImage imageNamed:@"human.png"];
+	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
 	
 	UIGraphicsPopContext();
