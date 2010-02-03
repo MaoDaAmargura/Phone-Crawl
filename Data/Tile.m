@@ -6,7 +6,7 @@
 
 static NSMutableArray *tileImageArray;
 
-@synthesize blockMove, blockView, type;
+@synthesize blockMove, blockShoot, type, smashable;
 
 
 #pragma mark -
@@ -15,7 +15,8 @@ static NSMutableArray *tileImageArray;
 - (id) init 
 {
 	blockMove = NO;
-	blockView = NO;
+	blockShoot = NO;
+	smashable = false;
 	type = tileGrass;
 	return self;
 }
@@ -31,17 +32,23 @@ static NSMutableArray *tileImageArray;
  @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
  to that which they are declared in the tileType enum in Tile.h
  */
+
 + (void) initialize
 {
 	[super initialize];
 	if(!tileImageArray)
 	{
 		tileImageArray = [[NSMutableArray alloc] initWithCapacity:TILE_M_NUMBER_OF_TILES];
-		[tileImageArray addObject:[UIImage imageNamed:@"BlackSquare.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"grass.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"concrete.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"dirt.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"wood.png"]];
+
+		#define ADD(thing) [tileImageArray addObject: [UIImage imageNamed: thing]]
+
+		ADD(@"BlackSquare.png");
+
+		ADD(@"grass.png"    );
+		ADD(@"concrete.png" );
+		ADD(@"dirt.png"     );
+		ADD(@"wall-wood.png");
+		ADD(@"door-wood.png");
 	}
 }
 

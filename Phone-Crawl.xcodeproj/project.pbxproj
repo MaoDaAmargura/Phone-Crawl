@@ -16,6 +16,8 @@
 		B09D78AB1107EEDC004C9922 /* Battle.m in Sources */ = {isa = PBXBuildFile; fileRef = B09D78AA1107EEDC004C9922 /* Battle.m */; };
 		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
+		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
+		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
@@ -113,6 +115,8 @@
 		B09D78AA1107EEDC004C9922 /* Battle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Battle.m; sourceTree = "<group>"; };
 		D76B4F8E110D2A6500BBF5C0 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
+		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
+		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
 		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
 		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
@@ -515,6 +519,8 @@
 		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
 			isa = PBXGroup;
 			children = (
+				D7D42DBA1119197800A8D7FF /* door-wood.png */,
+				D7D42DBB1119197800A8D7FF /* wall-wood.png */,
 				D9FFB103110BA8E000536EA7 /* BlackSquare.png */,
 				D9FFB104110BA8E000536EA7 /* concrete.png */,
 				D9FFB105110BA8E000536EA7 /* dirt.png */,
@@ -660,6 +666,8 @@
 				D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */,
 				D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */,
 				D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */,
+				D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */,
+				D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
