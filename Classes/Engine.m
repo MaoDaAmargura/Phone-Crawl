@@ -36,7 +36,7 @@
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
-		currentDungeon = [[Dungeon alloc] initWithType:town];
+		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 
 		return self;
 	}

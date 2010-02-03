@@ -47,6 +47,10 @@ static NSMutableArray *tileImageArray;
 
 + (UIImage*) imageForType:(tileType)type
 {
+	if (type >= [tileImageArray count]) {
+		DLog (@"check your arguments: %d", type);
+		return nil;
+	}
 	return [tileImageArray objectAtIndex:type];
 }
 
