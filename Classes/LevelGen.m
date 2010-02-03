@@ -46,14 +46,21 @@
 	int addX = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
 	int addY = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
 
-	int x = coord.X + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
+	int startX = coord.X + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
 	int startY = coord.Y + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
 
-	for (; x < coord.X + BLDG_SIZE + addX; x++) {
-		for (int y = startY; y < coord.Y + BLDG_SIZE + addY; y++) {
+	#define END_X (coord.X + BLDG_SIZE + addX)
+	for (int x = startX; x < END_X; x++) {
+
+		#define END_Y (startY + BLDG_SIZE + addY)
+		for (int y = startY; y < END_Y; y++) {
+
 			// place only a 1 tile thick wall
-			
-			
+			bool inRoomOnYAxis = false;
+			if (y > startY && y < END_Y - 1) inRoomOnYAxis = true;
+			bool inRoomOnXAxis = false;
+			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
+			if (inRoomOnXAxis && inRoomOnYAxis) continue;
 
 			Tile *tile = [[Tile alloc] init];
 			tile.blockMove = true;
