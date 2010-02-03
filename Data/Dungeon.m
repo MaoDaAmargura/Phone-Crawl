@@ -43,9 +43,13 @@ NSMutableArray *tiles = nil;
 		return false;
 	}
 
-	int index = [self indexOfTileAtCoord: [Coord newCoordWithX: x Y: y Z: z]];
+	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
 	[tiles replaceObjectAtIndex: index withObject: tile];
 	return true;
+}
+
+- (bool) setTile: (Tile*) tile at: (Coord*) coord {
+	return [self setTile: tile X: coord.X Y: coord.Y Z: coord.Z];
 }
 
 #pragma mark --public
@@ -59,7 +63,7 @@ NSMutableArray *tiles = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
-	playerLocation = [[Coord newCoordWithX: 2 Y: 2 Z: 0] retain];
+	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
 	return self;
 }
 
@@ -73,7 +77,7 @@ NSMutableArray *tiles = nil;
 		return nil;
 	}
 
-	int index = [self indexOfTileAtCoord: [Coord newCoordWithX: x Y: y Z: z]];
+	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
 
 	return [tiles objectAtIndex: index];
 }

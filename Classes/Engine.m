@@ -66,7 +66,7 @@
 - (void) updateWorldView:(WorldView*) wView
 {
 	Coord *center = currentDungeon.playerLocation;
-//	Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
+//	Coord *center = [Coord withX:2 Y:2 Z:0];
 	//Coord *center = [player location];
 	int xInd, yInd;
 	int squaresWide = 10, squaresHigh = 10;
@@ -135,7 +135,7 @@
 	int absoluteX = localCoord.x + playerCoord.X;
 	int absoluteY = localCoord.y + playerCoord.Y;
 
-	return [Coord newCoordWithX:absoluteX Y:absoluteY Z:playerCoord.Z];
+	return [Coord withX:absoluteX Y:absoluteY Z:playerCoord.Z];
 }
 
 /*!

@@ -7,6 +7,7 @@
 
 @interface Dungeon ()
 - (bool) setTile: (Tile*) tile X: (int) x Y: (int) y Z: (int) z;
+- (bool) setTile: (Tile*) tile at: (Coord*) coord;
 @end
 
 #pragma mark --private
@@ -15,6 +16,7 @@
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon;
 + (Dungeon*) putRubble: (Dungeon*) dungeon;
+//+ (Dungeon*) putBuildings: (Dungeon*) dungeon;
 
 @end
 
@@ -28,21 +30,37 @@
 	return ((rand() % range) + lowBound);
 }
 
-
-+ (Dungeon*) putRubble: (Dungeon*) dungeon {
-	for (int LCV = 0; LCV < 7200; LCV++) {
-		int x = [self min: 0 max: MAP_DIMENSION - 1];
-		int y = [self min: 0 max: MAP_DIMENSION - 1];
++ (void) putRubblePatchIn: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
+	int reps = tight? 3 : 6;
+	for (int LCV = 0; LCV < reps; LCV++) {
 		Tile *tile = [[Tile alloc] init];
 		tile.blockMove = true;
 		tile.type = tileDirt;
-		[dungeon setTile: tile X: x Y: y Z: 0];
+
+		Coord *curr = [Coord withX: coord.X Y: coord.Y Z: coord.Z];
+		int delta = tight? 2 : 4;
+
+		curr.X += [self min: 0 max: delta] - delta / 2;
+		curr.Y += [self min: 0 max: delta] - delta / 2;
+
+		[dungeon setTile: tile at: curr];
+
+		if (!tight) [self putRubblePatchIn: dungeon at: curr tightly: true];
+	}
+}
+
++ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z{
+	for (int LCV = 0; LCV < 200; LCV++) {
+		int x = [self min: 0 max: MAP_DIMENSION - 1];
+		int y = [self min: 0 max: MAP_DIMENSION - 1];
+
+		[self putRubblePatchIn: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
 	}
 	return dungeon;
 }
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
-	return [self putRubble: dungeon];
+	return [self putRubble: dungeon onZLevel: 0];
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {
