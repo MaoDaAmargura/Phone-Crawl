@@ -157,9 +157,9 @@
 	if (![self validTileAtLocalCoord: localCoord]) return false;
 
 	Coord *absoluteCoord = [self absoluteCoord: localCoord];
-	DLog(@"%@", [currentDungeon.playerLocation description]);
+//	DLog(@"%@", [currentDungeon.playerLocation description]);
 	currentDungeon.playerLocation = absoluteCoord;
-	DLog(@"%@", [currentDungeon.playerLocation description]);
+//	DLog(@"%@", [currentDungeon.playerLocation description]);
 	return true;
 }
 

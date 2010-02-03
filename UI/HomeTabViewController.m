@@ -135,9 +135,9 @@
 	
 	CGPoint localCoord = CGPointMake(x,y);
 
-	if (![gameEngine validTileAtLocalCoord: localCoord]) return;
-
-	[gameEngine movePlayerToLocalCoord: localCoord];
+	if ([gameEngine movePlayerToLocalCoord: localCoord]) {
+		[gameEngine updateWorldView: worldView];
+	}
 }
 
 - (void) worldViewDidLoad:(WorldView*) worldView
