@@ -2,8 +2,8 @@
 
 typedef enum {
 	tileNone, tileGrass, tileConcrete, tileDirt, tileWoodWall,
-	tileWoodDoor,
-	tileRockFloor, tileRockWall
+	tileWoodDoor, tileWoodFloor,
+	tileRockFloor, tileRockWall		// FIXME import images on this line
 } tileType;
 
 @interface Tile : NSObject {

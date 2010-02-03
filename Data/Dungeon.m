@@ -69,17 +69,21 @@ NSMutableArray *tiles = nil;
 
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
 	if (x<0 || y<0 || z<0) {
-		NSLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
+		DLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
 		return nil;
 	}
 	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH) {
-		NSLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
+		DLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
 		return nil;
 	}
 
 	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
 
 	return [tiles objectAtIndex: index];
+}
+
+- (Tile*) tileAt: (Coord*) coord {
+	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 
 #pragma mark -

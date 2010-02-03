@@ -16,6 +16,7 @@ typedef enum {
 
 - (Dungeon*) initWithType: (levelType) lvlType;
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z;
+- (Tile*) tileAt: (Coord*) coord;
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
 

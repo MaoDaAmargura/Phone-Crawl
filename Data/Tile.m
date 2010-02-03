@@ -49,6 +49,8 @@ static NSMutableArray *tileImageArray;
 		ADD(@"dirt.png"     );
 		ADD(@"wall-wood.png");
 		ADD(@"door-wood.png");
+
+		ADD(@"wood.png");
 	}
 }
 

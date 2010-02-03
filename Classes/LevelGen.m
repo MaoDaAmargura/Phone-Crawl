@@ -15,8 +15,8 @@
 @interface LevelGen ()
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon;
-+ (Dungeon*) putRubble: (Dungeon*) dungeon;
-//+ (Dungeon*) putBuildings: (Dungeon*) dungeon;
++ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z;
++ (Dungeon*) putBuildings: (Dungeon*) dungeon onZLevel: (int) z;
 
 @end
 
@@ -24,11 +24,59 @@
 
 @implementation LevelGen
 
+// blows up on assert if lowBound < highBound.
+// negative lowBound works fine, I'm not sober enough to figure out a negative
+// highBound that passes the assert just now, so shut up all of your head.  -Nate
 + (int) min: (int) lowBound max: (int) highBound {
-	assert (lowBound <= highBound);
+	assert (lowBound < highBound);
 	int range = highBound - lowBound + 1; // +1 is due to behavior of modulo
 	return ((rand() % range) + lowBound);
 }
+
+//LG places "buildings" throughout Z0.  All tiles in the wall of a building are reinitialized to be a wall.
+//All tiles in the interior of a building are reinitialized to be wooden floor.  
+//Walls which would be placed over a wooden floor are instead ignored.  
+//Wooden floor placed over a wall erases the wall.  
+//If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.  
+//Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
+//			broken (passable) wall, and a 1 / 12 chance of being a door.
+
+#define BLDG_SIZE 12
++ (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
+	int addX = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
+	int addY = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
+
+	int x = coord.X + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
+	int startY = coord.Y + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
+
+	for (; x < coord.X + BLDG_SIZE + addX; x++) {
+		for (int y = startY; y < coord.Y + BLDG_SIZE + addY; y++) {
+			// place only a 1 tile thick wall
+			
+			
+
+			Tile *tile = [[Tile alloc] init];
+			tile.blockMove = true;
+			tile.type = tileWoodWall;
+
+			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
+			[dungeon setTile: tile at: curr];
+		}
+	}
+}
+
++ (Dungeon*) putBuildings: (Dungeon*) dungeon onZLevel: (int) z {
+	for (int LCV = 0; LCV < 50; LCV++) {
+		int x = [self min: 0 max: MAP_DIMENSION - 1];
+		int y = [self min: 0 max: MAP_DIMENSION - 1];
+		Coord *coord = [Coord withX: x Y: y Z: z];
+
+		[self putBuildingIn: dungeon at: coord];
+	}
+	return dungeon;
+}
+
+#pragma mark -
 
 + (void) putRubblePatchIn: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
 	int reps = tight? 3 : 6;
@@ -43,13 +91,15 @@
 		curr.X += [self min: 0 max: delta] - delta / 2;
 		curr.Y += [self min: 0 max: delta] - delta / 2;
 
-		[dungeon setTile: tile at: curr];
-
 		if (!tight) [self putRubblePatchIn: dungeon at: curr tightly: true];
+
+		if (![dungeon tileAt: curr].blockMove) {
+			[dungeon setTile: tile at: curr];
+		}
 	}
 }
 
-+ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z{
++ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 200; LCV++) {
 		int x = [self min: 0 max: MAP_DIMENSION - 1];
 		int y = [self min: 0 max: MAP_DIMENSION - 1];
@@ -59,7 +109,10 @@
 	return dungeon;
 }
 
+#pragma mark -
+
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
+	[self putBuildings: dungeon onZLevel: 0];
 	return [self putRubble: dungeon onZLevel: 0];
 }
 
@@ -73,6 +126,8 @@
 	}
 	return dungeon;
 }
+
+#pragma mark -
 
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
 	srand(time(0));
