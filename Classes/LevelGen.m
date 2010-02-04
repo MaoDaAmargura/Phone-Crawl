@@ -35,6 +35,32 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 	return ((rand() % range) + lowBound);
 }
 
+#pragma mark -
+#define MAX_PIT_RADIUS 10
++ (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
+	for (int LCV = 0; LCV < 6; LCV++) {
+
+		int xStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+		int yStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+
+		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
+			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
+				tileType type = tilePit;
+
+				int deltaX = abs(xStart - x);
+				int deltaY = abs(yStart - y);
+				int delta = sqrt(deltaX * deltaX + deltaY * deltaY);
+				if (delta > MAX_PIT_RADIUS) continue;
+				if (delta > MAX_PIT_RADIUS - 2) type = tileSlopeDown;
+
+				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
+				[tile initWithType: type];
+			}
+		}
+	}
+}
+
+#pragma mark -
 #define BLDG_SIZE 12
 + (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
 	placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
@@ -54,25 +80,25 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 			Tile *existing = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (existing.type == tileWoodFloor) continue;
 			if (existing.cornerWall) continue;
-			
-			Tile *tile = [[Tile alloc] init];
-			
+
+			Tile *tile = [Tile alloc];
+
 			// check to see if we're inside the 1 tile thick perimeter (of walls)
 			bool inRoomOnYAxis = false;
 			if (y > startY && y < END_Y - 1) inRoomOnYAxis = true;
 			bool inRoomOnXAxis = false;
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
 
-			// corner case.
-			bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
-			tile.cornerWall = corner;
-
 			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
-				tile.type = tileWoodFloor;
+				[tile initWithType: tileWoodFloor];
 			}
 			else {
 				[tile initWithType: tileWoodWall];
+
+				// corner case.
+				bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
+				tile.cornerWall = corner;
 			}
 
 			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
@@ -113,17 +139,21 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 			//Any non-corner wall has a 1 / 12 chance of being a crumbling (breakable) wall, a 1 / 12 chance of being a 
 			//			broken (passable) wall, and a 1 / 12 chance of being a door.
 
+			// FIXME: allow this to replace tileWoodFloor as well when suitable graphics are found.
 			if (tile.type == tileWoodFloor || tile.cornerWall) continue;
 
 			switch ([self min:1 max:12]) {
 				case 1:
-					tile.type = (tile.type == tileWoodWall)? tileWoodDoorOpen : tileDirt;
+					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
 					break;
 				case 2:
-					tile.type = (tile.type == tileWoodWall)? tileWoodDoorBroken : tileDirt;
+					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorBroken : tileRubble];
 					break;
 				case 3:
-					tile.type = (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileDirt;
+					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileRubble];
+					break;
+				case 4:
+					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoor : tileRubble];
 					break;
 				default:
 					break;
@@ -150,7 +180,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 	for (int LCV = 0; LCV < reps; LCV++) {
 		Tile *tile = [[Tile alloc] init];
 		tile.blockMove = true;
-		tile.type = tileDirt;
+		tile.type = tileRubble;
 
 		Coord *curr = [Coord withX: coord.X Y: coord.Y Z: coord.Z];
 		int delta = tight? 2 : 4;
@@ -180,7 +210,10 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self putRubble: dungeon onZLevel: 0];
-	return [self putBuildings: dungeon onZLevel: 0];
+	[self putBuildings: dungeon onZLevel: 0];
+	[self putPit: dungeon onZLevel: 0];
+
+	return dungeon;
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {

@@ -16,7 +16,8 @@ static NSMutableArray *tileImageArray;
 #pragma mark -
 #pragma mark Life Cycle
 
-int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 0;
+// extern'ed to LevelGen to track wall tiles in order of what building they are a part of
+int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 1;
 
 - (id) init {
 	blockMove = NO;
@@ -31,12 +32,30 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 - (Tile*) initWithType: (tileType) _type {
 	type = _type;
+	placementOrder = 0;	// dummy value, never occurs in a wall
+	blockMove = false;
+	blockShoot = false;
+	smashable = false;
+
 	switch (type) {
 		case tileWoodWall:
 			blockMove = true;
 			blockShoot = true;
-			smashable = false;
 			placementOrder = placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+			break;
+		case tileRubble:
+			blockMove = true;
+			smashable = true;
+			break;
+		case tileWoodDoor:
+			blockMove = true;
+			blockShoot = true;
+			smashable = true;
+			break;
+		case tileWoodDoorSaloon:
+			blockShoot = true;
+		case tilePit:
+			blockMove = true;
 			break;
 		default:
 			break;
@@ -74,6 +93,10 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"wood-door-open.png");
 		ADD(@"saloon-door.png");
 		ADD(@"wood-door-broken.png");
+
+		ADD(@"BlackSquare.png");
+		ADD(@"staircase-down.png");
+		ADD(@"staircase-up.png");		
 	}
 }
 
