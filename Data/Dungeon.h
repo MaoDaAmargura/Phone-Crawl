@@ -11,12 +11,15 @@ typedef enum {
 #pragma mark -
 
 @interface Dungeon : NSObject {
-	;
+	Coord *playerLocation;
 }
+
 - (Dungeon*) initWithType: (levelType) lvlType;
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z;
-- (Coord*) playerLocation;
+- (Tile*) tileAt: (Coord*) coord;
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
+
+@property (nonatomic, retain) Coord *playerLocation;
 
 @end

@@ -33,8 +33,8 @@
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
-		currentDungeon = [[Dungeon alloc] initWithType:town];
-		
+		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+
 		return self;
 	}
 	return nil;
@@ -62,7 +62,8 @@
 
 - (void) updateWorldView:(WorldView*) wView
 {
-	Coord *center = [Coord newCoordWithX:2 Y:2 Z:0];
+	Coord *center = currentDungeon.playerLocation;
+//	Coord *center = [Coord withX:2 Y:2 Z:0];
 	//Coord *center = [player location];
 	int xInd, yInd;
 	int squaresWide = 10, squaresHigh = 10;
@@ -119,25 +120,50 @@
 #pragma mark -
 #pragma mark control
 /*!
- @abstract		check the tile at the screen-relative given coordinates to see if it is reachable.
+ @abstract		convert a point in the local coordinate system to the global (dungeon wide) system.
  @discussion	'int offset' is a hack based on the player being at the center of the screen.
 				(to be changed.)
-				this DOES NOT CHECK with regards to missile attacks.  it is only for movement.
  */
 
-- (bool) validTileAtLocalCoord: (CGPoint) localCoord {
-	Coord *playerCoord = [currentDungeon playerLocation];
+- (Coord*) absoluteCoord: (CGPoint) localCoord {
+	Coord *playerCoord = currentDungeon.playerLocation;
 	int offset = 5;	// FIXME
 	localCoord.x -= offset, localCoord.y -= offset;
 	int absoluteX = localCoord.x + playerCoord.X;
 	int absoluteY = localCoord.y + playerCoord.Y;
 
-	if (absoluteX < 0 || absoluteX >= MAP_DIMENSION) return false;
-	if (absoluteY < 0 || absoluteY >= MAP_DIMENSION) return false;
+	return [Coord withX:absoluteX Y:absoluteY Z:playerCoord.Z];
+}
 
-	Tile *tile = [currentDungeon tileAtX: absoluteX Y: absoluteY Z: playerCoord.Z];
+/*!
+ @abstract		check the tile at the screen-relative given coordinates to see if it is reachable.
+ @discussion	this DOES NOT CHECK with regards to missile attacks.  it is only for movement.
+ */
+
+- (bool) validTileAtLocalCoord: (CGPoint) localCoord {
+	Coord *absoluteCoord = [self absoluteCoord: localCoord];
+
+	if (absoluteCoord.X < 0 || absoluteCoord.X >= MAP_DIMENSION) return false;
+	if (absoluteCoord.Y < 0 || absoluteCoord.Y >= MAP_DIMENSION) return false;
+
+	Tile *tile = [currentDungeon tileAtX: absoluteCoord.X Y: absoluteCoord.Y Z: absoluteCoord.Z];
 	return (tile.blockMove)? false : true;
 }
+
+- (bool) movePlayerToLocalCoord: (CGPoint) localCoord {
+	if (![self validTileAtLocalCoord: localCoord]) return false;
+
+	Coord *absoluteCoord = [self absoluteCoord: localCoord];
+//	DLog(@"%@", [currentDungeon.playerLocation description]);
+	currentDungeon.playerLocation = absoluteCoord;
+//	DLog(@"%@", [currentDungeon.playerLocation description]);
+	return true;
+}
+
+
+
+
+
 
 
 @end

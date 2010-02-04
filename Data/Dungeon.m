@@ -21,19 +21,35 @@ NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
+@synthesize playerLocation;
 #pragma mark --private
 
-#pragma mark --friend
+- (int) indexOfTileAtCoord: (Coord*) coord {
+	int location = coord.X;
+	location += coord.Y * MAP_DIMENSION;
+	location += coord.Z * MAP_DIMENSION * MAP_DIMENSION;
+
+	return location;
+}
+
+#pragma mark --friend 
+
 - (bool) setTile: (Tile*) tile X: (int) x Y: (int) y Z: (int) z {
+	if (x < 0 || x >= MAP_DIMENSION ||
+		y < 0 || y >= MAP_DIMENSION ||
+		z < 0 || z >= MAP_DEPTH) {
+
+		DLog (@"check your arguments: x %d, y%d, z%d", x,y,z);
+		return false;
+	}
+
+	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
+	[tiles replaceObjectAtIndex: index withObject: tile];
 	return true;
 }
 
-- (Tile*) setTileAtX: (int) x Y: (int) y Z: (int) z {
-	assert (x < MAP_DIMENSION);
-	assert (y < MAP_DIMENSION);
-	assert (z < MAP_DEPTH);
-
-	return nil;
+- (bool) setTile: (Tile*) tile at: (Coord*) coord {
+	return [self setTile: tile X: coord.X Y: coord.Y Z: coord.Z];
 }
 
 #pragma mark --public
@@ -47,33 +63,28 @@ NSMutableArray *tiles = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
+	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
 	return self;
 }
 
-- (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z 
-{
-	if (x<0 || y<0 || z<0) 
-	{
-		NSLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
+- (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
+	if (x<0 || y<0 || z<0) {
+		DLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
 		return nil;
 	}
-	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH)
-	{
-		NSLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
+	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH) {
+		DLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
 		return nil;
 	}
 
-	int location = x;
-	location += y * MAP_DIMENSION;
-	location += z * MAP_DIMENSION * MAP_DIMENSION;
+	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
 
-	return [tiles objectAtIndex: location];
+	return [tiles objectAtIndex: index];
 }
 
-- (Coord*) playerLocation {
-	return [Coord newCoordWithX: 2 Y: 2 Z: 0];
+- (Tile*) tileAt: (Coord*) coord {
+	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
-
 
 #pragma mark -
 #pragma mark Static

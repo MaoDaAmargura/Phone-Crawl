@@ -129,10 +129,15 @@
  @abstract		worldView callback for when world gets selected
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
-- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point
-{
-	DLog(@"worldView:(WorldView*) wView selectedAt:(CGPoint)point");
+- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point {
+	float x = floor(point.x / TILE_SIZE_PX);
+	float y = floor(point.y / TILE_SIZE_PX);
+	
+	CGPoint localCoord = CGPointMake(x,y);
 
+	if ([gameEngine movePlayerToLocalCoord: localCoord]) {
+		[gameEngine updateWorldView: worldView];
+	}
 }
 
 - (void) worldViewDidLoad:(WorldView*) worldView
@@ -151,7 +156,7 @@
 	float y = floor(point.y / TILE_SIZE_PX);
 
 	CGPoint localCoord = CGPointMake(x,y);
-	DLog(@"retain count without autorelease: %d", [gameEngine retainCount]);
+
 	return [gameEngine validTileAtLocalCoord: localCoord];
 }
 

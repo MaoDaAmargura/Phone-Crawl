@@ -22,4 +22,7 @@
 
 - (bool) validTileAtLocalCoord: (CGPoint) localCoord;
 
+- (bool) movePlayerToLocalCoord: (CGPoint) localCoord;
+
+
 @end

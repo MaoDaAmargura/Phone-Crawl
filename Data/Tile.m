@@ -6,22 +6,43 @@
 
 static NSMutableArray *tileImageArray;
 
-@synthesize blockMove, blockView, type;
+@synthesize blockMove, blockShoot, type, smashable;
+
+
+// level gen
+@synthesize placementOrder, cornerWall;
 
 
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) init 
-{
+int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 0;
+
+- (id) init {
 	blockMove = NO;
-	blockView = NO;
+	blockShoot = NO;
+	smashable = false;
 	type = tileGrass;
+
+	cornerWall = false;
+
 	return self;
 }
 
-
-
+- (Tile*) initWithType: (tileType) _type {
+	type = _type;
+	switch (type) {
+		case tileWoodWall:
+			blockMove = true;
+			blockShoot = true;
+			smashable = false;
+			placementOrder = placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+			break;
+		default:
+			break;
+	}
+	return self;
+}
 
 #pragma mark -
 #pragma mark Static
@@ -32,22 +53,36 @@ static NSMutableArray *tileImageArray;
  to that which they are declared in the tileType enum in Tile.h
  @note			I used mutableArray because NSDictionary is keyed by string only
  */
+
 + (void) initialize
 {
 	[super initialize];
 	if(!tileImageArray)
 	{
 		tileImageArray = [[NSMutableArray alloc] initWithCapacity:TILE_M_NUMBER_OF_TILES];
-		[tileImageArray addObject:[UIImage imageNamed:@"BlackSquare.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"grass.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"concrete.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"dirt.png"]];
-		[tileImageArray addObject:[UIImage imageNamed:@"wood.png"]];
+
+		#define ADD(thing) [tileImageArray addObject: [UIImage imageNamed: thing]]
+
+		ADD(@"BlackSquare.png");
+		ADD(@"grass.png"    );
+		ADD(@"concrete.png" );
+		ADD(@"dirt.png"     );
+		ADD(@"wall-wood.png");
+
+		ADD(@"door-wood.png");
+		ADD(@"wood.png");
+		ADD(@"wood-door-open.png");
+		ADD(@"saloon-door.png");
+		ADD(@"wood-door-broken.png");
 	}
 }
 
 + (UIImage*) imageForType:(tileType)type
 {
+	if (type >= [tileImageArray count]) {
+		DLog (@"check your arguments: %d", type);
+		return nil;
+	}
 	return [tileImageArray objectAtIndex:type];
 }
 
