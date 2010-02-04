@@ -55,7 +55,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 
 				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
-				[tilePitBase initWithType: typePitBase];
+				[tilePitBase initWithTileType: typePitBase];
 			}
 		}
 	}
@@ -213,7 +213,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 + (void) setFloorOf: (Dungeon*) dungeon to: (tileType) type onZLevel: (int) z {
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
-			[[dungeon tileAtX:x Y:y Z:z] initWithType: type];
+			[[dungeon tileAtX:x Y:y Z:z] initWithTileType: type];
 		}
 	}
 }
