@@ -1,16 +1,7 @@
-//
-//  Engine.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 1/19/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Engine.h"
 
 #import "Dungeon.h"
 #import "Creature.h"
-//#import "LevelGen.h"
 #import "ItemGen.h"
 
 #import "Tile.h"
@@ -20,7 +11,6 @@
 
 
 @interface Engine (Private)
-
 @end
 
 
@@ -36,7 +26,8 @@
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
-		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
+		currentDungeon = (Dungeon*)[[Dungeon alloc] initWithType: orcMines];
 
 		return self;
 	}

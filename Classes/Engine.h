@@ -24,5 +24,4 @@
 
 - (bool) movePlayerToLocalCoord: (CGPoint) localCoord;
 
-
 @end

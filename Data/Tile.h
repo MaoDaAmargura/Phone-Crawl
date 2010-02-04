@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 
 typedef enum {
-	tileNone, tileGrass, tileConcrete, tileDirt, tileWoodWall,
+	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
 	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
 	tileRockFloor, tileRockWall		// FIXME import images on this line
 } tileType;
@@ -12,11 +12,12 @@ typedef enum {
 	bool smashable;
 	tileType type;
 
-
 	// level gen
 	int placementOrder;
 	bool cornerWall;
 }
+
+// DEPRECATION WARNING! instead of changing these manually, use initWithType:
 @property (nonatomic) bool blockShoot;
 @property (nonatomic) bool blockMove;
 @property (nonatomic) bool smashable;
