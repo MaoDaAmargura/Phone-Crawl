@@ -39,12 +39,22 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #define MAX_PIT_RADIUS 10
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 6; LCV++) {
+
 		int xStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
 		int yStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
+				tileType type = tilePit;
+
+				int deltaX = abs(xStart - x);
+				int deltaY = abs(yStart - y);
+				int delta = sqrt(deltaX * deltaX + deltaY * deltaY);
+				if (delta > MAX_PIT_RADIUS) continue;
+				if (delta > MAX_PIT_RADIUS - 2) type = tileSlopeDown;
+
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
-				[tile initWithType: tilePit];
+				[tile initWithType: type];
 			}
 		}
 	}
@@ -199,9 +209,11 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark -
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
-	[self putPit: dungeon onZLevel: 0];
 	[self putRubble: dungeon onZLevel: 0];
-	return [self putBuildings: dungeon onZLevel: 0];
+	[self putBuildings: dungeon onZLevel: 0];
+	[self putPit: dungeon onZLevel: 0];
+
+	return dungeon;
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {
