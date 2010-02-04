@@ -7,11 +7,16 @@ typedef enum {
 	tileRockFloor, tileRockWall		// FIXME import images on this line
 } tileType;
 
+typedef enum {
+	slopeNone, slopeUp, slopeDown
+} slopeType;
+
 @interface Tile : NSObject {
 	bool blockShoot;
 	bool blockMove;
 	bool smashable;
 	tileType type;
+	slopeType slope;
 
 	// level gen
 	int placementOrder;
@@ -23,7 +28,7 @@ typedef enum {
 @property (nonatomic) bool blockMove;
 @property (nonatomic) bool smashable;
 @property (nonatomic) tileType type;
-
+@property (nonatomic) slopeType slope;
 
 // level gen
 @property (nonatomic) int placementOrder;

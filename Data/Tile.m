@@ -6,7 +6,7 @@
 
 static NSMutableArray *tileImageArray;
 
-@synthesize blockMove, blockShoot, type, smashable;
+@synthesize blockMove, blockShoot, type, smashable, slope;
 
 
 // level gen
@@ -24,6 +24,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	blockShoot = NO;
 	smashable = false;
 	type = tileGrass;
+	slope = slopeNone;
 
 	cornerWall = false;
 
@@ -56,6 +57,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockShoot = true;
 		case tilePit:
 			blockMove = true;
+			break;
+		case tileSlopeDown:
+			slope = slopeDown;
 			break;
 		default:
 			break;

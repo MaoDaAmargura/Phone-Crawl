@@ -148,9 +148,13 @@
 	if (![self validTileAtLocalCoord: localCoord]) return false;
 
 	Coord *absoluteCoord = [self absoluteCoord: localCoord];
-//	DLog(@"%@", [currentDungeon.playerLocation description]);
+
+	slopeType slope = [currentDungeon tileAt: absoluteCoord].slope;
+	if (slope) {
+		absoluteCoord.Z = (slope == slopeDown)? absoluteCoord.Z - 1 : absoluteCoord.Z + 1;
+	}
+
 	currentDungeon.playerLocation = absoluteCoord;
-//	DLog(@"%@", [currentDungeon.playerLocation description]);
 	return true;
 }
 
