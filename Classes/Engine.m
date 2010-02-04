@@ -6,9 +6,6 @@
 
 #import "Tile.h"
 
-// Engine Tile Quick References
-#define NoTileImage [UIImage imageNamed:@"BlackSquare.png"]
-
 
 @interface Engine (Private)
 @end

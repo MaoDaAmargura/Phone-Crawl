@@ -74,6 +74,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
  @abstract		helper function initializes the tile array
  @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
  to that which they are declared in the tileType enum in Tile.h
+ @note			I used mutableArray because NSDictionary is keyed by string only
  */
 
 + (void) initialize
