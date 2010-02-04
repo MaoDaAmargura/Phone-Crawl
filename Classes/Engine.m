@@ -24,7 +24,9 @@
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
 		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
-		currentDungeon = (Dungeon*)[[Dungeon alloc] initWithType: orcMines];
+		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
+		// I renamed tiles init method and refactored it. - Austin
+		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 
 		return self;
 	}

@@ -54,7 +54,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 				if (delta > MAX_PIT_RADIUS - 2) type = tileSlopeDown;
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
-				[tile initWithType: type];
+				[tile initWithTileType: type];
 			}
 		}
 	}
@@ -91,10 +91,10 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
-				[tile initWithType: tileWoodFloor];
+				[tile initWithTileType: tileWoodFloor];
 			}
 			else {
-				[tile initWithType: tileWoodWall];
+				[tile initWithTileType: tileWoodWall];
 
 				// corner case.
 				bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
@@ -144,16 +144,16 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 			switch ([self min:1 max:12]) {
 				case 1:
-					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
+					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
 					break;
 				case 2:
-					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorBroken : tileRubble];
+					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorBroken : tileRubble];
 					break;
 				case 3:
-					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileRubble];
+					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileRubble];
 					break;
 				case 4:
-					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoor : tileRubble];
+					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoor : tileRubble];
 					break;
 				default:
 					break;

@@ -30,7 +30,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	return self;
 }
 
-- (Tile*) initWithType: (tileType) _type {
+- (Tile*) initWithTileType: (tileType) _type {
 	type = _type;
 	placementOrder = 0;	// dummy value, never occurs in a wall
 	blockMove = false;
