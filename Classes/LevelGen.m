@@ -35,6 +35,22 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 	return ((rand() % range) + lowBound);
 }
 
+#pragma mark -
+#define MAX_PIT_RADIUS 10
++ (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
+	for (int LCV = 0; LCV < 6; LCV++) {
+		int xStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+		int yStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
+			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
+				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
+				[tile initWithType: tilePit];
+			}
+		}
+	}
+}
+
+#pragma mark -
 #define BLDG_SIZE 12
 + (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
 	placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
@@ -183,6 +199,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark -
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
+	[self putPit: dungeon onZLevel: 0];
 	[self putRubble: dungeon onZLevel: 0];
 	return [self putBuildings: dungeon onZLevel: 0];
 }

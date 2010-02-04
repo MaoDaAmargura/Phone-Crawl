@@ -54,6 +54,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			break;
 		case tileWoodDoorSaloon:
 			blockShoot = true;
+		case tilePit:
+			blockMove = true;
+			break;
 		default:
 			break;
 	}
@@ -89,6 +92,10 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"wood-door-open.png");
 		ADD(@"saloon-door.png");
 		ADD(@"wood-door-broken.png");
+
+		ADD(@"BlackSquare.png");
+		ADD(@"staircase-down.png");
+		ADD(@"staircase-up.png");		
 	}
 }
 
