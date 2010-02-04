@@ -51,11 +51,14 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
+<<<<<<< HEAD
 				[tile initWithTileType: type];
-
+=======
+				[tile initWithType: type];
 
 				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
 				[tilePitBase initWithType: typePitBase];
+>>>>>>> 80b9ed1549c9ebb1b2ba3a735dfda2145de3c4ba
 			}
 		}
 	}

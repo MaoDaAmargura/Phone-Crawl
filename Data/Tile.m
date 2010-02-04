@@ -6,7 +6,7 @@
 
 static NSMutableArray *tileImageArray;
 
-@synthesize blockMove, blockShoot, type, smashable;
+@synthesize blockMove, blockShoot, type, smashable, slope;
 
 
 // level gen
@@ -19,11 +19,14 @@ static NSMutableArray *tileImageArray;
 // extern'ed to LevelGen to track wall tiles in order of what building they are a part of
 int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 1;
 
+
+// DEPRECATED.  use initWithType instead.
 - (id) init {
 	blockMove = NO;
 	blockShoot = NO;
 	smashable = false;
 	type = tileGrass;
+	slope = slopeNone;
 
 	cornerWall = false;
 
@@ -56,6 +59,16 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockShoot = true;
 		case tilePit:
 			blockMove = true;
+			break;
+		case tileSlopeDown:
+			slope = slopeDown;
+			break;
+		case tileSlopeUp:
+			slope = slopeUp;
+			break;
+		case tileRockWall:
+			blockMove = true;
+			blockShoot = true;
 			break;
 		default:
 			break;
@@ -96,7 +109,8 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 		ADD(@"BlackSquare.png");
 		ADD(@"staircase-down.png");
-		ADD(@"staircase-up.png");		
+		ADD(@"staircase-up.png");
+		ADD(@"wall-rock.gif");
 	}
 }
 

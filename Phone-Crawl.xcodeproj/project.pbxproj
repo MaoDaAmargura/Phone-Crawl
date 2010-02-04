@@ -18,6 +18,7 @@
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
 		D7812EED111A75A9004B201F /* staircase-up.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEB111A75A9004B201F /* staircase-up.png */; };
+		D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D7812FCC111B6A1A004B201F /* wall-rock.gif */; };
 		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
 		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
@@ -122,6 +123,7 @@
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
 		D7812EEB111A75A9004B201F /* staircase-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-up.png"; sourceTree = "<group>"; };
+		D7812FCC111B6A1A004B201F /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
 		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
 		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
@@ -529,6 +531,7 @@
 		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
 			isa = PBXGroup;
 			children = (
+				D7812FCC111B6A1A004B201F /* wall-rock.gif */,
 				D7812EEA111A75A9004B201F /* staircase-down.png */,
 				D7812EEB111A75A9004B201F /* staircase-up.png */,
 				D7D42F071119FA2700A8D7FF /* saloon-door.png */,
@@ -688,6 +691,7 @@
 				D7D42F0C1119FA2700A8D7FF /* wood-door-open.png in Resources */,
 				D7812EEC111A75A9004B201F /* staircase-down.png in Resources */,
 				D7812EED111A75A9004B201F /* staircase-up.png in Resources */,
+				D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

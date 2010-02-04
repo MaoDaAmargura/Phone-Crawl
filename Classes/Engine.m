@@ -106,8 +106,6 @@
 	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
 	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
 	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
-	
-	
 }
 
 #pragma mark -
@@ -147,9 +145,16 @@
 	if (![self validTileAtLocalCoord: localCoord]) return false;
 
 	Coord *absoluteCoord = [self absoluteCoord: localCoord];
-//	DLog(@"%@", [currentDungeon.playerLocation description]);
+
+	slopeType slope = [currentDungeon tileAt: absoluteCoord].slope;
+	if (slope) {
+		absoluteCoord.Z = (slope == slopeDown)? absoluteCoord.Z + 1 : absoluteCoord.Z - 1;
+		if (absoluteCoord.Z < 0 || absoluteCoord.Z >= MAP_DEPTH) {
+			[NSException raise: @"moved player to invalid Z- index" format: [absoluteCoord description]];
+		}
+	}
 	currentDungeon.playerLocation = absoluteCoord;
-//	DLog(@"%@", [currentDungeon.playerLocation description]);
+
 	return true;
 }
 

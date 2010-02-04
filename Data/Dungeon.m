@@ -58,7 +58,7 @@ NSMutableArray *tiles = nil;
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
 		for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH; LCV++) {
-			[tiles addObject: [[Tile alloc] init]];
+			[tiles addObject: [Tile alloc]];
 		}
 	}
 
@@ -69,7 +69,7 @@ NSMutableArray *tiles = nil;
 
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
 	if (x<0 || y<0 || z<0) {
-		DLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
+//		DLog(@"Dungeon.h - tileAtX:Y:Z: Negative Array Index: (%d, %d, %d)", x, y, z);
 		return nil;
 	}
 	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH) {
