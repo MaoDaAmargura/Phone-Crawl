@@ -121,6 +121,8 @@
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
 	[highlight removeFromSuperview];
+	if (![self pointIsInWorldView: loc]) return;
+
 	[delegate worldView: self selectedAt: loc];
 }
 
