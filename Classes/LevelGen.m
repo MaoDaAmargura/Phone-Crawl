@@ -26,22 +26,15 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 @implementation LevelGen
 
-// blows up on assert if lowBound < highBound.
-// negative lowBound works fine, I'm not sober enough to figure out a negative
-// highBound that passes the assert just now, so shut up all of your head.  -Nate
-+ (int) min: (int) lowBound max: (int) highBound {
-	assert (lowBound < highBound);
-	int range = highBound - lowBound + 1; // +1 is due to behavior of modulo
-	return ((rand() % range) + lowBound);
-}
-
 #pragma mark -
 #define MAX_PIT_RADIUS 10
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
+	assert(z < MAP_DEPTH - 1);
+
 	for (int LCV = 0; LCV < 6; LCV++) {
 
-		int xStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
-		int yStart = [self min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+		int xStart = [Rand min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
+		int yStart = [Rand min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
 
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
@@ -65,11 +58,11 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 + (void) putBuildingIn: (Dungeon*) dungeon at: (Coord*) coord {
 	placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC++;
 
-	int addX = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
-	int addY = [self min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
+	int addX = [Rand min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
+	int addY = [Rand min: -BLDG_SIZE / 4 max: BLDG_SIZE / 4];
 
-	int startX = coord.X + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
-	int startY = coord.Y + [self min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
+	int startX = coord.X + [Rand min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
+	int startY = coord.Y + [Rand min: -BLDG_SIZE / 2 max: BLDG_SIZE / 2];
 
 	#define END_X (coord.X + BLDG_SIZE + addX)
 	for (int x = startX; x < END_X; x++) {
@@ -142,7 +135,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 			// FIXME: allow this to replace tileWoodFloor as well when suitable graphics are found.
 			if (tile.type == tileWoodFloor || tile.cornerWall) continue;
 
-			switch ([self min:1 max:12]) {
+			switch ([Rand min:1 max:12]) {
 				case 1:
 					[tile initWithType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
 					break;
@@ -164,8 +157,8 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 + (Dungeon*) putBuildings: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 50; LCV++) {
-		int x = [self min: 0 max: MAP_DIMENSION - 1];
-		int y = [self min: 0 max: MAP_DIMENSION - 1];
+		int x = [Rand min: 0 max: MAP_DIMENSION - 1];
+		int y = [Rand min: 0 max: MAP_DIMENSION - 1];
 		Coord *coord = [Coord withX: x Y: y Z: z];
 
 		[self putBuildingIn: dungeon at: coord];
@@ -185,8 +178,8 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		Coord *curr = [Coord withX: coord.X Y: coord.Y Z: coord.Z];
 		int delta = tight? 2 : 4;
 
-		curr.X += [self min: 0 max: delta] - delta / 2;
-		curr.Y += [self min: 0 max: delta] - delta / 2;
+		curr.X += [Rand min: 0 max: delta] - delta / 2;
+		curr.Y += [Rand min: 0 max: delta] - delta / 2;
 
 		if (!tight) [self putRubblePatchIn: dungeon at: curr tightly: true];
 
@@ -198,8 +191,8 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 + (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 200; LCV++) {
-		int x = [self min: 0 max: MAP_DIMENSION - 1];
-		int y = [self min: 0 max: MAP_DIMENSION - 1];
+		int x = [Rand min: 0 max: MAP_DIMENSION - 1];
+		int y = [Rand min: 0 max: MAP_DIMENSION - 1];
 
 		[self putRubblePatchIn: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
 	}

@@ -30,3 +30,10 @@ typedef enum {
 
 @end
 
+@interface Rand : NSObject {
+	;
+}
+
++ (int) min: (int) lowBound max: (int) highBound;
+
+@end
