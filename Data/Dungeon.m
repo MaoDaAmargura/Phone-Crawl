@@ -58,7 +58,7 @@ NSMutableArray *tiles = nil;
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
 		for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH; LCV++) {
-			[tiles addObject: [[Tile alloc] init]];
+			[tiles addObject: [Tile alloc]];
 		}
 	}
 

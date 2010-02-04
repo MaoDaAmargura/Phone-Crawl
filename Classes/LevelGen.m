@@ -55,8 +55,6 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
 				[tilePitBase initWithType: typePitBase];
-
-				DLog (@"tilepitbase loc:%@ type %@",[[Coord withX: x Y: y Z: z + 1] description], (tilePitBase.type == tileConcrete? @"concrete":@"something crazy"));
 			}
 		}
 	}
@@ -209,8 +207,20 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 }
 
 #pragma mark -
+#pragma mark --High level
+
++ (void) setFloorOf: (Dungeon*) dungeon to: (tileType) type onZLevel: (int) z {
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			[[dungeon tileAtX:x Y:y Z:z] initWithType: type];
+		}
+	}
+}
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
+	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
+	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
+	
 	[self putRubble: dungeon onZLevel: 0];
 	[self putBuildings: dungeon onZLevel: 0];
 	[self putPit: dungeon onZLevel: 0];
