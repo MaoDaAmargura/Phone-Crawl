@@ -148,10 +148,14 @@
 
 	slopeType slope = [currentDungeon tileAt: absoluteCoord].slope;
 	if (slope) {
-		absoluteCoord.Z = (slope == slopeDown)? absoluteCoord.Z - 1 : absoluteCoord.Z + 1;
+		absoluteCoord.Z = (slope == slopeDown)? absoluteCoord.Z + 1 : absoluteCoord.Z - 1;
+		if (absoluteCoord.Z < 0 || absoluteCoord.Z >= MAP_DEPTH) {
+			[NSException raise: @"moved player to invalid position" format: [absoluteCoord description]];
+		}
 	}
 
 	currentDungeon.playerLocation = absoluteCoord;
+
 	return true;
 }
 

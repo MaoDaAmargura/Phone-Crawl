@@ -61,6 +61,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		case tileSlopeDown:
 			slope = slopeDown;
 			break;
+		case tileSlopeUp:
+			slope = slopeUp;
+			break;
 		default:
 			break;
 	}

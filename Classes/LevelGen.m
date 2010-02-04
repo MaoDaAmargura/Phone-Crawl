@@ -39,15 +39,24 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
 				tileType type = tilePit;
+				tileType typePitBase = tileConcrete;
 
 				int deltaX = abs(xStart - x);
 				int deltaY = abs(yStart - y);
 				int delta = sqrt(deltaX * deltaX + deltaY * deltaY);
 				if (delta > MAX_PIT_RADIUS) continue;
-				if (delta > MAX_PIT_RADIUS - 2) type = tileSlopeDown;
+				if (delta > MAX_PIT_RADIUS - 2) {
+					type = tileSlopeDown;
+					typePitBase = tileSlopeUp;
+				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
 				[tile initWithType: type];
+
+				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
+				[tilePitBase initWithType: typePitBase];
+
+				DLog (@"tilepitbase loc:%@ type %@",[[Coord withX: x Y: y Z: z + 1] description], (tilePitBase.type == tileConcrete? @"concrete":@"something crazy"));
 			}
 		}
 	}
@@ -223,7 +232,6 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark -
 
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
-	srand(time(0));
 	switch (lvlType) {
 		case orcMines:
 			dungeon = [self makeOrcMines: dungeon];
