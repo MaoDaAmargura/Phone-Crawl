@@ -246,7 +246,8 @@ const int base_item_stats[10][9] = {
                                          poison: 0 
                                            dark: 0 
                                           armor: 0
-                                       spell_id: START_WAND_SPELLS + elem_type * 5];
+                                       spell_id: START_WAND_SPELLS + elem_type * 5 + dungeon_level - 1];
+                            //Get to start of wand spells, then get to the correct element, then get to the spell level. Subtract 1 for offset.
         case SCROLL:
             return [[Item alloc] initWithStats: @"Tome of Knowledge"
                                      item_slot: BAG

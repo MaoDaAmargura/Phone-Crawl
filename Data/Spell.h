@@ -5,6 +5,9 @@
 #import "Util.h" 
 
 #define ITEM_NO_SPELL -1
+#define ERR_NO_MANA -2
+#define ERR_RESIST -3
+#define SPELL_NO_DAMAGE -4
 
 #define NUM_POTION_SPELLS 5
 #define NUM_PC_SPELLS 50
@@ -21,7 +24,6 @@
 #define END_COND_SPELLS START_COND_SPELLS + NUM_COND_SPELLS
 #define START_WAND_SPELLS END_PC_SPELLS + 1
 #define END_WANT_SPELLS START_WAND_SPELLS + 25
-
 
 typedef enum {DAMAGE, CONDITION, ITEM} spellType;
 typedef enum {SELF,SINGLE} targetType;
@@ -47,19 +49,22 @@ NSMutableArray *spell_list;
 		   spell_fn: (IMP) in_spell_fn;
 
 - (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target;
-- (NSString *) detr_spell: (Creature *) caster target: (Creature *) target;
-- (NSString *) cond_spell: (Creature *) caster target: (Creature *) target;
 
-//Specialized item functions
+//Specialized spell functions
 
-- (NSString *) heal_potion: (Creature *) caster target: (Creature *) target;
-- (NSString *) mana_potion: (Creature *) caster target: (Creature *) target;
-- (NSString *) wand: (Creature *) caster target: (Creature *) target;
-- (NSString *) scroll: (Creature *) caster target: (Creature *) target;
-- (NSString *) haste: (Creature *) caster target: (Creature *) target;
-- (NSString *) freeze: (Creature *) caster target: (Creature *) target;
-- (NSString *) purge: (Creature *) caster target: (Creature *) target;
-- (NSString *) taint: (Creature *) caster target: (Creature *) target;
-- (NSString *) confusion: (Creature *) caster target: (Creature *) target;
+- (int) detr_spell: (Creature *) caster target: (Creature *) target;
+- (int) heal_potion: (Creature *) caster target: (Creature *) target;
+- (int) mana_potion: (Creature *) caster target: (Creature *) target;
+- (int) scroll: (Creature *) caster target: (Creature *) target;
+- (int) haste: (Creature *) caster target: (Creature *) target;
+- (int) freeze: (Creature *) caster target: (Creature *) target;
+- (int) purge: (Creature *) caster target: (Creature *) target;
+- (int) taint: (Creature *) caster target: (Creature *) target;
+- (int) confusion: (Creature *) caster target: (Creature *) target;
 
+
+@property (readonly) int range;
+@property (readonly) NSString * name;
+@property (readonly) targetType target_type;
+@property (readonly) int spell_id;
 @end
