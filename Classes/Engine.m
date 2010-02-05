@@ -5,6 +5,7 @@
 #import "ItemGen.h"
 
 #import "Tile.h"
+#import "Util.h"
 
 
 @interface Engine (Private)
@@ -23,6 +24,7 @@
 		deadEnemies = [[NSMutableArray alloc] init];
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
+		tilesPerSide = 9;
 		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
 		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
 		// I renamed tiles init method and refactored it. - Austin
@@ -45,11 +47,6 @@
 {
 	[self releaseResources];
 	[super dealloc];
-	
-}
-
-- (void) loadDungeon:(Dungeon *)dungeon
-{
 	
 }
 
@@ -158,10 +155,50 @@
 	return true;
 }
 
+- (BOOL) canEnterTileAtCoord:(Coord*) coord
+{
+	Tile *t = [currentDungeon tileAt:coord];
+	
+	if(t) 
+		return t.blockMove;
+	else 
+		return NO;
+	
+}
 
+- (void) movePlayerToTileAtCoord:(Coord*)tileCoord
+{
+	player.creatureLocation = tileCoord;
+}
 
+- (CGSize) tileSizeForWorldView:(WorldView*) wView
+{
+	CGRect bounds = wView.mapImageView.bounds;
+	int tileWidth = bounds.size.width/tilesPerSide;
+	int tileHeight = bounds.size.height/tilesPerSide;
+	
+	return CGSizeMake(tileWidth, tileHeight);
+}
 
+- (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView
+{
+	Coord *center = [player creatureLocation];
+	
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
+	
+	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
+	return [Coord withX:topleft.x + touch.x/tileSize.width Y:topleft.y + touch.y/tileSize.height Z:center.Z];
+	
+}
 
+- (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView
+{
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	
+	return CGPointMake(tile.X * tileSize.width, tile.Y * tileSize.height);
+	
+}
 
 
 @end

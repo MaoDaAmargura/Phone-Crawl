@@ -3,6 +3,7 @@
 
 @class Creature;
 @class Dungeon;
+@class Coord;
 
 @interface Engine : NSObject 
 {
@@ -14,11 +15,22 @@
 	
 	Dungeon *currentDungeon;
 	
+	int tilesPerSide;
+	
 }
 
 - (id) init;
 
 - (void) updateWorldView:(WorldView*) wView;
+
+- (BOOL) canEnterTileAtCoord:(Coord*) coord;
+- (void) movePlayerToTileAtCoord:(Coord*)tileCoord;
+- (CGSize) tileSizeForWorldView:(WorldView*) wView;
+
+- (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
+- (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
+
+
 
 - (bool) validTileAtLocalCoord: (CGPoint) localCoord;
 
