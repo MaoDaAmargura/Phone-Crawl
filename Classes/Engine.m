@@ -183,7 +183,7 @@
 	int halfTile = (tilesPerSide-1)/2;
 	
 	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
-	return [Coord withX:topleft.x + touch.x/tileSize.width Y:topleft.y + touch.y/tileSize.height Z:center.Z];
+	return [Coord withX:topleft.x + (int)(touch.x/tileSize.width) Y:topleft.y + (int)(touch.y/tileSize.height) Z:center.Z];
 	
 }
 
