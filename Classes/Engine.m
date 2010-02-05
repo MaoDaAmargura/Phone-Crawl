@@ -9,6 +9,9 @@
 
 
 @interface Engine (Private)
+- (void) updateBackgroundImageForWorldView:(WorldView*)wView;
+- (void) updateStatDisplayForWorldView:(WorldView *)wView;
+
 @end
 
 
@@ -29,7 +32,6 @@
 		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
 		// I renamed tiles init method and refactored it. - Austin
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
-		//player.creatureLocation = [Coord withX:2 Y:2 Z:0];
 
 		return self;
 	}
@@ -51,10 +53,24 @@
 	
 }
 
+/*!
+ @method		updateWorldView
+ @abstract		main graphics loop for world view. 
+ */
 - (void) updateWorldView:(WorldView*) wView
 {
-	//Coord *center = currentDungeon.playerLocation;
-//	Coord *center = [Coord withX:2 Y:2 Z:0];
+	[self updateBackgroundImageForWorldView:wView];
+	[self updateStatDisplayForWorldView:wView];
+	
+}
+
+/*!
+ @method		updateBackgroundImage
+ @abstract		draws background image and player. 
+ @discussion	enemies kinda should be done with player. maybe i'll make an extra creature loop.
+ */
+- (void) updateBackgroundImageForWorldView:(WorldView*)wView
+{
 	Coord *center = [player creatureLocation];
 	int xInd, yInd;
 	
@@ -100,6 +116,14 @@
 	wView.mapImageView.image = result;
 	
 	//	int base = [player statBase];
+}
+
+/*!
+ @method		updateStatDisplay
+ @abstract		updates the stat displays based on the players vitals.
+ */
+- (void) updateStatDisplayForWorldView:(WorldView *)wView
+{	
 	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
 	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
 	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
@@ -108,7 +132,10 @@
 
 #pragma mark -
 #pragma mark control
-
+/*!
+ @method		canEnterTileAtCoord:
+ @abstract		query function for whether the player is allowed to move into a certain spot.
+ */
 - (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
 	Tile *t = [currentDungeon tileAt:coord];
@@ -120,11 +147,20 @@
 	
 }
 
+/*!
+ @method		movePlayerToTileAtCoord:
+ @abstract		public function to move the player. don't call it lightly. and if you want to see the movement,
+				then call engines updateWorldView right after a call to this function.
+ */
 - (void) movePlayerToTileAtCoord:(Coord*)tileCoord
 {
 	player.creatureLocation = tileCoord;
 }
 
+/*!
+ @method		tileSizeForWorldView
+ @abstract		calculates the size of a tile in the current world view with the current tilesPerSide configuration.
+ */
 - (CGSize) tileSizeForWorldView:(WorldView*) wView
 {
 	CGRect bounds = wView.mapImageView.bounds;
@@ -134,6 +170,11 @@
 	return CGSizeMake(tileWidth, tileHeight);
 }
 
+/*!
+ @method		convertToDungeonCoord
+ @abstract		converts a point in pixels to an absolute dungeon coordinate.
+ @discussion	coord returned is the actual location in dungeon that the screen was touched. no locality.
+ */
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView
 {
 	Coord *center = player.creatureLocation;
@@ -146,7 +187,11 @@
 	
 }
 
-- (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView
+/*!
+ @method		originOfTile
+ @abstract		returns the pixel point on the screen that is the top left point where the tile at coord should be drawn.
+ */
+- (CGPoint) originOfTile:(Coord*) tileCoord inWorldView:(WorldView *)wView
 {
 	Coord *center = player.creatureLocation;
 	CGSize tileSize = [self tileSizeForWorldView:wView];
@@ -155,7 +200,7 @@
 	
 	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
 	
-	return CGPointMake((tile.X-topleft.x)*tileSize.width, (tile.Y-topleft.y)*tileSize.height);
+	return CGPointMake((tileCoord.X-topleft.x)*tileSize.width, (tileCoord.Y-topleft.y)*tileSize.height);
 	
 }
 

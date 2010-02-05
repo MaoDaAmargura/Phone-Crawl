@@ -63,15 +63,6 @@
 	[gameEngine updateWorldView:wView];
 }
 
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -131,9 +122,6 @@
 		[gameEngine movePlayerToTileAtCoord:tileCoord];
 		[gameEngine updateWorldView:worldView];
 	}
-	/*if ([gameEngine movePlayerToLocalCoord: localCoord]) {
-	 [gameEngine updateWorldView: worldView];
-	 }*/
 }
 
 - (void) worldViewDidLoad:(WorldView*) worldView
