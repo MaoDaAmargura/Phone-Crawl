@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "Util.h"
-#import "../Classes/Util.h"
+
 #import "Item.h"
 
 //#define NUM_EQUIP_SLOTS 4

@@ -29,6 +29,7 @@
 		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
 		// I renamed tiles init method and refactored it. - Austin
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		//player.creatureLocation = [Coord withX:2 Y:2 Z:0];
 
 		return self;
 	}
@@ -54,21 +55,20 @@
 {
 	Coord *center = currentDungeon.playerLocation;
 //	Coord *center = [Coord withX:2 Y:2 Z:0];
-	//Coord *center = [player location];
+	//Coord *center2 = [player creatureLocation];
 	int xInd, yInd;
-	int squaresWide = 10, squaresHigh = 10;
 	
 	CGRect bounds = wView.mapImageView.bounds;
-	int imageWidth = bounds.size.width/squaresWide;
-	int imageHeight = bounds.size.height/squaresHigh;
+	
+	CGSize tileSize = [self tileSizeForWorldView:wView];
 	
 	UIGraphicsBeginImageContext(bounds.size);
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
-	int halfWide = squaresWide/2, halfHigh = squaresHigh/2;
+	int halfTile = (tilesPerSide-1)/2;
 	
-	CGPoint lowerRight = CGPointMake(center.X+halfWide-(squaresWide-1)%2, center.Y+halfHigh-(squaresHigh-1)%2);
-	CGPoint upperLeft = CGPointMake(center.X-halfWide, center.Y-halfHigh);
+	CGPoint lowerRight = CGPointMake(center.X + halfTile, center.Y + halfTile);
+	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	
 	UIGraphicsPushContext(context);
 	
@@ -82,15 +82,15 @@
 				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
 			else
 				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
-
+			
 			// Draw each tile in the proper place
-			[img drawInRect:CGRectMake((xInd-upperLeft.x)*imageWidth, (yInd-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
+			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 		}
 	}
 	
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
-	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*imageWidth, (center.Y-upperLeft.y)*imageHeight, imageWidth, imageHeight)];
+	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 	
 	UIGraphicsPopContext();
 	
@@ -99,11 +99,12 @@
 	
 	wView.mapImageView.image = result;
 	
-//	int base = [player statBase];
+	//	int base = [player statBase];
 	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
 	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
 	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
 }
+
 
 #pragma mark -
 #pragma mark control
