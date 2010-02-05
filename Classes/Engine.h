@@ -31,9 +31,4 @@
 - (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
 
 
-
-- (bool) validTileAtLocalCoord: (CGPoint) localCoord;
-
-- (bool) movePlayerToLocalCoord: (CGPoint) localCoord;
-
 @end

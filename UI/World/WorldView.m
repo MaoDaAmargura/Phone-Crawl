@@ -12,7 +12,7 @@
 
 - (id) init {
 	if(self = [super initWithNibName:@"WorldView"]) {
-		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
+		highlight = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
 		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 		return self;
 	}
@@ -34,6 +34,7 @@
 	displayLabelArray = [[NSArray arrayWithObjects:healthLabel, shieldLabel, manaLabel, nil] retain];
 
 	[delegate worldViewDidLoad:self];
+	[self.view addSubview:highlight];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -77,11 +78,6 @@
 				if a drag event occurs outside this rectangle, the highlight is hidden.
  */
 
-- (CGRect) rectAtPoint: (CGPoint) point {
-	float x = (floor(point.x / TILE_SIZE_PX)) * TILE_SIZE_PX;
-	float y = (floor(point.y / TILE_SIZE_PX)) * TILE_SIZE_PX;
-	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
-}
 
 - (BOOL) pointIsInWorldView: (CGPoint) point 
 {
@@ -111,7 +107,7 @@
 	
 	if(![self pointIsInWorldView:loc])
 	{
-		[super touchesBegan:touches withEvent:event];
+		[super touchesMoved:touches withEvent:event];
 		return;
 	}
 	
@@ -129,7 +125,7 @@
 	highlight.hidden = YES;
 	if (![self pointIsInWorldView: loc])
 	{
-		[super touchesBegan:touches withEvent:event];
+		[super touchesEnded:touches withEvent:event];
 		return;
 	}
 	[delegate worldView: self selectedAt: loc];

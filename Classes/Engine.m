@@ -108,53 +108,6 @@
 
 #pragma mark -
 #pragma mark control
-/*!
- @abstract		convert a point in the local coordinate system to the global (dungeon wide) system.
- @discussion	'int offset' is a hack based on the player being at the center of the screen.
-				(to be changed.)
- */
-
-- (Coord*) absoluteCoord: (CGPoint) localCoord {
-	Coord *playerCoord = currentDungeon.playerLocation;
-	int offset = 5;	// FIXME
-	localCoord.x -= offset, localCoord.y -= offset;
-	int absoluteX = localCoord.x + playerCoord.X;
-	int absoluteY = localCoord.y + playerCoord.Y;
-
-	return [Coord withX:absoluteX Y:absoluteY Z:playerCoord.Z];
-}
-
-/*!
- @abstract		check the tile at the screen-relative given coordinates to see if it is reachable.
- @discussion	this DOES NOT CHECK with regards to missile attacks.  it is only for movement.
- */
-
-- (bool) validTileAtLocalCoord: (CGPoint) localCoord {
-	Coord *absoluteCoord = [self absoluteCoord: localCoord];
-
-	if (absoluteCoord.X < 0 || absoluteCoord.X >= MAP_DIMENSION) return false;
-	if (absoluteCoord.Y < 0 || absoluteCoord.Y >= MAP_DIMENSION) return false;
-
-	Tile *tile = [currentDungeon tileAtX: absoluteCoord.X Y: absoluteCoord.Y Z: absoluteCoord.Z];
-	return (tile.blockMove)? false : true;
-}
-
-- (bool) movePlayerToLocalCoord: (CGPoint) localCoord {
-	if (![self validTileAtLocalCoord: localCoord]) return false;
-
-	Coord *absoluteCoord = [self absoluteCoord: localCoord];
-
-	slopeType slope = [currentDungeon tileAt: absoluteCoord].slope;
-	if (slope) {
-		absoluteCoord.Z = (slope == slopeDown)? absoluteCoord.Z + 1 : absoluteCoord.Z - 1;
-		if (absoluteCoord.Z < 0 || absoluteCoord.Z >= MAP_DEPTH) {
-			[NSException raise: @"moved player to invalid Z- index" format: [absoluteCoord description]];
-		}
-	}
-	currentDungeon.playerLocation = absoluteCoord;
-
-	return true;
-}
 
 - (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
@@ -183,7 +136,7 @@
 
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView
 {
-	Coord *center = [player creatureLocation];
+	Coord *center = player.creatureLocation;
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
@@ -195,9 +148,14 @@
 
 - (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView
 {
+	Coord *center = player.creatureLocation;
 	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
 	
-	return CGPointMake(tile.X * tileSize.width, tile.Y * tileSize.height);
+	
+	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
+	
+	return CGPointMake((tile.X-topleft.x)*tileSize.width, (tile.Y-topleft.y)*tileSize.height);
 	
 }
 

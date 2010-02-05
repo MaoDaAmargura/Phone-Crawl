@@ -49,6 +49,5 @@ typedef enum {
 - (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point;
 - (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point;
 - (void) worldViewDidLoad:(WorldView*) worldView;
-- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point;
 
 @end

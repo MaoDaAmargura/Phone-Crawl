@@ -142,20 +142,6 @@
 	[gameEngine updateWorldView:wView];
 }
 
-/*!
- @method		highlightShouldBeYellowAtPoint:
- @abstract		called by WorldView in response to a touch
- @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
- */
-- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
-	float x = floor(point.x / TILE_SIZE_PX);
-	float y = floor(point.y / TILE_SIZE_PX);
-
-	CGPoint localCoord = CGPointMake(x,y);
-
-	return [gameEngine validTileAtLocalCoord: localCoord];
-}
-
 
 #pragma mark InventoryView
 - (void) needRefreshForInventoryView:(InventoryView*) iView
