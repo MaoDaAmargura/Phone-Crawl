@@ -7,7 +7,6 @@
 #import "Tile.h"
 #import "Util.h"
 
-
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
@@ -50,6 +49,14 @@
 {
 	[self releaseResources];
 	[super dealloc];
+	
+}
+
+#pragma mark -
+#pragma mark Control
+
+- (void) gameLoop
+{
 	
 }
 

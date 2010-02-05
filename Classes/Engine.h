@@ -30,5 +30,6 @@
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
 - (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
 
+- (void) gameLoop;
 
 @end
