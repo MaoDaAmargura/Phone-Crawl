@@ -53,9 +53,9 @@
 
 - (void) updateWorldView:(WorldView*) wView
 {
-	Coord *center = currentDungeon.playerLocation;
+	//Coord *center = currentDungeon.playerLocation;
 //	Coord *center = [Coord withX:2 Y:2 Z:0];
-	//Coord *center2 = [player creatureLocation];
+	Coord *center = [player creatureLocation];
 	int xInd, yInd;
 	
 	CGRect bounds = wView.mapImageView.bounds;
@@ -161,7 +161,7 @@
 	Tile *t = [currentDungeon tileAt:coord];
 	
 	if(t) 
-		return t.blockMove;
+		return !t.blockMove;
 	else 
 		return NO;
 	

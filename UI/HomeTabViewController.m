@@ -101,27 +101,20 @@
 - (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point
 {
 	DLog(@"worldView:(WorldView*)wView touchedAt:(CGPoint)point");
-
-
-
-//	imageForType
-
-
 	
-//	[UIView beginAnimations:nil context: context];
-//	[UIView setAnimationDuration: DROP_ANIM_DURATION];
-//	[UIView setAnimationDelegate:self];
-//	[UIView setAnimationDidStopSelector:@selector(finishedMoveOut:finished:context:)];
-//	
-//	CGPoint center = left.view.center;
-//	
-//	center.x -= 133.5;
-//	left.view.center = center;
-//	center = right.view.center;
-//	center.x -= 133.5;
-//	right.view.center = center;
-//	
-//	[UIView commitAnimations];
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
+	
+	if([gameEngine canEnterTileAtCoord:tileCoord])
+		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	else 
+		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+	
+	CGPoint p = [gameEngine originOfTile:tileCoord inWorldView:worldView];
+	
+	CGSize s = [gameEngine tileSizeForWorldView:worldView];
+	
+	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	
 }
 
 /*!
@@ -130,14 +123,17 @@
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
 - (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point {
-	float x = floor(point.x / TILE_SIZE_PX);
-	float y = floor(point.y / TILE_SIZE_PX);
 	
-	CGPoint localCoord = CGPointMake(x,y);
-
-	if ([gameEngine movePlayerToLocalCoord: localCoord]) {
-		[gameEngine updateWorldView: worldView];
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
+	
+	if([gameEngine canEnterTileAtCoord:tileCoord])
+	{
+		[gameEngine movePlayerToTileAtCoord:tileCoord];
+		[gameEngine updateWorldView:worldView];
 	}
+	/*if ([gameEngine movePlayerToLocalCoord: localCoord]) {
+	 [gameEngine updateWorldView: worldView];
+	 }*/
 }
 
 - (void) worldViewDidLoad:(WorldView*) worldView

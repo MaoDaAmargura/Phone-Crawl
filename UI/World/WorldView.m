@@ -83,51 +83,62 @@
 	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
 }
 
-- (bool) pointIsInWorldView: (CGPoint) point {
-	return (point.x < WORLD_VIEW_SIZE_PX && point.y < WORLD_VIEW_SIZE_PX);
+- (BOOL) pointIsInWorldView: (CGPoint) point 
+{
+	CGSize s = mapImageView.bounds.size;
+	return (point.x < s.width && point.y < s.height);
 }
 
-- (void) showHighLightAtPoint: (CGPoint) point {
-	if ([delegate highlightShouldBeYellowAtPoint: point]) {
-		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
-	}
-	else {
-		highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
-	}
-	
-	highlight.frame = [self rectAtPoint: point];
-	if (![highlight superview]) [self.view addSubview: highlight];
-}
 
-- (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
+- (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event 
+{
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	if (![self pointIsInWorldView: loc]) return;
-
-	[self showHighLightAtPoint: loc];
-
+	if (![self pointIsInWorldView: loc])
+	{
+		[super touchesBegan:touches withEvent:event];
+		return;
+	}
+	//[self showHighLightAtPoint: loc];
+	
+	highlight.hidden = NO;
+	
 	[delegate worldView: self touchedAt: loc];
 }
 
-- (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
+- (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event 
+{
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	if (![self pointIsInWorldView: loc]) {
-		[highlight removeFromSuperview];
+	
+	if(![self pointIsInWorldView:loc])
+	{
+		[super touchesBegan:touches withEvent:event];
+		return;
 	}
-	else {
-		[self showHighLightAtPoint: loc];
-	}
+	
+	[delegate worldView: self touchedAt:loc];
+	/*if (![self pointIsInWorldView: loc]) {
+	 [highlight removeFromSuperview];
+	 }
+	 else {
+	 [self showHighLightAtPoint: loc];
+	 }*/
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	[highlight removeFromSuperview];
-	if (![self pointIsInWorldView: loc]) return;
-
+	highlight.hidden = YES;
+	if (![self pointIsInWorldView: loc])
+	{
+		[super touchesBegan:touches withEvent:event];
+		return;
+	}
 	[delegate worldView: self selectedAt: loc];
 }
 
-- (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event {
-	[highlight removeFromSuperview];
+- (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event 
+{
+	highlight.hidden = YES;
 }
+
 
 @end

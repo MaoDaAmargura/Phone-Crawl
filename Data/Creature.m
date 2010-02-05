@@ -47,7 +47,7 @@
 	if(self = [super init])
 	{
 		name = in_name;
-		creatureLocation = [[[Coord alloc] init] autorelease];
+		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		head = [[[Item alloc] init] autorelease];
 		chest = [[[Item alloc] init] autorelease];
 		r_hand = [[[Item alloc] init] autorelease];
