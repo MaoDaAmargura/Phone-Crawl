@@ -1,6 +1,7 @@
 #import "HomeTabViewController.h"
 
 //Individual View Classes
+
 #import "CharacterView.h"
 #import "InventoryView.h"
 #import "OptionsView.h"
@@ -17,6 +18,8 @@
 - (UIViewController*) initCharacterView;
 - (UIViewController*) initInventoryView;
 - (UIViewController*) initOptionsView;
+
+- (void) fireGameLoop;
 
 @end
 
@@ -53,6 +56,7 @@
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
+	
 }
 
 
@@ -61,6 +65,11 @@
 {
     [super viewDidLoad];
 	[gameEngine updateWorldView:wView];
+	
+	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
+	
+	//[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSEventTrackingRunLoopMode];
+	//[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSModalPanelRunLoopMode];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -77,6 +86,16 @@
 
 - (void)dealloc {
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Engine Related Calls
+
+//I really should just combine HTVC and Engine
+
+- (void) fireGameLoop
+{
+	[gameEngine gameLoopWithWorldView:wView];
 }
 
 #pragma mark -
@@ -108,6 +127,8 @@
 	
 }
 
+#define PLAYER_INSTANT_TRANSMISSION 0
+
 /*!
  @method		worldSelectedAt
  @abstract		worldView callback for when world gets selected
@@ -119,8 +140,16 @@
 	
 	if([gameEngine canEnterTileAtCoord:tileCoord])
 	{
-		[gameEngine movePlayerToTileAtCoord:tileCoord];
-		[gameEngine updateWorldView:worldView];
+		if(PLAYER_INSTANT_TRANSMISSION)
+		{	
+			[gameEngine movePlayerToTileAtCoord:tileCoord];
+			[gameEngine updateWorldView:worldView];
+		}
+		else
+		{
+			[gameEngine setSelectedMoveTarget:tileCoord];
+		}
+
 	}
 }
 

@@ -11,6 +11,8 @@
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
 
+- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
+
 @end
 
 
@@ -31,6 +33,8 @@
 		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
 		// I renamed tiles init method and refactored it. - Austin
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		battleMode = NO;
+		selectedMoveTarget = nil;
 
 		return self;
 	}
@@ -55,10 +59,47 @@
 #pragma mark -
 #pragma mark Control
 
-- (void) gameLoop
+- (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	if (battleMode)
+	{
+		//draw menu?
+	}
+	if(selectedMoveTarget)
+	{
+		Coord *next = [self nextStepBetween:[player creatureLocation] and:selectedMoveTarget];
+		[self movePlayerToTileAtCoord:next];
+		if([selectedMoveTarget equals:[player creatureLocation]])
+			[self setSelectedMoveTarget:nil];
+	}
 	
+	[self updateWorldView:wView];
+
 }
+
+#pragma mark -
+#pragma mark Pathing
+
+- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2
+{
+	CGPoint diff = CGPointMake(c2.X-c1.X, c2.Y-c1.Y);
+	Coord *ret;
+	if(abs(diff.x) > abs(diff.y))
+	{
+		ret = [Coord withX:c1.X + (diff.x/abs(diff.x)) Y:c1.Y Z:c1.Z];
+		if([self canEnterTileAtCoord:ret])
+			return ret;
+	}
+	
+	ret = [Coord withX:c1.X Y:c1.Y + (diff.y/abs(diff.y)) Z:c1.Z];
+	if ([self canEnterTileAtCoord:ret]) 
+		return ret;
+	
+	return [Coord withX:0 Y:0 Z:0];
+}
+
+#pragma mark -
+#pragma mark Graphics
 
 /*!
  @method		updateWorldView
@@ -211,5 +252,13 @@
 	
 }
 
+#pragma mark -
+#pragma mark Custom Accessors
+
+- (void) setSelectedMoveTarget:(Coord *)loc
+{
+	[selectedMoveTarget release];
+	selectedMoveTarget = [loc retain];
+}
 
 @end

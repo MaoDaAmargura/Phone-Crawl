@@ -26,6 +26,8 @@ typedef enum {
 
 - (id) init;
 
+- (BOOL) equals:(Coord*)other;
+
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z;
 
 @end
