@@ -2,7 +2,6 @@
 
 #import "Dungeon.h"
 #import "Creature.h"
-#import "ItemGen.h"
 
 #import "Tile.h"
 #import "Util.h"
