@@ -6,6 +6,8 @@
 #import "Tile.h"
 #import "Util.h"
 
+#import "WorldView.h"
+
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;

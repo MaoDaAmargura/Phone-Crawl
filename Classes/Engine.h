@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
-#import "WorldView.h"
 
+@class WorldView;
 @class Creature;
 @class Dungeon;
 @class Coord;

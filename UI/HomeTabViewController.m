@@ -68,8 +68,7 @@
 	
 	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
 	
-	//[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSEventTrackingRunLoopMode];
-	//[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSModalPanelRunLoopMode];
+	[timer fire];
 }
 
 - (void)didReceiveMemoryWarning {
