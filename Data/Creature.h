@@ -94,7 +94,6 @@ typedef enum {
 
 //Reset stats modified by conditions during combat
 - (void) Reset_Stats;
-
 - (int) statBase;
 - (void) Update_Stats_Item: (Item *) item;
 - (void) Set_Base_Stats;
@@ -111,6 +110,8 @@ typedef enum {
 - (void) Remove_Equipment: (slotType) dest_slot;
 - (void) Add_Inventory: (Item *) new_item inv_slot: (int) inv_slot;
 - (void) Remove_Inventory: (int) inv_slot;
+
+- (int) weapon_damage;
 
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
