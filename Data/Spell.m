@@ -32,11 +32,10 @@ BOOL have_set_spells = FALSE;
 	return nil;
 }
 
-
-- (int) cast : (Creature *) caster target: (Creature *) target {
+- (int) cast: (Creature *) caster target: (Creature *) target {
 	if(target.curr_mana < mana_cost)
 		return ERR_NO_MANA;
-
+	
 	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
 	if ([self Resist_Check:caster target:target]) {
 		
@@ -47,6 +46,10 @@ BOOL have_set_spells = FALSE;
 		return [self spell_fn:caster target:target];
 	}
 	return ERR_RESIST;
+}
+
++ (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target {
+	return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
 };
 
 - (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target {

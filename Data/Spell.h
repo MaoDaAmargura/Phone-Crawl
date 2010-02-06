@@ -44,6 +44,9 @@ NSMutableArray *spell_list;
 	IMP spell_fn;
 }
 
++ (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target;
+- (int) cast: (Creature *) caster target: (Creature *) target;
+
 - (id) initWithInfo: (NSString *) in_name spell_type: (spellType) in_spell_type target_type: (targetType) in_target_type elem_type: (elemType) in_elem_type
 		  mana_cost: (int) in_mana_cost damage: (int) in_damage range: (int) in_range spell_level: (int) in_spell_level spell_id: (int) in_spell_id
 		   spell_fn: (IMP) in_spell_fn;
