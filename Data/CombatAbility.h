@@ -17,14 +17,14 @@ NSMutableArray *ability_list;
 	int damage;
 	int ability_level; //Novice, Journeyman, Master
 	int ability_id; //Index in combat_list
-	IMP ability_fn;
+	SEL ability_fn;
 }
 
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
 - (int) use_ability: (Creature *) caster target: (Creature *) target;
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (IMP) in_ability_fn;
+		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn;
 	
 
 - (int) mitigate_damage: (Creature *) caster target: (Creature *) target damage: (int) amount_damage;

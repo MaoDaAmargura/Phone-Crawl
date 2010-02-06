@@ -28,7 +28,6 @@
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
-		D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3EC110632DA0032A3DD /* ItemGen.m */; };
 		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
@@ -138,8 +137,6 @@
 		D931C3E6110632A00032A3DD /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 		D931C3E8110632B60032A3DD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		D931C3E9110632B60032A3DD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 0; };
-		D931C3EB110632DA0032A3DD /* ItemGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemGen.h; sourceTree = "<group>"; };
-		D931C3EC110632DA0032A3DD /* ItemGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemGen.m; sourceTree = "<group>"; };
 		D931C40911063B790032A3DD /* PCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBaseViewController.h; sourceTree = "<group>"; };
 		D931C40A11063B790032A3DD /* PCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBaseViewController.m; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
@@ -326,8 +323,6 @@
 			children = (
 				D9B55D1D11015886007173A3 /* LevelGen.h */,
 				D9B55D1E11015886007173A3 /* LevelGen.m */,
-				D931C3EB110632DA0032A3DD /* ItemGen.h */,
-				D931C3EC110632DA0032A3DD /* ItemGen.m */,
 			);
 			name = Generation;
 			sourceTree = "<group>";
@@ -728,7 +723,6 @@
 				D931C3E11106321A0032A3DD /* Engine.m in Sources */,
 				D931C3E7110632A00032A3DD /* Creature.m in Sources */,
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
-				D931C3ED110632DA0032A3DD /* ItemGen.m in Sources */,
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,

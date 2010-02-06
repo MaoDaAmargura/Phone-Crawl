@@ -16,7 +16,7 @@
 
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (IMP) in_ability_fn {
+		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn {
 	if (self = [super init]) {
 		name = in_name;
 		damage = in_damage;
@@ -27,10 +27,15 @@
 	return nil;
 }
 
-- (int) use_ability: (Creature *) caster target: (Creature *) target {
-	//CombatAbility will always respond. This warning does not matter, as all combat abilities will have functions of this type.
-	//Please ignore or add pragma.
-	return [self ability_fn:caster target:target];
+- (int) use_ability: (Creature *) caster target: (Creature *) target 
+{
+	if([self respondsToSelector:ability_fn])
+	{
+		IMP f = [self methodForSelector:ability_fn];
+		return (int)(f)(self, ability_fn, caster, target);
+	}
+	
+	return 0;
 }
 
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target {
@@ -60,7 +65,7 @@
 + (void) initialize {
 	[super initialize];
 	int id_cnt = 0, ability_lvl = 1;
-	IMP detr = [CombatAbility methodForSelector:@selector(detr_ability:target:)];
+	SEL detr = @selector(detr_ability:target:);
 
 	
 	

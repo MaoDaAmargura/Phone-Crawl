@@ -13,7 +13,7 @@ BOOL have_set_spells = FALSE;
 
 - (id) initWithInfo: (NSString *) in_name spell_type: (spellType) in_spell_type target_type: (targetType) in_target_type elem_type: (elemType) in_elem_type
 		  mana_cost: (int) in_mana_cost damage: (int) in_damage range: (int) in_range spell_level: (int) in_spell_level spell_id: (int) in_spell_id
-		   spell_fn: (IMP) in_spell_fn {
+		   spell_fn: (SEL) in_spell_fn {
 	
 	if(self = [super init])
 	{
@@ -43,7 +43,13 @@ BOOL have_set_spells = FALSE;
 		//If someone knows the proper pragma to get rid of the warning, please insert it.
 		//Otherwise, ignore this warning please, or rewrite the line to return the value of the function
 		//in a way that doesn't cause the warning.
-		return [self spell_fn:caster target:target];
+		//return (spell_fn)(self, caster, target);
+		if([self respondsToSelector:spell_fn])
+		{
+			IMP f = [self methodForSelector:spell_fn];
+			return (int)(f)(self, spell_fn, caster, target);
+		}
+
 	}
 	return ERR_RESIST;
 }
@@ -164,6 +170,17 @@ BOOL have_set_spells = FALSE;
 + (void) initialize {
 	[super initialize];
 	int id_cnt = 0, spell_lvl = 1;
+	
+	SEL scroll = @selector(scroll:target:);
+	SEL heal_potion = @selector(heal_potion:target:);
+	SEL mana_potion = @selector(mana_potion:target:);
+	SEL detr = @selector(detr_spell:target:);
+	SEL haste = @selector(haste:target:);
+	SEL freeze = @selector(freeze:target:);
+	SEL	purge = @selector(purge:target:);
+	SEL taint = @selector(taint:target:);
+	SEL confusion = @selector(confusion:target:);
+	/*
 	IMP scroll = [Spell methodForSelector:@selector(scroll:target:)];
 	IMP heal_potion = [Spell methodForSelector:@selector(heal_potion:target:)];
 	IMP mana_potion = [Spell methodForSelector:@selector(mana_potion:target:)];
@@ -173,7 +190,7 @@ BOOL have_set_spells = FALSE;
 	IMP purge = [Spell methodForSelector:@selector(purge:target:)];
 	IMP taint = [Spell methodForSelector:@selector(taint:target:)];
 	IMP confusion = [Spell methodForSelector:@selector(confusion:target:)];
-	
+	*/
 	
 #define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN) [spell_list addObject:[[[Spell alloc] initWithInfo:NAME spell_type:TYPE target_type:TARGET\
 														elem_type:ELEM mana_cost:MANA damage:DMG range:MAX_BOW_RANGE\
