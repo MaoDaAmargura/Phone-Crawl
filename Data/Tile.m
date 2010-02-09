@@ -39,6 +39,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	blockMove = false;
 	blockShoot = false;
 	smashable = false;
+	slope = slopeNone;
 
 	switch (type) {
 		case tileWoodWall:
