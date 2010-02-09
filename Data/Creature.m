@@ -47,7 +47,7 @@
 	if(self = [super init])
 	{
 		name = in_name;
-		creatureLocation = [[[Coord alloc] init] autorelease];
+		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		head = [[[Item alloc] init] autorelease];
 		chest = [[[Item alloc] init] autorelease];
 		r_hand = [[[Item alloc] init] autorelease];
@@ -147,8 +147,8 @@
 	}
 }
 
-- (void) Add_Condition: (conditionType) new_condition { condition |= (1 << new_condition); }
-- (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ (1 << rem_condition); }
+- (void) Add_Condition: (conditionType) new_condition { condition |= new_condition; }
+- (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ rem_condition; }
 - (void) Clear_Condition { condition = NO_CONDITION; }
 
 - (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
@@ -247,5 +247,12 @@
 	[inventory insertObject:nil atIndex:inv_slot];
 	//return rem_item;
 };
+
+- (int) weapon_damage {
+	int dmg = 0;
+	if (r_hand != NULL) dmg+=r_hand.damage;
+	if (l_hand != NULL && (l_hand.item_type == SWORD_ONE_HAND || l_hand.item_type == DAGGER)) dmg+=l_hand.damage * OFFHAND_DMG_PERCENTAGE;
+	return dmg;
+}
 
 @end

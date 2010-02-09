@@ -14,6 +14,14 @@
 	return [NSString stringWithFormat: @"X: %d, Y: %d, Z: %d", X, Y, Z];
 }
 
+- (BOOL) equals:(Coord*)other
+{
+	if (self.X == other.X && self.Y == other.Y && self.Z == other.Z)
+		return YES;
+		
+	return NO;
+}
+
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z
 {
 	Coord *ret = [[[Coord alloc] init] autorelease];

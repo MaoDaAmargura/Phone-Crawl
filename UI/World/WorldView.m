@@ -12,8 +12,9 @@
 
 - (id) init {
 	if(self = [super initWithNibName:@"WorldView"]) {
-		highlight = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"blank.png"]];
+		highlight = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)];
 		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+		highlight.hidden = YES;
 		return self;
 	}
 	return nil;
@@ -34,6 +35,7 @@
 	displayLabelArray = [[NSArray arrayWithObjects:healthLabel, shieldLabel, manaLabel, nil] retain];
 
 	[delegate worldViewDidLoad:self];
+	[self.view addSubview:highlight];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -69,65 +71,75 @@
 
 #pragma mark -
 #pragma mark UIResponder
+/*!
+ @method		pointIsInWorldView:
+ @abstract		query method asks whether a point in world coordinate (pixel)
+				is in the mapImageView bounds (ie, needs to be intercepted)
+ */
+- (BOOL) pointIsInWorldView: (CGPoint) point 
+{
+	CGSize s = mapImageView.bounds.size;
+	return (point.x < s.width && point.y < s.height);
+}
 
 /*!
- @abstract		highlight the Tile which the user is touching
- @discussion	arguments requiring points are to be given in terms of pixels.
-				all touch events outside a rectangle (0,0,320,320) are ignored.
-				if a drag event occurs outside this rectangle, the highlight is hidden.
+ @method		touchesBegan
+ @abstract		callback for UIresponder. launches the tile highlighter if on a tile. reports the touch
  */
-
-- (CGRect) rectAtPoint: (CGPoint) point {
-	float x = (floor(point.x / TILE_SIZE_PX)) * TILE_SIZE_PX;
-	float y = (floor(point.y / TILE_SIZE_PX)) * TILE_SIZE_PX;
-	return CGRectMake (x, y, TILE_SIZE_PX, TILE_SIZE_PX);
-}
-
-- (bool) pointIsInWorldView: (CGPoint) point {
-	return (point.x < WORLD_VIEW_SIZE_PX && point.y < WORLD_VIEW_SIZE_PX);
-}
-
-- (void) showHighLightAtPoint: (CGPoint) point {
-	if ([delegate highlightShouldBeYellowAtPoint: point]) {
-		highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
-	}
-	else {
-		highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+- (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event 
+{
+	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
+	if (![self pointIsInWorldView: loc])
+	{
+		[super touchesBegan:touches withEvent:event];
+		return;
 	}
 	
-	highlight.frame = [self rectAtPoint: point];
-	if (![highlight superview]) [self.view addSubview: highlight];
-}
-
-- (void) touchesBegan: (NSSet*) touches withEvent: (UIEvent*) event {
-	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	if (![self pointIsInWorldView: loc]) return;
-
-	[self showHighLightAtPoint: loc];
-
+	highlight.hidden = NO;
+	
 	[delegate worldView: self touchedAt: loc];
 }
 
-- (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event {
+/*!
+ @method		touchesMoved
+ @abstract		UIResponder callback. notifies delegate of a new tile highlighted.
+ */
+- (void) touchesMoved: (NSSet*) touches withEvent: (UIEvent*) event 
+{
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	if (![self pointIsInWorldView: loc]) {
-		[highlight removeFromSuperview];
+	
+	if(![self pointIsInWorldView:loc])
+	{
+		[super touchesMoved:touches withEvent:event];
+		return;
 	}
-	else {
-		[self showHighLightAtPoint: loc];
-	}
+	
+	[delegate worldView: self touchedAt:loc];
 }
 
+/*!
+ @method		touchesEnded
+ @abstract		UIResponder callback. Notifies delegate of a touch ending. Hides highlight.
+ */
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
 	CGPoint loc = [[[touches allObjects] objectAtIndex: 0] locationInView: nil];
-	[highlight removeFromSuperview];
-	if (![self pointIsInWorldView: loc]) return;
-
+	highlight.hidden = YES;
+	if (![self pointIsInWorldView: loc])
+	{
+		[super touchesEnded:touches withEvent:event];
+		return;
+	}
 	[delegate worldView: self selectedAt: loc];
 }
 
-- (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event {
-	[highlight removeFromSuperview];
+/*!
+ @method		touchesCancelled
+ @abstract		UIResponder callback. Hides highlight. No notifications.
+ */
+- (void) touchesCancelled: (NSSet*) touches withEvent: (UIEvent*) event 
+{
+	highlight.hidden = YES;
 }
+
 
 @end

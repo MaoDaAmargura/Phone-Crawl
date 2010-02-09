@@ -22,24 +22,11 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 @end
 
-#pragma mark -
+#pragma mark --implementation
 
 @implementation LevelGen
 
 #pragma mark -
-
-typedef enum {
-	barren, average, fecund
-} golParam;
-
-//+ (void) nextGeneration: (Dungeon*) dungeon zLevel: (int
-
-+ (void) gameOfLife: (Dungeon*) dungeon zLevel: (int) z targeting: (tileType) type harshness: (golParam) harshness {
-	
-}
-
-#pragma mark -
-
 #define MAX_PIT_RADIUS 10
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
 	assert(z < MAP_DEPTH - 1);
@@ -64,11 +51,14 @@ typedef enum {
 				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
+<<<<<<< HEAD
 				[tile initWithTileType: type];
-
+=======
+				[tile initWithType: type];
 
 				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
-				[tilePitBase initWithTileType: typePitBase];
+				[tilePitBase initWithType: typePitBase];
+>>>>>>> 80b9ed1549c9ebb1b2ba3a735dfda2145de3c4ba
 			}
 		}
 	}
@@ -226,7 +216,7 @@ typedef enum {
 + (void) setFloorOf: (Dungeon*) dungeon to: (tileType) type onZLevel: (int) z {
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
-			[[dungeon tileAtX:x Y:y Z:z] initWithTileType: type];
+			[[dungeon tileAtX:x Y:y Z:z] initWithType: type];
 		}
 	}
 }

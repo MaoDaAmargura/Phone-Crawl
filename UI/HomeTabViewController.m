@@ -1,6 +1,7 @@
 #import "HomeTabViewController.h"
 
 //Individual View Classes
+
 #import "CharacterView.h"
 #import "InventoryView.h"
 #import "OptionsView.h"
@@ -17,6 +18,8 @@
 - (UIViewController*) initCharacterView;
 - (UIViewController*) initInventoryView;
 - (UIViewController*) initOptionsView;
+
+- (void) fireGameLoop;
 
 @end
 
@@ -53,6 +56,7 @@
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
+	
 }
 
 
@@ -61,16 +65,11 @@
 {
     [super viewDidLoad];
 	[gameEngine updateWorldView:wView];
+	
+	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
+	
+	[timer fire];
 }
-
-
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
 
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
@@ -89,6 +88,16 @@
 }
 
 #pragma mark -
+#pragma mark Engine Related Calls
+
+//I really should just combine HTVC and Engine
+
+- (void) fireGameLoop
+{
+	[gameEngine gameLoopWithWorldView:wView];
+}
+
+#pragma mark -
 #pragma mark Delegate Callbacks
 
 #pragma mark WorldView
@@ -101,28 +110,23 @@
 - (void) worldView:(WorldView*) worldView touchedAt:(CGPoint)point
 {
 	DLog(@"worldView:(WorldView*)wView touchedAt:(CGPoint)point");
-
-
-
-//	imageForType
-
-
 	
-//	[UIView beginAnimations:nil context: context];
-//	[UIView setAnimationDuration: DROP_ANIM_DURATION];
-//	[UIView setAnimationDelegate:self];
-//	[UIView setAnimationDidStopSelector:@selector(finishedMoveOut:finished:context:)];
-//	
-//	CGPoint center = left.view.center;
-//	
-//	center.x -= 133.5;
-//	left.view.center = center;
-//	center = right.view.center;
-//	center.x -= 133.5;
-//	right.view.center = center;
-//	
-//	[UIView commitAnimations];
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
+	
+	if([gameEngine canEnterTileAtCoord:tileCoord])
+		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+	else 
+		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+	
+	CGPoint p = [gameEngine originOfTile:tileCoord inWorldView:worldView];
+	
+	CGSize s = [gameEngine tileSizeForWorldView:worldView];
+	
+	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	
 }
+
+#define PLAYER_INSTANT_TRANSMISSION 0
 
 /*!
  @method		worldSelectedAt
@@ -130,13 +134,21 @@
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
 - (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point {
-	float x = floor(point.x / TILE_SIZE_PX);
-	float y = floor(point.y / TILE_SIZE_PX);
 	
-	CGPoint localCoord = CGPointMake(x,y);
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
+	
+	if([gameEngine canEnterTileAtCoord:tileCoord])
+	{
+		if(PLAYER_INSTANT_TRANSMISSION)
+		{	
+			[gameEngine movePlayerToTileAtCoord:tileCoord];
+			[gameEngine updateWorldView:worldView];
+		}
+		else
+		{
+			[gameEngine setSelectedMoveTarget:tileCoord];
+		}
 
-	if ([gameEngine movePlayerToLocalCoord: localCoord]) {
-		[gameEngine updateWorldView: worldView];
 	}
 }
 
@@ -144,20 +156,6 @@
 {
 	DLog(@"worldViewDidLoad:(WorldView*) worldView");
 	[gameEngine updateWorldView:wView];
-}
-
-/*!
- @method		highlightShouldBeYellowAtPoint:
- @abstract		called by WorldView in response to a touch
- @discussion	returns true (yellow) if Player can move / attack there, false (red) otherwise
- */
-- (bool) highlightShouldBeYellowAtPoint: (CGPoint) point {
-	float x = floor(point.x / TILE_SIZE_PX);
-	float y = floor(point.y / TILE_SIZE_PX);
-
-	CGPoint localCoord = CGPointMake(x,y);
-
-	return [gameEngine validTileAtLocalCoord: localCoord];
 }
 
 

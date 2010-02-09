@@ -36,6 +36,6 @@ typedef enum {
 
 + (void) initialize;
 + (UIImage*) imageForType:(tileType)type;
-- (Tile*) initWithType: (tileType) _type;
+- (Tile*) initWithTileType: (tileType) _type;
 
 @end
