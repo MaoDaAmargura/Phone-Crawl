@@ -27,6 +27,8 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 @implementation LevelGen
 
 #pragma mark -
+#pragma mark Game of Life
+
 
 typedef enum {
 	barren, average, fecund
@@ -135,7 +137,7 @@ typedef enum {
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
 				tileType type = tilePit;
-				tileType typePitBase = tileConcrete;
+//				tileType typePitBase = tileConcrete;
 
 				int deltaX = abs(xStart - x);
 				int deltaY = abs(yStart - y);
@@ -143,19 +145,27 @@ typedef enum {
 				if (delta > MAX_PIT_RADIUS) continue;
 				if (delta > MAX_PIT_RADIUS - 2) {
 					type = tileSlopeDown;
-					typePitBase = tileSlopeUp;
+//					typePitBase = tileSlopeUp;
 				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
 				[tile initWithTileType: type];
 
-
-				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
-				[tilePitBase initWithTileType: typePitBase];
+//				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
+//				[tilePitBase initWithTileType: typePitBase];
 			}
 		}
 	}
 }
+
++ (void) followPit: (Dungeon*) dungeon fromZLevel: (int) z {
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+//			Tile *tile = [];
+		}
+	}
+}
+
 
 #pragma mark -
 #define BLDG_SIZE 12

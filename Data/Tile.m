@@ -12,13 +12,11 @@ static NSMutableArray *tileImageArray;
 // level gen
 @synthesize placementOrder, cornerWall;
 
-
 #pragma mark -
 #pragma mark Life Cycle
 
 // extern'ed to LevelGen to track wall tiles in order of what building they are a part of
 int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 1;
-
 
 // DEPRECATED.  use initWithType instead.
 - (id) init {
