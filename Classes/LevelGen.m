@@ -159,9 +159,17 @@ typedef enum {
 }
 
 + (void) followPit: (Dungeon*) dungeon fromZLevel: (int) z {
+	assert (z >= 0 && z < MAP_DEPTH - 1);
+
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
-//			Tile *tile = [];
+			Tile *up = [dungeon tileAtX:x Y:y Z:z];
+			if (up.type == tilePit) {
+				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileConcrete];
+			}
+			if (up.type == tileSlopeDown) {
+				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileSlopeUp];
+			}
 		}
 	}
 }
@@ -335,6 +343,8 @@ typedef enum {
 	for (int LCV = 0; LCV < 3; LCV++) {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness:average];
 	}
+
+	[self followPit:dungeon fromZLevel:0];
 
 	return dungeon;
 }

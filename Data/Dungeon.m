@@ -87,6 +87,8 @@ NSMutableArray *tiles = nil;
 }
 
 - (Coord*) coordOfTile: (Tile*) tile {
+	DLog(@"don't trust the result of this method!");
+
 	int index = [tiles indexOfObject: tile];
 	Coord *retval = [[[Coord alloc] init] autorelease];
 
