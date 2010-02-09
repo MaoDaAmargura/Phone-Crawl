@@ -22,11 +22,24 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 @end
 
-#pragma mark --implementation
+#pragma mark -
 
 @implementation LevelGen
 
 #pragma mark -
+
+typedef enum {
+	barren, average, fecund
+} golParam;
+
+//+ (void) nextGeneration: (Dungeon*) dungeon zLevel: (int
+
++ (void) gameOfLife: (Dungeon*) dungeon zLevel: (int) z targeting: (tileType) type harshness: (golParam) harshness {
+	
+}
+
+#pragma mark -
+
 #define MAX_PIT_RADIUS 10
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
 	assert(z < MAP_DEPTH - 1);
