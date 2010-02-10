@@ -217,6 +217,7 @@ const int base_item_stats[10][9] = {
             if (arc4random()%2)
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Healing",spell_name[dungeon_level]]
                                           icon_name: @"../Images/Consumable/potion-red.png"
+                                       item_quality: REGULAR
                                           item_slot: BAG 
                                           elem_type: DARK 
                                           item_type: POTION
@@ -258,7 +259,7 @@ const int base_item_stats[10][9] = {
         case WAND:
             return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Wand of %s Magic",spell_name[dungeon_level],elem_string1[dungeon_level]]
                                       icon_name: @"../Images/Consumable/wand2.png"
-                                        item_qu: REGULAR
+                                   item_quality: REGULAR
                                       item_slot: BAG
                                       elem_type: DARK
                                       item_type: WAND
