@@ -30,7 +30,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 
 typedef enum {
-	barren, average, fecund
+	agentOrange, average, fecund
 } golParam;
 
 + (int) golCountNeighborsIn: (Dungeon*) dungeon ofType: (tileType) type around: (Coord*) coord {
@@ -49,9 +49,8 @@ typedef enum {
 
 + (bool) killWithNeighbors:(int) neighbors harshness: (golParam) harshness {
 	switch (harshness) {
-		case barren:
-//			if (neighbors < 1 || neighbors > 2) {
-			if (neighbors != 1) {
+		case agentOrange:
+			if (neighbors < 3) {
 				return true;
 			}
 			return false;
@@ -72,12 +71,9 @@ typedef enum {
 }
 
 + (bool) birthWithNeighbors:(int) neighbors harshness: (golParam) harshness {
+	if (harshness == agentOrange) return false;
+
 	switch (harshness) {
-		case barren:
-			if (neighbors == 2) {
-				return true;
-			}
-			return false;
 		case average:
 			if (neighbors == 3) {
 				return true;
@@ -129,15 +125,18 @@ typedef enum {
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
 	assert(z < MAP_DEPTH - 1);
 
-	for (int LCV = 0; LCV < 6; LCV++) {
+	while (true) {
 
 		int xStart = [Rand min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
 		int yStart = [Rand min: MAX_PIT_RADIUS max: MAP_DIMENSION - 1 - MAX_PIT_RADIUS];
 
+		if ([dungeon tileAtX:xStart Y:yStart Z:z].type == tileRockWall) {
+			continue;
+		}
+
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
 				tileType type = tilePit;
-//				tileType typePitBase = tileConcrete;
 
 				int deltaX = abs(xStart - x);
 				int deltaY = abs(yStart - y);
@@ -145,16 +144,14 @@ typedef enum {
 				if (delta > MAX_PIT_RADIUS) continue;
 				if (delta > MAX_PIT_RADIUS - 2) {
 					type = tileSlopeDown;
-//					typePitBase = tileSlopeUp;
 				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
 				[tile initWithTileType: type];
-
-//				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
-//				[tilePitBase initWithTileType: typePitBase];
 			}
 		}
+
+		break;
 	}
 }
 
@@ -325,18 +322,30 @@ typedef enum {
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
-	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
-
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
-	[self putPit: dungeon onZLevel: 0];
+	for (int LCV = 0; LCV < 6; LCV++) {
+		[self putPit: dungeon onZLevel: 0];
+	}
 	for (int LCV = 0; LCV < 2; LCV++) {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
-	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: barren];
+	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
 
+
+	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
+	for (int LCV = 0; LCV < 4; LCV++) {
+		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
+	}
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
+	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
+	[self putPit: dungeon onZLevel: 1];
+
+
+	[self setFloorOf: dungeon to: tileConcrete onZLevel: 2];
+	[self followPit: dungeon fromZLevel:1];
+
 
 	return dungeon;
 }
