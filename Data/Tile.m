@@ -32,6 +32,13 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 }
 
 - (Tile*) initWithTileType: (tileType) _type {
+	if (slope && _type != tilePit) {
+		return self;
+	}
+	if (_type == tileRubble && blockMove) {
+		return self;
+	}
+
 	type = _type;
 	placementOrder = 0;	// dummy value, never occurs in a wall
 	blockMove = false;

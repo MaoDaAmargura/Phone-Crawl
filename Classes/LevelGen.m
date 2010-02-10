@@ -51,20 +51,21 @@ typedef enum {
 + (bool) killWithNeighbors:(int) neighbors harshness: (golParam) harshness {
 	switch (harshness) {
 		case barren:
-			if (neighbors < 1 || neighbors > 2) {
-				return false;
+//			if (neighbors < 1 || neighbors > 2) {
+			if (neighbors != 1) {
+				return true;
 			}
-			return true;			
+			return false;
 		case average:
 			if (neighbors < 2 || neighbors > 3) {
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		case fecund:
 			if (neighbors < 1 || neighbors > 4) {
-				return false;
+				return true;
 			}
-			return true;
+			return false;
 		default:
 			[NSException raise:@"Game of Life blew up in switch statement A" format: nil];
 	}
@@ -120,7 +121,7 @@ typedef enum {
 	}
 	for (Tile *tile in tilesToBirth) {
 		[tile initWithTileType: type];
-	}	
+	}
 }
 
 #pragma mark -
@@ -335,16 +336,17 @@ typedef enum {
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
-	
+
 	[self putRubble: dungeon onZLevel: 0];
 	[self putBuildings: dungeon onZLevel: 0];
 	[self putPit: dungeon onZLevel: 0];
-
-	for (int LCV = 0; LCV < 3; LCV++) {
-		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness:average];
+	for (int LCV = 0; LCV < 2; LCV++) {
+		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
+	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: barren];
 
 	[self followPit:dungeon fromZLevel:0];
+	[self putRubble: dungeon onZLevel: 1];
 
 	return dungeon;
 }
