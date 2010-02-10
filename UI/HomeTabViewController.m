@@ -64,7 +64,7 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	[gameEngine updateWorldView:wView];
+	//[gameEngine updateWorldView:wView];
 	
 	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
 	
@@ -126,7 +126,7 @@
 	
 }
 
-#define PLAYER_INSTANT_TRANSMISSION false
+#define PLAYER_INSTANT_TRANSMISSION NO
 
 /*!
  @method		worldSelectedAt
@@ -160,9 +160,10 @@
 
 
 #pragma mark InventoryView
-- (void) needRefreshForInventoryView:(InventoryView*) iView
+- (void) needRefreshForInventoryView:(InventoryView*) invView
 {
-	
+	NSArray *inv = [gameEngine getPlayerInventory];
+	[invView updateWithItemArray:inv];
 }
 
 #pragma mark -

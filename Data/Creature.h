@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-#import "Item.h"
-
 //#define NUM_EQUIP_SLOTS 4
 #define NUM_INV_SLOTS 20
 #define MAX_NUM_SPELLS 50
@@ -42,6 +40,7 @@ typedef enum {
 	int aggro_range;
     int   level;
     float turn_speed;
+	int current_turn_points;
 
     int   curr_health;
     int   curr_shield;
@@ -61,13 +60,14 @@ typedef enum {
 	int poison;
 	int dark;
 	int armor;
+	
     //currently 4 (Head, Chest, Right Hand, Left Hand)
     Item *head;
 	Item *chest;
 	Item *r_hand;
 	Item *l_hand;
-	
 	NSMutableArray *inventory;
+	//Inventory *inventory; //Replace Item* decls and NSMutArray once those have been filled
 	
 	//Spells aren't going to be randomly generated (not without creating a
 	//much more complex spell system than we want to deal with), thus we
@@ -116,6 +116,7 @@ typedef enum {
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
 
+@property (nonatomic) int current_turn_points;
 @property (readonly) NSString *name;
 @property int money;
 @property int curr_mana;

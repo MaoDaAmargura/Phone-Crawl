@@ -6,6 +6,7 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#import "Creature.h"
 #import "CombatAbility.h"
 #define LEVEL_DIFF_MULT 2
 
@@ -39,7 +40,7 @@
 }
 
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target {
-	return [[ability_list objectAtIndex: in_ability_id] cast:caster target:target];
+	return [[ability_list objectAtIndex: in_ability_id] use_ability:caster target:target];
 };
 
 - (int) mitigate_damage:(Creature *)caster target:(Creature *)target damage: (int) amt_damage {

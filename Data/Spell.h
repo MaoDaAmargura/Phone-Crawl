@@ -1,8 +1,14 @@
-#import <Foundation/Foundation.h>
+//
+//  Spell.h
+//  Phone-Crawl
+// 
+//  Created by Benjamin Sangster on 1/19/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
 
-#import "Creature.h"
-#import "Item.h"
-#import "Util.h" 
+#import <Foundation/Foundation.h>
+#import "Util.h"
+
 
 #define ITEM_NO_SPELL -1
 #define ERR_NO_MANA -2
