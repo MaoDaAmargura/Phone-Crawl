@@ -63,7 +63,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">112/125</string>
+								<string key="IBUIText"/>
 								<object class="NSColor" key="IBUITextColor" id="871825097">
 									<int key="NSColorSpace">1</int>
 									<bytes key="NSRGB">MCAwIDAAA</bytes>
@@ -80,7 +80,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">112/125</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="871825097"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -94,7 +94,7 @@
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">65/125</string>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="871825097"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -430,7 +430,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>healthBar</string>
 							<string>healthLabel</string>
-							<string>hpview</string>
 							<string>manaBar</string>
 							<string>manaLabel</string>
 							<string>mapImageView</string>
@@ -441,7 +440,6 @@
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>UIView</string>
 							<string>UILabel</string>
-							<string>UIProgressView</string>
 							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UIImageView</string>
@@ -590,14 +588,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">UIKit.framework/Headers/UILabel.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UIProgressView</string>
-					<string key="superclassName">UIView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">UIKit.framework/Headers/UIProgressView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
