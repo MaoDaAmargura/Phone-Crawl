@@ -7,11 +7,13 @@
 //
 
 #import "Creature.h"
+#import "Item.h"
 
 
 @implementation Creature
 
 @synthesize turn_speed;
+@synthesize current_turn_points;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;

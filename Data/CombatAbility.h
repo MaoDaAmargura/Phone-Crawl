@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Creature.h"
+
 
 NSMutableArray *ability_list;
 
