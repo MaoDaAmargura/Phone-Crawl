@@ -15,7 +15,8 @@
 #define ERR_RESIST -3
 #define SPELL_NO_DAMAGE -4
 
-#define NUM_POTION_SPELLS 5
+#define NUM_SPELLS 200 //Place holder
+#define NUM_POTION_SPELLS 10
 #define NUM_PC_SPELLS 50
 #define NUM_DMG_SPELLS 25
 #define NUM_WAND_SPELLS NUM_DMG_SPELLS
@@ -50,6 +51,8 @@ NSMutableArray *spell_list;
 	SEL spell_fn;
 	//IMP spell_fn;
 }
+
++ (void) fill_spell_list;
 
 + (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target;
 - (int) cast: (Creature *) caster target: (Creature *) target;

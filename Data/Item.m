@@ -41,6 +41,7 @@ const int base_item_stats[10][9] = {
 
 @implementation Item
 
+@synthesize spell_id;
 @synthesize item_icon;
 @synthesize item_slot;
 @synthesize elem_type;

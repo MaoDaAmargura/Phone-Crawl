@@ -74,6 +74,10 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int elem_damage;
 @property (nonatomic) int range;
 @property (nonatomic) int charges;
+@property (nonatomic) int spell_id;
+
+// Need item_cast method
+
 
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generate_random_item: (int) dungeon_level

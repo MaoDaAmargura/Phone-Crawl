@@ -4,6 +4,7 @@
 #import "Creature.h"
 #import "Tile.h"
 #import "Item.h"
+#import "Spell.h"
 
 #import "Util.h"
 
@@ -37,6 +38,30 @@
 														[Item generate_random_item:1 elem_type:LIGHTNING],
 														[Item generate_random_item:3 elem_type:POISON],
 						[Item generate_random_item:9 elem_type:DARK], nil];
+	Item *heal_test = [[Item alloc] initWithStats : @"Test Healing Potion"
+										 icon_name: @"../Images/Consumable/potion-red.png"
+									  item_quality: REGULAR
+										 item_slot: BAG 
+										 elem_type: DARK 
+										 item_type: POTION
+											damage: 1
+									   elem_damage: 0
+										   charges: 1
+											 range: 1 
+												hp: 0 
+											shield: 0 
+											  mana: 0 
+											  fire: 0 
+											  cold: 0 
+										 lightning: 0
+											poison: 0 
+											  dark: 0 
+											 armor: 0
+										  spell_id: ITEM_HEAL_SPELL_ID];
+	[Spell fill_spell_list];
+	DLog(@"Attempting to cast heal item");
+	[Spell cast_id:heal_test.spell_id caster:player target:nil];
+	
 }
 
 - (id) init
