@@ -116,7 +116,7 @@
 	ret = [Coord withX:c1.X Y:c1.Y + (diff.y/abs(diff.y)) Z:c1.Z];
 	if ([self canEnterTileAtCoord:ret]) 
 		return ret;
-	
+
 	return [Coord withX:0 Y:0 Z:0];
 }
 
@@ -236,10 +236,15 @@
  @method		movePlayerToTileAtCoord:
  @abstract		public function to move the player. don't call it lightly. and if you want to see the movement,
 				then call engines updateWorldView right after a call to this function.
+				note that this will automatically toss the player up or down any stairs he lands on.
  */
 - (void) movePlayerToTileAtCoord:(Coord*)tileCoord
 {
 	player.creatureLocation = tileCoord;
+	slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
+	if (currSlope) {
+		player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
+	}
 }
 
 /*!

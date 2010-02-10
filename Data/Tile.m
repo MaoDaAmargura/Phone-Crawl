@@ -12,13 +12,11 @@ static NSMutableArray *tileImageArray;
 // level gen
 @synthesize placementOrder, cornerWall;
 
-
 #pragma mark -
 #pragma mark Life Cycle
 
 // extern'ed to LevelGen to track wall tiles in order of what building they are a part of
 int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC = 1;
-
 
 // DEPRECATED.  use initWithType instead.
 - (id) init {
@@ -34,11 +32,19 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 }
 
 - (Tile*) initWithTileType: (tileType) _type {
+	if (slope && _type != tilePit) {
+		return self;
+	}
+	if (_type == tileRubble && blockMove) {
+		return self;
+	}
+
 	type = _type;
 	placementOrder = 0;	// dummy value, never occurs in a wall
 	blockMove = false;
 	blockShoot = false;
 	smashable = false;
+	slope = slopeNone;
 
 	switch (type) {
 		case tileWoodWall:
@@ -111,6 +117,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"staircase-down.png");
 		ADD(@"staircase-up.png");
 		ADD(@"wall-rock.gif");
+		ADD(@"grass.png");		// FIXME this represents cave lichen, replace it
 	}
 }
 

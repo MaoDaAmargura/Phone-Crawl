@@ -17,16 +17,114 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 @interface LevelGen ()
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon;
-+ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z;
 + (Dungeon*) putBuildings: (Dungeon*) dungeon onZLevel: (int) z;
 
 @end
 
-#pragma mark --implementation
+#pragma mark -
 
 @implementation LevelGen
 
 #pragma mark -
+#pragma mark Game of Life
+
+
+typedef enum {
+	barren, average, fecund
+} golParam;
+
++ (int) golCountNeighborsIn: (Dungeon*) dungeon ofType: (tileType) type around: (Coord*) coord {
+	int neighbors = 0;
+	for (int dx = -1; dx <= 1; dx++) {
+		if (coord.X + dx < 0 || coord.X + dx >= MAP_DIMENSION) continue;
+		for (int dy = -1; dy <= 1; dy++) {
+			if (coord.Y + dy < 0 || coord.Y + dy >= MAP_DIMENSION) continue;
+			if ([dungeon tileAtX:coord.X + dx Y: coord.Y + dy Z: coord.Z].type == type) {
+				neighbors++;
+			}
+		}
+	}
+	return neighbors;
+}
+
++ (bool) killWithNeighbors:(int) neighbors harshness: (golParam) harshness {
+	switch (harshness) {
+		case barren:
+//			if (neighbors < 1 || neighbors > 2) {
+			if (neighbors != 1) {
+				return true;
+			}
+			return false;
+		case average:
+			if (neighbors < 2 || neighbors > 3) {
+				return true;
+			}
+			return false;
+		case fecund:
+			if (neighbors < 1 || neighbors > 4) {
+				return true;
+			}
+			return false;
+		default:
+			[NSException raise:@"Game of Life blew up in switch statement A" format: nil];
+	}
+	exit(1);
+}
+
++ (bool) birthWithNeighbors:(int) neighbors harshness: (golParam) harshness {
+	switch (harshness) {
+		case barren:
+			if (neighbors == 2) {
+				return true;
+			}
+			return false;
+		case average:
+			if (neighbors == 3) {
+				return true;
+			}
+			return false;
+		case fecund:
+			if (neighbors < 2 || neighbors > 3) {
+				return true;
+			}
+			return false;
+		default:
+			[NSException raise:@"Game of Life blew up in switch statement B" format: nil];
+	}
+	exit(1);
+}
+
++ (void) gameOfLife: (Dungeon*) dungeon zLevel: (int) z targeting: (tileType) type harshness: (golParam) harshness {
+	// declared outside loop to avoid a fat autorelease pool
+	Coord *coord = [Coord withX:0 Y:0 Z:z];
+	NSMutableArray *tilesToKill = [[NSMutableArray alloc] initWithCapacity: 120];
+	NSMutableArray *tilesToBirth = [[NSMutableArray alloc] initWithCapacity: 120];
+
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			coord.X = x, coord.Y = y;
+			int neighbors = [self golCountNeighborsIn:dungeon ofType:type around:coord];
+
+			if ([dungeon tileAt:coord].type == type && [self killWithNeighbors:neighbors harshness:harshness]) {
+				[tilesToKill addObject: [dungeon tileAt: coord]];
+			}
+
+			else if ([dungeon tileAt:coord].type != type && [self birthWithNeighbors:neighbors harshness:harshness]) {
+				[tilesToBirth addObject: [dungeon tileAt: coord]];
+			}
+		}
+	}
+
+	for (Tile *tile in tilesToKill) {
+		[tile initWithTileType: tilePit];
+	}
+	for (Tile *tile in tilesToBirth) {
+		[tile initWithTileType: type];
+	}
+}
+
+#pragma mark -
+
 #define MAX_PIT_RADIUS 10
 + (void) putPit: (Dungeon*) dungeon onZLevel: (int) z {
 	assert(z < MAP_DEPTH - 1);
@@ -39,7 +137,7 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		for (int x = xStart - MAX_PIT_RADIUS; x < xStart + MAX_PIT_RADIUS; x++) {
 			for (int y = yStart - MAX_PIT_RADIUS; y < yStart + MAX_PIT_RADIUS; y++) {
 				tileType type = tilePit;
-				tileType typePitBase = tileConcrete;
+//				tileType typePitBase = tileConcrete;
 
 				int deltaX = abs(xStart - x);
 				int deltaY = abs(yStart - y);
@@ -47,19 +145,35 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 				if (delta > MAX_PIT_RADIUS) continue;
 				if (delta > MAX_PIT_RADIUS - 2) {
 					type = tileSlopeDown;
-					typePitBase = tileSlopeUp;
+//					typePitBase = tileSlopeUp;
 				}
 
 				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
 				[tile initWithTileType: type];
 
-
-				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
-				[tilePitBase initWithTileType: typePitBase];
+//				Tile *tilePitBase = [dungeon tileAt: [Coord withX: x Y: y Z: z + 1]];
+//				[tilePitBase initWithTileType: typePitBase];
 			}
 		}
 	}
 }
+
++ (void) followPit: (Dungeon*) dungeon fromZLevel: (int) z {
+	assert (z >= 0 && z < MAP_DEPTH - 1);
+
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			Tile *up = [dungeon tileAtX:x Y:y Z:z];
+			if (up.type == tilePit) {
+				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileConcrete];
+			}
+			if (up.type == tileSlopeDown) {
+				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileSlopeUp];
+			}
+		}
+	}
+}
+
 
 #pragma mark -
 #define BLDG_SIZE 12
@@ -176,33 +290,29 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 
 #pragma mark -
 
-+ (void) putRubblePatchIn: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
++ (void) putPatchOf: (tileType) type into: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
 	int reps = tight? 3 : 6;
 	for (int LCV = 0; LCV < reps; LCV++) {
-		Tile *tile = [[Tile alloc] init];
-		tile.blockMove = true;
-		tile.type = tileRubble;
-
 		Coord *curr = [Coord withX: coord.X Y: coord.Y Z: coord.Z];
 		int delta = tight? 2 : 4;
 
 		curr.X += [Rand min: 0 max: delta] - delta / 2;
 		curr.Y += [Rand min: 0 max: delta] - delta / 2;
 
-		if (!tight) [self putRubblePatchIn: dungeon at: curr tightly: true];
+		if (!tight) [self putPatchOf: type into: dungeon at: curr tightly: true];
 
 		if (![dungeon tileAt: curr].blockMove) {
-			[dungeon setTile: tile at: curr];
+			[[dungeon tileAt: curr] initWithTileType: type];
 		}
 	}
 }
 
-+ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z {
++ (Dungeon*) putPatchesOf: (tileType) type into: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 200; LCV++) {
 		int x = [Rand min: 0 max: MAP_DIMENSION - 1];
 		int y = [Rand min: 0 max: MAP_DIMENSION - 1];
 
-		[self putRubblePatchIn: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
+		[self putPatchOf: type into: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
 	}
 	return dungeon;
 }
@@ -221,10 +331,17 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
-	
-	[self putRubble: dungeon onZLevel: 0];
+
+	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
 	[self putPit: dungeon onZLevel: 0];
+	for (int LCV = 0; LCV < 2; LCV++) {
+		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
+	}
+	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: barren];
+
+	[self followPit:dungeon fromZLevel:0];
+	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
 
 	return dungeon;
 }
