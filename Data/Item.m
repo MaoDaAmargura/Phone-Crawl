@@ -86,7 +86,7 @@ const int base_item_stats[10][9] = {
                 if (arc4random() % 2)
                     item_name = [NSString stringWithFormat:@"%s %s",elem_string1[dungeon_elem],name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
                 else
-                    item_name = [NSString stringWithFormat:@"%s of %s",name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1],elem_string2[dungeon_elem]];
+                    item_name = [NSString stringWithFormat:@"%s of %s", name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]], elem_string2[dungeon_elem]];
                 break;
             case HEAVY:
                 if (in_item_type == HEAVY)
