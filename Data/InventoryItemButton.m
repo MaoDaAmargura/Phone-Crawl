@@ -27,8 +27,8 @@
 	InventoryItemButton *ret = [[[InventoryItemButton alloc] init] autorelease];
 	ret.myItem = it;
 	//TODO: Use Real Image
-	[ret setImage:[UIImage imageNamed:@"human1.png"] forState:UIControlStateNormal];
-	
+	//[ret setImage:[UIImage imageNamed:@"human1.png"] forState:UIControlStateNormal];
+	[ret setImage:[UIImage imageNamed:it.item_icon] forState:UIControlStateNormal];
 	return ret;
 }
 
