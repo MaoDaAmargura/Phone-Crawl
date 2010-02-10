@@ -117,6 +117,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"staircase-down.png");
 		ADD(@"staircase-up.png");
 		ADD(@"wall-rock.gif");
+		ADD(@"grass.png");		// FIXME this represents cave lichen, replace it
 	}
 }
 

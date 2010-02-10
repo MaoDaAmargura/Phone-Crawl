@@ -17,7 +17,6 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 @interface LevelGen ()
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon;
-+ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z;
 + (Dungeon*) putBuildings: (Dungeon*) dungeon onZLevel: (int) z;
 
 @end
@@ -291,33 +290,29 @@ typedef enum {
 
 #pragma mark -
 
-+ (void) putRubblePatchIn: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
++ (void) putPatchOf: (tileType) type into: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
 	int reps = tight? 3 : 6;
 	for (int LCV = 0; LCV < reps; LCV++) {
-		Tile *tile = [[Tile alloc] init];
-		tile.blockMove = true;
-		tile.type = tileRubble;
-
 		Coord *curr = [Coord withX: coord.X Y: coord.Y Z: coord.Z];
 		int delta = tight? 2 : 4;
 
 		curr.X += [Rand min: 0 max: delta] - delta / 2;
 		curr.Y += [Rand min: 0 max: delta] - delta / 2;
 
-		if (!tight) [self putRubblePatchIn: dungeon at: curr tightly: true];
+		if (!tight) [self putPatchOf: type into: dungeon at: curr tightly: true];
 
 		if (![dungeon tileAt: curr].blockMove) {
-			[dungeon setTile: tile at: curr];
+			[[dungeon tileAt: curr] initWithTileType: type];
 		}
 	}
 }
 
-+ (Dungeon*) putRubble: (Dungeon*) dungeon onZLevel: (int) z {
++ (Dungeon*) putPatchesOf: (tileType) type into: (Dungeon*) dungeon onZLevel: (int) z {
 	for (int LCV = 0; LCV < 200; LCV++) {
 		int x = [Rand min: 0 max: MAP_DIMENSION - 1];
 		int y = [Rand min: 0 max: MAP_DIMENSION - 1];
 
-		[self putRubblePatchIn: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
+		[self putPatchOf: type into: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
 	}
 	return dungeon;
 }
@@ -337,7 +332,7 @@ typedef enum {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 
-	[self putRubble: dungeon onZLevel: 0];
+	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
 	[self putPit: dungeon onZLevel: 0];
 	for (int LCV = 0; LCV < 2; LCV++) {
@@ -346,7 +341,7 @@ typedef enum {
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: barren];
 
 	[self followPit:dungeon fromZLevel:0];
-	[self putRubble: dungeon onZLevel: 1];
+	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
 
 	return dungeon;
 }
