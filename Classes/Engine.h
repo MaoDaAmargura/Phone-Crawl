@@ -4,6 +4,7 @@
 @class Creature;
 @class Dungeon;
 @class Coord;
+@class Item;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -20,6 +21,7 @@
 	int tilesPerSide;
 	
 	Coord *selectedMoveTarget;
+	Item *selectedItemToUse;
 	BOOL battleMode;
 	
 }
@@ -38,5 +40,7 @@
 - (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
 
 - (void) gameLoopWithWorldView:(WorldView*)wView;
+
+- (NSArray*) getPlayerInventory;
 
 @end

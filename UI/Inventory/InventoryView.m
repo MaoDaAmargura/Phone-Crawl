@@ -8,7 +8,9 @@
 
 #import "InventoryView.h"
 #import "Item.h"
+#import "InventoryItemButton.h"
 
+#define ITEM_TILE_SIZE 40
 
 @implementation InventoryView
 
@@ -31,9 +33,9 @@
 }
 */
 
-- (void) viewWillAppear:(BOOL)animated
+- (void) viewDidLoad
 {
-	[super viewWillAppear:animated];
+	[super viewDidLoad];
 	[delegate needRefreshForInventoryView:self];
 	
 }
@@ -62,14 +64,45 @@
 #pragma mark Custom
 - (void) updateWithItemArray:(NSArray*) items
 {
+	for (InventoryItemButton *b in drawnItems)
+		[b removeFromSuperview];
+	
 	[drawnItems removeAllObjects];
-//	int index = 0;
+	int index = 0;
+	
+	CGRect bounds = self.view.bounds;
+	
+	int numTilesAcross = bounds.size.width/ITEM_TILE_SIZE;
+	int numTilesDown = bounds.size.height/ITEM_TILE_SIZE;
+	
+	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_TILE_SIZE))/(numTilesAcross+1);
+	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_TILE_SIZE))/(numTilesDown+1);
+	
+	int row, col, pageIndex;
 	
 	for(Item *i in items)
 	{
-		//draw items in the right place. too tired for the math now.
+		row = index/numTilesAcross;
+		col	= index%numTilesAcross;
+		pageIndex = 0;
+		while(row>numTilesDown)
+		{
+			row -= numTilesDown;
+			pageIndex++;
+		}
+		
+		InventoryItemButton *b = [InventoryItemButton buttonWithItem:i];
+		[drawnItems addObject:b];
+		
+		b.frame = CGRectMake(bounds.size.width*pageIndex + tileVertSpread*(row+1) + ITEM_TILE_SIZE * row,
+							 tileHorizSpread*(col+1) + ITEM_TILE_SIZE * col,
+							 ITEM_TILE_SIZE,
+							 ITEM_TILE_SIZE);
 		
 	}
+	
+	for ( InventoryItemButton *b in drawnItems)
+		[self.view addSubview:b];
 }
 
 @end

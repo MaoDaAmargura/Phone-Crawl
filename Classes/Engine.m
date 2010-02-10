@@ -2,8 +2,9 @@
 
 #import "Dungeon.h"
 #import "Creature.h"
-
 #import "Tile.h"
+#import "Item.h"
+
 #import "Util.h"
 
 #import "WorldView.h"
@@ -21,15 +22,28 @@
 
 #pragma mark -
 #pragma mark Life Cycle
+
+- (void) createDevPlayer
+{
+	player = [[Creature alloc] init];
+	[player Take_Damage:150];
+	player.inventory = [NSMutableArray arrayWithObjects:[Item generate_random_item:1 elem_type:FIRE],
+														[Item generate_random_item:2 elem_type:COLD],
+														[Item generate_random_item:1 elem_type:LIGHTNING],
+														[Item generate_random_item:3 elem_type:POISON],
+						[Item generate_random_item:9 elem_type:DARK], nil];
+}
+
 - (id) init
 {
 	if(self = [super init])
 	{
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
-		player = [[Creature alloc] init];
-		[player Take_Damage:150];
 		tilesPerSide = 9;
+		
+		[self createDevPlayer];
+		
 		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
 		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
 		// I renamed tiles init method and refactored it. - Austin
@@ -64,8 +78,15 @@
 {
 	if (battleMode)
 	{
-		//draw menu?
+		//draw menu
 	}
+	if (selectedItemToUse)
+	{
+		//use item
+		selectedItemToUse = nil;
+		return;
+	}
+	
 	if(selectedMoveTarget)
 	{
 		Coord *next = [self nextStepBetween:[player creatureLocation] and:selectedMoveTarget];
@@ -114,28 +135,17 @@
 }
 
 /*!
- @method		updateBackgroundImage
- @abstract		draws background image and player. 
- @discussion	enemies kinda should be done with player. maybe i'll make an extra creature loop.
+ @method		drawTiles
+ @abstract		subroutine to draw tiles to the current graphics context
  */
-- (void) updateBackgroundImageForWorldView:(WorldView*)wView
+- (void) drawTilesForWorldView:(WorldView*)wView
 {
-	Coord *center = [player creatureLocation];
 	int xInd, yInd;
-	
-	CGRect bounds = wView.mapImageView.bounds;
-	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
-	
-	UIGraphicsBeginImageContext(bounds.size);
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	
 	int halfTile = (tilesPerSide-1)/2;
-	
+	Coord *center = [player creatureLocation];
 	CGPoint lowerRight = CGPointMake(center.X + halfTile, center.Y + halfTile);
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
-	
-	UIGraphicsPushContext(context);
 	
 	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
 	{
@@ -152,10 +162,38 @@
 			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 		}
 	}
+}
+
+- (void) drawPlayerForWorldView:(WorldView*)wView
+{
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
+	Coord *center = [player creatureLocation];
+	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+	
+}
+
+/*!
+ @method		updateBackgroundImage
+ @abstract		draws background image and player. 
+ @discussion	enemies kinda should be done with player. maybe i'll make an extra creature loop.
+ */
+- (void) updateBackgroundImageForWorldView:(WorldView*)wView
+{
+	CGRect bounds = wView.mapImageView.bounds;
+	
+	UIGraphicsBeginImageContext(bounds.size);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	UIGraphicsPushContext(context);
+	
+	[self drawTilesForWorldView:wView];
+	
+	[self drawPlayerForWorldView:wView];
 	
 	UIGraphicsPopContext();
 	
@@ -163,8 +201,6 @@
 	UIGraphicsEndImageContext();
 	
 	wView.mapImageView.image = result;
-	
-	//	int base = [player statBase];
 }
 
 /*!
@@ -260,6 +296,11 @@
 {
 	[selectedMoveTarget release];
 	selectedMoveTarget = [loc retain];
+}
+
+- (NSArray*) getPlayerInventory
+{
+	return player.inventory;
 }
 
 @end
