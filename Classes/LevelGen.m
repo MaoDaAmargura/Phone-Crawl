@@ -192,11 +192,11 @@ typedef enum {
 		#define END_Y (startY + BLDG_SIZE + addY)
 		for (int y = startY; y < END_Y; y++) {
 
-			Tile *existing = [dungeon tileAtX: x Y: y Z: coord.Z];
-			if (existing.type == tileWoodFloor) continue;
-			if (existing.cornerWall) continue;
+			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
+			if (tile.type == tileWoodFloor) continue;
+			if (tile.cornerWall) continue;
 
-			Tile *tile = [Tile alloc];
+			tileType type = tileWoodWall;
 
 			// check to see if we're inside the 1 tile thick perimeter (of walls)
 			bool inRoomOnYAxis = false;
@@ -206,19 +206,14 @@ typedef enum {
 
 			// place either a wall or a floor, overwriting what was there.
 			if (inRoomOnXAxis && inRoomOnYAxis) {
-				[tile initWithTileType: tileWoodFloor];
-			}
-			else {
-				[tile initWithTileType: tileWoodWall];
-
-				// corner case.
-				bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
-				tile.cornerWall = corner;
+				type = tileWoodFloor;
 			}
 
-			Coord *curr = [Coord withX: x Y: y Z: coord.Z];
-			[dungeon setTile: tile at: curr];
-			
+			[tile initWithTileType: type];
+
+			bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
+			tile.cornerWall = corner;
+
 			// If the walls of two buildings would be flush with one another, both walls are replaced with wooden floor.
 			// leverage the 'corner' attribute for this.
 			
