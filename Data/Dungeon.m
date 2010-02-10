@@ -86,6 +86,22 @@ NSMutableArray *tiles = nil;
 	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 
+- (Coord*) coordOfTile: (Tile*) tile {
+	DLog(@"don't trust the result of this method!");
+
+	int index = [tiles indexOfObject: tile];
+	Coord *retval = [[[Coord alloc] init] autorelease];
+
+	retval.Z = index / (MAP_DIMENSION * MAP_DIMENSION);
+	retval.Y = (index / MAP_DIMENSION) % MAP_DIMENSION;
+	retval.X = index % MAP_DIMENSION;
+
+//	int location = coord.X;
+//	location += coord.Y * MAP_DIMENSION;
+//	location += coord.Z * MAP_DIMENSION * MAP_DIMENSION;
+	return retval;
+}
+
 #pragma mark -
 #pragma mark Static
 

@@ -30,9 +30,6 @@
 		player = [[Creature alloc] init];
 		[player Take_Damage:150];
 		tilesPerSide = 9;
-		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
-		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
-		// I renamed tiles init method and refactored it. - Austin
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 		battleMode = NO;
 		selectedMoveTarget = nil;
@@ -95,7 +92,7 @@
 	ret = [Coord withX:c1.X Y:c1.Y + (diff.y/abs(diff.y)) Z:c1.Z];
 	if ([self canEnterTileAtCoord:ret]) 
 		return ret;
-	
+
 	return [Coord withX:0 Y:0 Z:0];
 }
 
@@ -122,7 +119,7 @@
 {
 	Coord *center = [player creatureLocation];
 	int xInd, yInd;
-	
+
 	CGRect bounds = wView.mapImageView.bounds;
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
@@ -152,7 +149,7 @@
 			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 		}
 	}
-	
+
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
@@ -200,10 +197,15 @@
  @method		movePlayerToTileAtCoord:
  @abstract		public function to move the player. don't call it lightly. and if you want to see the movement,
 				then call engines updateWorldView right after a call to this function.
+				note that this will automatically toss the player up or down any stairs he lands on.
  */
 - (void) movePlayerToTileAtCoord:(Coord*)tileCoord
 {
 	player.creatureLocation = tileCoord;
+	slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
+	if (currSlope) {
+		player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
+	}
 }
 
 /*!
