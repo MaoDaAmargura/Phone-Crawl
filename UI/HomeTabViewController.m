@@ -126,7 +126,7 @@
 	
 }
 
-#define PLAYER_INSTANT_TRANSMISSION true
+#define PLAYER_INSTANT_TRANSMISSION NO
 
 /*!
  @method		worldSelectedAt
