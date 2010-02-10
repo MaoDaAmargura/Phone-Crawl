@@ -14,6 +14,11 @@
 
 - (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
 
+- (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
+- (NSMutableArray*) getAdjacentEnterableTiles:(Coord*) c;
+- (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
+- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
+
 @end
 
 
@@ -80,21 +85,81 @@
 
 - (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2
 {
-	CGPoint diff = CGPointMake(c2.X-c1.X, c2.Y-c1.Y);
-	Coord *ret;
-	if(abs(diff.x) > abs(diff.y))
-	{
-		ret = [Coord withX:c1.X + (diff.x/abs(diff.x)) Y:c1.Y Z:c1.Z];
-		if([self canEnterTileAtCoord:ret])
-			return ret;
-	}
-	
-	ret = [Coord withX:c1.X Y:c1.Y + (diff.y/abs(diff.y)) Z:c1.Z];
-	if ([self canEnterTileAtCoord:ret]) 
-		return ret;
-
-	return [Coord withX:0 Y:0 Z:0];
+   NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
+   c2.distance = 0;
+   [discovered addObject: (id)c2];
+   NSMutableArray *evaluated = [NSMutableArray arrayWithCapacity:50];
+   while( [discovered count] != 0 )
+   {
+      Coord *c = [self coordWithShortestEstimatedPathFromArray:discovered toDest:c1];
+      [evaluated addObject:c];
+      [discovered removeObject:c];
+      NSMutableArray *arr = [self getAdjacentEnterableTiles:c];
+      for( Coord *cadj in arr )
+      {
+         if( [cadj equals:c1] )
+            return c;
+         if( [self arrayContains:evaluated Coord:cadj] )
+            continue;
+         cadj.distance = c.distance + 1;
+         Coord *existing = [self arrayContains:discovered Coord:cadj];
+         if( existing )
+            existing.distance = cadj.distance > existing.distance 
+                                 ? existing.distance : cadj.distance;
+         else
+            [discovered addObject:(id)cadj];
+      }
+   
+   }
+   
+	return c1;
 }
+
+- (NSMutableArray*) getAdjacentEnterableTiles:(Coord*) c
+{
+   NSMutableArray *ret = [NSMutableArray arrayWithCapacity:4];
+   Coord *c1 = [Coord withX:c.X + 1 Y:c.Y Z:c.Z];
+   if([self canEnterTileAtCoord: c1])
+      [ret addObject: c1];
+   c1 = [Coord withX:c.X - 1 Y:c.Y Z:c.Z];
+   if([self canEnterTileAtCoord: c1])
+      [ret addObject: c1];
+   c1 = [Coord withX:c.X Y:c.Y + 1 Z:c.Z];
+   if([self canEnterTileAtCoord: c1])
+      [ret addObject: c1];
+   c1 = [Coord withX:c.X Y:c.Y - 1 Z:c.Z];
+   if([self canEnterTileAtCoord: c1])
+      [ret addObject: c1];
+   return ret;
+}
+
+- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest
+{
+   Coord *ret = [arrOfCoords objectAtIndex:0];
+   for( Coord *c in arrOfCoords )
+   {
+      CGPoint diffnew = CGPointMake(dest.X-c.X, dest.Y-c.Y);
+      CGPoint diffold = CGPointMake(dest.X-ret.X, dest.Y-ret.Y);
+      if( abs(diffnew.x) + abs(diffnew.y) + c.distance 
+          < abs(diffold.x) + abs(diffold.y) + ret.distance )
+         ret = c;
+   }
+   return ret;
+}
+
+- (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c
+{
+   for( Coord *c1 in arr )
+   {
+      if( [c1 equals: c] )
+      {
+//         DLog(@"returning true");
+         return c1;
+      }
+   }
+   return nil;
+}
+
 
 #pragma mark -
 #pragma mark Graphics
@@ -205,6 +270,7 @@
 	slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
 	if (currSlope) {
 		player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
+      [self setSelectedMoveTarget:nil];
 	}
 }
 

@@ -3,7 +3,7 @@
 
 @implementation Coord
 
-@synthesize X,Y,Z;
+@synthesize X,Y,Z,distance;
 
 - (id) init {
 	X = Y = Z = 0;

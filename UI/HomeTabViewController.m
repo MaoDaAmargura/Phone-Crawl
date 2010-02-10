@@ -66,7 +66,7 @@
     [super viewDidLoad];
 	[gameEngine updateWorldView:wView];
 	
-	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
+	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
 	
 	[timer fire];
 }
@@ -126,7 +126,7 @@
 	
 }
 
-#define PLAYER_INSTANT_TRANSMISSION true
+#define PLAYER_INSTANT_TRANSMISSION false
 
 /*!
  @method		worldSelectedAt
