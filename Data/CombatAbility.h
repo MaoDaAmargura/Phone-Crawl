@@ -1,11 +1,3 @@
-//
-//  CombatAbility.h
-//  Phone-Crawl
-//
-//  Created by Benjamin Sangster on 2/5/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "Creature.h"
 

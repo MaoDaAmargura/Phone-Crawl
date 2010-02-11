@@ -1,11 +1,3 @@
-//
-//  CombatAbility.m
-//  Phone-Crawl
-//
-//  Created by Benjamin Sangster on 2/5/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "CombatAbility.h"
 #define LEVEL_DIFF_MULT 2
 
