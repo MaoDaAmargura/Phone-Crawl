@@ -65,7 +65,7 @@
 //									ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN] autorelease]]
 //	
 //	ADD_ABILITY(@"Default Strike",80,detr);
-//	ADD_ABILITY(@"Dildonic Strike of Death",1000000,detr);
+//	ADD_ABILITY(@"Ben vs. Git Repo Strike",1000000,detr);
 //}
 //
 //@end
