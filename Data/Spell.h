@@ -1,15 +1,22 @@
-#import <Foundation/Foundation.h>
+//
+//  Spell.h
+//  Phone-Crawl
+// 
+//  Created by Benjamin Sangster on 1/19/10.
+//  Copyright 2010 __MyCompanyName__. All rights reserved.
+//
 
-#import "Creature.h"
-#import "Item.h"
-#import "Util.h" 
+#import <Foundation/Foundation.h>
+#import "Util.h"
+
 
 #define ITEM_NO_SPELL -1
 #define ERR_NO_MANA -2
 #define ERR_RESIST -3
 #define SPELL_NO_DAMAGE -4
 
-#define NUM_POTION_SPELLS 5
+#define NUM_SPELLS 200 //Place holder
+#define NUM_POTION_SPELLS 10
 #define NUM_PC_SPELLS 50
 #define NUM_DMG_SPELLS 25
 #define NUM_WAND_SPELLS NUM_DMG_SPELLS
@@ -44,6 +51,8 @@ NSMutableArray *spell_list;
 	SEL spell_fn;
 	//IMP spell_fn;
 }
+
++ (void) fill_spell_list;
 
 + (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target;
 - (int) cast: (Creature *) caster target: (Creature *) target;

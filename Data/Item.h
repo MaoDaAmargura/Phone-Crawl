@@ -7,9 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Spell.h"
 #import "Util.h"
-
 
 #define STAFF_RANGE 5
 #define MIN_BOW_RANGE 2
@@ -30,16 +28,18 @@ typedef enum {
 	SCROLL = 10 // Scroll
 } itemType;
 
-
+typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
 @interface Item : NSObject {
 	NSString *item_name;
+	NSString *item_icon;
 	int damage;
 	int elem_damage;
 	int range; //Ranged damage for bow, staff
 	int charges;
 	int point_val; //Sell value + high score point value
 	
+	itemQuality item_quality;
 	slotType item_slot; //What slot can the item go in?
 	elemType elem_type; //Elemental type of item
 	itemType item_type; //Item type
@@ -60,6 +60,7 @@ typedef enum {
 @property (nonatomic) elemType elem_type;
 @property (nonatomic) itemType item_type;
 
+@property (nonatomic,readonly) NSString *item_icon;
 @property (nonatomic) int hp;
 @property (nonatomic) int shield;
 @property (nonatomic) int mana;
@@ -73,6 +74,10 @@ typedef enum {
 @property (nonatomic) int elem_damage;
 @property (nonatomic) int range;
 @property (nonatomic) int charges;
+@property (nonatomic) int spell_id;
+
+// Need item_cast method
+
 
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generate_random_item: (int) dungeon_level
@@ -82,7 +87,9 @@ typedef enum {
 
 +(int) item_val : (Item *) item;
 
--(Item *)initWithStats: (NSString *) in_name 
+-(Item *)initWithStats: (NSString *) in_name
+			 icon_name: (NSString *) in_icon_name
+		  item_quality: (itemQuality) in_item_quality
 			 item_slot: (slotType) in_item_slot 
 			 elem_type: (elemType) in_elem_type 
 			 item_type: (itemType) in_item_type 

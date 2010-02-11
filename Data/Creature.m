@@ -7,11 +7,13 @@
 //
 
 #import "Creature.h"
+#import "Item.h"
 
 
 @implementation Creature
 
 @synthesize turn_speed;
+@synthesize current_turn_points;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;
@@ -46,7 +48,8 @@
 {
 	if(self = [super init])
 	{
-		name = in_name;
+		//name = in_name;
+		name = [NSString stringWithString:in_name];
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		head = [[[Item alloc] init] autorelease];
 		chest = [[[Item alloc] init] autorelease];

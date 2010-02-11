@@ -18,11 +18,15 @@ typedef enum {
 	int X;
 	int Y;
 	int Z;
+   
+   // for pathfinding
+   int distance;
 }
 
 @property (nonatomic) int X;
 @property (nonatomic) int Y;
 @property (nonatomic) int Z;
+@property (nonatomic) int distance;
 
 - (id) init;
 

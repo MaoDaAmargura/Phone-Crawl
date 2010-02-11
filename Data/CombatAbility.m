@@ -31,7 +31,7 @@
 }
 
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target {
-	return [[ability_list objectAtIndex: in_ability_id] cast:caster target:target];
+	return [[ability_list objectAtIndex: in_ability_id] use_ability:caster target:target];
 };
 
 - (int) mitigate_damage:(Creature *)caster target:(Creature *)target damage: (int) amt_damage {
