@@ -205,7 +205,7 @@ BOOL have_set_spells = FALSE;
 + (void) fill_spell_list {
 	have_set_spells = TRUE;
 	int id_cnt = 0, spell_lvl = 1;
-	spell_list = [[[NSMutableArray alloc] initWithCapacity:200] autorelease];
+	spell_list = [[[NSMutableArray alloc] init] autorelease];
 	SEL scroll = @selector(scroll:target:);
 	SEL heal_potion = @selector(heal_potion:target:);
 	SEL mana_potion = @selector(mana_potion:target:);
@@ -330,14 +330,14 @@ BOOL have_set_spells = FALSE;
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	
-	/*NSEnumerator * enumerator = [spell_list objectEnumerator];
+	NSEnumerator * enumerator = [spell_list objectEnumerator];
 	Spell *element;
 	
 	while(element = [enumerator nextObject])
     {
 		// Do your thing with the object.
 		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-    }*/
+    }
 	
 }
 
