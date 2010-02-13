@@ -47,11 +47,16 @@ BOOL have_set_spells = FALSE;
 }
 
 - (int) cast: (Creature *) caster target: (Creature *) target {
+	if (caster == nil || (target_type != SELF && target == nil)) {
+		DLog(@"SPELL CAST ERROR: CASTER NIL");
+		return CAST_ERR;
+	}
 	if(target.curr_mana < mana_cost)
 		return ERR_NO_MANA;
 	
 	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
-	if ([self Resist_Check:caster target:target]) {
+	
+	if (target_type != SELF && [self Resist_Check:caster target:target]) {
 		
 		if([self respondsToSelector:spell_fn])
 		{
@@ -75,6 +80,7 @@ BOOL have_set_spells = FALSE;
 };
 
 - (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target {
+	if (caster == nil || target == nil) return FALSE;
 	if (caster == target) return TRUE;
 	int resist;
 	switch (elem_type) {
@@ -104,16 +110,16 @@ BOOL have_set_spells = FALSE;
 		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
 	else if(level_diff > 0)
 		resist = resist * LEVEL_DIFF_MULT / level_diff;
-	if([Rand min:0 max:(arc4random() % (STAT_MAX + 1))] <= resist)
+	if([Rand min:0 max:STAT_MAX + 1] <= resist)
 		return FALSE;
 	return TRUE;
 }
 
-//Return string listing damage and if condition was added to target
-//Add formatted string creation for return
+//Return amount of damage to deal to combat system
 - (int) detr_spell: (Creature *) caster target: (Creature *) target {
-	[target Take_Damage:damage];
-	if ((arc4random() % STAT_MAX + 1) > 10 * spell_level ) {
+	if (caster == nil || target == nil) return CAST_ERR;
+	//[target Take_Damage:damage];
+	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * spell_level ) {
 		switch (elem_type) {
 			case FIRE:
 				[target Add_Condition:BURNED];
@@ -137,6 +143,7 @@ BOOL have_set_spells = FALSE;
 };
 
 - (int) heal_potion: (Creature *) caster target: (Creature *) target {
+	if (caster == nil) return CAST_ERR;
 	DLog(@"In heal potion, healing for %d", damage);
 	[caster Heal: damage];
 	DLog(@"Post heal");
@@ -144,28 +151,33 @@ BOOL have_set_spells = FALSE;
 }
 
 - (int) mana_potion: (Creature *) caster target: (Creature *) target {
+	if (caster == nil) return CAST_ERR;
 	[caster Mana_Heal: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
 - (int) scroll: (Creature *) caster target: (Creature *) target {
+	if (caster == nil) return CAST_ERR;
 	++caster.ability_points;
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) haste: (Creature *) caster target: (Creature *) target {
+	if (caster == nil) return CAST_ERR;
 	[caster Add_Condition:HASTENED];
 	caster.turn_speed += caster.turn_speed * (damage/100.0); // Increase turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) freeze: (Creature *) caster target: (Creature *) target {
+	if (target == nil) return CAST_ERR;
 	[target Add_Condition:CHILLED];
 	target.turn_speed -= target.turn_speed * (damage / 100.0); // Decrease turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) purge: (Creature *) caster target: (Creature *) target {
+	if (caster == nil || target == nil) return CAST_ERR;
 	[target Clear_Condition];
 	//[target Take_Damage:damage];
 	[caster Take_Damage:(damage / spell_level)];
@@ -173,6 +185,7 @@ BOOL have_set_spells = FALSE;
 }
 	
 - (int) taint: (Creature *) caster target: (Creature *) target {
+	if (target == nil) return CAST_ERR;
 	[target Add_Condition:WEAKENED];
 	target.max_health -= target.max_health * (damage / 100.0); // Decrease max health by percentage
 	target.max_shield -= target.max_shield * (damage / 100.0); // Decrease max shield by percentage
@@ -180,13 +193,13 @@ BOOL have_set_spells = FALSE;
 }
 
 - (int) confusion: (Creature *) caster target: (Creature *) target {
+	if (target == nil) return CAST_ERR;
 	[target Add_Condition:CONFUSION];
 	//What is confusion supposed to do?
 	return SPELL_NO_DAMAGE;
 }
 + (void) fill_spell_list {
 	have_set_spells = TRUE;
-	DLog(@"Entered fill_spell_list");
 	int id_cnt = 0, spell_lvl = 1;
 	spell_list = [[[NSMutableArray alloc] initWithCapacity:200] autorelease];
 	SEL scroll = @selector(scroll:target:);
@@ -202,9 +215,7 @@ BOOL have_set_spells = FALSE;
 	
 #define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN) [spell_list addObject:[[[Spell alloc] initWithInfo:NAME spell_type:TYPE target_type:TARGET elem_type:ELEM mana_cost:MANA damage:DMG range:MAX_BOW_RANGE spell_level:spell_lvl++%5+1 spell_id:id_cnt++ spell_fn:FN] autorelease]]
 	
-	NSString *name = @"Tome of Knowledge";
-	DLog("name = %@",name);
-	[spell_list addObject:[[[Spell alloc] initWithInfo:name spell_type:ITEM target_type:SINGLE 
+	[spell_list addObject:[[[Spell alloc] initWithInfo:@"Tome of Knowledge" spell_type:ITEM target_type:SINGLE 
 											 elem_type:DARK mana_cost:0 damage:0 range:MAX_BOW_RANGE
 										   spell_level:1 spell_id:id_cnt++ spell_fn:scroll] autorelease]];
 	
@@ -321,7 +332,7 @@ BOOL have_set_spells = FALSE;
 	while(element = [enumerator nextObject])
     {
 		// Do your thing with the object.
-		NSLog(@"ID: %d, Name: %@",element.spell_id, element.name);
+		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
     }
 	
 }
