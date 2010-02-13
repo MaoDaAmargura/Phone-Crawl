@@ -14,6 +14,8 @@
 #define MAX_BOW_RANGE 6
 #define NUM_ITEM_TYPES 11
 #define OFFHAND_DMG_PERCENTAGE 0.75
+
+@class Creature;
 typedef enum {
 	SWORD_ONE_HAND = 0, // 1 handed sword
 	SWORD_TWO_HAND = 1, // 2 handed sword
@@ -78,6 +80,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
 // Need item_cast method
 
+- (int) cast: (Creature *) caster target: (Creature *) target;
 
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generate_random_item: (int) dungeon_level

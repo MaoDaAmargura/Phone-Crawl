@@ -196,6 +196,11 @@ const int base_item_stats[10][9] = {
 	return nil;
 };
 
+- (int) cast: (Creature *) caster target: (Creature *) target {
+    if(spell_id == ITEM_NO_SPELL) return 0;
+    else return [Spell cast_id:spell_id caster:caster target:target];
+}
+
 // Generate a random item based on the dungeon level and elemental type
 
 +(Item *) generate_random_item: (int) dungeon_level
