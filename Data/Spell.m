@@ -31,7 +31,7 @@ BOOL have_set_spells = FALSE;
 			[Spell fill_spell_list];
 		}
 		name = [NSString stringWithString: in_name];
-		DLog(@"Creating spell with name: %@, name is: %@",in_name,name);
+		//DLog(@"Creating spell with name: %@, name is: %@",in_name,name);
 	    spell_type = in_spell_type;
 		target_type = in_target_type; 
 		elem_type = in_elem_type;
@@ -56,7 +56,7 @@ BOOL have_set_spells = FALSE;
 	
 	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
 	
-	if (target_type != SELF && [self Resist_Check:caster target:target]) {
+	if (target_type == SELF || (target_type != SELF && [self Resist_Check:caster target:target])) {
 		
 		if([self respondsToSelector:spell_fn])
 		{
@@ -80,7 +80,11 @@ BOOL have_set_spells = FALSE;
 };
 
 - (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || target == nil) return FALSE;
+	if (caster == nil || target == nil) 
+	{
+		DLog(@"Resist_Check nil");
+		return FALSE;
+	}
 	if (caster == target) return TRUE;
 	int resist;
 	switch (elem_type) {
@@ -215,18 +219,18 @@ BOOL have_set_spells = FALSE;
 	
 #define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN) [spell_list addObject:[[[Spell alloc] initWithInfo:NAME spell_type:TYPE target_type:TARGET elem_type:ELEM mana_cost:MANA damage:DMG range:MAX_BOW_RANGE spell_level:spell_lvl++%5+1 spell_id:id_cnt++ spell_fn:FN] autorelease]]
 	
-	[spell_list addObject:[[[Spell alloc] initWithInfo:@"Tome of Knowledge" spell_type:ITEM target_type:SINGLE 
+	[spell_list addObject:[[[Spell alloc] initWithInfo:@"Tome of Knowledge" spell_type:ITEM target_type:SELF 
 											 elem_type:DARK mana_cost:0 damage:0 range:MAX_BOW_RANGE
 										   spell_level:1 spell_id:id_cnt++ spell_fn:scroll] autorelease]];
 	
 	
-	ADD_SPELL(@"Minor Healing Potion",ITEM,SINGLE,DARK,0,100,heal_potion);
-	ADD_SPELL(@"Lesser Healing Potion",ITEM,SINGLE,DARK,0,200,heal_potion);
-	ADD_SPELL(@"Healing Potion",ITEM,SINGLE,DARK,0,300,heal_potion);
-	ADD_SPELL(@"Major Healing Potion",ITEM,SINGLE,DARK,0,400,heal_potion);
-	ADD_SPELL(@"Superior Healing Potion",ITEM,SINGLE,DARK,0,500,heal_potion);
+	ADD_SPELL(@"Minor Healing Potion",ITEM,SELF,DARK,0,100,heal_potion);
+	ADD_SPELL(@"Lesser Healing Potion",ITEM,SELF,DARK,0,200,heal_potion);
+	ADD_SPELL(@"Healing Potion",ITEM,SELF,DARK,0,300,heal_potion);
+	ADD_SPELL(@"Major Healing Potion",ITEM,SELF,DARK,0,400,heal_potion);
+	ADD_SPELL(@"Superior Healing Potion",ITEM,SELF,DARK,0,500,heal_potion);
 	
-	ADD_SPELL(@"Minor Mana Potion",ITEM,SINGLE,DARK,0,100,mana_potion);
+	ADD_SPELL(@"Minor Mana Potion",ITEM,SELF,DARK,0,100,mana_potion);
 	ADD_SPELL(@"Lesser Mana Potion",ITEM,SINGLE,DARK,0,200,mana_potion);
 	ADD_SPELL(@"Mana Potion",ITEM,SINGLE,DARK,0,300,mana_potion);
 	ADD_SPELL(@"Major Mana Potion",ITEM,SINGLE,DARK,0,400,mana_potion);
@@ -326,14 +330,14 @@ BOOL have_set_spells = FALSE;
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	
-	NSEnumerator * enumerator = [spell_list objectEnumerator];
+	/*NSEnumerator * enumerator = [spell_list objectEnumerator];
 	Spell *element;
 	
 	while(element = [enumerator nextObject])
     {
 		// Do your thing with the object.
 		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-    }
+    }*/
 	
 }
 
