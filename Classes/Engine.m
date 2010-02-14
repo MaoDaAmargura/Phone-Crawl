@@ -60,7 +60,8 @@
 										  spell_id: ITEM_HEAL_SPELL_ID];
 	[Spell fill_spell_list];
 	DLog(@"Attempting to cast heal item");
-	[Spell cast_id:heal_test.spell_id caster:player target:nil];
+	[heal_test cast:player target:nil];
+	//[Spell cast_id:heal_test.spell_id caster:player target:nil];
 	
 }
 

@@ -1,7 +1,9 @@
 #import "CombatAbility.h"
+#define LEVEL_DIFF_MULT 2
+
 #import "Creature.h"
 
-#define LEVEL_DIFF_MULT 2
+BOOL have_set_abilities = FALSE;
 
 @implementation CombatAbility
 
@@ -33,6 +35,7 @@
 }
 
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target {
+	if(!have_set_abilities) [CombatAbility fill_ability_list];
 	return [[ability_list objectAtIndex: in_ability_id] use_ability:caster target:target];
 };
 
@@ -53,21 +56,22 @@
 
 //Specialized ability function example
 - (int) detr_ability: (Creature *) caster target: (Creature *) target {
+	if (caster == nil || target == nil) return ABILITY_ERR;
 	return [self mitigate_damage:caster target:target damage: (damage + [caster weapon_damage])];
 }
 
-+ (void) initialize {
-	[super initialize];
++ (void) fill_ability_list {
+	have_set_abilities = TRUE;
 	int id_cnt = 0, ability_lvl = 1;
 	SEL detr = @selector(detr_ability:target:);
-
+	ability_list = [[[NSMutableArray alloc] init] autorelease];
 	
 	
 #define ADD_ABILITY(NAME,DMG,FN) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
 									ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN] autorelease]]
 	
 	ADD_ABILITY(@"Default Strike",80,detr);
-	ADD_ABILITY(@"Ben vs. Git Repo Strike",1000000,detr);
+	ADD_ABILITY(@"Dildonic Strike of Death",1000000,detr);
 }
 
 @end

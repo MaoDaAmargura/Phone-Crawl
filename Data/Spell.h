@@ -14,6 +14,7 @@
 #define ERR_NO_MANA -2
 #define ERR_RESIST -3
 #define SPELL_NO_DAMAGE -4
+#define CAST_ERR -5
 
 #define NUM_SPELLS 200 //Place holder
 #define NUM_POTION_SPELLS 10

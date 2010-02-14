@@ -1,5 +1,6 @@
 #import <Foundation/Foundation.h>
 
+#define ABILITY_ERR -1
 
 NSMutableArray *ability_list;
 
@@ -12,6 +13,7 @@ NSMutableArray *ability_list;
 	SEL ability_fn;
 }
 
++ (void) fill_ability_list;
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
 - (int) use_ability: (Creature *) caster target: (Creature *) target;
 
