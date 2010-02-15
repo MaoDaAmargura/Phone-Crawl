@@ -60,7 +60,7 @@
 }
 
 + (float)getDamage:(CombatAbility *)action {
-	return action.damage;
+	return action.damage*action.ability_level;
 	//return 1;
 }
 

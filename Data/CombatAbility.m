@@ -10,6 +10,7 @@ BOOL have_set_abilities = FALSE;
 @synthesize name;
 @synthesize ability_id;
 @synthesize damage;
+@synthesize ability_level;
 
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
