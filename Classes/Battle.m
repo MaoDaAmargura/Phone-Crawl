@@ -12,27 +12,27 @@
 	float finaldamage = basedamage*((120-armor)/54+0.1);
 	
 	float resist;
-	//conditionType condtype;
+	conditionType condtype;
 	switch (type) {
 		case FIRE:
 			resist = defender.fire;
-			//condtype = BURNED;
+			condtype = BURNED;
 			break;
 		case COLD:
 			resist = defender.cold;
-			//condtype = CHILLED;
+			condtype = CHILLED;
 			break;
 		case LIGHTNING:
 			resist = defender.lightning;
-			//condtype = HASTENED;
+			condtype = HASTENED;
 			break;
 		case POISON:
 			resist = defender.poison;
-			//condtype = POISONED;
+			condtype = POISONED;
 			break;
 		case DARK:
 			resist = defender.dark;
-			//condtype = CURSED;
+			condtype = CURSED;
 			break;
 		default:
 			resist = 0;
@@ -53,10 +53,10 @@
 	}
 	
 	// run test again to see if a condition occurs (only if we did elemental damage though)
-	//chance = arc4random() % 100;
-	//if (chance >= resist && doElemental) {
-	//	[defender Add_Condition:condtype];
-	//}
+	chance = arc4random() % 100;
+	if (chance >= resist && doElemental) {
+		[defender Add_Condition:condtype];
+	}
 }
 
 + (float)getDamage:(Action)action {
