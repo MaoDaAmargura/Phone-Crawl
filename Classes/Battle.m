@@ -60,8 +60,8 @@
 }
 
 + (float)getDamage:(CombatAbility *)action {
-	//return action.damage;
-	return 1;
+	return action.damage;
+	//return 1;
 }
 
 @end
