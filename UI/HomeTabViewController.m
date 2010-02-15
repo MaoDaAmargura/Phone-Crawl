@@ -190,6 +190,7 @@
 {
 	iView = [[[InventoryView alloc] init] autorelease];
 	//
+	iView.delegate = self;
 	iView.title = @"Inventory";
 	return iView;
 }

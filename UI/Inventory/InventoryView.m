@@ -10,7 +10,7 @@
 #import "Item.h"
 #import "InventoryItemButton.h"
 
-#define ITEM_TILE_SIZE 40
+
 
 @implementation InventoryView
 
@@ -72,11 +72,11 @@
 	
 	CGRect bounds = self.view.bounds;
 	
-	int numTilesAcross = bounds.size.width/ITEM_TILE_SIZE;
-	int numTilesDown = bounds.size.height/ITEM_TILE_SIZE;
+	int numTilesAcross = bounds.size.width/ITEM_BUTTON_SIZE;
+	int numTilesDown = bounds.size.height/ITEM_BUTTON_SIZE;
 	
-	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_TILE_SIZE))/(numTilesAcross+1);
-	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_TILE_SIZE))/(numTilesDown+1);
+	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_BUTTON_SIZE))/(numTilesAcross+1);
+	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_BUTTON_SIZE))/(numTilesDown+1);
 	
 	int row, col, pageIndex;
 	
@@ -94,14 +94,16 @@
 		InventoryItemButton *b = [InventoryItemButton buttonWithItem:i];
 		[drawnItems addObject:b];
 		
-		b.frame = CGRectMake(bounds.size.width*pageIndex + tileVertSpread*(row+1) + ITEM_TILE_SIZE * row,
-							 tileHorizSpread*(col+1) + ITEM_TILE_SIZE * col,
-							 ITEM_TILE_SIZE,
-							 ITEM_TILE_SIZE);
+		CGRect r = CGRectMake(tileHorizSpread*(col+1) + ITEM_BUTTON_SIZE * col,
+							  bounds.size.width*pageIndex + tileVertSpread*(row+1) + ITEM_BUTTON_SIZE * row,
+							  ITEM_BUTTON_SIZE,
+							  ITEM_BUTTON_SIZE);
+		b.frame = r;
+		++index;
 		
 	}
 	
-	for ( InventoryItemButton *b in drawnItems)
+	for (InventoryItemButton *b in drawnItems)
 		[self.view addSubview:b];
 }
 

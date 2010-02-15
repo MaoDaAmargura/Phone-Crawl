@@ -68,22 +68,22 @@ const int base_item_stats[10][9] = {
         else item_quality = REGULAR;
         switch (in_item_type) {
             case SWORD_ONE_HAND:
-                item_icon = @"../Images/Equipable/swordsingle.png";
+                item_icon = @"swordsingle.png";
             case DAGGER:
                 if (in_item_type == DAGGER)
-                    item_icon = @"../Images/Equipable/dagger.png";
+                    item_icon = @"dagger.png";
             case SWORD_TWO_HAND:
                 if (in_item_type == SWORD_TWO_HAND)
-                    item_icon = @"../Images/Equipable/sworddual.png";
+                    item_icon = @"sworddual.png";
             case STAFF:
                 if (in_item_type == STAFF)
-                    item_icon = @"../Images/Equipable/staff.png";
+                    item_icon = @"staff.png";
             case SHIELD:
                 if (in_item_type == SHIELD)
-                    item_icon = @"../Images/Equipable/staff.png";
+                    item_icon = @"staff.png";
             case BOW:
                 if (in_item_type == BOW)
-                    item_icon = @"../Images/Equipable/staff.png";
+                    item_icon = @"staff.png";
                 if (arc4random() % 2)
                     item_name = [NSString stringWithFormat:@"%s %s",elem_string1[dungeon_elem],name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
                 else
@@ -91,10 +91,10 @@ const int base_item_stats[10][9] = {
                 break;
             case HEAVY:
                 if (in_item_type == HEAVY)
-                    item_icon = @"../Images/Equipable/armor-heavy.png";
+                    item_icon = @"armor-heavy.png";
             case LIGHT:
                 if (in_item_type == LIGHT)
-                    item_icon = @"../Images/Equipable/armor-light.png";
+                    item_icon = @"armor-light.png";
                 if (arc4random() % 2)
                     item_name = [NSString stringWithFormat:@"%s %s %s",elem_string1[dungeon_elem],(in_slot_type == CHEST)?@"Breastplate":@"Helm",
                                  name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM]];
@@ -164,7 +164,7 @@ const int base_item_stats[10][9] = {
 {
 	if (self = [super init]) {
         item_name = [NSString stringWithString: in_name];
-        item_name = [NSString stringWithString:in_icon_name];
+        item_icon = [NSString stringWithString:in_icon_name];
         item_quality = in_item_quality;
         damage = in_damage;
         elem_damage = in_elem_damage;
@@ -222,7 +222,7 @@ const int base_item_stats[10][9] = {
         case POTION:
             if (arc4random()%2)
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Healing",spell_name[dungeon_level]]
-                                          icon_name: @"../Images/Consumable/potion-red.png"
+                                          icon_name: @"potion-red.png"
                                        item_quality: REGULAR
                                           item_slot: BAG 
                                           elem_type: DARK 
@@ -243,7 +243,7 @@ const int base_item_stats[10][9] = {
                                            spell_id: ITEM_HEAL_SPELL_ID + dungeon_level - 1];
             else
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Mana",spell_name[dungeon_level]]
-                                          icon_name: @"../Images/Consumable/potion-green.png"
+                                          icon_name: @"potion-green.png"
                                        item_quality: REGULAR
                                           item_slot: BAG 
                                           elem_type: DARK 
@@ -264,7 +264,7 @@ const int base_item_stats[10][9] = {
                                            spell_id: ITEM_MANA_SPELL_ID + dungeon_level - 1];
         case WAND:
             return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Wand of %s Magic",spell_name[dungeon_level],elem_string1[dungeon_level]]
-                                      icon_name: @"../Images/Consumable/wand2.png"
+                                      icon_name: @"wand2.png"
                                    item_quality: REGULAR
                                       item_slot: BAG
                                       elem_type: DARK
@@ -286,7 +286,7 @@ const int base_item_stats[10][9] = {
                             //Get to start of wand spells, then get to the correct element, then get to the spell level. Subtract 1 for offset.
         case SCROLL:
             return [[Item alloc] initWithStats: @"Tome of Knowledge"
-                                     icon_name: @"../Images/Consumable/scroll-book.png"
+                                     icon_name: @"scroll-book.png"
                                   item_quality: REGULAR
                                      item_slot: BAG
                                      elem_type: DARK
