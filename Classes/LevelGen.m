@@ -304,6 +304,12 @@ typedef enum {
 		int x = [Rand min: 0 max: MAP_DIMENSION - 1];
 		int y = [Rand min: 0 max: MAP_DIMENSION - 1];
 
+		// FIXME... quick hack to prevent most of initial box ins
+		if (x + y < 25) {
+			LCV--;
+			continue;
+		}
+
 		[self putPatchOf: type into: dungeon at: [Coord withX: x Y: y Z: z] tightly: false];
 	}
 	return dungeon;
