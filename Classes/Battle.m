@@ -3,7 +3,7 @@
 
 @implementation Battle
 
-+ (void)doAttack:(Creature *)attacker :(Creature *)defender :(Action)action {
++ (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility)action {
 	float basedamage = attacker.l_hand.damage + attacker.r_hand.damage;
 	basedamage *= [Battle getDamage:action];
 	float elementDamage = attacker.l_hand.elem_damage + attacker.r_hand.elem_damage;
@@ -59,19 +59,8 @@
 	}
 }
 
-+ (float)getDamage:(Action)action {
-		switch (action) {
-			case STANDARD_ATTACK:
-				return 1;
-				break;
-			case QUICK_ATTACK:
-				return 0.5;
-			case FATAL_SWING:
-				return 2;
-			default:
-				return 0;
-				break;
-		}
++ (float)getDamage:(CombatAbility)action {
+		return action.damage
 }
 
 @end
