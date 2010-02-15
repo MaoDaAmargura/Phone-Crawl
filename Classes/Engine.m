@@ -39,7 +39,7 @@
 														[Item generate_random_item:3 elem_type:POISON],
 														[Item generate_random_item:9 elem_type:DARK], nil];
 	Item *heal_test = [[Item alloc] initWithStats : @"Test Healing Potion"
-										 icon_name: @"../Images/Consumable/potion-red.png"
+										 icon_name: @"potion-red.png"
 									  item_quality: REGULAR
 										 item_slot: BAG 
 										 elem_type: DARK 
