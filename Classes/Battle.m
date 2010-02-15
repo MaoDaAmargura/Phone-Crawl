@@ -3,7 +3,7 @@
 
 @implementation Battle
 
-+ (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility)action {
++ (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility *)action {
 	float basedamage = attacker.l_hand.damage + attacker.r_hand.damage;
 	basedamage *= [Battle getDamage:action];
 	float elementDamage = attacker.l_hand.elem_damage + attacker.r_hand.elem_damage;
@@ -59,8 +59,9 @@
 	}
 }
 
-+ (float)getDamage:(CombatAbility)action {
-		return action.damage
++ (float)getDamage:(CombatAbility *)action {
+	//return action.damage;
+	return 1;
 }
 
 @end

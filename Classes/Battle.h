@@ -15,7 +15,7 @@
 	
 }
 
-+ (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility)action;
-+ (float)getDamage:(CombatAbility)action;
++ (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility *)action;
++ (float)getDamage:(CombatAbility *)action;
 
 @end
