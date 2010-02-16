@@ -30,5 +30,7 @@ NSMutableArray *ability_list;
 
 @property (readonly) NSString *name;
 @property (readonly) int ability_id;
+@property (readonly) int damage;
+@property (readonly) int ability_level;
 
 @end
