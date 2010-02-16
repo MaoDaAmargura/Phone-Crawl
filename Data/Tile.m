@@ -76,9 +76,6 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockMove = true;
 			blockShoot = true;
 			break;
-		case tileGroundCrumbling:
-			blockMove = true;
-			break;
 		default:
 			break;
 	}

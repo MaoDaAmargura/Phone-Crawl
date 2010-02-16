@@ -167,13 +167,26 @@ typedef enum {
 	}
 }
 
++ (void) followDownSlopes: (Dungeon*) dungeon fromZLevel: (int) z {
+	assert (z >= 0 && z < MAP_DEPTH - 1);
+	
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			Tile *up = [dungeon tileAtX:x Y:y Z:z];
+			if (up.type == tileSlopeDown) {
+				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileSlopeUp];
+			}
+		}
+	}	
+}
+
 + (void) followPit: (Dungeon*) dungeon fromZLevel: (int) z {
 	assert (z >= 0 && z < MAP_DEPTH - 1);
 
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
 			Tile *up = [dungeon tileAtX:x Y:y Z:z];
-			if (up.type == tilePit) {
+			if (up.type == tilePit || up.type == tileGroundCrumbling) {
 				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileConcrete];
 			}
 			if (up.type == tileSlopeDown) {
@@ -358,12 +371,20 @@ typedef enum {
 	}
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
 	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
-	[self putPit: dungeon onZLevel: 1];
+	for (int LCV = 0; LCV < 4; LCV++) {
+		[self putPit: dungeon onZLevel: 1];
+	}
+	for (int LCV = 0; LCV < 2; LCV++) {
+		[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: average];
+	}
+	[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: agentOrange];
+	[self followDownSlopes:dungeon fromZLevel:0];
 
 
 	[self setFloorOf: dungeon to: tileConcrete onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
 
+	
 
 	return dungeon;
 }
