@@ -29,6 +29,7 @@
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
 		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
+		D957F36A112B337100809C1B /* popup_menu_background.png in Resources */ = {isa = PBXBuildFile; fileRef = D957F369112B337100809C1B /* popup_menu_background.png */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
 		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
@@ -141,6 +142,7 @@
 		D931C3E9110632B60032A3DD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 0; };
 		D931C40911063B790032A3DD /* PCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBaseViewController.h; sourceTree = "<group>"; };
 		D931C40A11063B790032A3DD /* PCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBaseViewController.m; sourceTree = "<group>"; };
+		D957F369112B337100809C1B /* popup_menu_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popup_menu_background.png; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
 		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
 		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D957F369112B337100809C1B /* popup_menu_background.png */,
 				D76B4F90110D2A6E00BBF5C0 /* blank.png */,
 				D76B4F8E110D2A6500BBF5C0 /* highlight.png */,
 				D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */,
@@ -710,6 +713,7 @@
 				D7812EEC111A75A9004B201F /* staircase-down.png in Resources */,
 				D7812EED111A75A9004B201F /* staircase-up.png in Resources */,
 				D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */,
+				D957F36A112B337100809C1B /* popup_menu_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

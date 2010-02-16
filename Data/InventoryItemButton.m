@@ -11,6 +11,8 @@
 
 #import "PCPopupMenu.h"
 
+PCPopupMenu *currentItemMenu = 0;
+
 @implementation InventoryItemButton
 
 @synthesize myItem, itemImage;
@@ -28,15 +30,23 @@
 
 - (void) launchMenu
 {
-	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithFrame:CGRectMake(ITEM_BUTTON_SIZE/2, ITEM_BUTTON_SIZE/2, 40, 60)] autorelease];
+	[currentItemMenu removeFromSuperview];
+	int xoffset = ITEM_BUTTON_SIZE/2, yoffset = ITEM_BUTTON_SIZE/2;
+	if(self.frame.origin.x > 160)
+		xoffset = -xoffset;
+	if(self.frame.origin.y > 230)
+		yoffset = -yoffset;
+	CGPoint origin = CGPointMake(self.frame.origin.x + xoffset, self.frame.origin.y + yoffset);
+	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
+	[menu addMenuItem:@"Drop" delegate:self selector:@selector(drop)];
 	
 	if(1/*[myItem isEquippable]*/)
 		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equip)];
 	if(1/*[myItem isUsable]*/)
 		[menu addMenuItem:@"Use" delegate:self selector:@selector(use)];
 	
-	[menu showInView:self];
-
+	[menu showInView:self.superview];
+	currentItemMenu = menu;
 
 }
 
@@ -44,9 +54,6 @@
 {
 	InventoryItemButton *ret = [[[InventoryItemButton alloc] init] autorelease];
 	ret.myItem = it;
-	//TODO: Use Real Image
-	//[ret setImage:[UIImage imageNamed:@"human1.png"] forState:UIControlStateNormal];
-	//[ret setImage:[UIImage imageNamed:it.item_icon] forState:UIControlStateNormal];
 	ret.itemImage.image = [UIImage imageNamed:it.item_icon];
 	ret.hidden = NO;
 	ret.userInteractionEnabled = YES;
