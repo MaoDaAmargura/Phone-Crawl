@@ -29,6 +29,18 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark Game of Life
 
 
+static tileType deadTile [] = {
+//	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
+//	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
+//	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
+//	tileGroundCrumbling, tileStoneCrumbling
+
+	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
+	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
+	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
+	tileNone, tileConcrete
+};
+
 typedef enum {
 	agentOrange, average, fecund
 } golParam;
@@ -112,7 +124,7 @@ typedef enum {
 	}
 
 	for (Tile *tile in tilesToKill) {
-		[tile initWithTileType: tilePit];
+		[tile initWithTileType: deadTile[type]];
 	}
 	for (Tile *tile in tilesToBirth) {
 		[tile initWithTileType: type];

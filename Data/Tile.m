@@ -32,10 +32,10 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 }
 
 - (Tile*) initWithTileType: (tileType) _type {
-	if (slope && _type != tilePit) {
-		return self;
-	}
-	if (_type == tileRubble && blockMove) {
+//	if (slope && _type != tilePit) {
+//		return self;
+//	}
+	if (_type == tileRubble && (blockMove || slope)) {
 		return self;
 	}
 
@@ -76,6 +76,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockMove = true;
 			blockShoot = true;
 			break;
+		case tileGroundCrumbling:
+			blockMove = true;
+			break;
 		default:
 			break;
 	}
@@ -103,7 +106,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 		ADD(@"BlackSquare.png");
 		ADD(@"grass.png"    );
-		ADD(@"concrete.png" );
+		ADD(@"concrete.png");
 		ADD(@"dirt.png"     );
 		ADD(@"wall-wood.png");
 
@@ -114,10 +117,16 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"wood-door-broken.png");
 
 		ADD(@"BlackSquare.png");
-		ADD(@"staircase-down.png");
-		ADD(@"staircase-up.png");
-		ADD(@"wall-rock.gif");
-		ADD(@"grass.png");		// FIXME this represents cave lichen, replace it
+		ADD(@"stalactite2.png");
+		ADD(@"stalagmite.png");
+		ADD(@"dirt-cracked4.png" );
+		ADD(@"lichen2.png");
+
+		ADD(@"dirt-cracked6.png");
+		ADD(@"dirt-cracked5.png");
+
+
+//		ADD(@"wall-rock.gif");
 	}
 }
 
