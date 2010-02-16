@@ -13,13 +13,15 @@
 
 @class Item;
 
-@interface InventoryItemButton : UIView
+@interface InventoryItemButton : UIView 
 {
 	Item *myItem;
 	UIImageView *itemImage;
 }
 
 + (InventoryItemButton*) buttonWithItem:(Item*)it;
+
+- (void) launchMenu;
 
 @property (nonatomic, retain) Item *myItem;
 @property (nonatomic, retain) UIImageView *itemImage;

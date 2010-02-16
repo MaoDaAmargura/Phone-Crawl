@@ -47,6 +47,7 @@
 		D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9888091110D55B800AFFB2E /* CharacterCreation.xib */; };
 		D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
+		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
@@ -167,6 +168,8 @@
 		D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "BB Watershed 8-03 003.jpg"; sourceTree = "<group>"; };
 		D98D744A111E3EA200EC62CF /* InventoryItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItemButton.h; sourceTree = "<group>"; };
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
+		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
+		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
 		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
 		D9B55D1D11015886007173A3 /* LevelGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelGen.h; sourceTree = "<group>"; };
@@ -346,6 +349,8 @@
 			children = (
 				D931C40911063B790032A3DD /* PCBaseViewController.h */,
 				D931C40A11063B790032A3DD /* PCBaseViewController.m */,
+				D9A134D11129261800127C55 /* PCPopupMenu.h */,
+				D9A134D21129261800127C55 /* PCPopupMenu.m */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -736,6 +741,7 @@
 				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,
 				65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */,
 				D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */,
+				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

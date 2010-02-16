@@ -9,6 +9,8 @@
 #import "InventoryItemButton.h"
 #import "Item.h"
 
+#import "PCPopupMenu.h"
+
 @implementation InventoryItemButton
 
 @synthesize myItem, itemImage;
@@ -22,6 +24,20 @@
 		return self;
 	}
 	return nil;
+}
+
+- (void) launchMenu
+{
+	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithFrame:CGRectMake(ITEM_BUTTON_SIZE/2, ITEM_BUTTON_SIZE/2, 40, 60)] autorelease];
+	
+	if(1/*[myItem isEquippable]*/)
+		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equip)];
+	if(1/*[myItem isUsable]*/)
+		[menu addMenuItem:@"Use" delegate:self selector:@selector(use)];
+	
+	[menu showInView:self];
+
+
 }
 
 + (InventoryItemButton*) buttonWithItem:(Item*)it
@@ -38,28 +54,30 @@
 	return ret;
 }
 
+
 #pragma mark -
 #pragma mark UIResponder
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:1];
+	self.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5f];
 
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	//[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
+	[self launchMenu];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];	
 }
 
 
