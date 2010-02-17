@@ -401,4 +401,9 @@
 	return player.inventory;
 }
 
+- (EquipSlots*) getPlayerEquippedItems
+{
+	return player.equipment;
+}
+
 @end
