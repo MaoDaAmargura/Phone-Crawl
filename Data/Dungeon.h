@@ -22,6 +22,7 @@ typedef enum {
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
 
+// FIXME: is this ever updated / still necessary?
 @property (nonatomic, retain) Coord *playerLocation;
 
 @end

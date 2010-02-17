@@ -224,15 +224,36 @@
 
 	UIGraphicsPushContext(context);
 
-	UIImage *img = [UIImage imageNamed: @"highlight.png"];
-	[img drawInRect:CGRectMake(0, 0, MAP_DIMENSION, MAP_DIMENSION)];
+	UIImage *white = [UIImage imageNamed: @"white-dot.png"];
+	UIImage *green = [UIImage imageNamed: @"green-dot.png"];
+	UIImage *black = [UIImage imageNamed: @"black-dot.png"];
+
+	Coord *playerLoc = [player creatureLocation];
+	int z = playerLoc.Z;
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			CGRect rect = CGRectMake(x, y, 1, 1);
+
+			if (x == playerLoc.X && y == playerLoc.Y) {
+				[green drawInRect: rect];
+				continue;
+			}
+			
+			if ([currentDungeon tileAtX: x Y: y Z: z].blockMove) {
+				[black drawInRect: rect];
+			}
+			else {
+				[white drawInRect: rect];
+			}
+		}
+	}
 
 	UIGraphicsPopContext();
 
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
-	wView.miniMapImageView.image = result;	
+	wView.miniMapImageView.image = result;
 }
 
 /*!
@@ -281,7 +302,7 @@
 	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = [player creatureLocation];
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
-	
+
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
