@@ -28,18 +28,9 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark -
 #pragma mark Flood Fill
 
-+ (void) fill: (Dungeon*) dungeon fromTile: (Tile*) tile atX: (int) x Y: (int) y Z: (int) z
-		withReachable: (NSMutableArray*) reachable withUnreachable: (NSMutableArray*) unreachable {
-
-//	if (blockMove) return;
-	
-
-//	fill
-}
-
-
 + (NSMutableArray*) unconnected: (Dungeon*) dungeon onZLevel: (int) z {
-	NSMutableArray *retval = [[NSMutableArray alloc] init];
+	NSMutableArray *retval = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION];
+
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
 			Tile *tile = [dungeon tileAtX: x Y: y Z: z];
@@ -47,7 +38,44 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		}
 	}
 
-//	NSMutableArray *connected = [[NSMutableArray alloc] init];
+	assert ([retval count]);
+	NSMutableArray *gray = [NSMutableArray alloc];
+	[gray addObject: [retval objectAtIndex: 0]];
+	[retval removeObjectAtIndex: 0];
+
+	NSMutableArray *nextGray = [NSMutableArray alloc];
+	while ([gray count]) {
+		for (Tile *currTile in gray) {
+
+			Tile *nextTile;
+			for (int LCV = 0; LCV < 4; LCV++) {
+				switch (LCV) {
+					case 0:
+						nextTile = [dungeon tileAtX: currTile.x - 1 Y: currTile.y Z: currTile.z];
+						break;
+					case 1:
+						nextTile = [dungeon tileAtX: currTile.x + 1 Y: currTile.y Z: currTile.z];
+						break;
+					case 2:
+						nextTile = [dungeon tileAtX: currTile.x Y: currTile.y - 1 Z: currTile.z];
+						break;
+					case 3:
+						nextTile = [dungeon tileAtX: currTile.x Y: currTile.y + 1 Z: currTile.z];
+						break;
+					default: assert(false);
+				}
+				if (![retval containsObject: nextTile]) continue;
+				assert (![gray containsObject: nextTile]);
+				[retval removeObject: nextTile];
+				[nextGray addObject: nextTile];
+			}
+			// end LCV loop
+		}
+		NSMutableArray *swap = gray;
+		gray = nextGray;
+		nextGray = swap;
+		[nextGray removeAllObjects];
+	}
 
 	return [retval autorelease];
 }
