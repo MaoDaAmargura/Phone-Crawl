@@ -4,8 +4,11 @@
 @interface CharacterView : PCBaseViewController
 {
 	IBOutlet UIImageView *characterImageView;
-	IBOutlet UIImageView *weaponImageView;
-	IBOutlet UIImageView *armorImageView;
+	
+	IBOutlet UIImageView *leftHandEquipImg;
+	IBOutlet UIImageView *rightHandEquipImg;
+	IBOutlet UIImageView *headArmorEquipImg;
+	IBOutlet UIImageView *chestArmorEquipImg;
 }
 
 @end
