@@ -301,9 +301,9 @@
  */
 - (void) updateStatDisplayForWorldView:(WorldView *)wView
 {	
-	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
-	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
-	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
+	[wView setDisplay:displayStatHealth withAmount:player.current.health ofMax:player.max.health];
+	[wView setDisplay:displayStatShield withAmount:player.current.shield ofMax:player.max.shield];
+	[wView setDisplay:displayStatMana withAmount:player.current.mana ofMax:player.max.mana];
 }
 
 
