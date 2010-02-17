@@ -21,7 +21,7 @@ typedef enum {
 	FIRE_HASTE    = 32, //Fire turn-speed buff
 	COLD_SLOW     = 64, //Cold turn-speed debuff
 	WEAKENED      = 128, //Max health debuff
-	CONFUSION     = 256  //Confusion? Can't remember what this one was supposed to do. Stat debuff?
+	CONFUSION     = 256  //Messes with AI calls
 } conditionType;
 
 @class Item,Coord;
