@@ -61,8 +61,14 @@ NSMutableArray *tiles = nil;
 - (Dungeon*) initWithType: (levelType) lvlType {
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
-		for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH; LCV++) {
-			[tiles addObject: [Tile alloc]];
+		for (int z = 0; z < MAP_DEPTH; z++) {
+			for (int y = 0; y < MAP_DIMENSION; y++) {
+				for (int x = 0; x < MAP_DIMENSION; x++) {
+					Tile *tile = [Tile alloc];
+					tile.x = x, tile.y = y, tile.z = z;
+					[tiles addObject: tile];
+				}
+			}
 		}
 	}
 
