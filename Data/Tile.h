@@ -4,7 +4,7 @@ typedef enum {
 	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
 	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
 	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
-	tileRockFloor 		// FIXME import images on this line
+	tileGroundCrumbling, tileStoneCrumbling, tileDirt
 } tileType;
 
 typedef enum {

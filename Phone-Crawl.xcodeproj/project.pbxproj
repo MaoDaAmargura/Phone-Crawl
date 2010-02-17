@@ -20,6 +20,20 @@
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
 		D7812EED111A75A9004B201F /* staircase-up.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEB111A75A9004B201F /* staircase-up.png */; };
 		D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D7812FCC111B6A1A004B201F /* wall-rock.gif */; };
+		D7C9523A112B382200CCF8AC /* dirt-cracked1.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522D112B382200CCF8AC /* dirt-cracked1.png */; };
+		D7C9523B112B382200CCF8AC /* dirt-cracked2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522E112B382200CCF8AC /* dirt-cracked2.png */; };
+		D7C9523C112B382200CCF8AC /* dirt-cracked3.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522F112B382200CCF8AC /* dirt-cracked3.png */; };
+		D7C9523D112B382200CCF8AC /* dirt-cracked4.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95230112B382200CCF8AC /* dirt-cracked4.png */; };
+		D7C9523E112B382200CCF8AC /* dirt-cracked5.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95231112B382200CCF8AC /* dirt-cracked5.png */; };
+		D7C9523F112B382200CCF8AC /* lichen.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95232112B382200CCF8AC /* lichen.png */; };
+		D7C95240112B382200CCF8AC /* lichen2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95233112B382200CCF8AC /* lichen2.png */; };
+		D7C95241112B382200CCF8AC /* lichen3.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95234112B382200CCF8AC /* lichen3.png */; };
+		D7C95242112B382200CCF8AC /* stalactite1.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95235112B382200CCF8AC /* stalactite1.png */; };
+		D7C95243112B382200CCF8AC /* stalactite2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95236112B382200CCF8AC /* stalactite2.png */; };
+		D7C95244112B382200CCF8AC /* stalactite3.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95237112B382200CCF8AC /* stalactite3.png */; };
+		D7C95245112B382200CCF8AC /* stalactite4.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95238112B382200CCF8AC /* stalactite4.png */; };
+		D7C95246112B382200CCF8AC /* stalagmite.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95239112B382200CCF8AC /* stalagmite.png */; };
+		D7C95248112B3A2600CCF8AC /* dirt-cracked6.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */; };
 		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
 		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
@@ -129,6 +143,20 @@
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
 		D7812EEB111A75A9004B201F /* staircase-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-up.png"; sourceTree = "<group>"; };
 		D7812FCC111B6A1A004B201F /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
+		D7C9522D112B382200CCF8AC /* dirt-cracked1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked1.png"; sourceTree = "<group>"; };
+		D7C9522E112B382200CCF8AC /* dirt-cracked2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked2.png"; sourceTree = "<group>"; };
+		D7C9522F112B382200CCF8AC /* dirt-cracked3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked3.png"; sourceTree = "<group>"; };
+		D7C95230112B382200CCF8AC /* dirt-cracked4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked4.png"; sourceTree = "<group>"; };
+		D7C95231112B382200CCF8AC /* dirt-cracked5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked5.png"; sourceTree = "<group>"; };
+		D7C95232112B382200CCF8AC /* lichen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lichen.png; sourceTree = "<group>"; };
+		D7C95233112B382200CCF8AC /* lichen2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lichen2.png; sourceTree = "<group>"; };
+		D7C95234112B382200CCF8AC /* lichen3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lichen3.png; sourceTree = "<group>"; };
+		D7C95235112B382200CCF8AC /* stalactite1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalactite1.png; sourceTree = "<group>"; };
+		D7C95236112B382200CCF8AC /* stalactite2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalactite2.png; sourceTree = "<group>"; };
+		D7C95237112B382200CCF8AC /* stalactite3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalactite3.png; sourceTree = "<group>"; };
+		D7C95238112B382200CCF8AC /* stalactite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalactite4.png; sourceTree = "<group>"; };
+		D7C95239112B382200CCF8AC /* stalagmite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalagmite.png; sourceTree = "<group>"; };
+		D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked6.png"; sourceTree = "<group>"; };
 		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
 		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
@@ -554,6 +582,20 @@
 		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
 			isa = PBXGroup;
 			children = (
+				D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */,
+				D7C9522D112B382200CCF8AC /* dirt-cracked1.png */,
+				D7C9522E112B382200CCF8AC /* dirt-cracked2.png */,
+				D7C9522F112B382200CCF8AC /* dirt-cracked3.png */,
+				D7C95230112B382200CCF8AC /* dirt-cracked4.png */,
+				D7C95231112B382200CCF8AC /* dirt-cracked5.png */,
+				D7C95232112B382200CCF8AC /* lichen.png */,
+				D7C95233112B382200CCF8AC /* lichen2.png */,
+				D7C95234112B382200CCF8AC /* lichen3.png */,
+				D7C95235112B382200CCF8AC /* stalactite1.png */,
+				D7C95236112B382200CCF8AC /* stalactite2.png */,
+				D7C95237112B382200CCF8AC /* stalactite3.png */,
+				D7C95238112B382200CCF8AC /* stalactite4.png */,
+				D7C95239112B382200CCF8AC /* stalagmite.png */,
 				D7812FCC111B6A1A004B201F /* wall-rock.gif */,
 				D7812EEA111A75A9004B201F /* staircase-down.png */,
 				D7812EEB111A75A9004B201F /* staircase-up.png */,
@@ -714,6 +756,20 @@
 				D7812EEC111A75A9004B201F /* staircase-down.png in Resources */,
 				D7812EED111A75A9004B201F /* staircase-up.png in Resources */,
 				D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */,
+				D7C9523A112B382200CCF8AC /* dirt-cracked1.png in Resources */,
+				D7C9523B112B382200CCF8AC /* dirt-cracked2.png in Resources */,
+				D7C9523C112B382200CCF8AC /* dirt-cracked3.png in Resources */,
+				D7C9523D112B382200CCF8AC /* dirt-cracked4.png in Resources */,
+				D7C9523E112B382200CCF8AC /* dirt-cracked5.png in Resources */,
+				D7C9523F112B382200CCF8AC /* lichen.png in Resources */,
+				D7C95240112B382200CCF8AC /* lichen2.png in Resources */,
+				D7C95241112B382200CCF8AC /* lichen3.png in Resources */,
+				D7C95242112B382200CCF8AC /* stalactite1.png in Resources */,
+				D7C95243112B382200CCF8AC /* stalactite2.png in Resources */,
+				D7C95244112B382200CCF8AC /* stalactite3.png in Resources */,
+				D7C95245112B382200CCF8AC /* stalactite4.png in Resources */,
+				D7C95246112B382200CCF8AC /* stalagmite.png in Resources */,
+				D7C95248112B3A2600CCF8AC /* dirt-cracked6.png in Resources */,
 				D957F36A112B337100809C1B /* popup_menu_background.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
