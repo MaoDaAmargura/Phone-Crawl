@@ -89,7 +89,7 @@
 		[l removeFromSuperview];
 	[drawnItems removeAllObjects];
 	int index = 0;
-	for(PopupMenuItem *i in menuItems)
+	for(PopupMenuItem *i in [menuItems reverseObjectEnumerator])
 	{
 		UILabel *l = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20*index, POPUP_MENU_WIDTH, 20)] autorelease];
 		[drawnItems addObject:l];

@@ -12,6 +12,7 @@
 @interface InventoryScrollView : UIScrollView <InventoryButtonDelegate>
 {
 	NSMutableArray *drawnItems;
+	UIPageControl *pageMaster;
 }
 
 - (void) updateWithItemArray:(NSArray*) items;

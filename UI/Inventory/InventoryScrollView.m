@@ -11,6 +11,8 @@
 
 PCPopupMenu *currentItemMenu;
 
+#define PAGE_WIDTH 320
+
 @implementation InventoryScrollView
 
 - (id) initWithFrame:(CGRect)frame
@@ -18,6 +20,8 @@ PCPopupMenu *currentItemMenu;
 	if(self = [super initWithFrame:frame])
 	{
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
+		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 180, 40, 20)];
+		[self addSubview:pageMaster];
 		self.backgroundColor = [UIColor redColor];
 		self.bounces = YES;
 		return self;
@@ -50,7 +54,10 @@ PCPopupMenu *currentItemMenu;
 	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_BUTTON_SIZE))/(numTilesAcross+1);
 	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_BUTTON_SIZE))/(numTilesDown+1);
 	
-	int row, col, pageIndex;
+	int row, col, pageIndex, numPages;
+	
+	numPages = ([items count]/(numTilesDown*numTilesAcross)) + 1;
+	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PAGE_WIDTH * numPages, self.frame.size.height);
 	
 	for(Item *i in items)
 	{
@@ -110,24 +117,25 @@ PCPopupMenu *currentItemMenu;
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesBegan:touches withEvent:event];
 	
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[currentItemMenu removeFromSuperview];
 	currentItemMenu = nil;
+	[super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesCancelled:touches withEvent:event];
 }
 
 @end
