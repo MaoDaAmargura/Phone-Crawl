@@ -234,7 +234,9 @@
 		for (int y = 0; y < MAP_DIMENSION; y++) {
 			CGRect rect = CGRectMake(x, y, 1, 1);
 
-			if (x == playerLoc.X && y == playerLoc.Y) {
+			int delta = abs(x - playerLoc.X);
+			delta += abs(y - playerLoc.Y);
+			if (delta < 3) {
 				[green drawInRect: rect];
 				continue;
 			}
