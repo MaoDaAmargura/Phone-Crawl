@@ -18,6 +18,8 @@ typedef enum {
 	tileType type;
 	slopeType slope;
 
+	int x, y, z;
+
 	// level gen
 	int placementOrder;
 	bool cornerWall;
@@ -29,6 +31,10 @@ typedef enum {
 @property (nonatomic) bool smashable;
 @property (nonatomic) tileType type;
 @property (nonatomic) slopeType slope;
+
+@property (nonatomic) int x;
+@property (nonatomic) int y;
+@property (nonatomic) int z;
 
 // level gen
 @property (nonatomic) int placementOrder;

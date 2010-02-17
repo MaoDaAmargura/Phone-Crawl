@@ -24,12 +24,16 @@ NSMutableArray *tiles = nil;
 @synthesize playerLocation;
 #pragma mark --private
 
-- (int) indexOfTileAtCoord: (Coord*) coord {
-	int location = coord.X;
-	location += coord.Y * MAP_DIMENSION;
-	location += coord.Z * MAP_DIMENSION * MAP_DIMENSION;
+- (int) indexOfTileAtX: (int) x Y: (int) y Z: (int) z {
+	int location = x;
+	location += y * MAP_DIMENSION;
+	location += z * MAP_DIMENSION * MAP_DIMENSION;
 
 	return location;
+}
+
+- (int) indexOfTileAtCoord: (Coord*) coord {
+	return [self indexOfTileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 
 #pragma mark --friend 
@@ -73,33 +77,17 @@ NSMutableArray *tiles = nil;
 		return nil;
 	}
 	if (x >= MAP_DIMENSION || y>= MAP_DIMENSION || z > MAP_DEPTH) {
-		DLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
+//		DLog(@"Dungeon.h - tileAtX:Y:Z: Array Index Too Large: (%d, %d, %d) is outside (%d, %d, %d)", x, y, z, MAP_DIMENSION, MAP_DIMENSION, MAP_DEPTH);
 		return nil;
 	}
 
-	int index = [self indexOfTileAtCoord: [Coord withX: x Y: y Z: z]];
+	int index = [self indexOfTileAtX: x Y: y Z: z];
 
 	return [tiles objectAtIndex: index];
 }
 
 - (Tile*) tileAt: (Coord*) coord {
 	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
-}
-
-- (Coord*) coordOfTile: (Tile*) tile {
-	DLog(@"don't trust the result of this method!");
-
-	int index = [tiles indexOfObject: tile];
-	Coord *retval = [[[Coord alloc] init] autorelease];
-
-	retval.Z = index / (MAP_DIMENSION * MAP_DIMENSION);
-	retval.Y = (index / MAP_DIMENSION) % MAP_DIMENSION;
-	retval.X = index % MAP_DIMENSION;
-
-//	int location = coord.X;
-//	location += coord.Y * MAP_DIMENSION;
-//	location += coord.Z * MAP_DIMENSION * MAP_DIMENSION;
-	return retval;
 }
 
 #pragma mark -
