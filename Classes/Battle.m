@@ -4,59 +4,45 @@
 @implementation Battle
 
 + (void)doAttack:(Creature *)attacker :(Creature *)defender :(CombatAbility *)action {
-	float basedamage = attacker.l_hand.damage + attacker.r_hand.damage;
+	float basedamage = [attacker regular_weapon_damage];
 	basedamage *= [Battle getDamage:action];
-	float elementDamage = attacker.l_hand.elem_damage + attacker.r_hand.elem_damage;
-	elemType type = attacker.l_hand.elem_type;
-	float armor = defender.l_hand.armor + defender.r_hand.armor + defender.head.armor + defender.chest.armor;
-	float finaldamage = basedamage*((120-armor)/54+0.1);
+	float elementDamage = [attacker elemental_weapon_damage];
+	elemType type1 = attacker.equipment.r_hand.elem_type;
+	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
 	
-	float resist;
-	conditionType condtype;
-	switch (type) {
+	float resist1;
+	conditionType condtype1;
+	switch (type1) {
 		case FIRE:
-			resist = defender.fire;
-			condtype = BURNED;
+			resist1 = defender.fire;
+			condtype1 = BURNED;
 			break;
 		case COLD:
-			resist = defender.cold;
-			condtype = CHILLED;
+			resist1 = defender.cold;
+			condtype1 = CHILLED;
 			break;
 		case LIGHTNING:
-			resist = defender.lightning;
-			condtype = HASTENED;
+			resist1 = defender.lightning;
+			condtype1 = HASTENED;
 			break;
 		case POISON:
-			resist = defender.poison;
-			condtype = POISONED;
+			resist1 = defender.poison;
+			condtype1 = POISONED;
 			break;
 		case DARK:
-			resist = defender.dark;
-			condtype = CURSED;
+			resist1 = defender.dark;
+			condtype1 = CURSED;
 			break;
 		default:
-			resist = 0;
+			resist1 = 0;
 			break;
 	}
-	int chance = arc4random() % 100;
-	BOOL doElemental = chance >= resist ? YES : NO;
 	
-	if (doElemental) {
-		finaldamage += elementDamage;
-	}
+	finaldamage += (elementDamage * resist1 / 100);	
+	[defender Take_Damage:finaldamage];
 	
-	defender.curr_shield -= finaldamage;
-	if (defender.curr_shield < 0) {
-		finaldamage -= (-defender.curr_shield);
-		defender.curr_shield = 0;
-		defender.curr_health -= finaldamage;
-	}
-	
-	// run test again to see if a condition occurs (only if we did elemental damage though)
-	chance = arc4random() % 100;
-	if (chance >= resist && doElemental) {
-		[defender Add_Condition:condtype];
-	}
+	if ([Rand min:0 max:100] > 20 * action.ability_level)
+		[defender Add_Condition:condtype1];
 }
 
 + (float)getDamage:(CombatAbility *)action {

@@ -28,8 +28,6 @@ typedef enum {
 @property (nonatomic) int Z;
 @property (nonatomic) int distance;
 
-- (id) init;
-
 - (BOOL) equals:(Coord*)other;
 
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z;
