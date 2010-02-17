@@ -23,7 +23,6 @@
 	Coord *selectedMoveTarget;
 	Item *selectedItemToUse;
 	BOOL battleMode;
-	
 }
 
 - (id) init;

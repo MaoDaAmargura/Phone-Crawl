@@ -14,6 +14,7 @@ typedef enum {
 {
 	// updated by Engine
 	IBOutlet UIImageView *mapImageView;
+	IBOutlet UIImageView *miniMapImageView;
 
 	IBOutlet UIView *healthBar;
 	IBOutlet UIView *shieldBar;
@@ -31,6 +32,7 @@ typedef enum {
 - (void) setDelegate:(id<WorldViewDelegate>) delegate;
 
 @property (nonatomic, retain) IBOutlet UIImageView *mapImageView;
+@property (nonatomic, retain) IBOutlet UIImageView *miniMapImageView;
 @property (nonatomic, retain) IBOutlet UIView *healthBar;
 @property (nonatomic, retain) IBOutlet UIView *shieldBar;
 @property (nonatomic, retain) IBOutlet UIView *manaBar;

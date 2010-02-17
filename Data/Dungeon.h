@@ -15,6 +15,8 @@ typedef enum {
 }
 
 - (Dungeon*) initWithType: (levelType) lvlType;
+
+// note: returns nil in case of out of bounds
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z;
 - (Tile*) tileAt: (Coord*) coord;
 

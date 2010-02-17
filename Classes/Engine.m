@@ -20,6 +20,7 @@
 - (NSMutableArray*) getAdjacentEnterableTiles:(Coord*) c;
 - (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
+- (void) drawMiniMapForWorldView: (WorldView*) wView;
 
 @end
 
@@ -76,9 +77,6 @@
 		
 		[self createDevPlayer];
 		
-		// FIXME: why does this cast silence a compiler warning RE: assignment from distinct Ob-C type?
-		// Fixed - Tile and Dungeon both had initWithType method and compiler found Tiles method instead.
-		// I renamed tiles init method and refactored it. - Austin
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 		battleMode = NO;
 		selectedMoveTarget = nil;
@@ -216,14 +214,35 @@
 #pragma mark Graphics
 
 /*!
+ @method		drawMiniMap
+ @abstract		presents the minimap
+ @discussion	does this belong in this class?
+ */
+- (void) drawMiniMapForWorldView: (WorldView*) wView {
+	UIGraphicsBeginImageContext(CGSizeMake(MAP_DIMENSION, MAP_DIMENSION));
+	CGContextRef context = UIGraphicsGetCurrentContext();
+
+	UIGraphicsPushContext(context);
+
+	UIImage *img = [UIImage imageNamed: @"highlight.png"];
+	[img drawInRect:CGRectMake(0, 0, MAP_DIMENSION, MAP_DIMENSION)];
+
+	UIGraphicsPopContext();
+
+	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+
+	wView.miniMapImageView.image = result;	
+}
+
+/*!
  @method		updateWorldView
  @abstract		main graphics loop for world view. 
  */
-- (void) updateWorldView:(WorldView*) wView
-{
+- (void) updateWorldView:(WorldView*) wView {
 	[self updateBackgroundImageForWorldView:wView];
 	[self updateStatDisplayForWorldView:wView];
-	
+	[self drawMiniMapForWorldView: wView];
 }
 
 /*!
@@ -266,7 +285,6 @@
 	// Draw the player on the proper tile.
 	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
-	
 }
 
 /*!
@@ -277,18 +295,17 @@
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView
 {
 	CGRect bounds = wView.mapImageView.bounds;
-	
+
 	UIGraphicsBeginImageContext(bounds.size);
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	UIGraphicsPushContext(context);
 	
 	[self drawTilesForWorldView:wView];
-	
 	[self drawPlayerForWorldView:wView];
-	
+
 	UIGraphicsPopContext();
-	
+
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	

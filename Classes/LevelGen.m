@@ -28,25 +28,17 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 #pragma mark -
 #pragma mark Flood Fill
 
-+ (NSMutableArray*) unconnected: (Dungeon*) dungeon onZLevel: (int) z {
-	NSMutableArray *retval = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION];
++ (NSMutableArray*) singleComponent: (Dungeon*) dungeon withClearTiles: (NSMutableArray*) white {
+	NSMutableArray *black = [[NSMutableArray alloc] init];
 
-	for (int x = 0; x < MAP_DIMENSION; x++) {
-		for (int y = 0; y < MAP_DIMENSION; y++) {
-			Tile *tile = [dungeon tileAtX: x Y: y Z: z];
-			if (!tile.blockMove) [retval addObject: tile];
-		}
-	}
-
-	assert ([retval count]);
-	NSMutableArray *gray = [NSMutableArray alloc];
-	[gray addObject: [retval objectAtIndex: 0]];
-	[retval removeObjectAtIndex: 0];
-
-	NSMutableArray *nextGray = [NSMutableArray alloc];
+	NSMutableArray *gray = [[NSMutableArray alloc] init];
+	[gray addObject: [white objectAtIndex: 0]];
+	[white removeObjectAtIndex: 0];
+	
+	NSMutableArray *nextGray = [[NSMutableArray alloc] init];
 	while ([gray count]) {
 		for (Tile *currTile in gray) {
-
+			
 			Tile *nextTile;
 			for (int LCV = 0; LCV < 4; LCV++) {
 				switch (LCV) {
@@ -64,10 +56,14 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 						break;
 					default: assert(false);
 				}
-				if (![retval containsObject: nextTile]) continue;
+				if (!nextTile) continue; // invalid x or y index
+				if (nextTile.blockMove) continue;
+				if (![white containsObject: nextTile]) continue;
 				assert (![gray containsObject: nextTile]);
-				[retval removeObject: nextTile];
+
+				[white removeObject: nextTile];
 				[nextGray addObject: nextTile];
+				[black addObject: nextTile];
 			}
 			// end LCV loop
 		}
@@ -77,7 +73,28 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 		[nextGray removeAllObjects];
 	}
 
-	return [retval autorelease];
+	return [black autorelease];
+}
+
+// returns a two dimensional array of all connected components of the Z level it's called on
++ (NSMutableArray*) allConnected: (Dungeon*) dungeon onZLevel: (int) z {
+	NSMutableArray *white = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION / 2];
+
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			Tile *tile = [dungeon tileAtX: x Y: y Z: z];
+			if (!tile.blockMove) [white addObject: tile];
+		}
+	}
+	assert ([white count]);
+
+	NSMutableArray *twoDimens = [[NSMutableArray alloc] init];
+	while ([white count]) {
+		NSMutableArray *connected = [self singleComponent: dungeon withClearTiles: white];
+		[twoDimens addObject: connected];
+	}
+
+	return [twoDimens autorelease];
 }
 
 
@@ -440,7 +457,7 @@ typedef enum {
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
 
-	
+	DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
 
 	return dungeon;
 }

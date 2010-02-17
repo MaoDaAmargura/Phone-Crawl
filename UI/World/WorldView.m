@@ -4,7 +4,7 @@
 
 @implementation WorldView
 
-@synthesize mapImageView, highlight;
+@synthesize mapImageView, highlight, miniMapImageView;
 @synthesize healthBar, shieldBar, manaBar;
 
 #pragma mark -
@@ -140,6 +140,8 @@
 {
 	highlight.hidden = YES;
 }
+
+
 
 
 @end
