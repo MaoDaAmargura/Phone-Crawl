@@ -75,6 +75,9 @@
 #pragma mark Helpers
 
 - (void) Set_Base_Stats {
+	current = [[Points alloc] init];
+	max = [[Points alloc] init];
+	real = [[Points alloc] init];
 	current.turn_speed = 1.05;
 	real.turn_speed = 1.05;
 	max.turn_speed = 1.05;
