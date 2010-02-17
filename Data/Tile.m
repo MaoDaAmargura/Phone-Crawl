@@ -1,12 +1,11 @@
 #import "Tile.h"
 
-#define TILE_M_NUMBER_OF_TILES 10
 
 @implementation Tile
 
 static NSMutableArray *tileImageArray;
 
-@synthesize blockMove, blockShoot, type, smashable, slope;
+@synthesize blockMove, blockShoot, type, smashable, slope, x, y , z;
 
 
 // level gen
@@ -32,9 +31,6 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 }
 
 - (Tile*) initWithTileType: (tileType) _type {
-//	if (slope && _type != tilePit) {
-//		return self;
-//	}
 	if (_type == tileRubble && (blockMove || slope)) {
 		return self;
 	}
@@ -88,7 +84,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
  @method		initTileArray
  @abstract		helper function initializes the tile array
  @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
- to that which they are declared in the tileType enum in Tile.h
+				to that which they are declared in the tileType enum in Tile.h
  @note			I used mutableArray because NSDictionary is keyed by string only
  */
 
@@ -97,7 +93,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	[super initialize];
 	if(!tileImageArray)
 	{
-		tileImageArray = [[NSMutableArray alloc] initWithCapacity:TILE_M_NUMBER_OF_TILES];
+		tileImageArray = [[NSMutableArray alloc] init];
 
 		#define ADD(thing) [tileImageArray addObject: [UIImage imageNamed: thing]]
 

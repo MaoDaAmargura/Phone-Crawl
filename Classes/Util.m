@@ -5,10 +5,6 @@
 
 @synthesize X,Y,Z,distance;
 
-- (id) init {
-	X = Y = Z = 0;
-	return self;
-}
 
 - (NSString*) description {
 	return [NSString stringWithFormat: @"X: %d, Y: %d, Z: %d", X, Y, Z];
@@ -22,9 +18,8 @@
 	return NO;
 }
 
-+ (Coord*) withX:(int)x Y:(int)y Z:(int)z
-{
-	Coord *ret = [[[Coord alloc] init] autorelease];
++ (Coord*) withX:(int)x Y:(int)y Z:(int)z {
+	Coord *ret = [[Coord alloc] autorelease];
 	ret.X = x;
 	ret.Y = y;
 	ret.Z = z;

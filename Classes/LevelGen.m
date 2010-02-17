@@ -26,6 +26,34 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 @implementation LevelGen
 
 #pragma mark -
+#pragma mark Flood Fill
+
++ (void) fill: (Dungeon*) dungeon fromTile: (Tile*) tile atX: (int) x Y: (int) y Z: (int) z
+		withReachable: (NSMutableArray*) reachable withUnreachable: (NSMutableArray*) unreachable {
+
+//	if (blockMove) return;
+	
+
+//	fill
+}
+
+
++ (NSMutableArray*) unconnected: (Dungeon*) dungeon onZLevel: (int) z {
+	NSMutableArray *retval = [[NSMutableArray alloc] init];
+	for (int x = 0; x < MAP_DIMENSION; x++) {
+		for (int y = 0; y < MAP_DIMENSION; y++) {
+			Tile *tile = [dungeon tileAtX: x Y: y Z: z];
+			if (!tile.blockMove) [retval addObject: tile];
+		}
+	}
+
+//	NSMutableArray *connected = [[NSMutableArray alloc] init];
+
+	return [retval autorelease];
+}
+
+
+#pragma mark -
 #pragma mark Game of Life
 
 
@@ -158,7 +186,7 @@ typedef enum {
 					type = tileSlopeDown;
 				}
 
-				Tile *tile = [dungeon tileAt: [Coord withX: x Y: y Z: z]];
+				Tile *tile = [dungeon tileAtX: x Y: y Z: z];
 				[tile initWithTileType: type];
 			}
 		}
@@ -381,7 +409,7 @@ typedef enum {
 	[self followDownSlopes:dungeon fromZLevel:0];
 
 
-	[self setFloorOf: dungeon to: tileConcrete onZLevel: 2];
+	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
 
 	
