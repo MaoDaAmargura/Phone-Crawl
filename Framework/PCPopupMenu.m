@@ -8,6 +8,7 @@
 
 #import "PCPopupMenu.h"
 
+#define MENU_ITEM_SIZE 20
 
 @interface PopupMenuItem : NSObject
 {
@@ -18,6 +19,7 @@
 
 - (id) initWithName:(NSString*)name del:(id) delegate sel:(SEL)selector;
 - (NSString*) title;
+- (void) fire;
 
 @end
 
@@ -46,6 +48,15 @@
 	return title;
 }
 
+- (void) fire
+{
+	if ([target respondsToSelector:method])
+	{
+		IMP f = [target methodForSelector:method];
+		(f)(target, method);
+	}
+}
+
 @end
 
 
@@ -53,7 +64,7 @@
 
 - (id) initWithOrigin:(CGPoint)origin
 {
-	CGRect newFrame = CGRectMake(origin.x, origin.y, POPUP_MENU_WIDTH, 20);
+	CGRect newFrame = CGRectMake(origin.x, origin.y, POPUP_MENU_WIDTH, MENU_ITEM_SIZE);
 	if(self = [super initWithFrame:newFrame])
 	{
 		PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:@"Cancel" del:nil sel:nil] autorelease];
@@ -91,7 +102,7 @@
 	int index = 0;
 	for(PopupMenuItem *i in [menuItems reverseObjectEnumerator])
 	{
-		UILabel *l = [[[UILabel alloc] initWithFrame:CGRectMake(0, 20*index, POPUP_MENU_WIDTH, 20)] autorelease];
+		UILabel *l = [[[UILabel alloc] initWithFrame:CGRectMake(0, MENU_ITEM_SIZE*index, POPUP_MENU_WIDTH, MENU_ITEM_SIZE)] autorelease];
 		[drawnItems addObject:l];
 		l.backgroundColor = [UIColor clearColor];
 		l.text = [i title];;
@@ -127,22 +138,26 @@
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	CGPoint touch = [[[touches allObjects] objectAtIndex:0] locationInView:self];
+	int menuOption = touch.y/MENU_ITEM_SIZE;
+	PopupMenuItem *i = [menuItems objectAtIndex:([menuItems count] - menuOption - 1)];
+	[i fire];
+	[super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	
+	[super touchesCancelled:touches withEvent:event];
 }
 
 

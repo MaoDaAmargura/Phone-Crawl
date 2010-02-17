@@ -20,7 +20,7 @@ PCPopupMenu *currentItemMenu;
 	if(self = [super initWithFrame:frame])
 	{
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
-		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 180, 40, 20)];
+		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 340, 40, 20)];
 		[self addSubview:pageMaster];
 		self.backgroundColor = [UIColor redColor];
 		self.bounces = YES;
@@ -31,13 +31,20 @@ PCPopupMenu *currentItemMenu;
 
 - (void)dealloc 
 {
+	[pageMaster release];
 	[drawnItems release];
     [super dealloc];
 }
 
 #pragma mark -
 #pragma mark Control
-
+/*!
+ @method		updateWithItemArray
+ @abstract		re-renders the new inventory screen with the new item list.
+ @discussion	clears array of references to drawn items. determines item spread based on numbers and values.
+				creates an inventory button for each item. modifies the pageControl. adds all the new buttons
+				to the saved reference array
+ */
 - (void) updateWithItemArray:(NSArray*) items
 {
 	for (InventoryItemButton *b in drawnItems)
@@ -89,7 +96,12 @@ PCPopupMenu *currentItemMenu;
 
 #pragma mark -
 #pragma mark Protocols
-
+/*!
+ @method		pressedInvButton
+ @abstract		callback handler for a button thats been clicked
+ @discussion	removes the old menu if there was one. determines the location for the new menu.
+				instantiates the new menu. generates the menu items for it. Saves the reference.
+ */
 - (void) pressedInvButton:(InventoryItemButton*)button
 {
 	[currentItemMenu removeFromSuperview];
