@@ -42,7 +42,13 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView;
 
+- (void) playerEquipItem:(Item*)i;
+- (void) playerUseItem:(Item*)i;
+- (void) playerDropItem:(Item*)i;
+
 - (NSArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;
+
+- (Creature*) player;
 
 @end

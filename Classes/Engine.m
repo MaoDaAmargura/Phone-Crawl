@@ -388,6 +388,25 @@
 }
 
 #pragma mark -
+#pragma mark Player Commands
+
+- (void) playerEquipItem:(Item*)i
+{
+	[player Add_Equipment:i slot:i.item_slot];
+	
+}
+
+- (void) playerUseItem:(Item*)i
+{
+	
+}
+
+- (void) playerDropItem:(Item*)i
+{
+	
+}
+
+#pragma mark -
 #pragma mark Custom Accessors
 
 - (void) setSelectedMoveTarget:(Coord *)loc
@@ -404,6 +423,11 @@
 - (EquipSlots*) getPlayerEquippedItems
 {
 	return player.equipment;
+}
+
+- (Creature*) player
+{
+	return player;
 }
 
 @end
