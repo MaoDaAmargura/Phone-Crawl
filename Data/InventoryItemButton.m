@@ -11,11 +11,11 @@
 
 #import "PCPopupMenu.h"
 
-PCPopupMenu *currentItemMenu = 0;
+
 
 @implementation InventoryItemButton
 
-@synthesize myItem, itemImage;
+@synthesize myItem, itemImage, delegate;
 
 - (id) init
 {
@@ -30,23 +30,7 @@ PCPopupMenu *currentItemMenu = 0;
 
 - (void) launchMenu
 {
-	[currentItemMenu removeFromSuperview];
-	int xoffset = ITEM_BUTTON_SIZE/2, yoffset = ITEM_BUTTON_SIZE/2;
-	if(self.frame.origin.x > 160)
-		xoffset = -xoffset;
-	if(self.frame.origin.y > 230)
-		yoffset = -yoffset;
-	CGPoint origin = CGPointMake(self.frame.origin.x + xoffset, self.frame.origin.y + yoffset);
-	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
-	[menu addMenuItem:@"Drop" delegate:self selector:@selector(drop)];
 	
-	if(1/*[myItem isEquippable]*/)
-		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equip)];
-	if(1/*[myItem isUsable]*/)
-		[menu addMenuItem:@"Use" delegate:self selector:@selector(use)];
-	
-	[menu showInView:self.superview];
-	currentItemMenu = menu;
 
 }
 
@@ -79,7 +63,9 @@ PCPopupMenu *currentItemMenu = 0;
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	self.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0];
-	[self launchMenu];
+	//[self launchMenu];
+	
+	[delegate pressedInvButton:self];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event

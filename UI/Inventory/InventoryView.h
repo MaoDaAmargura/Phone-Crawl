@@ -9,21 +9,15 @@
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
-@interface InventoryView : PCBaseViewController 
+@class InventoryScrollView;
+
+@interface InventoryView : PCBaseViewController
 {
-	NSMutableArray *drawnItems;
+	InventoryScrollView *sView;
 }
 
 - (void) updateWithItemArray:(NSArray*) items;
 
 @end
 
-#pragma mark -
-#pragma mark InventoryViewDelegate
-
-@protocol InventoryViewDelegate
-
-- (void) needRefreshForInventoryView:(InventoryView*) iView;
-
-@end
 

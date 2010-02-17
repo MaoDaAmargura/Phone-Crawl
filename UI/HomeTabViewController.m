@@ -32,15 +32,6 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
-        // Custom initialization
-    }
-    return self;
-}*/
-
 -(void) loadView
 {
 	mainTabController = [[UITabBarController alloc] init];
@@ -56,6 +47,7 @@
 	[mainTabController setViewControllers:tabs];
 	
 	self.view = mainTabController.view;
+	mainTabController.delegate = self;
 	
 }
 
@@ -158,14 +150,6 @@
 	[gameEngine updateWorldView:wView];
 }
 
-
-#pragma mark InventoryView
-- (void) needRefreshForInventoryView:(InventoryView*) invView
-{
-	NSArray *inv = [gameEngine getPlayerInventory];
-	[invView updateWithItemArray:inv];
-}
-
 #pragma mark -
 #pragma mark New Tab View Controllers
 
@@ -215,7 +199,8 @@
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
-	
+	if(viewController == iView)
+		[iView updateWithItemArray:[gameEngine getPlayerInventory]];
 }
 
 

@@ -30,11 +30,11 @@
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
 		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
 		D957F36A112B337100809C1B /* popup_menu_background.png in Resources */ = {isa = PBXBuildFile; fileRef = D957F369112B337100809C1B /* popup_menu_background.png */; };
+		D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D957F44E112BAEE000809C1B /* InventoryScrollView.m */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
 		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
 		D95F3ADF10FFCE5C00323446 /* InventoryView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AD210FFCE5C00323446 /* InventoryView.m */; };
-		D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3AD310FFCE5C00323446 /* InventoryView.xib */; };
 		D95F3AE110FFCE5C00323446 /* OptionsView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AD610FFCE5C00323446 /* OptionsView.m */; };
 		D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3AD710FFCE5C00323446 /* OptionsView.xib */; };
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
@@ -143,6 +143,8 @@
 		D931C40911063B790032A3DD /* PCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBaseViewController.h; sourceTree = "<group>"; };
 		D931C40A11063B790032A3DD /* PCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBaseViewController.m; sourceTree = "<group>"; };
 		D957F369112B337100809C1B /* popup_menu_background.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = popup_menu_background.png; sourceTree = "<group>"; };
+		D957F44D112BAEE000809C1B /* InventoryScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryScrollView.h; sourceTree = "<group>"; };
+		D957F44E112BAEE000809C1B /* InventoryScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryScrollView.m; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
 		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
 		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
@@ -150,7 +152,6 @@
 		D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeTabViewController.m; sourceTree = "<group>"; };
 		D95F3AD110FFCE5C00323446 /* InventoryView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryView.h; sourceTree = "<group>"; };
 		D95F3AD210FFCE5C00323446 /* InventoryView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryView.m; sourceTree = "<group>"; };
-		D95F3AD310FFCE5C00323446 /* InventoryView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = InventoryView.xib; sourceTree = "<group>"; };
 		D95F3AD510FFCE5C00323446 /* OptionsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OptionsView.h; sourceTree = "<group>"; };
 		D95F3AD610FFCE5C00323446 /* OptionsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OptionsView.m; sourceTree = "<group>"; };
 		D95F3AD710FFCE5C00323446 /* OptionsView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = OptionsView.xib; sourceTree = "<group>"; };
@@ -386,7 +387,8 @@
 			children = (
 				D95F3AD110FFCE5C00323446 /* InventoryView.h */,
 				D95F3AD210FFCE5C00323446 /* InventoryView.m */,
-				D95F3AD310FFCE5C00323446 /* InventoryView.xib */,
+				D957F44D112BAEE000809C1B /* InventoryScrollView.h */,
+				D957F44E112BAEE000809C1B /* InventoryScrollView.m */,
 			);
 			path = Inventory;
 			sourceTree = "<group>";
@@ -641,7 +643,6 @@
 			files = (
 				28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */,
 				D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */,
-				D95F3AE010FFCE5C00323446 /* InventoryView.xib in Resources */,
 				D95F3AE210FFCE5C00323446 /* OptionsView.xib in Resources */,
 				D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */,
 				D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */,
@@ -746,6 +747,7 @@
 				65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */,
 				D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */,
 				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
+				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

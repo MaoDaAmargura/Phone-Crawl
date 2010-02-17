@@ -7,8 +7,11 @@
 //
 
 #import "InventoryView.h"
+
+#import "InventoryScrollView.h"
+
 #import "Item.h"
-#import "InventoryItemButton.h"
+
 
 
 
@@ -18,93 +21,60 @@
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)init
 {
-    if (self = [super initWithNibName:@"InventoryView"]) 
+    //if (self = [super initWithNibName:@"InventoryView"]) 
+	if (self = [super init])
 	{
-		drawnItems = [[NSMutableArray alloc] init];
+		sView = [[[InventoryScrollView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)] autorelease];
+ 		self.view = sView;
+
     }
     return self;
 }
 
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-*/
-
-- (void) viewDidLoad
+- (void)didReceiveMemoryWarning 
 {
-	[super viewDidLoad];
-	[delegate needRefreshForInventoryView:self];
-	
-}
-
-- (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
 	
 	// Release any cached data, images, etc that aren't in use.
 }
 
-- (void)viewDidUnload {
-	// Release any retained subviews of the main view.
-	// e.g. self.myOutlet = nil;
-}
 
-
-- (void)dealloc {
+- (void)dealloc 
+{
     [super dealloc];
 	
-	[drawnItems release];
+}
+
+- (void) updateWithItemArray:(NSArray*) items
+{
+	[sView updateWithItemArray:items];
 }
 
 
 #pragma mark -
-#pragma mark Custom
-- (void) updateWithItemArray:(NSArray*) items
+#pragma mark UIResponder
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	for (InventoryItemButton *b in drawnItems)
-		[b removeFromSuperview];
+
 	
-	[drawnItems removeAllObjects];
-	int index = 0;
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
+{
 	
-	CGRect bounds = self.view.bounds;
-	
-	int numTilesAcross = bounds.size.width/ITEM_BUTTON_SIZE;
-	int numTilesDown = bounds.size.height/ITEM_BUTTON_SIZE;
-	
-	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_BUTTON_SIZE))/(numTilesAcross+1);
-	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_BUTTON_SIZE))/(numTilesDown+1);
-	
-	int row, col, pageIndex;
-	
-	for(Item *i in items)
-	{
-		row = index/numTilesAcross;
-		col	= index%numTilesAcross;
-		pageIndex = 0;
-		while(row>numTilesDown)
-		{
-			row -= numTilesDown;
-			pageIndex++;
-		}
-		
-		InventoryItemButton *b = [InventoryItemButton buttonWithItem:i];
-		[drawnItems addObject:b];
-		
-		CGRect r = CGRectMake(tileHorizSpread*(col+1) + ITEM_BUTTON_SIZE * col,
-							  bounds.size.width*pageIndex + tileVertSpread*(row+1) + ITEM_BUTTON_SIZE * row,
-							  ITEM_BUTTON_SIZE,
-							  ITEM_BUTTON_SIZE);
-		b.frame = r;
-		++index;
-		
-	}
-	
-	for (InventoryItemButton *b in drawnItems)
-		[self.view addSubview:b];
+}
+
+- (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
+{
+
 }
 
 @end
