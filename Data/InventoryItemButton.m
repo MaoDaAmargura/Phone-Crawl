@@ -28,12 +28,6 @@
 	return nil;
 }
 
-- (void) launchMenu
-{
-	
-
-}
-
 + (InventoryItemButton*) buttonWithItem:(Item*)it
 {
 	InventoryItemButton *ret = [[[InventoryItemButton alloc] init] autorelease];
