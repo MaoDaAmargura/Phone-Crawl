@@ -142,31 +142,62 @@
 - (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ rem_condition; }
 - (void) Clear_Condition { condition = NO_CONDITION; }
 
-- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
-	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
-		new_item.item_slot == BOTH && dest_slot == RIGHT){
-		//Item fits in slot
-		if (new_item.item_slot == BOTH && dest_slot == RIGHT && equipment.l_hand != nil)
-			[self Remove_Equipment: LEFT];
-
-		[self Update_Stats_Item:new_item];
-		switch (dest_slot) {
-			case HEAD:
-				equipment.head = new_item;
-				break;
-			case CHEST:
-				equipment.chest = new_item;
-				break;
-			case LEFT:
-				equipment.l_hand = new_item;
-				break;
-			case RIGHT:
-				equipment.r_hand = new_item;
-				break;				
-		};
-	} else {
-		//Item slot error
+- (slotType) destinationForEitherHandItem
+{
+	//some simple logic for now. can be modified later to launch menu
+	if(equipment.r_hand == nil)
+	{
+		return RIGHT;
 	}
+	else if(equipment.l_hand == nil && equipment.r_hand.item_slot != BOTH)
+	{
+		return LEFT;
+	}
+	else 
+	{
+		return RIGHT;
+	}
+}
+
+- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
+/*	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
+		new_item.item_slot == BOTH && dest_slot == RIGHT){
+*/		//Item fits in slot
+
+	slotType destination = dest_slot;
+	slotType itemSlot = new_item.item_slot;
+	
+	if(itemSlot == BAG)
+	{
+		return;
+	}
+	else if(itemSlot == BOTH)
+	{
+		destination = RIGHT;
+		if(equipment.l_hand != nil)
+			[self Remove_Equipment:LEFT];
+	}
+	else if(itemSlot ==  EITHER)
+	{
+		destination = [self destinationForEitherHandItem];
+	}
+	
+	[self Update_Stats_Item:new_item];
+	switch (destination) {
+		case HEAD:
+			equipment.head = new_item;
+			break;
+		case CHEST:
+			equipment.chest = new_item;
+			break;
+		case LEFT:
+			equipment.l_hand = new_item;
+			break;
+		case RIGHT:
+			equipment.r_hand = new_item;
+			break;				
+	};
+	
 	//Item removed from cursor
 	return;
 }

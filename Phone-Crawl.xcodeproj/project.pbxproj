@@ -39,6 +39,7 @@
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
 		D7D42F0B1119FA2700A8D7FF /* wood-door-broken.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F081119FA2700A8D7FF /* wood-door-broken.png */; };
 		D7D42F0C1119FA2700A8D7FF /* wood-door-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F091119FA2700A8D7FF /* wood-door-open.png */; };
+		D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E7D8E112D1B49008D8C78 /* swordsingle.png */; };
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
 		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
@@ -162,6 +163,7 @@
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
 		D7D42F081119FA2700A8D7FF /* wood-door-broken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-broken.png"; sourceTree = "<group>"; };
 		D7D42F091119FA2700A8D7FF /* wood-door-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-open.png"; sourceTree = "<group>"; };
+		D91E7D8E112D1B49008D8C78 /* swordsingle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swordsingle.png; sourceTree = "<group>"; };
 		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
 		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
@@ -560,6 +562,7 @@
 		D9FFB0F1110BA8E000536EA7 /* Equipable */ = {
 			isa = PBXGroup;
 			children = (
+				D91E7D8E112D1B49008D8C78 /* swordsingle.png */,
 				D9FFB0F2110BA8E000536EA7 /* armor-heavy.png */,
 				D9FFB0F3110BA8E000536EA7 /* armor-light.png */,
 				D9FFB0F4110BA8E000536EA7 /* bow.png */,
@@ -771,6 +774,7 @@
 				D7C95246112B382200CCF8AC /* stalagmite.png in Resources */,
 				D7C95248112B3A2600CCF8AC /* dirt-cracked6.png in Resources */,
 				D957F36A112B337100809C1B /* popup_menu_background.png in Resources */,
+				D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
