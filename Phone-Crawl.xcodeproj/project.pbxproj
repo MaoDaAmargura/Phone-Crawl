@@ -489,6 +489,30 @@
 			name = PhoneCrawl;
 			sourceTree = "<group>";
 		};
+		D9A1DAE1112DDD7700EE126E /* MiniMapDots */ = {
+			isa = PBXGroup;
+			children = (
+				D7C95427112CBAC200CCF8AC /* orange-dot.png */,
+				D7C95425112CBAB500CCF8AC /* blue-dot.png */,
+				D7C95401112CB47600CCF8AC /* black-dot.png */,
+				D7C953F5112CB2E700CCF8AC /* white-dot.png */,
+				D7C953F3112CB2DD00CCF8AC /* green-dot.png */,
+			);
+			name = MiniMapDots;
+			sourceTree = "<group>";
+		};
+		D9A1DAE3112DDD8E00EE126E /* TempFiles */ = {
+			isa = PBXGroup;
+			children = (
+				D76B4F90110D2A6E00BBF5C0 /* blank.png */,
+				D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */,
+				D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */,
+				D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */,
+				D9FFB116110BA8E000536EA7 /* human1.png */,
+			);
+			name = TempFiles;
+			sourceTree = "<group>";
+		};
 		D9B55D1911015878007173A3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
@@ -535,22 +559,14 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D7C95427112CBAC200CCF8AC /* orange-dot.png */,
-				D7C95425112CBAB500CCF8AC /* blue-dot.png */,
-				D7C95401112CB47600CCF8AC /* black-dot.png */,
-				D7C953F5112CB2E700CCF8AC /* white-dot.png */,
-				D7C953F3112CB2DD00CCF8AC /* green-dot.png */,
+				D9A1DAE3112DDD8E00EE126E /* TempFiles */,
+				D9A1DAE1112DDD7700EE126E /* MiniMapDots */,
 				D957F369112B337100809C1B /* popup_menu_background.png */,
-				D76B4F90110D2A6E00BBF5C0 /* blank.png */,
 				D76B4F8E110D2A6500BBF5C0 /* highlight.png */,
-				D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */,
-				D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */,
-				D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */,
 				D9FFB0E4110BA8E000536EA7 /* Consumable */,
 				D9FFB0F1110BA8E000536EA7 /* Equipable */,
 				D9FFB102110BA8E000536EA7 /* FloorTile */,
 				D9FFB117110BA8E000536EA7 /* old walls */,
-				D9FFB116110BA8E000536EA7 /* human1.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
