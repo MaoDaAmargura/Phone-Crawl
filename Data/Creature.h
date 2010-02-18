@@ -45,6 +45,7 @@ typedef enum {
 	Item *r_hand;
 	Item *l_hand;
 }
+- (id) init;
 @property (nonatomic, retain) Item* head;
 @property (nonatomic, retain) Item* chest;
 @property (nonatomic, retain) Item* r_hand;

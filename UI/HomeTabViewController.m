@@ -207,6 +207,8 @@
 {
 	if(viewController == iView)
 		[iView updateWithItemArray:[gameEngine getPlayerInventory]];
+	if(viewController == cView)
+		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
 }
 
 

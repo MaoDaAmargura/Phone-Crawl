@@ -12,19 +12,19 @@
 	}
 	return nil;
 }
-
+/*
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
 	[delegate needUpdateForCharView:self];
 }
 
-- (void) viewDidAppear:(BOOL)animated
+- (void) viewWillAppear:(BOOL)animated
 {
-	[super viewDidAppear:animated];
+	[super viewWillAppear:animated];
 	[delegate needUpdateForCharView:self];
 }
-
+*/
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

@@ -35,11 +35,7 @@
 		name = [NSString stringWithString:in_name];
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		[self Set_Base_Stats];
-		equipment = [EquipSlots alloc];
-		equipment.head = [[[Item alloc] init] autorelease];
-		equipment.chest = [[[Item alloc] init] autorelease];
-		equipment.r_hand = [[[Item alloc] init] autorelease];
-		equipment.l_hand = [[[Item alloc] init] autorelease];
+		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		level = lvl;
 		money = 10000;
 		ability_points = 10;
@@ -267,6 +263,18 @@
 @synthesize chest;
 @synthesize l_hand;
 @synthesize r_hand;
+- (id) init
+{
+	if(self = [super init])
+	{
+		head = nil;
+		chest = nil;
+		l_hand = nil;
+		r_hand = nil;
+		return self;
+	}
+	return nil;
+}
 @end
 
 @implementation Points
