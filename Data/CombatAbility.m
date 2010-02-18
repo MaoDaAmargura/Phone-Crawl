@@ -59,7 +59,7 @@ BOOL have_set_abilities = FALSE;
 //Specialized ability function example
 - (int) detr_ability: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) return ABILITY_ERR;
-	return [self mitigate_damage:caster target:target damage: (damage + [caster weapon_damage])];
+	return [self mitigate_damage:caster target:target damage: (damage + [caster regular_weapon_damage])];
 }
 
 + (void) fill_ability_list {

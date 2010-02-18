@@ -8,7 +8,7 @@ typedef enum {
     HEAD = 0,
     CHEST = 1,
     LEFT = 2,
-    RIGHT = 3,
+	RIGHT = 3,
     BOTH = 4,
     EITHER = 5,
     BAG = 6

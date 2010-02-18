@@ -1,33 +1,25 @@
 #import "Creature.h"
 #import "Item.h"
 
-
 @implementation Creature
 
-@synthesize turn_speed;
 @synthesize current_turn_points;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;
 @synthesize creatureLocation;
 @synthesize inventory;
-@synthesize curr_health;
-@synthesize curr_shield;
-@synthesize curr_mana;
 @synthesize money;
-@synthesize max_health;
-@synthesize max_shield;
-@synthesize max_mana;
 @synthesize fire;
 @synthesize cold;
 @synthesize lightning;
 @synthesize poison;
 @synthesize dark;
 @synthesize armor;
-@synthesize head;
-@synthesize chest;
-@synthesize r_hand;
-@synthesize l_hand;
+@synthesize equipment;
+@synthesize current;
+@synthesize max;
+
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -40,14 +32,10 @@
 {
 	if(self = [super init])
 	{
-		//name = in_name;
 		name = [NSString stringWithString:in_name];
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		head = [[[Item alloc] init] autorelease];
-		chest = [[[Item alloc] init] autorelease];
-		r_hand = [[[Item alloc] init] autorelease];
-		l_hand = [[[Item alloc] init] autorelease];
 		[self Set_Base_Stats];
+		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		level = lvl;
 		money = 10000;
 		ability_points = 10;
@@ -70,40 +58,48 @@
 
 - (void) Reset_Stats {
 	[self Clear_Condition];
-	max_health = real_max_health;
-	max_shield = real_max_shield;
-	max_mana = real_max_mana;
-	turn_speed = real_turn_speed;
-	if (curr_health > max_health) curr_health = max_health;
-	if (curr_mana > max_mana) curr_mana = max_mana;
-	if (curr_shield > max_shield) curr_shield = max_shield;
+	max.health = real.health;
+	max.shield = real.shield;
+	max.mana = real.mana;
+	current.turn_speed = max.turn_speed = real.turn_speed;
+	if (current.health > max.health) current.health = max.health;
+	if (current.mana > max.mana) current.mana = max.mana;
+	if (current.shield > max.shield) current.shield = max.shield;
 }
 
 #pragma mark -
 #pragma mark Helpers
 
 - (void) Set_Base_Stats {
-	turn_speed = 1.05;
-	max_health = max_shield = max_mana = 100 + level * 25;
-	curr_health = curr_shield = curr_mana = max_health;
-	fire = cold = lightning =	poison = dark = 20;
+	current = [[Points alloc] init];
+	max = [[Points alloc] init];
+	real = [[Points alloc] init];
+	current.turn_speed = 1.05;
+	real.turn_speed = 1.05;
+	max.turn_speed = 1.05;
+	max.health = max.shield = max.mana = 100 + level * 25;
+	current.health = current.shield = current.mana = max.health;
+	fire = cold = lightning = poison = dark = 20;
 	armor = 0;
-	[self Update_Stats_Item:head];
-	[self Update_Stats_Item:chest];
-	[self Update_Stats_Item:l_hand];
-	[self Update_Stats_Item:r_hand];
+	[self Update_Stats_Item:equipment.head];
+	[self Update_Stats_Item:equipment.chest];
+	[self Update_Stats_Item:equipment.l_hand];
+	[self Update_Stats_Item:equipment.r_hand];
 }
 
 - (void) Update_Stats_Item: (Item*) item {
-	max_health += item.hp;
-	max_shield += item.shield;
-	max_mana += item.mana;
-	if(curr_health > max_health)
-		curr_health = max_health;
-	if(curr_shield > max_shield)
-		curr_shield = max_shield;
-	if(curr_mana > max_mana)
-		curr_mana = max_mana;
+	max.health += item.hp;
+	max.shield += item.shield;
+	max.mana += item.mana;
+	real.health += item.hp;
+	real.shield += item.shield;
+	real.mana += item.mana;
+	if(current.health > max.health)
+		current.health = max.health;
+	if(current.shield > max.shield)
+		current.shield = max.shield;
+	if(current.mana > max.mana)
+		current.mana = max.mana;
 	//Resists
 	fire += item.fire;
 	cold += item.cold;
@@ -114,31 +110,31 @@
 }
 
 - (void) Take_Damage: (int) amount {
-	curr_shield -= amount;
-	if (curr_shield < 0) {
-		curr_health += curr_shield;
-		curr_shield = 0;
+	current.shield -= amount;
+	if (current.shield < 0) {
+		current.health += current.shield;
+		current.shield = 0;
 	}
-	if (curr_health <= 0) {
-		curr_health = 0;
+	if (current.health <= 0) {
+		current.health = 0;
 		//return @"Death!";
 	}
 }
 
 - (void) Heal: (int) amount {
-	curr_health += amount;
-	if (curr_health > max_health) {
-		curr_shield += (curr_health - max_health);
-		curr_health = max_health;
-		if (curr_shield > max_shield)
-			curr_shield = max_shield;
+	current.health += amount;
+	if (current.health > max.health) {
+		current.shield += (current.health - max.health);
+		current.health = max.health;
+		if (current.shield > max.shield)
+			current.shield = max.shield;
 	}
 }
 
 - (void) Mana_Heal:(int)amount {
-	curr_mana += amount;
-	if (curr_mana > max_mana) {
-		curr_mana = max_mana;
+	current.mana += amount;
+	if (current.mana > max.mana) {
+		current.mana = max.mana;
 	}
 }
 
@@ -146,31 +142,62 @@
 - (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ rem_condition; }
 - (void) Clear_Condition { condition = NO_CONDITION; }
 
-- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
-	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
-		new_item.item_slot == BOTH && dest_slot == RIGHT){
-		//Item fits in slot
-		if (new_item.item_slot == BOTH && dest_slot == RIGHT && l_hand != nil)
-			[self Remove_Equipment: LEFT];
-
-		[self Update_Stats_Item:new_item];
-		switch (dest_slot) {
-			case HEAD:
-				head = new_item;
-				break;
-			case CHEST:
-				chest = new_item;
-				break;
-			case LEFT:
-				l_hand = new_item;
-				break;
-			case RIGHT:
-				r_hand = new_item;
-				break;				
-		};
-	} else {
-		//Item slot error
+- (slotType) destinationForEitherHandItem
+{
+	//some simple logic for now. can be modified later to launch menu
+	if(equipment.r_hand == nil)
+	{
+		return RIGHT;
 	}
+	else if(equipment.l_hand == nil && equipment.r_hand.item_slot != BOTH)
+	{
+		return LEFT;
+	}
+	else 
+	{
+		return RIGHT;
+	}
+}
+
+- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
+/*	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
+		new_item.item_slot == BOTH && dest_slot == RIGHT){
+*/		//Item fits in slot
+
+	slotType destination = dest_slot;
+	slotType itemSlot = new_item.item_slot;
+	
+	if(itemSlot == BAG)
+	{
+		return;
+	}
+	else if(itemSlot == BOTH)
+	{
+		destination = RIGHT;
+		if(equipment.l_hand != nil)
+			[self Remove_Equipment:LEFT];
+	}
+	else if(itemSlot ==  EITHER)
+	{
+		destination = [self destinationForEitherHandItem];
+	}
+	
+	[self Update_Stats_Item:new_item];
+	switch (destination) {
+		case HEAD:
+			equipment.head = new_item;
+			break;
+		case CHEST:
+			equipment.chest = new_item;
+			break;
+		case LEFT:
+			equipment.l_hand = new_item;
+			break;
+		case RIGHT:
+			equipment.r_hand = new_item;
+			break;				
+	};
+	
 	//Item removed from cursor
 	return;
 }
@@ -179,31 +206,34 @@
 	Item *rem_item;
 	switch (dest_slot) {
 		case HEAD:
-			rem_item = head;
-			head = nil;
+			rem_item = equipment.head;
+			equipment.head = nil;
 			break;
 		case CHEST:
-			rem_item = chest;
-			chest = nil;
+			rem_item = equipment.chest;
+			equipment.chest = nil;
 			break;
 		case LEFT:
-			rem_item = l_hand;
-			l_hand = nil;
+			rem_item = equipment.l_hand;
+			equipment.l_hand = nil;
 			break;
 		case RIGHT:
-			rem_item = r_hand;
-			r_hand = nil;
+			rem_item = equipment.r_hand;
+			equipment.r_hand = nil;
 			break;				
 	};
-	max_health -= rem_item.hp;
-	max_shield -= rem_item.shield;
-	max_mana -= rem_item.mana;
-	if(curr_health > max_health)
-		curr_health = max_health;
-	if(curr_shield > max_shield)
-		curr_shield = max_shield;
-	if(curr_mana > max_mana)
-		curr_mana = max_mana;
+	max.health -= rem_item.hp;
+	max.shield -= rem_item.shield;
+	max.mana -= rem_item.mana;
+	real.health -= rem_item.hp;
+	real.shield -= rem_item.shield;
+	real.mana -= rem_item.mana;
+	if(current.health > max.health)
+		current.health = max.health;
+	if(current.shield > max.shield)
+		current.shield = max.shield;
+	if(current.mana > max.mana)
+		current.mana = max.mana;
 	//Resists
 	fire -= rem_item.fire;
 	cold -= rem_item.cold;
@@ -243,11 +273,44 @@
 	//return rem_item;
 };
 
-- (int) weapon_damage {
+- (int) regular_weapon_damage {
 	int dmg = 0;
-	if (r_hand != NULL) dmg+=r_hand.damage;
-	if (l_hand != NULL && (l_hand.item_type == SWORD_ONE_HAND || l_hand.item_type == DAGGER)) dmg+=l_hand.damage * OFFHAND_DMG_PERCENTAGE;
+	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.damage;
+	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.damage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
 }
 
+- (int) elemental_weapon_damage {
+	int dmg = 0;
+	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.elem_damage;
+	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.elem_damage * OFFHAND_DMG_PERCENTAGE;
+	return dmg;
+}
+
+@end
+
+@implementation EquipSlots
+@synthesize head;
+@synthesize chest;
+@synthesize l_hand;
+@synthesize r_hand;
+- (id) init
+{
+	if(self = [super init])
+	{
+		head = nil;
+		chest = nil;
+		l_hand = nil;
+		r_hand = nil;
+		return self;
+	}
+	return nil;
+}
+@end
+
+@implementation Points
+@synthesize health;
+@synthesize shield;
+@synthesize mana;
+@synthesize turn_speed;
 @end

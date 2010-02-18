@@ -9,6 +9,8 @@
 #import <UIKit/UIKit.h>
 #import "InventoryItemButton.h"
 
+
+
 @interface InventoryScrollView : UIScrollView <InventoryButtonDelegate>
 {
 	NSMutableArray *drawnItems;
@@ -16,5 +18,9 @@
 }
 
 - (void) updateWithItemArray:(NSArray*) items;
+
+- (void) dropCurrentItem;
+- (void) useCurrentItem;
+- (void) equipCurrentItem;
 
 @end

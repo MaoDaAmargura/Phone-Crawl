@@ -9,9 +9,22 @@
 #import "InventoryScrollView.h"
 #import "PCPopupMenu.h"
 
-PCPopupMenu *currentItemMenu;
+#import "HomeTabViewController.h"
+#import "Phone_CrawlAppDelegate.h"
+#import "Engine.h"
+#import "Item.h"
+
+PCPopupMenu *currentItemMenu = nil;
+Item *currentItem = nil;
 
 #define PAGE_WIDTH 320
+
+@interface InventoryScrollView (Private)
+
++ (void) clearCurrentItem;
+
+@end
+
 
 @implementation InventoryScrollView
 
@@ -104,7 +117,8 @@ PCPopupMenu *currentItemMenu;
  */
 - (void) pressedInvButton:(InventoryItemButton*)button
 {
-	[currentItemMenu removeFromSuperview];
+	[InventoryScrollView clearCurrentItem];
+	
 	int xoffset = ITEM_BUTTON_SIZE/2, yoffset = ITEM_BUTTON_SIZE/2;
 	if(button.frame.origin.x > 160)
 		xoffset = -xoffset;
@@ -112,15 +126,41 @@ PCPopupMenu *currentItemMenu;
 		yoffset = -yoffset;
 	CGPoint origin = CGPointMake(button.frame.origin.x + xoffset, button.frame.origin.y + yoffset);
 	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
-	[menu addMenuItem:@"Drop" delegate:self selector:@selector(drop)];
+	[menu addMenuItem:@"Drop" delegate:self selector:@selector(dropCurrentItem)];
 	
 	if(1/*[myItem isEquippable]*/)
-		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equip)];
+		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equipCurrentItem)];
 	if(1/*[myItem isUsable]*/)
-		[menu addMenuItem:@"Use" delegate:self selector:@selector(use)];
+		[menu addMenuItem:@"Use" delegate:self selector:@selector(useCurrentItem)];
 	
 	[menu showInView:self];
 	currentItemMenu = menu;
+	currentItem = button.item;
+}
+
+#pragma mark -
+#pragma mark ItenButtonCallbacks
+
+
+- (void) dropCurrentItem
+{
+	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
+	[gEngine playerDropItem:currentItem];
+	[InventoryScrollView clearCurrentItem];
+}
+
+- (void) useCurrentItem
+{
+	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
+	[gEngine playerUseItem:currentItem];
+	[InventoryScrollView clearCurrentItem];
+}
+
+- (void) equipCurrentItem
+{
+	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
+	[gEngine playerEquipItem:currentItem];
+	[InventoryScrollView clearCurrentItem];
 }
 
 
@@ -140,14 +180,20 @@ PCPopupMenu *currentItemMenu;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[currentItemMenu removeFromSuperview];
-	currentItemMenu = nil;
+	[InventoryScrollView clearCurrentItem];
 	[super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
 	[super touchesCancelled:touches withEvent:event];
+}
+
++ (void) clearCurrentItem
+{
+	[currentItemMenu removeFromSuperview];
+	currentItemMenu = nil;
+	currentItem = nil;
 }
 
 @end

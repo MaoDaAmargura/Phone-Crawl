@@ -457,16 +457,16 @@ typedef enum {
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
-	NSMutableArray *connected = [[NSMutableArray alloc] init];
+//	NSMutableArray *connected = [[NSMutableArray alloc] init];
 	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
 
-		connected = [self allConnected: dungeon onZLevel: 1];
-		for (NSMutableArray *tiles in connected) {
-			for (int SCV = 0; SCV < 12; SCV++) {
-				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
-			}
-		}
+//		connected = [self allConnected: dungeon onZLevel: 1];
+//		for (NSMutableArray *tiles in connected) {
+//			for (int SCV = 0; SCV < 12; SCV++) {
+//				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
+//			}
+//		}
 	}
 	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];

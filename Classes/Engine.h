@@ -5,6 +5,7 @@
 @class Dungeon;
 @class Coord;
 @class Item;
+@class EquipSlots;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -40,6 +41,13 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView;
 
+- (void) playerEquipItem:(Item*)i;
+- (void) playerUseItem:(Item*)i;
+- (void) playerDropItem:(Item*)i;
+
 - (NSArray*) getPlayerInventory;
+- (EquipSlots*) getPlayerEquippedItems;
+
+- (Creature*) player;
 
 @end

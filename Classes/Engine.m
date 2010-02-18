@@ -355,9 +355,9 @@
  */
 - (void) updateStatDisplayForWorldView:(WorldView *)wView
 {	
-	[wView setDisplay:displayStatHealth withAmount:player.curr_health ofMax:player.max_health];
-	[wView setDisplay:displayStatShield withAmount:player.curr_shield ofMax:player.max_shield];
-	[wView setDisplay:displayStatMana withAmount:player.curr_mana ofMax:player.max_mana];
+	[wView setDisplay:displayStatHealth withAmount:player.current.health ofMax:player.max.health];
+	[wView setDisplay:displayStatShield withAmount:player.current.shield ofMax:player.max.shield];
+	[wView setDisplay:displayStatMana withAmount:player.current.mana ofMax:player.max.mana];
 }
 
 
@@ -442,6 +442,25 @@
 }
 
 #pragma mark -
+#pragma mark Player Commands
+
+- (void) playerEquipItem:(Item*)i
+{
+	[player Add_Equipment:i slot:i.item_slot];
+	
+}
+
+- (void) playerUseItem:(Item*)i
+{
+	
+}
+
+- (void) playerDropItem:(Item*)i
+{
+	
+}
+
+#pragma mark -
 #pragma mark Custom Accessors
 
 - (void) setSelectedMoveTarget:(Coord *)loc
@@ -453,6 +472,16 @@
 - (NSArray*) getPlayerInventory
 {
 	return player.inventory;
+}
+
+- (EquipSlots*) getPlayerEquippedItems
+{
+	return player.equipment;
+}
+
+- (Creature*) player
+{
+	return player;
 }
 
 @end

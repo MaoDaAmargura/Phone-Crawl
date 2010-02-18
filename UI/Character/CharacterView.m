@@ -1,5 +1,6 @@
 #import "CharacterView.h"
-
+#import "Creature.h"
+#import "Item.h"
 
 @implementation CharacterView
 
@@ -11,13 +12,19 @@
 	}
 	return nil;
 }
-
+/*
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-
+	[delegate needUpdateForCharView:self];
 }
 
+- (void) viewWillAppear:(BOOL)animated
+{
+	[super viewWillAppear:animated];
+	[delegate needUpdateForCharView:self];
+}
+*/
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];
@@ -33,6 +40,17 @@
 
 - (void)dealloc {
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Control
+
+- (void) updateWithEquippedItems:(EquipSlots*) items
+{
+	[leftHandEquipImg setImage:[UIImage imageNamed:items.l_hand.item_icon]];
+	[rightHandEquipImg setImage:[UIImage imageNamed:items.r_hand.item_icon]];
+	[headArmorEquipImg setImage:[UIImage imageNamed:items.head.item_icon]];
+	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.item_icon]];
 }
 
 

@@ -51,10 +51,10 @@ BOOL have_set_spells = FALSE;
 		DLog(@"SPELL CAST ERROR: CASTER NIL");
 		return CAST_ERR;
 	}
-	if(target.curr_mana < mana_cost)
+	if(target.current.mana < mana_cost)
 		return ERR_NO_MANA;
 	
-	caster.curr_mana = (caster.curr_mana - mana_cost) < 0 ? 0 : (caster.curr_mana - mana_cost);
+	caster.current.mana = (caster.current.mana - mana_cost) < 0 ? 0 : (caster.current.mana - mana_cost);
 	
 	if (target_type == SELF || (target_type != SELF && [self Resist_Check:caster target:target])) {
 		
@@ -169,14 +169,14 @@ BOOL have_set_spells = FALSE;
 - (int) haste: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
 	[caster Add_Condition:HASTENED];
-	caster.turn_speed += caster.turn_speed * (damage/100.0); // Increase turn speed by percentage
+	caster.current.turn_speed += caster.current.turn_speed * (damage/100.0); // Increase turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) freeze: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return CAST_ERR;
 	[target Add_Condition:CHILLED];
-	target.turn_speed -= target.turn_speed * (damage / 100.0); // Decrease turn speed by percentage
+	target.current.turn_speed -= target.current.turn_speed * (damage / 100.0); // Decrease turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
@@ -191,8 +191,8 @@ BOOL have_set_spells = FALSE;
 - (int) taint: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return CAST_ERR;
 	[target Add_Condition:WEAKENED];
-	target.max_health -= target.max_health * (damage / 100.0); // Decrease max health by percentage
-	target.max_shield -= target.max_shield * (damage / 100.0); // Decrease max shield by percentage
+	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
+	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
 	return SPELL_NO_DAMAGE;
 }
 

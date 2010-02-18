@@ -16,21 +16,24 @@
 #define OFFHAND_DMG_PERCENTAGE 0.75
 
 @class Creature;
+
 typedef enum {
 	SWORD_ONE_HAND = 0, // 1 handed sword
 	SWORD_TWO_HAND = 1, // 2 handed sword
 	BOW = 2, // Bow
 	DAGGER = 3, // Dagger
 	STAFF = 4, // Staff
-	HEAVY = 5, // Heavy armor
-	LIGHT = 6, // Light armor
-	SHIELD = 7, // Shield
+	SHIELD = 5, // Shield
+	HEAVY = 6, // Heavy armor
+	LIGHT = 7, // Light armor
 	POTION = 8, // Potion
 	WAND = 9, // Wand
 	SCROLL = 10 // Scroll
 } itemType;
 
 typedef enum {DULL,REGULAR,SHARP} itemQuality;
+
+
 
 @interface Item : NSObject {
 	NSString *item_name;
@@ -86,11 +89,11 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 +(Item *) generate_random_item: (int) dungeon_level
 					 elem_type: (elemType) elem_type;
 
--(Item *)initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
+- (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
 
-+(int) item_val : (Item *) item;
++ (int) item_val : (Item *) item;
 
--(Item *)initWithStats: (NSString *) in_name
+- (id) initWithStats: (NSString *) in_name
 			 icon_name: (NSString *) in_icon_name
 		  item_quality: (itemQuality) in_item_quality
 			 item_slot: (slotType) in_item_slot 

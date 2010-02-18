@@ -15,7 +15,7 @@
 
 @implementation InventoryItemButton
 
-@synthesize myItem, itemImage, delegate;
+@synthesize item = myItem, itemImage, delegate;
 
 - (id) init
 {
@@ -37,7 +37,7 @@
 + (InventoryItemButton*) buttonWithItem:(Item*)it
 {
 	InventoryItemButton *ret = [[[InventoryItemButton alloc] init] autorelease];
-	ret.myItem = it;
+	ret.item = it;
 	ret.itemImage.image = [UIImage imageNamed:it.item_icon];
 	ret.hidden = NO;
 	ret.userInteractionEnabled = YES;

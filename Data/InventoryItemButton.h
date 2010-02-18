@@ -27,7 +27,7 @@
 
 - (void) launchMenu;
 
-@property (nonatomic, retain) Item *myItem;
+@property (nonatomic, retain) Item *item;
 @property (nonatomic, retain) UIImageView *itemImage;
 @property (nonatomic, retain) id<InventoryButtonDelegate> delegate;
 

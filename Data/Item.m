@@ -61,48 +61,64 @@ const int base_item_stats[10][9] = {
 @synthesize range;
 @synthesize charges;
 
--(Item *)initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type {
++ (NSString*) iconNameForItemType:(itemType)type slot:(slotType) slot 
+{
+    switch (type) 
+    {
+        case SWORD_ONE_HAND:
+            return @"swordsingle.png";
+        case SWORD_TWO_HAND:
+            return @"sworddual.png";
+        case BOW:
+            return @"bow.png";
+        case DAGGER:
+            return @"dagger.png";
+        case STAFF:
+            return @"staff.png";
+        case SHIELD:
+            return @"shield.png";
+        case HEAVY:
+            if(slot == HEAD)
+                return @"ring-blue.png";
+            else
+                return @"armor-heavy.png";
+        case LIGHT:
+            if (slot == HEAD)
+                return @"ring-gold.png";
+            else
+                return @"armor-light.png";
+
+    }
+    NSLog(@"Invalid Item Type %d", type);
+    return nil;
+}
+
+
+- (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type {
     if (self = [super init]) {
         if (in_item_type == SWORD_ONE_HAND || in_item_type == DAGGER || in_item_type == SWORD_TWO_HAND)
             item_quality = [Rand min: DULL max: SHARP];
         else item_quality = REGULAR;
-        switch (in_item_type) {
-            case SWORD_ONE_HAND:
-                item_icon = @"swordsingle.png";
-            case DAGGER:
-                if (in_item_type == DAGGER)
-                    item_icon = @"dagger.png";
-            case SWORD_TWO_HAND:
-                if (in_item_type == SWORD_TWO_HAND)
-                    item_icon = @"sworddual.png";
-            case STAFF:
-                if (in_item_type == STAFF)
-                    item_icon = @"staff.png";
-            case SHIELD:
-                if (in_item_type == SHIELD)
-                    item_icon = @"staff.png";
-            case BOW:
-                if (in_item_type == BOW)
-                    item_icon = @"staff.png";
-                if (arc4random() % 2)
-                    item_name = [NSString stringWithFormat:@"%s %s",elem_string1[dungeon_elem],name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
-                else
-                    item_name = [NSString stringWithFormat:@"%s of %s", name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]], elem_string2[dungeon_elem]];
-                break;
-            case HEAVY:
-                if (in_item_type == HEAVY)
-                    item_icon = @"armor-heavy.png";
-            case LIGHT:
-                if (in_item_type == LIGHT)
-                    item_icon = @"armor-light.png";
-                if (arc4random() % 2)
-                    item_name = [NSString stringWithFormat:@"%s %s %s",elem_string1[dungeon_elem],(in_slot_type == CHEST)?@"Breastplate":@"Helm",
-                                 name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM]];
-                else
-                    item_name = [NSString stringWithFormat:@"%s %s of %s",name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM],
-                                 (in_slot_type == CHEST)?@"Breastplate":@"Helm",elem_string2[dungeon_elem]];
-                break;
+        
+        item_icon = [Item iconNameForItemType:in_item_type slot:in_slot_type];
+        
+        if(in_item_type < HEAVY) // Item Is a weapon
+        {
+            if (arc4random() % 2)
+                item_name = [NSString stringWithFormat:@"%s %s",elem_string1[dungeon_elem],name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
+            else
+                item_name = [NSString stringWithFormat:@"%s of %s", name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]], elem_string2[dungeon_elem]];
         }
+        else if (in_item_type < POTION) // Item Is Armor
+        {
+            if (arc4random() % 2)
+                item_name = [NSString stringWithFormat:@"%s %s %s",elem_string1[dungeon_elem],(in_slot_type == CHEST)?@"Breastplate":@"Helm",
+                             name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM]];
+            else
+                item_name = [NSString stringWithFormat:@"%s %s of %s",name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM],
+                             (in_slot_type == CHEST)?@"Breastplate":@"Helm",elem_string2[dungeon_elem]];
+        }
+            
         int base_stat_index = in_item_type + (in_slot_type == HEAD)? 3 : 0; //Offset needed because different base stats for helm and chest armor
         
         hp = dungeon_level * base_item_stats[base_stat_index][0];
@@ -141,7 +157,7 @@ const int base_item_stats[10][9] = {
     return nil;
 }
 
--(Item *)initWithStats: (NSString *) in_name
+-(id)initWithStats: (NSString *) in_name
              icon_name: (NSString *) in_icon_name
           item_quality: (itemQuality) in_item_quality
              item_slot: (slotType) in_item_slot 
@@ -216,7 +232,7 @@ const int base_item_stats[10][9] = {
             return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:BOTH];
         case HEAVY:
         case LIGHT:
-            return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:[Rand min: HEAD max: (NUM_ARMOR_TYPES + HEAD)]];
+            return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:[Rand min: HEAD max: (NUM_ARMOR_TYPES + HEAD - 1)]];
         case SHIELD:
             return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:LEFT];
         case POTION:

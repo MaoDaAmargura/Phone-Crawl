@@ -150,6 +150,11 @@
 	[gameEngine updateWorldView:wView];
 }
 
+- (void) needUpdateForCharView:(CharacterView*)charView
+{
+	[charView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
+}
+
 #pragma mark -
 #pragma mark New Tab View Controllers
 
@@ -166,6 +171,7 @@
 {
 	cView = [[[CharacterView alloc] init] autorelease];
 	//
+	cView.delegate = self;
 	cView.title = @"Character";
 	return cView;
 }
@@ -201,6 +207,8 @@
 {
 	if(viewController == iView)
 		[iView updateWithItemArray:[gameEngine getPlayerInventory]];
+	if(viewController == cView)
+		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
 }
 
 
