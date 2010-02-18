@@ -232,7 +232,7 @@ const int base_item_stats[10][9] = {
             return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:BOTH];
         case HEAVY:
         case LIGHT:
-            return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:[Rand min: HEAD max: (NUM_ARMOR_TYPES + HEAD)]];
+            return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:[Rand min: HEAD max: (NUM_ARMOR_TYPES + HEAD - 1)]];
         case SHIELD:
             return [[Item alloc] initWithBaseStats:dungeon_level elem_type:elem_type item_type:item_type item_slot:LEFT];
         case POTION:
