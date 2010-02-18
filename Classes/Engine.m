@@ -227,6 +227,9 @@
 	UIImage *white = [UIImage imageNamed: @"white-dot.png"];
 	UIImage *green = [UIImage imageNamed: @"green-dot.png"];
 	UIImage *black = [UIImage imageNamed: @"black-dot.png"];
+	UIImage *orange = [UIImage imageNamed: @"orange-dot.png"];
+	UIImage *blue = [UIImage imageNamed: @"blue-dot.png"];
+//	UIImage *black = [UIImage imageNamed: @"black-dot.png"];
 
 	Coord *playerLoc = [player creatureLocation];
 	int z = playerLoc.Z;
@@ -240,13 +243,24 @@
 				[green drawInRect: rect];
 				continue;
 			}
-			
-			if ([currentDungeon tileAtX: x Y: y Z: z].blockMove) {
+
+			Tile *tile = [currentDungeon tileAtX: x Y: y Z: z];
+			if (tile.blockMove) {
 				[black drawInRect: rect];
+				continue;
 			}
-			else {
-				[white drawInRect: rect];
+
+			if (tile.slope == slopeUp) {
+				[blue drawInRect: rect];
+				continue;
 			}
+
+			if (tile.slope == slopeDown) {
+				[orange drawInRect: rect];
+				continue;
+			}			
+
+			[white drawInRect: rect];
 		}
 	}
 

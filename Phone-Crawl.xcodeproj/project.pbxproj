@@ -37,6 +37,8 @@
 		D7C953F4112CB2DD00CCF8AC /* green-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C953F3112CB2DD00CCF8AC /* green-dot.png */; };
 		D7C953F6112CB2E700CCF8AC /* white-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C953F5112CB2E700CCF8AC /* white-dot.png */; };
 		D7C95402112CB47600CCF8AC /* black-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95401112CB47600CCF8AC /* black-dot.png */; };
+		D7C95426112CBAB500CCF8AC /* blue-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95425112CBAB500CCF8AC /* blue-dot.png */; };
+		D7C95428112CBAC200CCF8AC /* orange-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95427112CBAC200CCF8AC /* orange-dot.png */; };
 		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
 		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
@@ -163,6 +165,8 @@
 		D7C953F3112CB2DD00CCF8AC /* green-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-dot.png"; sourceTree = "<group>"; };
 		D7C953F5112CB2E700CCF8AC /* white-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white-dot.png"; sourceTree = "<group>"; };
 		D7C95401112CB47600CCF8AC /* black-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black-dot.png"; sourceTree = "<group>"; };
+		D7C95425112CBAB500CCF8AC /* blue-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue-dot.png"; sourceTree = "<group>"; };
+		D7C95427112CBAC200CCF8AC /* orange-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-dot.png"; sourceTree = "<group>"; };
 		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
 		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
@@ -529,6 +533,8 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D7C95427112CBAC200CCF8AC /* orange-dot.png */,
+				D7C95425112CBAB500CCF8AC /* blue-dot.png */,
 				D7C95401112CB47600CCF8AC /* black-dot.png */,
 				D7C953F5112CB2E700CCF8AC /* white-dot.png */,
 				D7C953F3112CB2DD00CCF8AC /* green-dot.png */,
@@ -783,6 +789,8 @@
 				D7C953F4112CB2DD00CCF8AC /* green-dot.png in Resources */,
 				D7C953F6112CB2E700CCF8AC /* white-dot.png in Resources */,
 				D7C95402112CB47600CCF8AC /* black-dot.png in Resources */,
+				D7C95426112CBAB500CCF8AC /* blue-dot.png in Resources */,
+				D7C95428112CBAC200CCF8AC /* orange-dot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

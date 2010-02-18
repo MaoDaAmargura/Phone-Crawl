@@ -12,7 +12,19 @@
 
 extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
 
-#pragma mark --private
+static tileType deadTile [] = {
+//	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
+//	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
+//	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
+//	tileGroundCrumbling, tileStoneCrumbling
+
+tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
+tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
+tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
+tileNone, tileConcrete
+};
+
+#pragma mark --private methods
 
 @interface LevelGen ()
 
@@ -97,22 +109,27 @@ extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramI
 	return [twoDimens autorelease];
 }
 
++ (void) bomb: (Dungeon*) dungeon targeting: (NSMutableArray*) targets tightly: (bool) tight towardsCenter: (bool) directed {
+	Tile *target = [targets objectAtIndex: [Rand min: 0 max: [targets count] - 1]];
+
+//	int height = [Rand min: 3 max: 9];
+//	int width = 12 - height;
+
+//	int xRange = tight?  FIXME
+	int xBegin = target.x + [Rand min: -6 max: 6];
+	int yBegin = target.y + [Rand min: -6 max: 6];
+
+	for (int x = xBegin - 6; x <= xBegin + 6; x++) {
+		for (int y = yBegin - 6; y <= yBegin + 6; y++) {
+			Tile *curr = [dungeon tileAtX: x Y: y Z: target.z];
+			if (curr) [curr initWithTileType: tileConcrete];
+		}
+	}
+}
+
 
 #pragma mark -
 #pragma mark Game of Life
-
-
-static tileType deadTile [] = {
-//	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
-//	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
-//	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
-//	tileGroundCrumbling, tileStoneCrumbling
-
-	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
-	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
-	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
-	tileNone, tileConcrete
-};
 
 typedef enum {
 	agentOrange, average, fecund
@@ -437,11 +454,21 @@ typedef enum {
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
 
 
+
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
-	for (int LCV = 0; LCV < 4; LCV++) {
+	NSMutableArray *connected = [[NSMutableArray alloc] init];
+	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
+
+		connected = [self allConnected: dungeon onZLevel: 1];
+		for (NSMutableArray *tiles in connected) {
+			for (int SCV = 0; SCV < 12; SCV++) {
+				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
+			}
+		}
 	}
+	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
 	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
 	for (int LCV = 0; LCV < 4; LCV++) {
@@ -452,6 +479,7 @@ typedef enum {
 	}
 	[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: agentOrange];
 	[self followDownSlopes:dungeon fromZLevel:0];
+
 
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
