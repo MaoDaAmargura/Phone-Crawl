@@ -70,7 +70,7 @@
 	
 }
 
-- (id) initWithView:(WorldView*)wView
+- (id) init
 {
 	if(self = [super init])
 	{
@@ -150,8 +150,9 @@
 	
 	if (battleMode)
 	{
-		[battleMenu showInView:wView.view];
-		if (battleMenu != currentMenu) {
+		//[battleMenu showInView:wView.view];
+		//if (battleMenu != currentMenu) {
+		if (currentTarget != nil) {
 			[currentMenu showInView:wView.view];
 		}
 	}

@@ -36,7 +36,7 @@
 	
 }
 
-- (id) initWithView:(WorldView*)wView;
+- (id) init;
 
 - (void) setSelectedMoveTarget:(Coord*) loc;
 
