@@ -435,11 +435,22 @@
 #define PLAYER_INSTANT_TRANSMISSION true
 
 - (void) processTouch:(Coord *)tileCoord {
-	if(PLAYER_INSTANT_TRANSMISSION) {	
-		[self movePlayerToTileAtCoord:tileCoord];
-	} else {
-		[self setSelectedMoveTarget:tileCoord];
-	}	
+	BOOL touchMonster = NO;
+	for (Creature *m in liveEnemies) {
+		Coord *mp = [m creatureLocation];
+		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
+			touchMonster = YES;
+			break;
+		}
+	}
+	
+	if (touchMonster == NO) {
+		if(PLAYER_INSTANT_TRANSMISSION) {	
+			[self movePlayerToTileAtCoord:tileCoord];
+		} else {
+			[self setSelectedMoveTarget:tileCoord];
+		}
+	}
 }
 
 /*!
