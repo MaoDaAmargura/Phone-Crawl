@@ -41,3 +41,12 @@ typedef enum {
 + (int) min: (int) lowBound max: (int) highBound;
 
 @end
+
+
+@interface Util : NSObject {
+	;
+}
++ (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2;
+
+@end
+
