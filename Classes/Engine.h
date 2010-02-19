@@ -24,6 +24,10 @@
 	Coord *selectedMoveTarget;
 	Item *selectedItemToUse;
 	BOOL battleMode;
+	
+	Creature *currentTarget;
+	BOOL showBattleMenu;
+	
 }
 
 - (id) init;

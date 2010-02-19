@@ -10,6 +10,9 @@
 
 #import "WorldView.h"
 
+#import "PCPopupMenu.h"
+
+
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
@@ -74,6 +77,10 @@
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		
+		currentTarget = nil;
+		
+		showBattleMenu = NO;
+		
 		// create enemy for battle testing
 		Creature *creature = [Creature alloc];
 		[creature initWithLevel: 0];
@@ -88,6 +95,8 @@
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
+		
+		
 		return self;
 	}
 	return nil;
@@ -125,9 +134,18 @@
 		}
 	}
 	
+	if (currentTarget == nil) {
+		showBattleMenu = NO;
+	}
+	
 	if (battleMode)
 	{
-		//draw menu
+		if (showBattleMenu == YES) {
+			CGPoint origin = CGPointMake(0, 300);
+			PCPopupMenu *battleMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
+			//[battleMenu addMenuItem:@"quick attack" delegate:nil selector: nil];
+			//[battleMenu showInView:nil];
+		}
 	}
 	if (selectedItemToUse)
 	{
@@ -440,10 +458,11 @@
 		Coord *mp = [m creatureLocation];
 		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
 			touchMonster = YES;
+			currentTarget = m;
+			showBattleMenu = YES;
 			break;
 		}
 	}
-	
 	if (touchMonster == NO) {
 		if(PLAYER_INSTANT_TRANSMISSION) {	
 			[self movePlayerToTileAtCoord:tileCoord];
