@@ -73,6 +73,13 @@
 	{
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
+		
+		// create enemy for battle testing
+		Creature *creature = [Creature alloc];
+		[creature initWithLevel: 0];
+		creature.creatureLocation = [Coord withX:10 Y:10 Z:10];
+		[liveEnemies addObject:creature];
+		
 		tilesPerSide = 9;
 		
 		[self createDevPlayer];
