@@ -19,6 +19,7 @@
 @synthesize equipment;
 @synthesize current;
 @synthesize max;
+@synthesize aggro_range;
 
 
 #pragma mark -

@@ -113,6 +113,18 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	battleMode = FALSE;
+	// check to see if we are in battle mode
+	for (Creature *m in liveEnemies) {
+		Coord *pc = [player creatureLocation];
+		Coord *mc = [m creatureLocation];
+		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
+		if (dist <= player.aggro_range+m.aggro_range) {
+			battleMode = TRUE;
+			break;
+		}
+	}
+	
 	if (battleMode)
 	{
 		//draw menu
@@ -334,7 +346,6 @@
 - (void) drawMonsterForWorldView:(WorldView*)wView Monster:(Creature*)m
 {
 	CGSize tileSize = [self tileSizeForWorldView:wView];
-	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = [m creatureLocation];
 	Coord *c2 = [player creatureLocation];
 	Coord *dist = [Coord withX:center.X-c2.X Y:center.Y-c2.Y Z:0];
