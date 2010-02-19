@@ -340,10 +340,6 @@
 	Coord *dist = [Coord withX:center.X-c2.X Y:center.Y-c2.Y Z:0];
 	Coord *draw = [Coord withX:c2.X+dist.X*2 Y:c2.Y+dist.Y*2 Z:0];
 	CGPoint upperLeft = CGPointMake(draw.X-(4+dist.X), draw.Y-(4+dist.Y));
-	if (center.X > halfTile || center.Y > halfTile || center.X < -halfTile || center.Y < -halfTile) {
-		// monster is off the screen
-		//return;
-	}
 	
 	// Draw the monster on the proper tile.
 	// this is just for testing-need to make proper image draw later
