@@ -331,6 +331,19 @@
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 }
 
+- (void) drawMonsterForWorldView:(WorldView*)wView Monster:(Creature*)m
+{
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
+	Coord *center = [player creatureLocation];
+	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
+	
+	// Draw the monster on the proper tile.
+	// this is just for testing-need to make proper image draw later
+	UIImage *monsterSprite = [UIImage imageNamed:@"1elf-warrior-elvina-1.jpg"];
+	[monsterSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+}
+
 /*!
  @method		updateBackgroundImage
  @abstract		draws background image and player. 
