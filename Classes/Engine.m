@@ -77,7 +77,7 @@
 		// create enemy for battle testing
 		Creature *creature = [Creature alloc];
 		[creature initWithLevel: 0];
-		creature.creatureLocation = [Coord withX:10 Y:10 Z:10];
+		creature.creatureLocation = [Coord withX:2 Y:2 Z:0];
 		[liveEnemies addObject:creature];
 		
 		tilesPerSide = 9;
@@ -335,13 +335,20 @@
 {
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
-	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
+	Coord *center = [m creatureLocation];
+	Coord *c2 = [player creatureLocation];
+	Coord *dist = [Coord withX:center.X-c2.X Y:center.Y-c2.Y Z:0];
+	Coord *draw = [Coord withX:c2.X+dist.X*2 Y:c2.Y+dist.Y*2 Z:0];
+	CGPoint upperLeft = CGPointMake(draw.X-(4+dist.X), draw.Y-(4+dist.Y));
+	if (center.X > halfTile || center.Y > halfTile || center.X < -halfTile || center.Y < -halfTile) {
+		// monster is off the screen
+		//return;
+	}
 	
 	// Draw the monster on the proper tile.
 	// this is just for testing-need to make proper image draw later
 	UIImage *monsterSprite = [UIImage imageNamed:@"1elf-warrior-elvina-1.jpg"];
-	[monsterSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+	[monsterSprite drawInRect:CGRectMake((draw.X-upperLeft.x)*tileSize.width, (draw.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 }
 
 /*!
@@ -360,6 +367,10 @@
 	
 	[self drawTilesForWorldView:wView];
 	[self drawPlayerForWorldView:wView];
+	
+	for (Creature *m in liveEnemies) {
+		[self drawMonsterForWorldView:wView Monster:m];
+	}
 
 	UIGraphicsPopContext();
 
