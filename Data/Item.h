@@ -89,6 +89,8 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 +(Item *) generate_random_item: (int) dungeon_level
 					 elem_type: (elemType) elem_type;
 
++ (NSString *) level_to_numeral: (int) dungeon_level;
+
 - (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
 
 + (int) item_val : (Item *) item;

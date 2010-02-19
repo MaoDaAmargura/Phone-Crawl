@@ -68,7 +68,7 @@ const int base_item_stats[10][9] = {
         case SWORD_ONE_HAND:
             return @"swordsingle.png";
         case SWORD_TWO_HAND:
-            return @"sworddual.png";
+            return @"claymore.png";
         case BOW:
             return @"bow.png";
         case DAGGER:
@@ -79,12 +79,12 @@ const int base_item_stats[10][9] = {
             return @"shield.png";
         case HEAVY:
             if(slot == HEAD)
-                return @"ring-blue.png";
+                return @"helmet1.png";
             else
                 return @"armor-heavy.png";
         case LIGHT:
             if (slot == HEAD)
-                return @"ring-gold.png";
+                return @"helm2.png";
             else
                 return @"armor-light.png";
 
@@ -113,9 +113,9 @@ const int base_item_stats[10][9] = {
         {
             if (arc4random() % 2)
                 item_name = [NSString stringWithFormat:@"%s %s %s",elem_string1[dungeon_elem],(in_slot_type == CHEST)?@"Breastplate":@"Helm",
-                             name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM]];
+                             name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
             else
-                item_name = [NSString stringWithFormat:@"%s %s of %s",name_string[in_item_type][arc4random() % NUM_NAMES_PER_ITEM],
+                item_name = [NSString stringWithFormat:@"%s %s of %s",name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
                              (in_slot_type == CHEST)?@"Breastplate":@"Helm",elem_string2[dungeon_elem]];
         }
             
@@ -217,6 +217,19 @@ const int base_item_stats[10][9] = {
     else return [Spell cast_id:spell_id caster:caster target:target];
 }
 
++ (NSString *) level_to_numeral: (int) dungeon_level {
+    switch (dungeon_level) {
+        case 1: return @"-I";
+        case 2: return @"-II";
+        case 3: return @"-III";
+        //case 4: return @"-IV";
+        //case 5: return @"-V";
+        //Commented out until Roman Numeral 4 and 5 images created
+    }
+    NSLog(@"Invalid dungeon level specified, no numeral generated");
+    return @"";
+}
+
 // Generate a random item based on the dungeon level and elemental type
 
 +(Item *) generate_random_item: (int) dungeon_level
@@ -238,7 +251,7 @@ const int base_item_stats[10][9] = {
         case POTION:
             if (arc4random()%2)
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Healing",spell_name[dungeon_level]]
-                                          icon_name: @"potion-red.png"
+                                          icon_name: [NSString stringWithFormat:@"potion-red%@.png",[Item level_to_numeral:dungeon_level]]
                                        item_quality: REGULAR
                                           item_slot: BAG 
                                           elem_type: DARK 
@@ -259,7 +272,7 @@ const int base_item_stats[10][9] = {
                                            spell_id: ITEM_HEAL_SPELL_ID + dungeon_level - 1];
             else
                 return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%s Potion of Mana",spell_name[dungeon_level]]
-                                          icon_name: @"potion-green.png"
+                                          icon_name: [NSString stringWithFormat:@"potion-blue%@.png",[Item level_to_numeral:dungeon_level]]
                                        item_quality: REGULAR
                                           item_slot: BAG 
                                           elem_type: DARK 
@@ -325,10 +338,6 @@ const int base_item_stats[10][9] = {
             //NSLog("Error in random item generation");
             return nil;
     };
-	
-    /* Left to do:
-     *  - spell effects generation (need to get spells done first)
-     */
 	
 };
 
