@@ -6,6 +6,8 @@
 @class Coord;
 @class Item;
 @class EquipSlots;
+@class PCPopupMenu;
+@class WorldView;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -28,9 +30,11 @@
 	Creature *currentTarget;
 	BOOL showBattleMenu;
 	
+	PCPopupMenu *battleMenu;
+	
 }
 
-- (id) init;
+- (id) initWithView:(WorldView*)wView;
 
 - (void) setSelectedMoveTarget:(Coord*) loc;
 

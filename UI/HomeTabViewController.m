@@ -36,8 +36,6 @@
 {
 	mainTabController = [[UITabBarController alloc] init];
 	
-	gameEngine = [[Engine alloc] init];
-	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
 	[tabs addObject:[self initWorldView]];
 	[tabs addObject:[self initCharacterView]];
@@ -48,6 +46,8 @@
 	
 	self.view = mainTabController.view;
 	mainTabController.delegate = self;
+	
+	gameEngine = [[Engine alloc] initWithView:wView];
 	
 }
 

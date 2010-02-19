@@ -70,7 +70,7 @@
 	
 }
 
-- (id) init
+- (id) initWithView:(WorldView*)wView
 {
 	if(self = [super init])
 	{
@@ -95,6 +95,13 @@
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
+		
+		
+		CGPoint origin = CGPointMake(0, 300);
+		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[battleMenu addMenuItem:@"Attack" delegate:wView.view selector: nil];
+		[battleMenu addMenuItem:@"Spell" delegate:wView.view selector: nil];
+		[battleMenu addMenuItem:@"Item" delegate:wView.view selector: nil];
 		
 		
 		return self;
@@ -140,12 +147,9 @@
 	
 	if (battleMode)
 	{
-		if (showBattleMenu == YES) {
-			CGPoint origin = CGPointMake(0, 300);
-			PCPopupMenu *battleMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
-			//[battleMenu addMenuItem:@"quick attack" delegate:nil selector: nil];
-			//[battleMenu showInView:nil];
-		}
+		//if (showBattleMenu == YES) {
+			[battleMenu showInView:wView.view];
+		//}
 	}
 	if (selectedItemToUse)
 	{
