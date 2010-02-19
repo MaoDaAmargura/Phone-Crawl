@@ -50,4 +50,6 @@
 
 - (Creature*) player;
 
+- (void) processTouch:(Coord *) coord;
+
 @end

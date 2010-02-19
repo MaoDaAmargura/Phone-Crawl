@@ -432,6 +432,16 @@
 	}
 }
 
+#define PLAYER_INSTANT_TRANSMISSION true
+
+- (void) processTouch:(Coord *)tileCoord {
+	if(PLAYER_INSTANT_TRANSMISSION) {	
+		[self movePlayerToTileAtCoord:tileCoord];
+	} else {
+		[self setSelectedMoveTarget:tileCoord];
+	}	
+}
+
 /*!
  @method		tileSizeForWorldView
  @abstract		calculates the size of a tile in the current world view with the current tilesPerSide configuration.

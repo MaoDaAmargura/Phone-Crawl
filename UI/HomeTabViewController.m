@@ -131,15 +131,16 @@
 	
 	if([gameEngine canEnterTileAtCoord:tileCoord])
 	{
+		[gameEngine processTouch:tileCoord];
 		if(PLAYER_INSTANT_TRANSMISSION)
 		{	
-			[gameEngine movePlayerToTileAtCoord:tileCoord];
+			//[gameEngine movePlayerToTileAtCoord:tileCoord];
 			[gameEngine updateWorldView:worldView];
 		}
-		else
+		/*else
 		{
 			[gameEngine setSelectedMoveTarget:tileCoord];
-		}
+		}*/
 
 	}
 }
