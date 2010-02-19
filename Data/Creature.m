@@ -81,6 +81,7 @@
 	current.health = current.shield = current.mana = max.health;
 	fire = cold = lightning = poison = dark = 20;
 	armor = 0;
+	aggro_range = 1;
 	[self Update_Stats_Item:equipment.head];
 	[self Update_Stats_Item:equipment.chest];
 	[self Update_Stats_Item:equipment.l_hand];

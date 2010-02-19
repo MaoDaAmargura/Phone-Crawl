@@ -77,7 +77,7 @@
 		// create enemy for battle testing
 		Creature *creature = [Creature alloc];
 		[creature initWithLevel: 0];
-		creature.creatureLocation = [Coord withX:2 Y:2 Z:0];
+		creature.creatureLocation = [Coord withX:4 Y:0 Z:0];
 		[liveEnemies addObject:creature];
 		
 		tilesPerSide = 9;
