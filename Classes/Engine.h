@@ -31,6 +31,8 @@
 	BOOL showBattleMenu;
 	
 	PCPopupMenu *battleMenu;
+	PCPopupMenu *attackMenu;
+	PCPopupMenu *currentMenu;
 	
 }
 
@@ -59,5 +61,7 @@
 - (Creature*) player;
 
 - (void) processTouch:(Coord *) coord;
+
+- (void) showAttackMenu;
 
 @end

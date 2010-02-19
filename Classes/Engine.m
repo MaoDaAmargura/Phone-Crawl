@@ -99,11 +99,14 @@
 		
 		CGPoint origin = CGPointMake(0, 300);
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[battleMenu addMenuItem:@"Attack" delegate:wView.view selector: nil];
+		[battleMenu addMenuItem:@"Attack" delegate:wView.view selector:@selector(showAttackMenu)];
 		[battleMenu addMenuItem:@"Spell" delegate:wView.view selector: nil];
 		[battleMenu addMenuItem:@"Item" delegate:wView.view selector: nil];
 		
-		
+		origin = CGPointMake(60, 300);
+		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[attackMenu addMenuItem:@"Quick" delegate:wView.view selector: nil];
+		currentMenu = battleMenu;
 		return self;
 	}
 	return nil;
@@ -147,9 +150,10 @@
 	
 	if (battleMode)
 	{
-		//if (showBattleMenu == YES) {
-			[battleMenu showInView:wView.view];
-		//}
+		[battleMenu showInView:wView.view];
+		if (battleMenu != currentMenu) {
+			[currentMenu showInView:wView.view];
+		}
 	}
 	if (selectedItemToUse)
 	{
@@ -564,6 +568,13 @@
 - (Creature*) player
 {
 	return player;
+}
+
+#pragma mark -
+#pragma mark Menu functions
+
+- (void) showAttackMenu {
+	currentMenu = attackMenu;
 }
 
 @end
