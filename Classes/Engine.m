@@ -459,7 +459,7 @@
 	}
 }
 
-#define PLAYER_INSTANT_TRANSMISSION true
+#define PLAYER_INSTANT_TRANSMISSION false
 
 - (void) processTouch:(Coord *)tileCoord {
 	BOOL touchMonster = NO;
@@ -473,10 +473,15 @@
 		}
 	}
 	if (touchMonster == NO) {
-		if(PLAYER_INSTANT_TRANSMISSION) {	
+		if(PLAYER_INSTANT_TRANSMISSION) {
 			[self movePlayerToTileAtCoord:tileCoord];
 		} else {
-			[self setSelectedMoveTarget:tileCoord];
+			if (!battleMode) {
+				[self setSelectedMoveTarget:tileCoord];
+			} else {
+				Coord *c = [self nextStepBetween:player.creatureLocation and: tileCoord];
+				[self movePlayerToTileAtCoord: c];
+			}
 		}
 	}
 }
