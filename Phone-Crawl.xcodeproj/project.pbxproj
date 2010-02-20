@@ -12,10 +12,6 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
-		65A337F1112F4C63001BB370 /* potion-blue-I.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337ED112F4C63001BB370 /* potion-blue-I.png */; };
-		65A337F2112F4C63001BB370 /* potion-blue-II.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337EE112F4C63001BB370 /* potion-blue-II.png */; };
-		65A337F3112F4C63001BB370 /* potion-blue-III.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337EF112F4C63001BB370 /* potion-blue-III.png */; };
-		65A337F4112F4C63001BB370 /* potion-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F0112F4C63001BB370 /* potion-blue.png */; };
 		65A337F8112F4C79001BB370 /* potion-red-I.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F5112F4C79001BB370 /* potion-red-I.png */; };
 		65A337F9112F4C79001BB370 /* potion-red-II.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F6112F4C79001BB370 /* potion-red-II.png */; };
 		65A337FA112F4C79001BB370 /* potion-red-III.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F7112F4C79001BB370 /* potion-red-III.png */; };
@@ -150,10 +146,6 @@
 		28A0AB4B0D9B1048005BE974 /* Phone_Crawl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_Crawl_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		65A337ED112F4C63001BB370 /* potion-blue-I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-I.png"; sourceTree = "<group>"; };
-		65A337EE112F4C63001BB370 /* potion-blue-II.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-II.png"; sourceTree = "<group>"; };
-		65A337EF112F4C63001BB370 /* potion-blue-III.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-III.png"; sourceTree = "<group>"; };
-		65A337F0112F4C63001BB370 /* potion-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue.png"; sourceTree = "<group>"; };
 		65A337F5112F4C79001BB370 /* potion-red-I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-I.png"; sourceTree = "<group>"; };
 		65A337F6112F4C79001BB370 /* potion-red-II.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-II.png"; sourceTree = "<group>"; };
 		65A337F7112F4C79001BB370 /* potion-red-III.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-III.png"; sourceTree = "<group>"; };
@@ -850,10 +842,6 @@
 				D7C95426112CBAB500CCF8AC /* blue-dot.png in Resources */,
 				D7C95428112CBAC200CCF8AC /* orange-dot.png in Resources */,
 				D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */,
-				65A337F1112F4C63001BB370 /* potion-blue-I.png in Resources */,
-				65A337F2112F4C63001BB370 /* potion-blue-II.png in Resources */,
-				65A337F3112F4C63001BB370 /* potion-blue-III.png in Resources */,
-				65A337F4112F4C63001BB370 /* potion-blue.png in Resources */,
 				65A337F8112F4C79001BB370 /* potion-red-I.png in Resources */,
 				65A337F9112F4C79001BB370 /* potion-red-II.png in Resources */,
 				65A337FA112F4C79001BB370 /* potion-red-III.png in Resources */,
