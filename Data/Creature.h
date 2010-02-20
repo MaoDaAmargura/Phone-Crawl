@@ -133,5 +133,6 @@ typedef enum {
 @property (nonatomic) int poison;
 @property (nonatomic) int dark;
 @property (nonatomic) int armor;
+@property (nonatomic) int aggro_range;
 
 @end

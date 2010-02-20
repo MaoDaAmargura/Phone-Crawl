@@ -18,17 +18,17 @@
 @class Creature;
 
 typedef enum {
-	SWORD_ONE_HAND = 0, // 1 handed sword
-	SWORD_TWO_HAND = 1, // 2 handed sword
-	BOW = 2, // Bow
-	DAGGER = 3, // Dagger
-	STAFF = 4, // Staff
-	SHIELD = 5, // Shield
-	HEAVY = 6, // Heavy armor
-	LIGHT = 7, // Light armor
-	POTION = 8, // Potion
-	WAND = 9, // Wand
-	SCROLL = 10 // Scroll
+	SWORD_ONE_HAND = 0,
+	SWORD_TWO_HAND = 1,
+	BOW = 2,
+	DAGGER = 3,
+	STAFF = 4,
+	SHIELD = 5,
+	HEAVY = 6,
+	LIGHT = 7,
+	POTION = 8,
+	WAND = 9,
+	SCROLL = 10
 } itemType;
 
 typedef enum {DULL,REGULAR,SHARP} itemQuality;
@@ -38,6 +38,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @interface Item : NSObject {
 	NSString *item_name;
 	NSString *item_icon;
+	BOOL is_equipable;
 	int damage;
 	int elem_damage;
 	int range; //Ranged damage for bow, staff
@@ -65,6 +66,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) elemType elem_type;
 @property (nonatomic) itemType item_type;
 
+@property (nonatomic,readonly) NSString *item_name;
 @property (nonatomic,readonly) NSString *item_icon;
 @property (nonatomic) int hp;
 @property (nonatomic) int shield;
@@ -80,6 +82,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int range;
 @property (nonatomic) int charges;
 @property (nonatomic) int spell_id;
+@property (nonatomic,readonly) BOOL is_equipable;
 
 // Need item_cast method
 

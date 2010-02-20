@@ -6,6 +6,8 @@
 @class Coord;
 @class Item;
 @class EquipSlots;
+@class PCPopupMenu;
+@class WorldView;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -14,6 +16,7 @@
 	
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
+	NSMutableArray *combatAbilities; 
 	
 	Creature *player;
 	
@@ -24,9 +27,16 @@
 	Coord *selectedMoveTarget;
 	Item *selectedItemToUse;
 	BOOL battleMode;
+	
+	Creature *currentTarget;
+	BOOL showBattleMenu;
+	
+	PCPopupMenu *battleMenu;
+	PCPopupMenu *attackMenu;
+	
 }
 
-- (id) init;
+- (id) initWithView:(UIView*)view;
 
 - (void) setSelectedMoveTarget:(Coord*) loc;
 
@@ -49,5 +59,13 @@
 - (EquipSlots*) getPlayerEquippedItems;
 
 - (Creature*) player;
+
+- (void) processTouch:(Coord *) coord;
+
+- (void) showAttackMenu;
+
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
+
+- (void) doStrike;
 
 @end

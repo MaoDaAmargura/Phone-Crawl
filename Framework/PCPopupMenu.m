@@ -131,7 +131,7 @@
 		UILabel *l = [[[UILabel alloc] initWithFrame:CGRectMake(0, MENU_ITEM_SIZE*index, POPUP_MENU_WIDTH, MENU_ITEM_SIZE)] autorelease];
 		[drawnItems addObject:l];
 		l.backgroundColor = [UIColor clearColor];
-		l.text = [i title];;
+		l.text = [i title];
 		[self addSubview:l];
 		++index;
 	}

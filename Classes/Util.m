@@ -41,3 +41,11 @@
 }
 
 @end
+
+@implementation Util
+
++ (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2 {
+	return abs(sqrt(pow(x1-x2,2)+pow(y1-y2,2)));
+}
+
+@end

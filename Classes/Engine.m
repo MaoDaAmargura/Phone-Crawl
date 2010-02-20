@@ -10,6 +10,11 @@
 
 #import "WorldView.h"
 
+#import "PCPopupMenu.h"
+
+#import "CombatAbility.h"
+
+
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
@@ -67,12 +72,28 @@
 	
 }
 
-- (id) init
+- (id) initWithView:(UIView*)view
 {
 	if(self = [super init])
 	{
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
+		
+		combatAbilities = [[NSMutableArray alloc] init];
+		
+		CombatAbility *strike = [[CombatAbility alloc] initWithInfo:@"Strike" damage:10 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
+		[combatAbilities addObject:strike];
+		
+		currentTarget = nil;
+		
+		showBattleMenu = NO;
+		
+		// create enemy for battle testing
+		Creature *creature = [Creature alloc];
+		[creature initWithLevel: 0];
+		creature.creatureLocation = [Coord withX:4 Y:0 Z:0];
+		[liveEnemies addObject:creature];
+		
 		tilesPerSide = 9;
 		
 		[self createDevPlayer];
@@ -81,6 +102,21 @@
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
+		
+		
+		CGPoint origin = CGPointMake(0, 300);
+		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
+		[battleMenu addMenuItem:@"Spell" delegate:self selector: nil context:nil];
+		[battleMenu showInView:view];
+		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
+		[battleMenu hide];
+		
+		origin = CGPointMake(60, 300);
+		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[attackMenu addMenuItem:@"Strike" delegate:self selector: @selector(doStrike) context:nil];
+		[attackMenu showInView:view];
+		[attackMenu hide];
 		return self;
 	}
 	return nil;
@@ -106,10 +142,26 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	if (battleMode)
-	{
-		//draw menu
+	battleMode = FALSE;
+	// check to see if we are in battle mode
+	for (Creature *m in liveEnemies) {
+		Coord *pc = [player creatureLocation];
+		Coord *mc = [m creatureLocation];
+		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
+		if (dist <= player.aggro_range+m.aggro_range) {
+			battleMode = TRUE;
+			selectedMoveTarget = nil;
+			break;
+		}
 	}
+	
+	if (currentTarget != nil) {
+		[battleMenu show];
+	} else {
+		[battleMenu hide];
+		[attackMenu hide];
+	}
+	
 	if (selectedItemToUse)
 	{
 		//use item
@@ -324,6 +376,21 @@
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 }
 
+- (void) drawMonsterForWorldView:(WorldView*)wView Monster:(Creature*)m
+{
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	Coord *center = [m creatureLocation];
+	Coord *c2 = [player creatureLocation];
+	Coord *dist = [Coord withX:center.X-c2.X Y:center.Y-c2.Y Z:0];
+	Coord *draw = [Coord withX:c2.X+dist.X*2 Y:c2.Y+dist.Y*2 Z:0];
+	CGPoint upperLeft = CGPointMake(draw.X-(4+dist.X), draw.Y-(4+dist.Y));
+	
+	// Draw the monster on the proper tile.
+	// this is just for testing-need to make proper image draw later
+	UIImage *monsterSprite = [UIImage imageNamed:@"1elf-warrior-elvina-1.jpg"];
+	[monsterSprite drawInRect:CGRectMake((draw.X-upperLeft.x)*tileSize.width, (draw.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+}
+
 /*!
  @method		updateBackgroundImage
  @abstract		draws background image and player. 
@@ -340,6 +407,10 @@
 	
 	[self drawTilesForWorldView:wView];
 	[self drawPlayerForWorldView:wView];
+	
+	for (Creature *m in liveEnemies) {
+		[self drawMonsterForWorldView:wView Monster:m];
+	}
 
 	UIGraphicsPopContext();
 
@@ -386,11 +457,51 @@
  */
 - (void) movePlayerToTileAtCoord:(Coord*)tileCoord
 {
-	player.creatureLocation = tileCoord;
-	slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
-	if (currSlope) {
-		player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
-      [self setSelectedMoveTarget:nil];
+	// check to make sure position is free of monsters
+	BOOL touchMonster = NO;
+	for (Creature *m in liveEnemies) {
+		Coord *mp = [m creatureLocation];
+		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
+			touchMonster = YES;
+			currentTarget = m;
+			showBattleMenu = YES;
+			break;
+		}
+	}
+	if (touchMonster == NO) {
+		player.creatureLocation = tileCoord;
+		slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
+		if (currSlope) {
+			player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
+			[self setSelectedMoveTarget:nil];
+		}
+	}
+}
+
+#define PLAYER_INSTANT_TRANSMISSION false
+
+- (void) processTouch:(Coord *)tileCoord {
+	BOOL touchMonster = NO;
+	for (Creature *m in liveEnemies) {
+		Coord *mp = [m creatureLocation];
+		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
+			touchMonster = YES;
+			currentTarget = m;
+			showBattleMenu = YES;
+			break;
+		}
+	}
+	if (touchMonster == NO) {
+		if(PLAYER_INSTANT_TRANSMISSION) {
+			[self movePlayerToTileAtCoord:tileCoord];
+		} else {
+			if (!battleMode) {
+				[self setSelectedMoveTarget:tileCoord];
+			} else {
+				Coord *c = [self nextStepBetween:player.creatureLocation and: tileCoord];
+				[self movePlayerToTileAtCoord: c];
+			}
+		}
 	}
 }
 
@@ -482,6 +593,24 @@
 - (Creature*) player
 {
 	return player;
+}
+
+#pragma mark -
+#pragma mark Menu functions
+
+- (void) showAttackMenu {
+	[attackMenu show];
+}
+
+#pragma mark -
+#pragma mark battle functions
+
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender {
+	printf("here");
+}
+
+- (void) doStrike {
+	[self basicAttack:player def:currentTarget];
 }
 
 @end
