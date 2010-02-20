@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="5"/>
+			<integer value="13"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -53,10 +53,24 @@
 							<int key="NSvFlags">292</int>
 							<object class="NSMutableArray" key="NSSubviews">
 								<bool key="EncodedWithXMLCoder">YES</bool>
+								<object class="IBUIImageView" id="342888673">
+									<reference key="NSNextResponder" ref="191373211"/>
+									<int key="NSvFlags">256</int>
+									<string key="NSFrame">{{1, -44}, {320, 480}}</string>
+									<reference key="NSSuperview" ref="191373211"/>
+									<bool key="IBUIOpaque">NO</bool>
+									<bool key="IBUIClipsSubviews">YES</bool>
+									<int key="IBUIContentMode">4</int>
+									<bool key="IBUIMultipleTouchEnabled">YES</bool>
+									<object class="NSCustomResource" key="IBUIImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">ui-inventorybg.png</string>
+									</object>
+								</object>
 								<object class="IBUIButton" id="697184419">
 									<reference key="NSNextResponder" ref="191373211"/>
 									<int key="NSvFlags">292</int>
-									<string key="NSFrame">{{40, 45}, {240, 45}}</string>
+									<string key="NSFrame">{{34, 41}, {253, 53}}</string>
 									<reference key="NSSuperview" ref="191373211"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -81,11 +95,15 @@
 										<int key="NSColorSpace">3</int>
 										<bytes key="NSWhite">MC41AA</bytes>
 									</object>
+									<object class="NSCustomResource" key="IBUINormalImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">ui-button-display.png</string>
+									</object>
 								</object>
 								<object class="IBUIButton" id="905614983">
 									<reference key="NSNextResponder" ref="191373211"/>
 									<int key="NSvFlags">292</int>
-									<string key="NSFrame">{{40, 115}, {240, 45}}</string>
+									<string key="NSFrame">{{34, 114}, {253, 53}}</string>
 									<reference key="NSSuperview" ref="191373211"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
@@ -100,17 +118,25 @@
 										<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="810783401"/>
+									<object class="NSCustomResource" key="IBUINormalImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">ui-button-sound.png</string>
+									</object>
 								</object>
 								<object class="IBUIButton" id="978538368">
 									<reference key="NSNextResponder" ref="191373211"/>
 									<int key="NSvFlags">292</int>
-									<string key="NSFrame">{{40, 185}, {240, 45}}</string>
+									<string key="NSFrame">{{34, 182}, {253, 53}}</string>
 									<reference key="NSSuperview" ref="191373211"/>
 									<bool key="IBUIOpaque">NO</bool>
 									<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
 									<int key="IBUIContentHorizontalAlignment">0</int>
 									<int key="IBUIContentVerticalAlignment">0</int>
-									<reference key="IBUIFont" ref="480309473"/>
+									<object class="NSFont" key="IBUIFont">
+										<string key="NSName">Papyrus</string>
+										<double key="NSSize">19</double>
+										<int key="NSfFlags">16</int>
+									</object>
 									<int key="IBUIButtonType">1</int>
 									<string key="IBUINormalTitle">Save and Logout</string>
 									<reference key="IBUIHighlightedTitleColor" ref="400691596"/>
@@ -119,6 +145,10 @@
 										<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="810783401"/>
+									<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">ui-button-empty.png</string>
+									</object>
 								</object>
 							</object>
 							<string key="NSFrameSize">{320, 436}</string>
@@ -202,6 +232,7 @@
 						<reference key="object" ref="191373211"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="342888673"/>
 							<reference ref="697184419"/>
 							<reference ref="905614983"/>
 							<reference ref="978538368"/>
@@ -226,6 +257,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">12</int>
 						<reference key="object" ref="978538368"/>
+						<reference key="parent" ref="191373211"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">13</int>
+						<reference key="object" ref="342888673"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</object>
@@ -256,7 +292,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{646, 228}, {320, 480}}</string>
+					<string>{{392, 228}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -279,7 +315,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">12</int>
+			<int key="maxID">13</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -456,6 +492,14 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">UIKit.framework/Headers/UIControl.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">UIImageView</string>
+					<string key="superclassName">UIView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBFrameworkSource</string>
+						<string key="minorKey">UIKit.framework/Headers/UIImageView.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
