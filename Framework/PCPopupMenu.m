@@ -67,7 +67,7 @@
 	CGRect newFrame = CGRectMake(origin.x, origin.y, POPUP_MENU_WIDTH, MENU_ITEM_SIZE);
 	if(self = [super initWithFrame:newFrame])
 	{
-		PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:@"Cancel" del:nil sel:nil] autorelease];
+		PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:@"Cancel" del:self sel:@selector(hide)] autorelease];
 		menuItems = [[NSMutableArray alloc] initWithCapacity:5];
 		[menuItems addObject:i];
 		backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, newFrame.size.width, newFrame.size.height)];
@@ -105,7 +105,7 @@
 		UILabel *l = [[[UILabel alloc] initWithFrame:CGRectMake(0, MENU_ITEM_SIZE*index, POPUP_MENU_WIDTH, MENU_ITEM_SIZE)] autorelease];
 		[drawnItems addObject:l];
 		l.backgroundColor = [UIColor clearColor];
-		l.text = [i title];;
+		l.text = [i title];
 		[self addSubview:l];
 		++index;
 	}

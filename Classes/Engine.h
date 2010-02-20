@@ -32,11 +32,10 @@
 	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
-	PCPopupMenu *currentMenu;
 	
 }
 
-- (id) init;
+- (id) initWithView:(UIView*)view;
 
 - (void) setSelectedMoveTarget:(Coord*) loc;
 

@@ -70,7 +70,7 @@
 	
 }
 
-- (id) init
+- (id) initWithView:(UIView*)view
 {
 	if(self = [super init])
 	{
@@ -101,12 +101,15 @@
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu)];
 		[battleMenu addMenuItem:@"Spell" delegate:self selector: nil];
+		[battleMenu showInView:view];
 		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
+		[battleMenu hide];
 		
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[attackMenu addMenuItem:@"Quick" delegate:self selector: nil];
-		currentMenu = battleMenu;
+		[attackMenu showInView:view];
+		[attackMenu hide];
 		return self;
 	}
 	return nil;
@@ -145,18 +148,13 @@
 		}
 	}
 	
-	if (currentTarget == nil) {
-		showBattleMenu = NO;
+	if (currentTarget != nil) {
+		[battleMenu show];
+	} else {
+		[battleMenu hide];
+		[attackMenu hide];
 	}
 	
-	if (battleMode)
-	{
-		//[battleMenu showInView:wView.view];
-		//if (battleMenu != currentMenu) {
-		if (currentTarget != nil) {
-			[currentMenu showInView:wView.view];
-		}
-	}
 	if (selectedItemToUse)
 	{
 		//use item
@@ -594,7 +592,7 @@
 #pragma mark Menu functions
 
 - (void) showAttackMenu {
-	currentMenu = attackMenu;
+	[attackMenu show];
 }
 
 @end

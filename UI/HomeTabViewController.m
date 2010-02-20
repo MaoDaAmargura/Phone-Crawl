@@ -47,7 +47,7 @@
 	self.view = mainTabController.view;
 	mainTabController.delegate = self;
 	
-	gameEngine = [[Engine alloc] init];
+	gameEngine = [[Engine alloc] initWithView:wView.view];
 	
 }
 
