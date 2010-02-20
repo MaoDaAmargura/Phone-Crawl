@@ -81,7 +81,7 @@
 		
 		combatAbilities = [[NSMutableArray alloc] init];
 		
-		CombatAbility *strike = [[CombatAbility alloc] initWithInfo:@"Strike" damage:10 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
+		strike = [[CombatAbility alloc] initWithInfo:@"Strike" damage:1000 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
 		[combatAbilities addObject:strike];
 		
 		currentTarget = nil;
@@ -142,6 +142,19 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	NSMutableArray *discard = [NSMutableArray array];
+	// remove all dead monsters
+	for (Creature *m in liveEnemies) {
+		if (m.current.health <= 0) {
+			if (m == currentTarget) {
+				currentTarget = nil;
+			}
+			[discard addObject:m];
+		}
+	}
+	[liveEnemies removeObjectsInArray:discard];
+	[deadEnemies addObjectsFromArray:discard];
+	
 	battleMode = FALSE;
 	// check to see if we are in battle mode
 	for (Creature *m in liveEnemies) {
@@ -605,12 +618,58 @@
 #pragma mark -
 #pragma mark battle functions
 
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender {
-	printf("here");
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action {
+	float basedamage = [attacker regular_weapon_damage];
+	basedamage *= action.damage;
+	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
+	[defender Take_Damage:finaldamage];
+}
+
+- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action {
+	float resist1;
+	// this assumes weapon is held in right hand
+	float elementDamage = [attacker elemental_weapon_damage];
+	elemType type1 = attacker.equipment.r_hand.elem_type;
+	conditionType condtype1;
+	switch (type1) {
+		case FIRE:
+			resist1 = defender.fire;
+			condtype1 = BURNED;
+			break;
+		case COLD:
+			resist1 = defender.cold;
+			condtype1 = CHILLED;
+			break;
+		case LIGHTNING:
+			resist1 = defender.lightning;
+			condtype1 = HASTENED;
+			break;
+		case POISON:
+			resist1 = defender.poison;
+			condtype1 = POISONED;
+			break;
+		case DARK:
+			resist1 = defender.dark;
+			condtype1 = CURSED;
+			break;
+		default:
+			resist1 = 0;
+			break;
+	}
+	// this to get resist done right. So now if resist is 0
+	// defender takes damage*100/100 = 100% damage
+	// but if resist is 100
+	// defender takes damage*0/100 = 0% damage
+	resist1 = resist1+(50-resist1)*2;
+	int finaldamage = (elementDamage * resist1 / 100);	
+	[defender Take_Damage:finaldamage];
+	
+	if ([Rand min:0 max:100] > 20 * action.ability_level)
+		[defender Add_Condition:condtype1];
 }
 
 - (void) doStrike {
-	[self basicAttack:player def:currentTarget];
+	[self basicAttack:player def:currentTarget action:strike];
 }
 
 @end

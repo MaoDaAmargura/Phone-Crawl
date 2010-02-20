@@ -27,7 +27,6 @@
 		65EFA017112F76E0000D4AC7 /* potion-blue-II.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA013112F76E0000D4AC7 /* potion-blue-II.png */; };
 		65EFA018112F76E0000D4AC7 /* potion-blue-III.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA014112F76E0000D4AC7 /* potion-blue-III.png */; };
 		65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA015112F76E0000D4AC7 /* potion-blue.png */; };
-		B09D78AB1107EEDC004C9922 /* Battle.m in Sources */ = {isa = PBXBuildFile; fileRef = B09D78AA1107EEDC004C9922 /* Battle.m */; };
 		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
@@ -168,8 +167,6 @@
 		65EFA014112F76E0000D4AC7 /* potion-blue-III.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-III.png"; sourceTree = "<group>"; };
 		65EFA015112F76E0000D4AC7 /* potion-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
-		B09D78A91107EEDC004C9922 /* Battle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Battle.h; sourceTree = "<group>"; };
-		B09D78AA1107EEDC004C9922 /* Battle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Battle.m; sourceTree = "<group>"; };
 		D76B4F8E110D2A6500BBF5C0 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
@@ -407,8 +404,6 @@
 			children = (
 				D931C3DF1106321A0032A3DD /* Engine.h */,
 				D931C3E01106321A0032A3DD /* Engine.m */,
-				B09D78A91107EEDC004C9922 /* Battle.h */,
-				B09D78AA1107EEDC004C9922 /* Battle.m */,
 			);
 			name = Engine;
 			sourceTree = "<group>";
@@ -888,7 +883,6 @@
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
-				B09D78AB1107EEDC004C9922 /* Battle.m in Sources */,
 				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
 				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
 				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,

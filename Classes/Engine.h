@@ -8,6 +8,7 @@
 @class EquipSlots;
 @class PCPopupMenu;
 @class WorldView;
+@class CombatAbility;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -17,6 +18,8 @@
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
 	NSMutableArray *combatAbilities; 
+	
+	CombatAbility *strike;
 	
 	Creature *player;
 	
@@ -64,7 +67,9 @@
 
 - (void) showAttackMenu;
 
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action;
+
+- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action;
 
 - (void) doStrike;
 
