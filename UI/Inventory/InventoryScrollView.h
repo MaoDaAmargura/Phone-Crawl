@@ -18,9 +18,9 @@
 }
 
 - (void) updateWithItemArray:(NSArray*) items;
-
+/*
 - (void) dropCurrentItem;
 - (void) useCurrentItem;
 - (void) equipCurrentItem;
-
+*/
 @end

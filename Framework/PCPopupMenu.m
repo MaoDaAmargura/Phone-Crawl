@@ -6,6 +6,8 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
+#pragma mark DO NOT MODIFY THIS CLASS WITHOUT ASKING ME
+
 #import "PCPopupMenu.h"
 
 #define MENU_ITEM_SIZE 20
@@ -14,10 +16,11 @@
 {
 	id target;
 	SEL method;
+	id context;
 	NSString *title;
 }
 
-- (id) initWithName:(NSString*)name del:(id) delegate sel:(SEL)selector;
+- (id) initWithName:(NSString*)name del:(id) del sel:(SEL)sel con:(id)con;
 - (NSString*) title;
 - (void) fire;
 
@@ -25,12 +28,13 @@
 
 @implementation PopupMenuItem
 
-- (id) initWithName:(NSString*)name del:(id) delegate sel:(SEL)selector
+- (id) initWithName:(NSString*)name del:(id)del sel:(SEL)sel con:(id)con
 {
 	if(self = [super init])
 	{
-		target = delegate;
-		method = selector;
+		target = del;
+		method = sel;
+		context = con;
 		title = name;
 		return self;
 	}
@@ -53,21 +57,37 @@
 	if ([target respondsToSelector:method])
 	{
 		IMP f = [target methodForSelector:method];
-		(f)(target, method);
+		if(context)
+			(f)(target, method, context);
+		else
+			(f)(target, method);
 	}
 }
 
 @end
 
+@interface PCPopupMenu (Private)
+
+- (void) resize;
+- (void) die;
+
+@end
+
+
 
 @implementation PCPopupMenu
+
+@synthesize hideOnFire, dieOnFire;
+
+#pragma mark -
+#pragma mark Life Cycle
 
 - (id) initWithOrigin:(CGPoint)origin
 {
 	CGRect newFrame = CGRectMake(origin.x, origin.y, POPUP_MENU_WIDTH, MENU_ITEM_SIZE);
 	if(self = [super initWithFrame:newFrame])
 	{
-		PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:@"Cancel" del:nil sel:nil] autorelease];
+		PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:@"Cancel" del:nil sel:nil con:nil] autorelease];
 		menuItems = [[NSMutableArray alloc] initWithCapacity:5];
 		[menuItems addObject:i];
 		backGroundImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, newFrame.size.width, newFrame.size.height)];
@@ -75,6 +95,9 @@
 		backGroundImageView.contentMode = UIViewContentModeScaleToFill;
 		[self addSubview:backGroundImageView];
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
+		hideOnFire = YES;
+		dieOnFire = NO;
+		self.exclusiveTouch = YES;
 		return self;
 	}
 	return nil;
@@ -86,11 +109,14 @@
 	[backGroundImageView release];
 	[drawnItems release];
 	[super dealloc];
-}					 
+}				
 
-- (void) addMenuItem:(NSString*)name delegate:(id) delegate selector:(SEL) selector
+#pragma mark -
+#pragma mark Menu Creation
+
+- (void) addMenuItem:(NSString*)name delegate:(id) delegate selector:(SEL) selector context:(id)context
 {
-	PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:name del:delegate sel:selector] autorelease];
+	PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:name del:delegate sel:selector con:context] autorelease];
 	[menuItems addObject:i];
 }
 
@@ -111,14 +137,18 @@
 	}
 }
 
+#pragma mark -
+#pragma mark Public Control
+
 - (void) showInView:(UIView*)view
 {
-	[self removeFromSuperview];
-	CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 20*[menuItems count]);
-	self.frame = newFrame;
-	backGroundImageView.frame = self.bounds;
+	if(self.superview)
+		[self removeFromSuperview];
+	
+	[self resize];
 	[self renderMenuItems];
 	[view addSubview:self];
+	[view bringSubviewToFront:self];
 	[self show];
 }
 
@@ -130,6 +160,23 @@
 - (void) hide
 {
 	self.hidden = YES;
+}
+
+#pragma mark -
+#pragma mark Private Control
+
+
+- (void) resize
+{
+	CGRect newFrame = CGRectMake(self.frame.origin.x, self.frame.origin.y, self.frame.size.width, 20*[menuItems count]);
+	self.frame = newFrame;
+	backGroundImageView.frame = self.bounds;
+}
+
+- (void) die
+{
+	[self hide];
+	[self removeFromSuperview];
 }
 
 #pragma mark -
@@ -151,8 +198,12 @@
 	CGPoint touch = [[[touches allObjects] objectAtIndex:0] locationInView:self];
 	int menuOption = touch.y/MENU_ITEM_SIZE;
 	PopupMenuItem *i = [menuItems objectAtIndex:([menuItems count] - menuOption - 1)];
+	if([self shouldHideOnFire])
+		[self hide];
+	if([self shouldDieOnFire])
+		[self die];
 	[i fire];
-	[super touchesEnded:touches withEvent:event];
+	//[super touchesEnded:touches withEvent:event];
 }
 
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event

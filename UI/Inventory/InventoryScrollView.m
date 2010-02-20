@@ -14,8 +14,8 @@
 #import "Engine.h"
 #import "Item.h"
 
-PCPopupMenu *currentItemMenu = nil;
-Item *currentItem = nil;
+//PCPopupMenu *currentItemMenu = nil;
+//Item *currentItem = nil;
 
 #define PAGE_WIDTH 320
 
@@ -117,7 +117,9 @@ Item *currentItem = nil;
  */
 - (void) pressedInvButton:(InventoryItemButton*)button
 {
-	[InventoryScrollView clearCurrentItem];
+	//[InventoryScrollView clearCurrentItem];
+	
+	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
 	
 	int xoffset = ITEM_BUTTON_SIZE/2, yoffset = ITEM_BUTTON_SIZE/2;
 	if(button.frame.origin.x > 160)
@@ -126,43 +128,44 @@ Item *currentItem = nil;
 		yoffset = -yoffset;
 	CGPoint origin = CGPointMake(button.frame.origin.x + xoffset, button.frame.origin.y + yoffset);
 	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
-	[menu addMenuItem:@"Drop" delegate:self selector:@selector(dropCurrentItem)];
+	[menu addMenuItem:@"Drop" delegate:gEngine selector:@selector(playerDropItem:) context:button.item];
+	menu.dieOnFire = YES;
 	
 	if(1/*[myItem isEquippable]*/)
-		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equipCurrentItem)];
+		[menu addMenuItem:@"Equip" delegate:gEngine selector:@selector(playerEquipItem:) context: button.item];
 	if(1/*[myItem isUsable]*/)
-		[menu addMenuItem:@"Use" delegate:self selector:@selector(useCurrentItem)];
+		[menu addMenuItem:@"Use" delegate:gEngine selector:@selector(playerUseItem:) context:button.item];
 	
 	[menu showInView:self];
-	currentItemMenu = menu;
-	currentItem = button.item;
+	//currentItemMenu = menu;
+	//currentItem = button.item;
 }
 
 #pragma mark -
 #pragma mark ItenButtonCallbacks
 
-
+/*
 - (void) dropCurrentItem
 {
-	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
+
 	[gEngine playerDropItem:currentItem];
-	[InventoryScrollView clearCurrentItem];
+	//[InventoryScrollView clearCurrentItem];
 }
 
 - (void) useCurrentItem
 {
 	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
 	[gEngine playerUseItem:currentItem];
-	[InventoryScrollView clearCurrentItem];
+	//[InventoryScrollView clearCurrentItem];
 }
 
 - (void) equipCurrentItem
 {
 	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
 	[gEngine playerEquipItem:currentItem];
-	[InventoryScrollView clearCurrentItem];
+	//[InventoryScrollView clearCurrentItem];
 }
-
+*/
 
 #pragma mark -
 #pragma mark UIResponder
@@ -180,7 +183,6 @@ Item *currentItem = nil;
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[InventoryScrollView clearCurrentItem];
 	[super touchesEnded:touches withEvent:event];
 }
 
@@ -188,12 +190,12 @@ Item *currentItem = nil;
 {
 	[super touchesCancelled:touches withEvent:event];
 }
-
+/*
 + (void) clearCurrentItem
 {
 	[currentItemMenu removeFromSuperview];
 	currentItemMenu = nil;
 	currentItem = nil;
 }
-
+*/
 @end
