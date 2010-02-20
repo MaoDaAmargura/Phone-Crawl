@@ -252,6 +252,8 @@ const int base_item_stats[10][9] = {
                                           icon_name: dungeon_level == 1 ? @"potion-red-I.png" :
                                                      dungeon_level == 2 ? @"potion-red-II.png" :
                                                      dungeon_level == 3 ? @"potion-red-III.png" :
+                                                     dungeon_level == 4 ? @"potion-red-IV.png" :
+                                                     dungeon_level == 5 ? @"potion-red-V.png" :
                                                      @"potion-red.png"
                                        item_quality: REGULAR
                                           item_slot: BAG 
@@ -276,6 +278,8 @@ const int base_item_stats[10][9] = {
                                           icon_name: dungeon_level == 1 ? @"potion-blue-I.png" :
                                                      dungeon_level == 2 ? @"potion-blue-II.png" :
                                                      dungeon_level == 3 ? @"potion-blue-III.png" :
+                                                     dungeon_level == 4 ? @"potion-blue-IV.png" :
+                                                     dungeon_level == 5 ? @"potion-blue-V.png" :
                                                      @"potion-blue.png"
                                        item_quality: REGULAR
                                           item_slot: BAG 
