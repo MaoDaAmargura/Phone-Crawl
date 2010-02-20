@@ -12,6 +12,8 @@
 
 #import "PCPopupMenu.h"
 
+#import "CombatAbility.h"
+
 
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
@@ -77,6 +79,11 @@
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		
+		combatAbilities = [[NSMutableArray alloc] init];
+		
+		CombatAbility *strike = [CombatAbility initWithInfo:@"Strike" damage:10 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
+		[combatAbilities addObject:strike];
+		
 		currentTarget = nil;
 		
 		showBattleMenu = NO;
@@ -107,7 +114,7 @@
 		
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[attackMenu addMenuItem:@"Quick" delegate:self selector: nil];
+		[attackMenu addMenuItem:@"Strike" delegate:self selector: @selector(doStrike)];
 		[attackMenu showInView:view];
 		[attackMenu hide];
 		return self;
@@ -593,6 +600,17 @@
 
 - (void) showAttackMenu {
 	[attackMenu show];
+}
+
+#pragma mark -
+#pragma mark battle functions
+
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender {
+	printf("here");
+}
+
+- (void) doStrike {
+	[self basicAttack:player def:currentTarget];
 }
 
 @end

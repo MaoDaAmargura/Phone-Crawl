@@ -17,7 +17,7 @@ NSMutableArray *ability_list;
 + (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
 - (int) use_ability: (Creature *) caster target: (Creature *) target;
 
-- (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
++ (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
 		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn;
 	
 

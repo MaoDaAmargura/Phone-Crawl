@@ -16,6 +16,7 @@
 	
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
+	NSMutableArray *combatAbilities; 
 	
 	Creature *player;
 	
@@ -62,5 +63,9 @@
 - (void) processTouch:(Coord *) coord;
 
 - (void) showAttackMenu;
+
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
+
+- (void) doStrike;
 
 @end

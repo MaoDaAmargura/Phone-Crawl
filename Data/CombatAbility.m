@@ -3,6 +3,10 @@
 
 #import "Creature.h"
 
+#define ADD_ABILITY(NAME,DMG,FN) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
+ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN] autorelease]]
+
+
 BOOL have_set_abilities = FALSE;
 
 @implementation CombatAbility
@@ -13,7 +17,7 @@ BOOL have_set_abilities = FALSE;
 @synthesize ability_level;
 
 
-- (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
++ (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
 		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn {
 	if (self = [super init]) {
 		name = in_name;
@@ -69,8 +73,6 @@ BOOL have_set_abilities = FALSE;
 	ability_list = [[[NSMutableArray alloc] init] autorelease];
 	
 	
-#define ADD_ABILITY(NAME,DMG,FN) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
-									ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN] autorelease]]
 	
 	ADD_ABILITY(@"Default Strike",80,detr);
 	ADD_ABILITY(@"Dildonic Strike of Death",1000000,detr);
