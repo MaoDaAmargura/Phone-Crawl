@@ -451,11 +451,24 @@
  */
 - (void) movePlayerToTileAtCoord:(Coord*)tileCoord
 {
-	player.creatureLocation = tileCoord;
-	slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
-	if (currSlope) {
-		player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
-      [self setSelectedMoveTarget:nil];
+	// check to make sure position is free of monsters
+	BOOL touchMonster = NO;
+	for (Creature *m in liveEnemies) {
+		Coord *mp = [m creatureLocation];
+		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
+			touchMonster = YES;
+			currentTarget = m;
+			showBattleMenu = YES;
+			break;
+		}
+	}
+	if (touchMonster == NO) {
+		player.creatureLocation = tileCoord;
+		slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
+		if (currSlope) {
+			player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
+			[self setSelectedMoveTarget:nil];
+		}
 	}
 }
 
