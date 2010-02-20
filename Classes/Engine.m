@@ -101,7 +101,7 @@
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu)];
 		[battleMenu addMenuItem:@"Spell" delegate:self selector: nil];
-		[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
+		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
 		
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
@@ -140,6 +140,7 @@
 		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
 		if (dist <= player.aggro_range+m.aggro_range) {
 			battleMode = TRUE;
+			selectedMoveTarget = nil;
 			break;
 		}
 	}
