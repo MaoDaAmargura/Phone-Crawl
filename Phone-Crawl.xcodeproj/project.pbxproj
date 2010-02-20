@@ -23,6 +23,10 @@
 		65A33806112F4C92001BB370 /* shield1.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A33800112F4C92001BB370 /* shield1.png */; };
 		65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD9D3A111CD37B00343473 /* CombatAbility.m */; };
 		65E8F37D110BFC06000BF581 /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E8F37C110BFC06000BF581 /* Spell.m */; };
+		65EFA016112F76E0000D4AC7 /* potion-blue-I.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA012112F76E0000D4AC7 /* potion-blue-I.png */; };
+		65EFA017112F76E0000D4AC7 /* potion-blue-II.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA013112F76E0000D4AC7 /* potion-blue-II.png */; };
+		65EFA018112F76E0000D4AC7 /* potion-blue-III.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA014112F76E0000D4AC7 /* potion-blue-III.png */; };
+		65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA015112F76E0000D4AC7 /* potion-blue.png */; };
 		B09D78AB1107EEDC004C9922 /* Battle.m in Sources */ = {isa = PBXBuildFile; fileRef = B09D78AA1107EEDC004C9922 /* Battle.m */; };
 		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
@@ -159,6 +163,10 @@
 		65AD9D3A111CD37B00343473 /* CombatAbility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatAbility.m; sourceTree = "<group>"; };
 		65E8F37B110BFC06000BF581 /* Spell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spell.h; sourceTree = "<group>"; };
 		65E8F37C110BFC06000BF581 /* Spell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spell.m; sourceTree = "<group>"; };
+		65EFA012112F76E0000D4AC7 /* potion-blue-I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-I.png"; sourceTree = "<group>"; };
+		65EFA013112F76E0000D4AC7 /* potion-blue-II.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-II.png"; sourceTree = "<group>"; };
+		65EFA014112F76E0000D4AC7 /* potion-blue-III.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue-III.png"; sourceTree = "<group>"; };
+		65EFA015112F76E0000D4AC7 /* potion-blue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-blue.png"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 		B09D78A91107EEDC004C9922 /* Battle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Battle.h; sourceTree = "<group>"; };
 		B09D78AA1107EEDC004C9922 /* Battle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Battle.m; sourceTree = "<group>"; };
@@ -592,14 +600,14 @@
 		D9FFB0E4110BA8E000536EA7 /* Consumable */ = {
 			isa = PBXGroup;
 			children = (
+				65EFA012112F76E0000D4AC7 /* potion-blue-I.png */,
+				65EFA013112F76E0000D4AC7 /* potion-blue-II.png */,
+				65EFA014112F76E0000D4AC7 /* potion-blue-III.png */,
+				65EFA015112F76E0000D4AC7 /* potion-blue.png */,
 				65A337F5112F4C79001BB370 /* potion-red-I.png */,
 				65A337F6112F4C79001BB370 /* potion-red-II.png */,
 				65A337F7112F4C79001BB370 /* potion-red-III.png */,
 				D9FFB0E8110BA8E000536EA7 /* potion-red.png */,
-				65A337ED112F4C63001BB370 /* potion-blue-I.png */,
-				65A337EE112F4C63001BB370 /* potion-blue-II.png */,
-				65A337EF112F4C63001BB370 /* potion-blue-III.png */,
-				65A337F0112F4C63001BB370 /* potion-blue.png */,
 				D9FFB0E5110BA8E000536EA7 /* potion-brown.png */,
 				D9FFB0E6110BA8E000536EA7 /* potion-green.png */,
 				D9FFB0E7110BA8E000536EA7 /* potion-purple.png */,
@@ -851,6 +859,10 @@
 				65A33804112F4C92001BB370 /* helmet1.png in Resources */,
 				65A33805112F4C92001BB370 /* helmet2.png in Resources */,
 				65A33806112F4C92001BB370 /* shield1.png in Resources */,
+				65EFA016112F76E0000D4AC7 /* potion-blue-I.png in Resources */,
+				65EFA017112F76E0000D4AC7 /* potion-blue-II.png in Resources */,
+				65EFA018112F76E0000D4AC7 /* potion-blue-III.png in Resources */,
+				65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
