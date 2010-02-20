@@ -128,9 +128,10 @@ Item *currentItem = nil;
 	PCPopupMenu *menu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
 	[menu addMenuItem:@"Drop" delegate:self selector:@selector(dropCurrentItem)];
 	
-	if(1/*[myItem isEquippable]*/)
+	//if(1/*[myItem isEquippable]*/)
+	if([button.item is_equipable])
 		[menu addMenuItem:@"Equip" delegate:self selector:@selector(equipCurrentItem)];
-	if(1/*[myItem isUsable]*/)
+	if(![button.item is_equipable])
 		[menu addMenuItem:@"Use" delegate:self selector:@selector(useCurrentItem)];
 	
 	[menu showInView:self];

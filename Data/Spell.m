@@ -330,14 +330,14 @@ BOOL have_set_spells = FALSE;
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	
-	NSEnumerator * enumerator = [spell_list objectEnumerator];
+	/*NSEnumerator * enumerator = [spell_list objectEnumerator];
 	Spell *element;
 	
 	while(element = [enumerator nextObject])
     {
 		// Do your thing with the object.
 		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-    }
+    }*/
 	
 }
 

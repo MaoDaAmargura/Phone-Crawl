@@ -485,7 +485,7 @@ typedef enum {
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
 
-	DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
+	//DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
 
 	return dungeon;
 }
