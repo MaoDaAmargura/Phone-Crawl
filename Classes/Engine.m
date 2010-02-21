@@ -660,8 +660,8 @@
 	// defender takes damage*100/100 = 100% damage
 	// but if resist is 100
 	// defender takes damage*0/100 = 0% damage
-	resist1 = resist1+(50-resist1)*2;
-	int finaldamage = (elementDamage * resist1 / 100);	
+	//resist1 = resist1+(50-resist1)*2;
+	int finaldamage = (elementDamage * (100-resist1) / 100);	
 	[defender Take_Damage:finaldamage];
 	
 	if ([Rand min:0 max:100] > 20 * action.ability_level)
@@ -670,6 +670,7 @@
 
 - (void) doStrike {
 	[self basicAttack:player def:currentTarget action:strike];
+	[self elementalAttack:player def:currentTarget action:strike];
 }
 
 @end
