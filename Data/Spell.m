@@ -147,9 +147,9 @@ BOOL have_set_spells = FALSE;
 
 - (int) heal_potion: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
-	DLog(@"In heal potion, healing for %d", damage);
+	//DLog(@"In heal potion, healing for %d", damage);
 	[caster Heal: damage];
-	DLog(@"Post heal");
+	//DLog(@"Post heal");
 	return SPELL_NO_DAMAGE;
 }
 
@@ -331,14 +331,9 @@ BOOL have_set_spells = FALSE;
 	ADD_SPELL(@"Major Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	ADD_SPELL(@"Superior Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	
-	/*NSEnumerator * enumerator = [spell_list objectEnumerator];
-	Spell *element;
-	
-	while(element = [enumerator nextObject])
-    {
-		// Do your thing with the object.
-		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-    }*/
+	//for(Spell *s in spell_list)
+	//	DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
+
 	
 }
 

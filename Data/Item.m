@@ -23,7 +23,7 @@ const NSString *name_string[8][NUM_NAMES_PER_ITEM] = {
 
 const NSString *elem_string1[] = {@"Fiery",@"Icy",@"Shocking",@"Venomous",@"Dark"};
 const NSString *elem_string2[] = {@"Fire",@"Ice",@"Lightning",@"Poison",@"Darkness"};
-const NSString *spell_name[] = {@"Lesser",@"Minor",@"",@"Major",@"Superior"};
+const NSString *spell_name[] = {@"Minor",@"Lesser",@"",@"Major",@"Superior"};
 
 const int base_item_stats[10][9] = {
   //{hp,shield,mana,resist,armor,damage,elemental damage,elemental stat adjustment}
@@ -223,6 +223,7 @@ const int base_item_stats[10][9] = {
 
 - (int) cast: (Creature *) caster target: (Creature *) target {
     if(spell_id == ITEM_NO_SPELL) return 0;
+    //DLog(@"Casting item: %@ (%d)",item_name,damage);
     [Spell cast_id:spell_id caster:caster target:target];
     return --charges;
 }
@@ -301,7 +302,7 @@ const int base_item_stats[10][9] = {
                                               armor: 0
                                            spell_id: ITEM_MANA_SPELL_ID + dungeon_level - 1];
         case WAND:
-            return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Wand of %@ Magic",spell_name[dungeon_level-1],elem_string1[dungeon_level-1]]
+            return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Wand of %@ Magic",spell_name[dungeon_level-1],elem_string1[elem_type]]
                                       icon_name: @"wand2.png"
                                    item_quality: REGULAR
                                       item_slot: BAG

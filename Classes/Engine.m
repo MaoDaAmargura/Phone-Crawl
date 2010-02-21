@@ -130,7 +130,7 @@
 		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Item* it in player.inventory) 
 			//if(!it.is_equipable)
-			if (it.item_type == 9) // need to get this to be dynamic but can't figure out how right now
+			if (it.item_type == WAND) // need to get this to be dynamic but can't figure out how right now
 				[itemMenu addMenuItem:it.item_name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
 		[itemMenu hide];
