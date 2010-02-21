@@ -627,7 +627,6 @@
 	[spellMenu show];
 }
 
-
 - (void) ability_handler: (NSNumber *) ability_id{
 	//DLog(@"ability handler");
 	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
@@ -636,6 +635,5 @@
 - (void) spell_handler: (NSNumber *) spell_id {
 	//DLog(@"spell handler");
 	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
-}
 
 @end
