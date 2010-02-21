@@ -592,12 +592,16 @@
 
 - (void) playerUseItem:(Item*)i
 {
-	
+	if( i == nil ) return;
+	if([i cast:player target:currentTarget] == 0)
+		[self playerDropItem:i];
 }
 
 - (void) playerDropItem:(Item*)i
-{
-	
+{	
+	if (i == nil) return;
+	[player.inventory removeObject:i];
+	//Currently does not update inventory view until press inventory screen's button again
 }
 
 #pragma mark -
@@ -649,6 +653,6 @@
 	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
 }
 - (void) item_handler: (Item*) it{
-	[it cast:player target:currentTarget];
+	[self playerUseItem:it];
 }
 @end
