@@ -124,8 +124,8 @@ BOOL have_set_abilities = FALSE;
 	ability_list = [[NSMutableArray alloc] init];
 	SEL detr = @selector(detr_ability:target:);
 	
-	ADD_ABILITY(@"Default Strike",80,detr);
-	ADD_ABILITY(@"Dildonic Strike of Death",1000,detr);
+	ADD_ABILITY(@"Strike",80,detr);
+	ADD_ABILITY(@"Heavy",1000,detr);
 }
 
 @end
