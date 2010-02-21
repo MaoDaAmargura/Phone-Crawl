@@ -2,10 +2,11 @@
 
 #define ABILITY_ERR -1
 
-NSMutableArray *ability_list;
+extern NSMutableArray* ability_list;
 
-@class Creature;
+@class Creature,PCPopupMenu;
 @interface CombatAbility : NSObject {
+
 	NSString *name;
 	int damage;
 	int ability_level; //Novice, Journeyman, Master
@@ -14,8 +15,8 @@ NSMutableArray *ability_list;
 }
 
 + (void) fill_ability_list;
-+ (int) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
-- (int) use_ability: (Creature *) caster target: (Creature *) target;
++ (void) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
+- (void) use_ability: (Creature *) caster target: (Creature *) target;
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
 		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn;
@@ -25,8 +26,9 @@ NSMutableArray *ability_list;
 
 
 //Specialized ability function example
-- (int) detr_ability: (Creature *) caster target: (Creature *) target;
-
+- (void) detr_ability: (Creature *) caster target: (Creature *) target;
+- (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
+- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender;
 
 @property (readonly) NSString *name;
 @property (readonly) int ability_id;

@@ -65,7 +65,7 @@
 											  dark: 0 
 											 armor: 0
 										  spell_id: ITEM_HEAL_SPELL_ID];
-	[Spell fill_spell_list];
+
 	DLog(@"Attempting to cast heal item");
 	[heal_test cast:player target:nil];
 	//[Spell cast_id:heal_test.spell_id caster:player target:nil];
@@ -76,13 +76,10 @@
 {
 	if(self = [super init])
 	{
+		[Spell fill_spell_list];
+		[CombatAbility fill_ability_list];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
-		
-		combatAbilities = [[NSMutableArray alloc] init];
-		
-		strike = [[CombatAbility alloc] initWithInfo:@"Strike" damage:1000 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
-		[combatAbilities addObject:strike];
 		
 		currentTarget = nil;
 		
@@ -107,16 +104,27 @@
 		CGPoint origin = CGPointMake(0, 300);
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
-		[battleMenu addMenuItem:@"Spell" delegate:self selector: nil context:nil];
+		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
 		[battleMenu showInView:view];
 		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
 		[battleMenu hide];
 		
+		
+		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[attackMenu addMenuItem:@"Strike" delegate:self selector: @selector(doStrike) context:nil];
+		for (CombatAbility* ca in ability_list) {
+			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:[[NSNumber alloc] initWithInt:ca.ability_id]];
+		}
 		[attackMenu showInView:view];
 		[attackMenu hide];
+		
+		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		for (Spell* spell in spell_list) {
+			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:[[NSNumber alloc] initWithInt:spell.spell_id]];
+		}
+		[spellMenu showInView:view];
+		[spellMenu hide];
 		return self;
 	}
 	return nil;
@@ -615,61 +623,19 @@
 	[attackMenu show];
 }
 
-#pragma mark -
-#pragma mark battle functions
-
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action {
-	float basedamage = [attacker regular_weapon_damage];
-	basedamage *= action.damage;
-	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
-	[defender Take_Damage:finaldamage];
+- (void) showSpellMenu {
+	[spellMenu show];
 }
 
-- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action {
-	float resist1;
-	// this assumes weapon is held in right hand
-	float elementDamage = [attacker elemental_weapon_damage];
-	elemType type1 = attacker.equipment.r_hand.elem_type;
-	conditionType condtype1;
-	switch (type1) {
-		case FIRE:
-			resist1 = defender.fire;
-			condtype1 = BURNED;
-			break;
-		case COLD:
-			resist1 = defender.cold;
-			condtype1 = CHILLED;
-			break;
-		case LIGHTNING:
-			resist1 = defender.lightning;
-			condtype1 = HASTENED;
-			break;
-		case POISON:
-			resist1 = defender.poison;
-			condtype1 = POISONED;
-			break;
-		case DARK:
-			resist1 = defender.dark;
-			condtype1 = CURSED;
-			break;
-		default:
-			resist1 = 0;
-			break;
-	}
-	// this to get resist done right. So now if resist is 0
-	// defender takes damage*100/100 = 100% damage
-	// but if resist is 100
-	// defender takes damage*0/100 = 0% damage
-	resist1 = resist1+(50-resist1)*2;
-	int finaldamage = (elementDamage * resist1 / 100);	
-	[defender Take_Damage:finaldamage];
-	
-	if ([Rand min:0 max:100] > 20 * action.ability_level)
-		[defender Add_Condition:condtype1];
-}
 
-- (void) doStrike {
-	[self basicAttack:player def:currentTarget action:strike];
+- (void) ability_handler: (NSNumber *) ability_id{
+	//DLog(@"ability handler");
+	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
+}
+	 
+- (void) spell_handler: (NSNumber *) spell_id {
+	//DLog(@"spell handler");
+	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
 }
 
 @end

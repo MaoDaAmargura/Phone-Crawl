@@ -9,6 +9,7 @@
 @class PCPopupMenu;
 @class WorldView;
 @class CombatAbility;
+@class Spell;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -17,9 +18,6 @@
 	
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
-	NSMutableArray *combatAbilities; 
-	
-	CombatAbility *strike;
 	
 	Creature *player;
 	
@@ -36,6 +34,7 @@
 	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
+	PCPopupMenu *spellMenu;
 	
 }
 
@@ -67,10 +66,9 @@
 
 - (void) showAttackMenu;
 
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action;
+- (void) showSpellMenu;
 
-- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender action:(CombatAbility*)action;
-
-- (void) doStrike;
+- (void) ability_handler: (NSNumber *) ability_id;
+- (void) spell_handler: (NSNumber *) spell_id;
 
 @end
