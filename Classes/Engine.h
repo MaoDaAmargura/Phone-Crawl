@@ -35,6 +35,7 @@
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
+	PCPopupMenu *itemMenu;
 	
 }
 
@@ -68,7 +69,10 @@
 
 - (void) showSpellMenu;
 
+- (void) showItemMenu;
+
 - (void) ability_handler: (NSNumber *) ability_id;
 - (void) spell_handler: (NSNumber *) spell_id;
+- (void) item_handler:(Item *)it;
 
 @end

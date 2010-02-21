@@ -105,8 +105,9 @@
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
 		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
+		[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
 		[battleMenu showInView:view];
-		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
+
 		[battleMenu hide];
 		
 		
@@ -125,6 +126,13 @@
 		}
 		[spellMenu showInView:view];
 		[spellMenu hide];
+		
+		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		for (Item* it in player.inventory) 
+			if(!it.is_equipable)
+				[itemMenu addMenuItem:it.item_name delegate:self selector:@selector(item_handler:) context:it];
+		[itemMenu showInView:view];
+		[itemMenu hide];
 		return self;
 	}
 	return nil;
@@ -627,6 +635,10 @@
 	[spellMenu show];
 }
 
+- (void) showItemMenu {
+	[itemMenu show];
+}
+
 - (void) ability_handler: (NSNumber *) ability_id{
 	//DLog(@"ability handler");
 	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
@@ -635,5 +647,8 @@
 - (void) spell_handler: (NSNumber *) spell_id {
 	//DLog(@"spell handler");
 	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
-
+}
+- (void) item_handler: (Item*) it{
+	[it cast:player target:currentTarget];
+}
 @end

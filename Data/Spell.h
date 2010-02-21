@@ -38,7 +38,7 @@ typedef enum {SELF,SINGLE} targetType;
 
 NSMutableArray *spell_list;
 
-@class Creature,PCPopupMenu;
+@class Creature;
 @interface Spell : NSObject {
 	NSString *name;
 	spellType spell_type; //Hurt or Help

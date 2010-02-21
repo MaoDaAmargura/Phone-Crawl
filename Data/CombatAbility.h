@@ -4,7 +4,7 @@
 
 extern NSMutableArray* ability_list;
 
-@class Creature,PCPopupMenu;
+@class Creature;
 @interface CombatAbility : NSObject {
 
 	NSString *name;
