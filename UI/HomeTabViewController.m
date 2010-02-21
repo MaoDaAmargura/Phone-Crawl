@@ -118,7 +118,7 @@
 	
 }
 
-#define PLAYER_INSTANT_TRANSMISSION true
+#define PLAYER_INSTANT_TRANSMISSION false
 
 /*!
  @method		worldSelectedAt
@@ -131,16 +131,17 @@
 	
 	if([gameEngine canEnterTileAtCoord:tileCoord])
 	{
-		[gameEngine processTouch:tileCoord];
+
 		if(PLAYER_INSTANT_TRANSMISSION)
 		{	
-			//[gameEngine movePlayerToTileAtCoord:tileCoord];
+			[gameEngine movePlayerToTileAtCoord:tileCoord];
 			[gameEngine updateWorldView:worldView];
 		}
-		/*else
+		else
 		{
-			[gameEngine setSelectedMoveTarget:tileCoord];
-		}*/
+			[gameEngine processTouch:tileCoord];
+//			[gameEngine setSelectedMoveTarget:tileCoord];
+		}
 
 	}
 }
