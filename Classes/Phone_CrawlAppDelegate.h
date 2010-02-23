@@ -8,22 +8,22 @@
 
 #import <UIKit/UIKit.h>
 
+@class NewGameFlowControl;
 @class HomeTabViewController;
-@class MainMenu;
-@class CharacterCreation;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
     UIWindow *window;
 
-	MainMenu *mainMenu;
 	HomeTabViewController *homeTabController;
-	CharacterCreation *cCreate;
+	NewGameFlowControl *flow;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) HomeTabViewController *homeTabController;
-@property (nonatomic, retain) MainMenu *mainMenu;
-@property (nonatomic, retain) CharacterCreation *cCreate;
+
+- (IBAction) startNewGame;
+- (IBAction) loadSaveGame;
+- (IBAction) viewScores;
 
 @end

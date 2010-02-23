@@ -1,26 +1,20 @@
 #import "Phone_CrawlAppDelegate.h"
 
 #import "HomeTabViewController.h"
-#import "MainMenu.h"
-#import "CharacterCreation.h"
+#import "NewGameFlowControl.h"
 
 @implementation Phone_CrawlAppDelegate
 
 @synthesize window;
 
 @synthesize homeTabController;
-@synthesize mainMenu;
-@synthesize cCreate;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
-	mainMenu = [[[MainMenu alloc] init] autorelease];
-	cCreate = [[[CharacterCreation alloc] init] autorelease];
-	[window addSubview:homeTabController.view];
-	//[window addSubview:mainMenu.view];
-	//[window addSubview:cCreate.view];
-
+	
+	[window insertSubview:homeTabController.view atIndex:0];
+	flow = nil;
 }
 
 
@@ -29,22 +23,32 @@
 	//Save here.
 }
 
-/*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController {
-}
-*/
 
-/*
-// Optional UITabBarControllerDelegate method
-- (void)tabBarController:(UITabBarController *)tabBarController didEndCustomizingViewControllers:(NSArray *)viewControllers changed:(BOOL)changed {
-}
-*/
-
-
-- (void)dealloc {
-    [window release];
+- (void)dealloc 
+{
+	[flow release];
     [super dealloc];
+}
+
+- (IBAction) startNewGame
+{
+	if(!flow)
+	{
+		flow = [[NewGameFlowControl alloc] init];
+		[window addSubview:flow.view];
+	}
+	[window bringSubviewToFront:flow.view];
+	[flow begin];
+}
+
+- (IBAction) loadSaveGame
+{
+	[window bringSubviewToFront:homeTabController.view];
+}
+
+- (IBAction) viewScores
+{
+	
 }
 
 @end

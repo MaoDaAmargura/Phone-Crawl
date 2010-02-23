@@ -20,6 +20,7 @@
 @synthesize current;
 @synthesize max;
 @synthesize aggro_range;
+@synthesize iconName;
 
 
 #pragma mark -
@@ -161,11 +162,8 @@
 	}
 }
 
-- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot {
-/*	if (new_item.item_slot == dest_slot || (new_item.item_slot == EITHER && (dest_slot == LEFT || dest_slot == RIGHT)) ||
-		new_item.item_slot == BOTH && dest_slot == RIGHT){
-*/		//Item fits in slot
-
+- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot 
+{
 	slotType destination = dest_slot;
 	slotType itemSlot = new_item.item_slot;
 	
