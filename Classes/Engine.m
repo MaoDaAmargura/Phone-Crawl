@@ -66,7 +66,7 @@
 											  dark: 0 
 											 armor: 0
 										  spell_id: ITEM_HEAL_SPELL_ID];
-	[Spell fill_spell_list];
+
 	DLog(@"Attempting to cast heal item");
 	[heal_test cast:player target:nil];
 	//[Spell cast_id:heal_test.spell_id caster:player target:nil];
@@ -77,13 +77,10 @@
 {
 	if(self = [super init])
 	{
+		[Spell fill_spell_list];
+		[CombatAbility fill_ability_list];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
-		
-		combatAbilities = [[NSMutableArray alloc] init];
-		
-		CombatAbility *strike = [[CombatAbility alloc] initWithInfo:@"Strike" damage:10 ability_level:1 ability_id:1 ability_fn:@selector(doStrike)];
-		[combatAbilities addObject:strike];
 		
 		currentTarget = nil;
 		
@@ -108,16 +105,36 @@
 		CGPoint origin = CGPointMake(0, 300);
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
-		[battleMenu addMenuItem:@"Spell" delegate:self selector: nil context:nil];
+		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
+		[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
 		[battleMenu showInView:view];
-		//[battleMenu addMenuItem:@"Item" delegate:self selector: nil];
+
 		[battleMenu hide];
 		
+		
+		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[attackMenu addMenuItem:@"Strike" delegate:self selector: @selector(doStrike) context:nil];
+		for (CombatAbility* ca in ability_list) {
+			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:[[NSNumber alloc] initWithInt:ca.ability_id]];
+		}
 		[attackMenu showInView:view];
 		[attackMenu hide];
+		
+		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		for (Spell* spell in spell_list) {
+			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:[[NSNumber alloc] initWithInt:spell.spell_id]];
+		}
+		[spellMenu showInView:view];
+		[spellMenu hide];
+		
+		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		for (Item* it in player.inventory) 
+			//if(!it.is_equipable)
+			if (it.item_type == WAND || it.item_type == POTION) // need to get this to be dynamic but can't figure out how right now
+				[itemMenu addMenuItem:it.item_name delegate:self selector:@selector(item_handler:) context:it];
+		[itemMenu showInView:view];
+		[itemMenu hide];
 		return self;
 	}
 	return nil;
@@ -143,6 +160,19 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	NSMutableArray *discard = [NSMutableArray array];
+	// remove all dead monsters
+	for (Creature *m in liveEnemies) {
+		if (m.current.health <= 0) {
+			if (m == currentTarget) {
+				currentTarget = nil;
+			}
+			[discard addObject:m];
+		}
+	}
+	[liveEnemies removeObjectsInArray:discard];
+	[deadEnemies addObjectsFromArray:discard];
+	
 	battleMode = FALSE;
 	// check to see if we are in battle mode
 	for (Creature *m in liveEnemies) {
@@ -566,12 +596,16 @@
 
 - (void) playerUseItem:(Item*)i
 {
-	
+	if( i == nil ) return;
+	if([i cast:player target:currentTarget] == 0)
+		[self playerDropItem:i];
 }
 
 - (void) playerDropItem:(Item*)i
-{
-	
+{	
+	if (i == nil) return;
+	[player.inventory removeObject:i];
+	//Currently does not update inventory view until press inventory screen's button again
 }
 
 #pragma mark -
@@ -605,15 +639,24 @@
 	[attackMenu show];
 }
 
-#pragma mark -
-#pragma mark battle functions
-
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender {
-	printf("here");
+- (void) showSpellMenu {
+	[spellMenu show];
 }
 
-- (void) doStrike {
-	[self basicAttack:player def:currentTarget];
+- (void) showItemMenu {
+	[itemMenu show];
 }
 
+- (void) ability_handler: (NSNumber *) ability_id{
+	//DLog(@"ability handler");
+	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
+}
+	 
+- (void) spell_handler: (NSNumber *) spell_id {
+	//DLog(@"spell handler");
+	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
+}
+- (void) item_handler: (Item*) it{
+	[self playerUseItem:it];
+}
 @end

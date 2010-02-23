@@ -1,6 +1,6 @@
 #import <Foundation/Foundation.h>
 
-typedef enum {FIRE,COLD,LIGHTNING,POISON,DARK} elemType;
+typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 
 //Items can always go in Bag, need non-bag slot to go in more
 #define NUM_ARMOR_TYPES 2

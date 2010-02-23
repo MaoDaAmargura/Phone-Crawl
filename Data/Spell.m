@@ -9,6 +9,7 @@
 #import "Spell.h"
 #import "Creature.h"
 #import "Item.h" 
+#import "PCPopupMenu.h"
 
 //Spell spell_list[NUM_SPELLS];
 BOOL have_set_spells = FALSE;
@@ -69,9 +70,7 @@ BOOL have_set_spells = FALSE;
 }
 
 + (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target {
-	if (!have_set_spells) {
-		[Spell fill_spell_list];
-	}
+	if (!have_set_spells) [Spell fill_spell_list];
 	DLog(@"In cast_id: Casting %d by %@",in_spell_id,caster.name);
 	Spell *spell = [spell_list objectAtIndex:in_spell_id];
 	DLog(@"Casting spell: %@",spell.name);
@@ -148,9 +147,9 @@ BOOL have_set_spells = FALSE;
 
 - (int) heal_potion: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
-	DLog(@"In heal potion, healing for %d", damage);
+	//DLog(@"In heal potion, healing for %d", damage);
 	[caster Heal: damage];
-	DLog(@"Post heal");
+	//DLog(@"Post heal");
 	return SPELL_NO_DAMAGE;
 }
 
@@ -202,10 +201,12 @@ BOOL have_set_spells = FALSE;
 	//What is confusion supposed to do?
 	return SPELL_NO_DAMAGE;
 }
+
 + (void) fill_spell_list {
 	have_set_spells = TRUE;
 	int id_cnt = 0, spell_lvl = 1;
-	spell_list = [[[NSMutableArray alloc] init] autorelease];
+	//spell_list = [[[NSMutableArray alloc] init] autorelease];
+	spell_list = [[NSMutableArray alloc] init];
 	SEL scroll = @selector(scroll:target:);
 	SEL heal_potion = @selector(heal_potion:target:);
 	SEL mana_potion = @selector(mana_potion:target:);
@@ -325,19 +326,14 @@ BOOL have_set_spells = FALSE;
 	ADD_SPELL(@"Superior Poisoning",DAMAGE,SINGLE,POISON,0,40,detr);
 	
 	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr);
+	ADD_SPELL(@"Lesser Drain",DAMAGE,SINGLE,DARK,0,30,detr);
+	ADD_SPELL(@"Drain",DAMAGE,SINGLE,DARK,0,30,detr);
+	ADD_SPELL(@"Major Drain",DAMAGE,SINGLE,DARK,0,30,detr);
+	ADD_SPELL(@"Superior Drain",DAMAGE,SINGLE,DARK,0,30,detr);
 	
-	/*NSEnumerator * enumerator = [spell_list objectEnumerator];
-	Spell *element;
-	
-	while(element = [enumerator nextObject])
-    {
-		// Do your thing with the object.
-		DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-    }*/
+	//for(Spell *s in spell_list)
+	//	DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
+
 	
 }
 
