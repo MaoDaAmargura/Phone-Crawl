@@ -33,19 +33,17 @@ typedef enum {
 
 typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
-
-
 @interface Item : NSObject {
 	NSString *item_name;
 	NSString *item_icon;
 	BOOL is_equipable;
 	int damage;
 	int elem_damage;
-	int range; //Ranged damage for bow, staff
+	int range;
 	int charges;
 	int point_val; //Sell value + high score point value
 	
-	itemQuality item_quality;
+	itemQuality item_quality; // Dull, Regular, Sharp, for critical hits
 	slotType item_slot; //What slot can the item go in?
 	elemType elem_type; //Elemental type of item
 	itemType item_type; //Item type
@@ -84,18 +82,14 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int spell_id;
 @property (nonatomic,readonly) BOOL is_equipable;
 
-// Need item_cast method
-
 - (int) cast: (Creature *) caster target: (Creature *) target;
 
 // Generate a random item based on the dungeon level and elemental type
-+(Item *) generate_random_item: (int) dungeon_level
-					 elem_type: (elemType) elem_type;
++(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
+// Determine an item's value for high score
++ (int) item_val : (Item *) item; 
 
 - (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
-
-+ (int) item_val : (Item *) item;
-
 - (id) initWithStats: (NSString *) in_name
 			 icon_name: (NSString *) in_icon_name
 		  item_quality: (itemQuality) in_item_quality
