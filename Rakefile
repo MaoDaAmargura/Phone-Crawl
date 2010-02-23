@@ -6,17 +6,6 @@ require 'json'
 require 'pp'
 require 'stringio'
 
-def all_source_files
-  
-  
-end
-
-desc 'underscore delineation to camel case'
-task :to_camel do
-
-
-end
-
 
 def all_sql_files
   file_paths = `cd "#{BASEPATH}" && egrep -Ri *\.sqlite .`.split(/\n/)
@@ -73,57 +62,4 @@ task :apply_backup do
     puts "with #{backup_name}"
     `cd "#{BASEPATH}" && cp #{backup_name} #{match}`
   end
-end
-
-desc 'Update sample json movietime feed with times for today'
-task :json_for_today do
-  # json_file = "sample-feed.json"
-  json_file = "pretty-sample-feed.json"
-  out_file = "sample-feed.json"
-  data = JSON.parse(File.read(json_file))
-
-  movietimes = data['movietimes']
-
-  movietimes.each do |movietime|
-    today = Time.new.at_midnight
-    original = Time.parse(movietime['time'])
-    offset = original - original.at_midnight
-    movietime['time'] = today + offset
-  end
-
-  File.open(out_file, 'w') do |file|
-    file.puts data.to_json
-  end
-
-end
-
-task :test do
-  `cat sample.txt > test.txt`
-  json_file = "test.txt"
-  data = JSON.parse(File.read(json_file))
-
-  data.each do |movietime|
-    today = Time.new.at_midnight
-    original = Time.parse(movietime['time'])
-    offset = original - original.at_midnight
-    
-    p "*"* 25
-    p "offset" + offset.to_s
-    pp movietime
-    if offset < 21600 then 
-      offset += 86400 
-      p "~" * 3
-    end
-    movietime['time'] = (today + offset).utc
-    pp movietime
-  end
-
-  File.open(json_file, 'w') do |file|
-    file.puts data.to_json
-  end
-end
-
-task :print do
-  json_file = "test.txt"
-  pp JSON.parse(File.read(json_file))
 end

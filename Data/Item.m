@@ -1,11 +1,3 @@
-//
-//  Item.m
-//  Phone-Crawl
-//
-//  Created by Benjamin Sangster on 1/23/10. 
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Spell.h"
 #import "Item.h"
 

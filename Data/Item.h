@@ -1,11 +1,3 @@
-//
-//  Item.h
-//  Phone-Crawl
-// 
-//  Created by Benjamin Sangster on 1/19/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
