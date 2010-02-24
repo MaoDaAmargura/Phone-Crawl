@@ -433,19 +433,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	NSArray *coords = [items allKeys];
 	Coord *coord = [Coord withX: 0 Y: 0 Z: center.Z];
 
-	NSMutableArray *fucko = [[NSMutableArray alloc] init];
-	[fucko addObject: coord];
-	Coord *fuckShit = [Coord withX: 0 Y: 0 Z: center.Z];
-	if ([fucko containsObject: coord]) {
-		DLog(@"okay");
-	}
-	if (![fucko containsObject: fuckShit]) {
-		DLog(@"NO GODDAMNIT");
-		exit(1);
-	}
-
-	
-
 	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
 	{
 		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
@@ -455,19 +442,30 @@ extern NSMutableDictionary *items; // from Dungeon
 			coord.X = xInd;
 			coord.Y = yInd;
 
-//			DLog(@"%@",[coords description]);
-//			DLog(@"mank %@",coord);
-//			exit(1);
-
 			if (![coords containsObject: coord]) {
 				continue;
 			}
 
-			DLog(@"here it is, fucko");
-			Item *item = [items objectForKey: coord];
+			Item *item = nil;
+
+			NSEnumerator *enumerator = [items keyEnumerator];
+			Coord *key;
+			while ((key = [enumerator nextObject])) {
+				if ([key isEqual: coord]) {
+					item = [items objectForKey: key];
+					DLog(@"it is in there");
+					break;
+				}
+			}
+
+			DLog(@"ITAM: %@",item);//.item_icon);
+
+
 			UIImage *img = [UIImage imageNamed: item.item_icon];
 			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
 
+			
+			
 //			if(t)
 //				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
 //			else
