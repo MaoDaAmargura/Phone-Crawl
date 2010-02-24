@@ -2,6 +2,7 @@
 #import "Util.h"
 
 @class Item,Coord;
+@class Dungeon;
 
 //#define NUM_EQUIP_SLOTS 4
 #define NUM_INV_SLOTS 20
@@ -117,6 +118,8 @@ typedef enum {
 
 - (int) regular_weapon_damage;
 - (int) elemental_weapon_damage;
+
+- (void) doTurn:(Dungeon *)map player:(Creature *)player;
 
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;

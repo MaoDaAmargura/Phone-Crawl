@@ -5,8 +5,8 @@
 #import "PCPopupMenu.h"
 #import "Item.h"
 
-#define ADD_ABILITY(NAME,DMG,FN) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
-ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN] autorelease]]
+#define ADD_ABILITY(NAME,DMG,FN,PNTS) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
+ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN points:PNTS] autorelease]]
 
 NSMutableArray *ability_list = nil;
 BOOL have_set_abilities = FALSE;
@@ -17,16 +17,18 @@ BOOL have_set_abilities = FALSE;
 @synthesize ability_id;
 @synthesize damage;
 @synthesize ability_level;
+@synthesize ability_points;
 
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn {
+		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn points:(int)abilitypnts {
 	if (self = [super init]) {
 		name = in_name;
 		damage = in_damage;
 		ability_level = in_ability_level;
 		ability_fn = in_ability_fn;
 		ability_id = in_ability_id;
+		ability_points = abilitypnts;
 		return self;
 	}
 	return nil;
@@ -34,10 +36,13 @@ BOOL have_set_abilities = FALSE;
 
 - (void) use_ability: (Creature *) caster target: (Creature *) target 
 {
-	if([self respondsToSelector:ability_fn])
-	{
-		IMP f = [self methodForSelector:ability_fn];
-		(void)(f)(self, ability_fn, caster, target);
+	if (caster.current_turn_points >= ability_points) {
+		caster.current_turn_points -= ability_points;
+		if([self respondsToSelector:ability_fn])
+		{
+			IMP f = [self methodForSelector:ability_fn];
+			(void)(f)(self, ability_fn, caster, target);
+		}
 	}
 }
 
@@ -124,8 +129,8 @@ BOOL have_set_abilities = FALSE;
 	ability_list = [[NSMutableArray alloc] init];
 	SEL detr = @selector(detr_ability:target:);
 	
-	ADD_ABILITY(@"Strike",80,detr);
-	ADD_ABILITY(@"Heavy",1000,detr);
+	ADD_ABILITY(@"Strike",80,detr,50);
+	ADD_ABILITY(@"Heavy",1000,detr,50);
 }
 
 @end

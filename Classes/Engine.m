@@ -14,6 +14,8 @@
 
 #import "CombatAbility.h"
 
+#define POINTS_TO_TAKE_TURN 15
+
 
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
@@ -108,6 +110,7 @@
 		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
 		[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
 		[battleMenu showInView:view];
+		battleMenu.hideOnFire = NO;
 
 		[battleMenu hide];
 		
@@ -186,9 +189,10 @@
 		}
 	}
 	
-	if (currentTarget != nil) {
-		[battleMenu show];
-	} else {
+	if (battleMenu.hidden == YES) {
+		currentTarget = nil;
+	}
+	if (currentTarget == nil) {
 		[battleMenu hide];
 		[attackMenu hide];
 	}
@@ -210,6 +214,24 @@
 	
 	[self updateWorldView:wView];
 
+}
+
+- (void) doTurnLoop {
+	while (TRUE) {
+		for (Creature *m in liveEnemies) {
+			m.current_turn_points += m.current.turn_speed;
+			if (m.current_turn_points >= 100) {
+				m.current_turn_points -= POINTS_TO_TAKE_TURN;
+				[m doTurn:currentDungeon player:player];
+			}
+		}
+		player.current_turn_points += player.current.turn_speed;
+		if (player.current_turn_points >= 100) {
+			player.current_turn_points -= POINTS_TO_TAKE_TURN;
+			// when it is player's turn, just quit function and wait for input
+			return;
+		}
+	}
 }
 
 #pragma mark -
@@ -509,6 +531,8 @@
 			[self setSelectedMoveTarget:nil];
 		}
 	}
+	// after moving, run turn loop
+	[self doTurnLoop];
 }
 
 #define PLAYER_INSTANT_TRANSMISSION false
@@ -520,7 +544,7 @@
 		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
 			touchMonster = YES;
 			currentTarget = m;
-			showBattleMenu = YES;
+			[battleMenu show];
 			break;
 		}
 	}
@@ -650,13 +674,16 @@
 - (void) ability_handler: (NSNumber *) ability_id{
 	//DLog(@"ability handler");
 	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
+	[self doTurnLoop];
 }
 	 
 - (void) spell_handler: (NSNumber *) spell_id {
 	//DLog(@"spell handler");
 	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
+	[self doTurnLoop];
 }
 - (void) item_handler: (Item*) it{
 	[self playerUseItem:it];
+	[self doTurnLoop];
 }
 @end

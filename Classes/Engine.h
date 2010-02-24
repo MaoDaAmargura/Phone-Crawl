@@ -75,4 +75,6 @@
 - (void) spell_handler: (NSNumber *) spell_id;
 - (void) item_handler:(Item *)it;
 
+- (void) doTurnLoop;
+
 @end
