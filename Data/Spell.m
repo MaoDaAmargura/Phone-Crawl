@@ -1,11 +1,3 @@
-//
-//  Spell.m
-//  Phone-Crawl
-// 
-//  Created by Benjamin Sangster on 1/19/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Spell.h"
 #import "Creature.h"
 #import "Item.h" 
