@@ -77,14 +77,12 @@
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
 		D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */; };
-		D9888070110D273C00AFFB2E /* MainMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D988806E110D273C00AFFB2E /* MainMenu.m */; };
-		D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = D988806F110D273C00AFFB2E /* MainMenu.xib */; };
 		D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */ = {isa = PBXBuildFile; fileRef = D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */; };
-		D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */ = {isa = PBXBuildFile; fileRef = D9888090110D55B800AFFB2E /* CharacterCreation.m */; };
-		D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9888091110D55B800AFFB2E /* CharacterCreation.xib */; };
 		D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
 		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
+		D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */; };
+		D9AFEE891130C577001EC0B5 /* NewGameFlowControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
@@ -232,18 +230,15 @@
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
 		D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1elf-warrior-elvina-1.jpg"; sourceTree = "<group>"; };
-		D988806D110D273C00AFFB2E /* MainMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainMenu.h; sourceTree = "<group>"; };
-		D988806E110D273C00AFFB2E /* MainMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainMenu.m; sourceTree = "<group>"; };
-		D988806F110D273C00AFFB2E /* MainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainMenu.xib; sourceTree = "<group>"; };
 		D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wcrftbkgrd.png; sourceTree = "<group>"; };
-		D988808F110D55B800AFFB2E /* CharacterCreation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterCreation.h; sourceTree = "<group>"; };
-		D9888090110D55B800AFFB2E /* CharacterCreation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterCreation.m; sourceTree = "<group>"; };
-		D9888091110D55B800AFFB2E /* CharacterCreation.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterCreation.xib; sourceTree = "<group>"; };
 		D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "BB Watershed 8-03 003.jpg"; sourceTree = "<group>"; };
 		D98D744A111E3EA200EC62CF /* InventoryItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItemButton.h; sourceTree = "<group>"; };
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
 		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
 		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
+		D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameFlowControl.h; sourceTree = "<group>"; };
+		D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameFlowControl.m; sourceTree = "<group>"; };
+		D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGameFlowControl.xib; sourceTree = "<group>"; };
 		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
 		D9B55D1D11015886007173A3 /* LevelGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LevelGen.h; sourceTree = "<group>"; };
@@ -497,12 +492,9 @@
 		D988806B110D272C00AFFB2E /* Menu */ = {
 			isa = PBXGroup;
 			children = (
-				D988806D110D273C00AFFB2E /* MainMenu.h */,
-				D988806E110D273C00AFFB2E /* MainMenu.m */,
-				D988806F110D273C00AFFB2E /* MainMenu.xib */,
-				D988808F110D55B800AFFB2E /* CharacterCreation.h */,
-				D9888090110D55B800AFFB2E /* CharacterCreation.m */,
-				D9888091110D55B800AFFB2E /* CharacterCreation.xib */,
+				D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */,
+				D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */,
+				D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -824,9 +816,7 @@
 				D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */,
 				D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */,
 				D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */,
-				D9888071110D273C00AFFB2E /* MainMenu.xib in Resources */,
 				D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */,
-				D9888093110D55B800AFFB2E /* CharacterCreation.xib in Resources */,
 				D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */,
 				D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */,
 				D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */,
@@ -870,6 +860,7 @@
 				65EFA017112F76E0000D4AC7 /* potion-blue-II.png in Resources */,
 				65EFA018112F76E0000D4AC7 /* potion-blue-III.png in Resources */,
 				65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */,
+				D9AFEE891130C577001EC0B5 /* NewGameFlowControl.xib in Resources */,
 				652AB8B51130A4E90083BD1C /* potion-blue-IV.png in Resources */,
 				652AB8B61130A4E90083BD1C /* potion-blue-V.png in Resources */,
 				652AB8B71130A4E90083BD1C /* potion-red-IV.png in Resources */,
@@ -899,13 +890,12 @@
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
-				D9888070110D273C00AFFB2E /* MainMenu.m in Sources */,
 				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
-				D9888092110D55B800AFFB2E /* CharacterCreation.m in Sources */,
 				65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */,
 				D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */,
 				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
+				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

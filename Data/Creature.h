@@ -56,6 +56,8 @@ typedef enum {
 	NSString *name;
 	Coord *creatureLocation;
 	
+	NSString *iconName;
+	
 	int aggro_range;
     int   level;
 	int current_turn_points;
@@ -134,5 +136,6 @@ typedef enum {
 @property (nonatomic) int dark;
 @property (nonatomic) int armor;
 @property (nonatomic) int aggro_range;
+@property (nonatomic, retain) NSString *iconName;
 
 @end

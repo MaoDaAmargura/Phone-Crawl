@@ -44,7 +44,8 @@
 														[Item generate_random_item:1 elem_type:LIGHTNING],
 														[Item generate_random_item:3 elem_type:POISON],
 														[Item generate_random_item:9 elem_type:DARK], 
-														[Item generate_random_item:4 elem_type:FIRE],nil];
+														[Item generate_random_item:4 elem_type:FIRE], nil];
+	player.iconName = @"human1.png";
 	Item *heal_test = [[Item alloc] initWithStats : @"Test Healing Potion"
 										 icon_name: @"potion-red.png"
 									  item_quality: REGULAR
@@ -300,7 +301,8 @@
  @abstract		presents the minimap
  @discussion	does this belong in this class?
  */
-- (void) drawMiniMapForWorldView: (WorldView*) wView {
+- (void) drawMiniMapForWorldView: (WorldView*) wView 
+{
 	UIGraphicsBeginImageContext(CGSizeMake(MAP_DIMENSION, MAP_DIMENSION));
 	CGContextRef context = UIGraphicsGetCurrentContext();
 
@@ -358,7 +360,8 @@
  @method		updateWorldView
  @abstract		main graphics loop for world view. 
  */
-- (void) updateWorldView:(WorldView*) wView {
+- (void) updateWorldView:(WorldView*) wView 
+{
 	[self updateBackgroundImageForWorldView:wView];
 	[self updateStatDisplayForWorldView:wView];
 	[self drawMiniMapForWorldView: wView];
@@ -402,7 +405,7 @@
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 
 	// Draw the player on the proper tile.
-	UIImage *playerSprite = [UIImage imageNamed:@"human1.png"];
+	UIImage *playerSprite = [UIImage imageNamed:[player iconName]];
 	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 }
 

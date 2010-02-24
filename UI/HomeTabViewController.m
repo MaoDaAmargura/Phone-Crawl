@@ -118,8 +118,6 @@
 	
 }
 
-#define PLAYER_INSTANT_TRANSMISSION false
-
 /*!
  @method		worldSelectedAt
  @abstract		worldView callback for when world gets selected
@@ -131,18 +129,8 @@
 	
 	if([gameEngine canEnterTileAtCoord:tileCoord])
 	{
-
-		if(PLAYER_INSTANT_TRANSMISSION)
-		{	
-			[gameEngine movePlayerToTileAtCoord:tileCoord];
-			[gameEngine updateWorldView:worldView];
-		}
-		else
-		{
-			[gameEngine processTouch:tileCoord];
-//			[gameEngine setSelectedMoveTarget:tileCoord];
-		}
-
+		[gameEngine processTouch:tileCoord];
+		[gameEngine updateWorldView:worldView];
 	}
 }
 
