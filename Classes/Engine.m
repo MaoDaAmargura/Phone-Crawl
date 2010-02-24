@@ -31,6 +31,7 @@
 
 @end
 
+extern NSMutableDictionary *items; // from Dungeon
 
 @implementation Engine
 

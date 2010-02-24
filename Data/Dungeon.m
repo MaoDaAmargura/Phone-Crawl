@@ -2,6 +2,7 @@
 #import "Util.h"
 #import "Dungeon.h"
 #import "LevelGen.h"
+#import "Item.h"
 
 #include <stdio.h>
 
@@ -16,12 +17,14 @@
 #pragma mark Dungeon
 
 @interface Dungeon () 
-NSMutableArray *tiles = nil;
+NSMutableDictionary *tiles = nil;
 @end
 
 @implementation Dungeon
 
 @synthesize playerLocation;
+NSMutableArray *items = [[NSMutableArray alloc] init];
+
 #pragma mark --private
 
 - (int) indexOfTileAtX: (int) x Y: (int) y Z: (int) z {

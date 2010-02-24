@@ -14,7 +14,7 @@ typedef enum {
     BAG = 6
 } slotType;
 
-@interface Coord : NSObject {
+@interface Coord : NSObject <NSCopying> {
 	int X;
 	int Y;
 	int Z;

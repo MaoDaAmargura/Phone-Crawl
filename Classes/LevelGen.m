@@ -2,6 +2,7 @@
 #import "Dungeon.h"
 #import "LevelGen.h"
 #import "Tile.h"
+#import "Item.h"
 
 #pragma mark --hacks
 
@@ -11,6 +12,7 @@
 @end
 
 extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+extern NSMutableDictionary *items; // from Dungeon.h
 
 static tileType deadTile [] = {
 //	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
@@ -18,10 +20,10 @@ static tileType deadTile [] = {
 //	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
 //	tileGroundCrumbling, tileStoneCrumbling
 
-tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
-tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
-tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
-tileNone, tileConcrete
+	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
+	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
+	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
+	tileNone, tileConcrete
 };
 
 #pragma mark --private methods
@@ -317,7 +319,8 @@ typedef enum {
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
 
 			// place either a wall or a floor, overwriting what was there.
-			if (inRoomOnXAxis && inRoomOnYAxis) {
+			// don't place walls on the edge of the map, preventing some initial box-ins.
+			if ((inRoomOnXAxis && inRoomOnYAxis) || x == 0 || x == MAP_DIMENSION - 1 || y == 0 || y == MAP_DIMENSION - 1) {
 				type = tileWoodFloor;
 			}
 
@@ -452,6 +455,19 @@ typedef enum {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
+
+
+	[items removeAllObjects];
+	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
+	for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION / 2; LCV++) {
+		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
+		coord.Z = [Rand min: 0 max: MAP_DIMENSION - 1];
+		[items setObject: [Item generate_random_item: 0 elem_type: [Rand min: 0 max: 4] forKey: [coord];
+//		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
+//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
+	}
+
+	return dungeon;
 
 
 
