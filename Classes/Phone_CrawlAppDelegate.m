@@ -3,7 +3,7 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START 1
+#define QUICK_START YES
 
 @implementation Phone_CrawlAppDelegate
 
@@ -14,8 +14,11 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
-	
-	[window insertSubview:homeTabController.view atIndex:QUICK_START];
+	if(QUICK_START)
+		[window addSubview:homeTabController.view];
+	else 
+		[window insertSubview:homeTabController.view atIndex:0];
+
 	flow = nil;
 }
 
