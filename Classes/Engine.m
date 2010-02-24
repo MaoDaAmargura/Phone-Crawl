@@ -453,13 +453,9 @@ extern NSMutableDictionary *items; // from Dungeon
 			while ((key = [enumerator nextObject])) {
 				if ([key isEqual: coord]) {
 					item = [items objectForKey: key];
-					DLog(@"it is in there");
 					break;
 				}
 			}
-
-			DLog(@"ITAM: %@",item);//.item_icon);
-
 
 			UIImage *img = [UIImage imageNamed: item.item_icon];
 			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];

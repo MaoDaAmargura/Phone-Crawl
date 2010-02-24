@@ -468,10 +468,6 @@ typedef enum {
 //		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
-	DLog(@"WHAM SLAP: %@", [items description]);
-	return dungeon;
-
-
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
