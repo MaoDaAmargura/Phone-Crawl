@@ -3,6 +3,8 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
+#define QUICK_START 1
+
 @implementation Phone_CrawlAppDelegate
 
 @synthesize window;
@@ -13,7 +15,7 @@
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	
-	[window insertSubview:homeTabController.view atIndex:0];
+	[window insertSubview:homeTabController.view atIndex:QUICK_START];
 	flow = nil;
 }
 
