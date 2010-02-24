@@ -76,6 +76,5 @@
 - (void) item_handler:(Item *)it;
 
 - (void) doTurnLoop;
-- (void) doCreatureTurn:(Creature *)monster;
 
 @end

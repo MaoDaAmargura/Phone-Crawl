@@ -1,5 +1,6 @@
 #import "Creature.h"
 #import "Item.h"
+#import "Dungeon.h"
 
 @implementation Creature
 
@@ -285,6 +286,10 @@
 	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.elem_damage;
 	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.elem_damage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
+}
+
+- (void) doTurn:(Dungeon *)map player:(Creature *)player {
+	
 }
 
 @end

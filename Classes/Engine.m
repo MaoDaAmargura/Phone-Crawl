@@ -222,7 +222,7 @@
 			m.current_turn_points += m.current.turn_speed;
 			if (m.current_turn_points >= 100) {
 				m.current_turn_points -= POINTS_TO_TAKE_TURN;
-				[self doCreatureTurn:m];
+				[m doTurn:currentDungeon player:player];
 			}
 		}
 		player.current_turn_points += player.current.turn_speed;
@@ -232,10 +232,6 @@
 			return;
 		}
 	}
-}
-				 
-- (void) doCreatureTurn:(Creature *)monster {
-	
 }
 
 #pragma mark -
