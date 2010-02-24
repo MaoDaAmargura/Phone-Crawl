@@ -14,6 +14,8 @@
 
 #import "CombatAbility.h"
 
+#define POINTS_TO_TAKE_TURN 15
+
 
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
@@ -212,6 +214,28 @@
 	
 	[self updateWorldView:wView];
 
+}
+
+- (void) doTurnLoop {
+	while (TRUE) {
+		for (Creature *m in liveEnemies) {
+			m.current_turn_points += m.current.turn_speed;
+			if (m.current_turn_points >= 100) {
+				m.current_turn_points -= POINTS_TO_TAKE_TURN;
+				[self doCreatureTurn:m];
+			}
+		}
+		player.current_turn_points += player.current.turn_speed;
+		if (player.current_turn_points >= 100) {
+			player.current_turn_points -= POINTS_TO_TAKE_TURN;
+			// when it is player's turn, just quit function and wait for input
+			return;
+		}
+	}
+}
+				 
+- (void) doCreatureTurn:(Creature *)monster {
+	
 }
 
 #pragma mark -
