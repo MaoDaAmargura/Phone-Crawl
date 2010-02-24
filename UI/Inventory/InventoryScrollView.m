@@ -1,11 +1,3 @@
-//
-//  InventoryScrollView.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/16/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "InventoryScrollView.h"
 #import "PCPopupMenu.h"
 
@@ -87,7 +79,7 @@
 			row -= numTilesDown;
 			pageIndex++;
 		}
-		
+
 		InventoryItemButton *b = [InventoryItemButton buttonWithItem:i];
 		b.delegate = self;
 		[drawnItems addObject:b];
@@ -98,9 +90,8 @@
 							  ITEM_BUTTON_SIZE);
 		b.frame = r;
 		++index;
-		
 	}
-	
+
 	for (InventoryItemButton *b in drawnItems)
 		[self addSubview:b];
 }

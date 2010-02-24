@@ -17,13 +17,13 @@
 #pragma mark Dungeon
 
 @interface Dungeon () 
-NSMutableDictionary *tiles = nil;
+static NSMutableArray *tiles = nil;
 @end
 
 @implementation Dungeon
 
 @synthesize playerLocation;
-NSMutableArray *items = [[NSMutableArray alloc] init];
+NSMutableDictionary *items;
 
 #pragma mark --private
 

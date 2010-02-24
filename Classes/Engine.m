@@ -28,6 +28,7 @@
 - (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
 - (void) drawMiniMapForWorldView: (WorldView*) wView;
+- (void) drawItemsForWorldView: (WorldView*) wView;
 
 @end
 
@@ -420,6 +421,40 @@ extern NSMutableDictionary *items; // from Dungeon
 	}
 }
 
+// FIXME massive code duplication, snip snip
+- (void) drawItemsForWorldView: (WorldView*) wView {
+	int xInd, yInd;
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
+	Coord *center = [player creatureLocation];
+	CGPoint lowerRight = CGPointMake(center.X + halfTile, center.Y + halfTile);
+	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
+
+	NSArray *coords = [items allKeys];
+	DLog(@"BARF FUCK: %d",[items count]);
+	Coord *coord = [Coord withX: 0 Y: 0 Z: center.Z];
+	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
+	{
+		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
+		{
+			coord.X = xInd;
+			coord.Y = yInd;
+			if (![coords containsObject: coord]) continue;
+			Item *item = [items objectForKey: coord];
+			UIImage *img = [UIImage imageNamed: item.item_icon];
+			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
+
+//			if(t)
+//				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
+//			else
+//				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
+
+			// Draw each tile in the proper place
+			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+		}
+	}	
+}
+
 - (void) drawPlayerForWorldView:(WorldView*)wView
 {
 	CGSize tileSize = [self tileSizeForWorldView:wView];
@@ -462,6 +497,9 @@ extern NSMutableDictionary *items; // from Dungeon
 	UIGraphicsPushContext(context);
 	
 	[self drawTilesForWorldView:wView];
+
+	[self drawItemsForWorldView:wView];
+
 	[self drawPlayerForWorldView:wView];
 	
 	for (Creature *m in liveEnemies) {

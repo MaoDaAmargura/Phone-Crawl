@@ -27,7 +27,7 @@
 }
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[Coord withX: x Y: y Z: z] retain];
+	return [[Coord withX: X Y: Y Z: Z] retain];
 }
 
 @end
