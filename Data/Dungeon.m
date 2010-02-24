@@ -23,7 +23,7 @@ static NSMutableArray *tiles = nil;
 @implementation Dungeon
 
 @synthesize playerLocation;
-NSMutableDictionary *items;
+NSMutableDictionary *items = nil;
 
 #pragma mark --private
 
@@ -62,6 +62,8 @@ NSMutableDictionary *items;
 #pragma mark --public
 
 - (Dungeon*) initWithType: (levelType) lvlType {
+	items = [[NSMutableDictionary alloc] init];
+
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
 		for (int z = 0; z < MAP_DEPTH; z++) {

@@ -18,6 +18,10 @@
 	return NO;
 }
 
+- (BOOL) isEqual: (id)anObject {
+	return [self equals:(Coord*) anObject];
+}
+
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z {
 	Coord *ret = [[Coord alloc] autorelease];
 	ret.X = x;
@@ -27,7 +31,13 @@
 }
 
 - (id) copyWithZone: (NSZone*) zone {
-	return [[Coord withX: X Y: Y Z: Z] retain];
+	Coord *retval = [[self class] allocWithZone: zone];
+	retval.X = X;
+	retval.Y = Y;
+	retval.Z = Z;
+    return retval;
+	
+//	return [[Coord withX: X Y: Y Z: Z] retain];
 }
 
 @end

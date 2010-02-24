@@ -461,13 +461,14 @@ typedef enum {
 	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
 	for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION / 2; LCV++) {
 		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
-		coord.Z = [Rand min: 0 max: MAP_DIMENSION - 1];
+		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
 		Item *item = [Item generate_random_item: 0 elem_type: [Rand min: 0 max: 4]];
+
 		[items setObject: item forKey: coord];
 //		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
-	DLog(@"WHAM SLAP: %d",[items count]);
+	DLog(@"WHAM SLAP: %@", [items description]);
 	return dungeon;
 
 

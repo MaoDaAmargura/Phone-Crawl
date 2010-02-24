@@ -431,15 +431,39 @@ extern NSMutableDictionary *items; // from Dungeon
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 
 	NSArray *coords = [items allKeys];
-	DLog(@"BARF FUCK: %d",[items count]);
 	Coord *coord = [Coord withX: 0 Y: 0 Z: center.Z];
+
+	NSMutableArray *fucko = [[NSMutableArray alloc] init];
+	[fucko addObject: coord];
+	Coord *fuckShit = [Coord withX: 0 Y: 0 Z: center.Z];
+	if ([fucko containsObject: coord]) {
+		DLog(@"okay");
+	}
+	if (![fucko containsObject: fuckShit]) {
+		DLog(@"NO GODDAMNIT");
+		exit(1);
+	}
+
+	
+
 	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
 	{
 		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
 		{
+			if (yInd < 0 || yInd >= MAP_DIMENSION || xInd < 0 || xInd >= MAP_DIMENSION) continue;
+
 			coord.X = xInd;
 			coord.Y = yInd;
-			if (![coords containsObject: coord]) continue;
+
+//			DLog(@"%@",[coords description]);
+//			DLog(@"mank %@",coord);
+//			exit(1);
+
+			if (![coords containsObject: coord]) {
+				continue;
+			}
+
+			DLog(@"here it is, fucko");
 			Item *item = [items objectForKey: coord];
 			UIImage *img = [UIImage imageNamed: item.item_icon];
 			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
@@ -574,7 +598,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	[self doTurnLoop];
 }
 
-#define PLAYER_INSTANT_TRANSMISSION false
+#define PLAYER_INSTANT_TRANSMISSION true
 
 - (void) processTouch:(Coord *)tileCoord {
 	BOOL touchMonster = NO;
