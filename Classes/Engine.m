@@ -531,6 +531,8 @@
 			[self setSelectedMoveTarget:nil];
 		}
 	}
+	// after moving, run turn loop
+	[self doTurnLoop];
 }
 
 #define PLAYER_INSTANT_TRANSMISSION false
@@ -672,13 +674,16 @@
 - (void) ability_handler: (NSNumber *) ability_id{
 	//DLog(@"ability handler");
 	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
+	[self doTurnLoop];
 }
 	 
 - (void) spell_handler: (NSNumber *) spell_id {
 	//DLog(@"spell handler");
 	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
+	[self doTurnLoop];
 }
 - (void) item_handler: (Item*) it{
 	[self playerUseItem:it];
+	[self doTurnLoop];
 }
 @end
