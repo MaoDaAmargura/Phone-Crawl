@@ -108,6 +108,7 @@
 		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
 		[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
 		[battleMenu showInView:view];
+		battleMenu.hideOnFire = NO;
 
 		[battleMenu hide];
 		
@@ -186,9 +187,10 @@
 		}
 	}
 	
-	if (currentTarget != nil) {
-		[battleMenu show];
-	} else {
+	if (battleMenu.hidden == YES) {
+		currentTarget = nil;
+	}
+	if (currentTarget == nil) {
 		[battleMenu hide];
 		[attackMenu hide];
 	}
@@ -520,7 +522,7 @@
 		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
 			touchMonster = YES;
 			currentTarget = m;
-			showBattleMenu = YES;
+			[battleMenu show];
 			break;
 		}
 	}
