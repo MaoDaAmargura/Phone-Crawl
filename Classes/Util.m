@@ -45,10 +45,8 @@
 
 @implementation Rand
 
-// blows up on assert if lowBound < highBound.
-// negative lowBound works fine, I'm not sober enough to figure out a negative
-// highBound that passes the assert just now, so shut up all of your head.  -Nate
 + (int) min: (int) lowBound max: (int) highBound {
+	if (lowBound == highBound) return lowBound;
 	assert (lowBound < highBound);
 	int range = highBound - lowBound + 1; // +1 is due to behavior of modulo
 	return ((arc4random() % range) + lowBound);

@@ -106,14 +106,17 @@ static tileType deadTile [] = {
 	NSMutableArray *twoDimens = [[NSMutableArray alloc] init];
 	while ([white count]) {
 		NSMutableArray *connected = [self singleComponent: dungeon withClearTiles: white];
-		[twoDimens addObject: connected];
+		if ([connected count]) [twoDimens addObject: connected];
+		else DLog(@"bug in flood fill?");
 	}
 
 	return [twoDimens autorelease];
 }
 
 + (void) bomb: (Dungeon*) dungeon targeting: (NSMutableArray*) targets tightly: (bool) tight towardsCenter: (bool) directed {
+	DLog(@"max %d", [targets count] - 1);
 	Tile *target = [targets objectAtIndex: [Rand min: 0 max: [targets count] - 1]];
+	DLog(@"b");
 
 //	int height = [Rand min: 3 max: 9];
 //	int width = 12 - height;
@@ -471,18 +474,13 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
+	if (!LVL_GEN_ENV) return;
+
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
 //	NSMutableArray *connected = [[NSMutableArray alloc] init];
 	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
-
-//		connected = [self allConnected: dungeon onZLevel: 1];
-//		for (NSMutableArray *tiles in connected) {
-//			for (int SCV = 0; SCV < 12; SCV++) {
-//				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
-//			}
-//		}
 	}
 	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
@@ -500,7 +498,21 @@ typedef enum {
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
-
+	NSMutableArray *connected = [self allConnected: dungeon onZLevel: 2];
+	while ([connected count] > 1) {
+		for (NSMutableArray *tiles in connected) {
+			for (int SCV = 0; SCV < 12; SCV++) {
+				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
+			}
+		}
+		connected = [self allConnected: dungeon onZLevel: 2];
+	}
+	for (int LCV = 0; LCV < 3; LCV++) {
+		[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: agentOrange];
+		[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: average];
+	}
+	[self followDownSlopes: dungeon fromZLevel:1];
+	
 	//DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
 
 	return dungeon;
