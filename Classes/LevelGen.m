@@ -571,11 +571,9 @@ typedef enum {
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
 	switch (lvlType) {
 		case orcMines:
-			DLog(@"i got here, you black steam raowlahr");
 			dungeon = [self makeOrcMines: dungeon];
 			break;
 		case town:
-			DLog(@"eat a dick, you black steam raowlahr");
 			dungeon = [self makeTown: dungeon];
 			break;
 		default:
