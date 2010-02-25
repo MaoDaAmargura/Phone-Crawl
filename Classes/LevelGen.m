@@ -446,8 +446,6 @@ typedef enum {
 }
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
-	DLog(@"holy shit barf whatever yes metal");
-	
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];

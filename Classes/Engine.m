@@ -15,7 +15,7 @@
 #import "CombatAbility.h"
 
 #define POINTS_TO_TAKE_TURN 15
-
+static int LVL_GEN_ENV;
 
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
@@ -59,6 +59,13 @@ extern NSMutableDictionary *items; // from Dungeon
 														[Item generate_random_item:4 elem_type:FIRE], nil];
 	player.iconName = @"human1.png";
 	DLog(@"Created player successfully");
+
+	// this is an incredibly hackish workaround to GET PEOPLE TO QUIT STEPPING ON MY TELEPORT.
+	// so DON'T TOUCH IT.
+	NSError *error = nil;
+	[NSString stringWithContentsOfFile: @"/Users/nathanking/classes/cs115/Phone-Crawl/YES" encoding: NSUTF8StringEncoding error: &error];
+	DLog(@"%@", [error description]);
+	LVL_GEN_ENV = !error;
 }
 
 - (id) initWithView:(UIView*)view
@@ -278,24 +285,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	// creature has reached its destination
 	if ([c.creatureLocation equals: c.selectedMoveTarget]) {
 		[self setSelectedMoveTarget:nil ForCreature:c];
-		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
-		switch (currSlope) {
-			case slopeDown:
-				c.creatureLocation.Z++;
-				break;
-			case slopeUp:
-				c.creatureLocation.Z--;
-				break;
-			case slopeToOrc:
-				c.creatureLocation.Z = 0;
-				c.creatureLocation.X = 0;
-				c.creatureLocation.Y = 0;
-				if( c == player)
-					[currentDungeon initWithType: orcMines];
-				break;
-			default:
-				break;
-		}
 	}
 	if(battleMode)
 		[self setSelectedMoveTarget:nil ForCreature:c];
@@ -702,6 +691,32 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) moveCreature:(Creature *)c ToTileAtCoord:(Coord*)tileCoord
 {
 	c.creatureLocation = tileCoord;
+
+	if (c == player) {
+		// duplicate check.  leave this here, because LVL_GEN_ENV bypasses the original check.
+		if ([c.creatureLocation equals: c.selectedMoveTarget]) {
+			[self setSelectedMoveTarget:nil ForCreature:c];
+		}
+		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
+		switch (currSlope) {
+			case slopeDown:
+				c.creatureLocation.Z++;
+				break;
+			case slopeUp:
+				c.creatureLocation.Z--;
+				break;
+			case slopeToOrc:
+				c.creatureLocation.Z = 0;
+				c.creatureLocation.X = 0;
+				c.creatureLocation.Y = 0;
+				if( c == player)
+					[currentDungeon initWithType: orcMines];
+				break;
+			default:
+				break;
+		}
+	}
+
 	[self redetermineBattleMode];
 }
 
@@ -727,7 +742,12 @@ extern NSMutableDictionary *items; // from Dungeon
 		// which will allow the character to take its turn.
 	}
 	else {
-		[self setSelectedMoveTarget:tileCoord ForCreature:player];
+		if (LVL_GEN_ENV) {
+			[self moveCreature: player ToTileAtCoord: tileCoord];
+		}
+		else {
+			[self setSelectedMoveTarget:tileCoord ForCreature:player];
+		}
 	}
 }
 

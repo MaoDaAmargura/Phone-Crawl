@@ -20,3 +20,5 @@ __MACOSX
 *.mode1v3
 *.mode2v3
 
+# local environment file that causes Nate to teleport
+YES
