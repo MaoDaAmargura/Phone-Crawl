@@ -3,6 +3,7 @@
 #import "LevelGen.h"
 #import "Tile.h"
 #import "Item.h"
+#import "Creature.h"
 
 #pragma mark --hacks
 
@@ -550,8 +551,7 @@ typedef enum {
 					[tile initWithTileType: tileWoodDoorOpen];
 					break;
 				case 'i':
-					[tile initWithTileType: tileWoodFloor];
-					// FIXME put an innkeeper here
+					[tile initWithTileType: tileShopKeeper];
 					break;
 				case 'o':
 					[tile initWithTileType: tileStairsToOrcMines];

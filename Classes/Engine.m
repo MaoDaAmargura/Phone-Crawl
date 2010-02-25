@@ -729,7 +729,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		}
 		
 	}
-		
+
 //	// after moving, run turn loop
 //	[self doTurnLoop];
 }

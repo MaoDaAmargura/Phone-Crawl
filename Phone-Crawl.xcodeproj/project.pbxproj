@@ -36,6 +36,25 @@
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
 		D7812EED111A75A9004B201F /* staircase-up.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEB111A75A9004B201F /* staircase-up.png */; };
 		D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D7812FCC111B6A1A004B201F /* wall-rock.gif */; };
+		D7C333631136E45C00798D3D /* monster-bug-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333511136E45C00798D3D /* monster-bug-dead.png */; };
+		D7C333641136E45C00798D3D /* monster-bug.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333521136E45C00798D3D /* monster-bug.png */; };
+		D7C333651136E45C00798D3D /* monster-demon-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333531136E45C00798D3D /* monster-demon-dead.png */; };
+		D7C333661136E45C00798D3D /* monster-demon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333541136E45C00798D3D /* monster-demon.png */; };
+		D7C333671136E45C00798D3D /* monster-dragon-green-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333551136E45C00798D3D /* monster-dragon-green-dead.png */; };
+		D7C333681136E45C00798D3D /* monster-dragon-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333561136E45C00798D3D /* monster-dragon-green.png */; };
+		D7C333691136E45C00798D3D /* monster-fierydemon-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333571136E45C00798D3D /* monster-fierydemon-dead.png */; };
+		D7C3336A1136E45C00798D3D /* monster-fierydemon.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333581136E45C00798D3D /* monster-fierydemon.png */; };
+		D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333591136E45C00798D3D /* monster-ghost-dead.png */; };
+		D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335A1136E45C00798D3D /* monster-ghost.png */; };
+		D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335B1136E45C00798D3D /* monster-guard-dead.png */; };
+		D7C3336E1136E45C00798D3D /* monster-guard.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335C1136E45C00798D3D /* monster-guard.png */; };
+		D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */; };
+		D7C333701136E45C00798D3D /* monster-hornman.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335E1136E45C00798D3D /* monster-hornman.png */; };
+		D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */; };
+		D7C333721136E45C00798D3D /* monster-iceman.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333601136E45C00798D3D /* monster-iceman.png */; };
+		D7C333731136E45C00798D3D /* monster-ogre-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333611136E45C00798D3D /* monster-ogre-dead.png */; };
+		D7C333741136E45C00798D3D /* monster-ogre.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333621136E45C00798D3D /* monster-ogre.png */; };
+		D7C333761136E47D00798D3D /* shopkeeper.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333751136E47D00798D3D /* shopkeeper.png */; };
 		D7C9523A112B382200CCF8AC /* dirt-cracked1.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522D112B382200CCF8AC /* dirt-cracked1.png */; };
 		D7C9523B112B382200CCF8AC /* dirt-cracked2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522E112B382200CCF8AC /* dirt-cracked2.png */; };
 		D7C9523C112B382200CCF8AC /* dirt-cracked3.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C9522F112B382200CCF8AC /* dirt-cracked3.png */; };
@@ -178,6 +197,25 @@
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
 		D7812EEB111A75A9004B201F /* staircase-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-up.png"; sourceTree = "<group>"; };
 		D7812FCC111B6A1A004B201F /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
+		D7C333511136E45C00798D3D /* monster-bug-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug-dead.png"; path = "monsters/monster-bug-dead.png"; sourceTree = "<group>"; };
+		D7C333521136E45C00798D3D /* monster-bug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug.png"; path = "monsters/monster-bug.png"; sourceTree = "<group>"; };
+		D7C333531136E45C00798D3D /* monster-demon-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-demon-dead.png"; path = "monsters/monster-demon-dead.png"; sourceTree = "<group>"; };
+		D7C333541136E45C00798D3D /* monster-demon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-demon.png"; path = "monsters/monster-demon.png"; sourceTree = "<group>"; };
+		D7C333551136E45C00798D3D /* monster-dragon-green-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-dragon-green-dead.png"; path = "monsters/monster-dragon-green-dead.png"; sourceTree = "<group>"; };
+		D7C333561136E45C00798D3D /* monster-dragon-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-dragon-green.png"; path = "monsters/monster-dragon-green.png"; sourceTree = "<group>"; };
+		D7C333571136E45C00798D3D /* monster-fierydemon-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-fierydemon-dead.png"; path = "monsters/monster-fierydemon-dead.png"; sourceTree = "<group>"; };
+		D7C333581136E45C00798D3D /* monster-fierydemon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-fierydemon.png"; path = "monsters/monster-fierydemon.png"; sourceTree = "<group>"; };
+		D7C333591136E45C00798D3D /* monster-ghost-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost-dead.png"; path = "monsters/monster-ghost-dead.png"; sourceTree = "<group>"; };
+		D7C3335A1136E45C00798D3D /* monster-ghost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost.png"; path = "monsters/monster-ghost.png"; sourceTree = "<group>"; };
+		D7C3335B1136E45C00798D3D /* monster-guard-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-guard-dead.png"; path = "monsters/monster-guard-dead.png"; sourceTree = "<group>"; };
+		D7C3335C1136E45C00798D3D /* monster-guard.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-guard.png"; path = "monsters/monster-guard.png"; sourceTree = "<group>"; };
+		D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman-dead.png"; path = "monsters/monster-hornman-dead.png"; sourceTree = "<group>"; };
+		D7C3335E1136E45C00798D3D /* monster-hornman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman.png"; path = "monsters/monster-hornman.png"; sourceTree = "<group>"; };
+		D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-iceman-dead.png"; path = "monsters/monster-iceman-dead.png"; sourceTree = "<group>"; };
+		D7C333601136E45C00798D3D /* monster-iceman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-iceman.png"; path = "monsters/monster-iceman.png"; sourceTree = "<group>"; };
+		D7C333611136E45C00798D3D /* monster-ogre-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ogre-dead.png"; path = "monsters/monster-ogre-dead.png"; sourceTree = "<group>"; };
+		D7C333621136E45C00798D3D /* monster-ogre.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ogre.png"; path = "monsters/monster-ogre.png"; sourceTree = "<group>"; };
+		D7C333751136E47D00798D3D /* shopkeeper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shopkeeper.png; sourceTree = "<group>"; };
 		D7C9522D112B382200CCF8AC /* dirt-cracked1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked1.png"; sourceTree = "<group>"; };
 		D7C9522E112B382200CCF8AC /* dirt-cracked2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked2.png"; sourceTree = "<group>"; };
 		D7C9522F112B382200CCF8AC /* dirt-cracked3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked3.png"; sourceTree = "<group>"; };
@@ -384,6 +422,31 @@
 			name = Spell;
 			sourceTree = "<group>";
 		};
+		D7C3334F1136E43000798D3D /* Monsters */ = {
+			isa = PBXGroup;
+			children = (
+				D7C333511136E45C00798D3D /* monster-bug-dead.png */,
+				D7C333521136E45C00798D3D /* monster-bug.png */,
+				D7C333531136E45C00798D3D /* monster-demon-dead.png */,
+				D7C333541136E45C00798D3D /* monster-demon.png */,
+				D7C333551136E45C00798D3D /* monster-dragon-green-dead.png */,
+				D7C333561136E45C00798D3D /* monster-dragon-green.png */,
+				D7C333571136E45C00798D3D /* monster-fierydemon-dead.png */,
+				D7C333581136E45C00798D3D /* monster-fierydemon.png */,
+				D7C333591136E45C00798D3D /* monster-ghost-dead.png */,
+				D7C3335A1136E45C00798D3D /* monster-ghost.png */,
+				D7C3335B1136E45C00798D3D /* monster-guard-dead.png */,
+				D7C3335C1136E45C00798D3D /* monster-guard.png */,
+				D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */,
+				D7C3335E1136E45C00798D3D /* monster-hornman.png */,
+				D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */,
+				D7C333601136E45C00798D3D /* monster-iceman.png */,
+				D7C333611136E45C00798D3D /* monster-ogre-dead.png */,
+				D7C333621136E45C00798D3D /* monster-ogre.png */,
+			);
+			name = Monsters;
+			sourceTree = "<group>";
+		};
 		D931C3E21106322D0032A3DD /* Util */ = {
 			isa = PBXGroup;
 			children = (
@@ -580,6 +643,8 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D7C333751136E47D00798D3D /* shopkeeper.png */,
+				D7C3334F1136E43000798D3D /* Monsters */,
 				D9A1DAE3112DDD8E00EE126E /* TempFiles */,
 				D9A1DAE1112DDD7700EE126E /* MiniMapDots */,
 				D957F369112B337100809C1B /* popup_menu_background.png */,
@@ -865,6 +930,25 @@
 				652AB8B61130A4E90083BD1C /* potion-blue-V.png in Resources */,
 				652AB8B71130A4E90083BD1C /* potion-red-IV.png in Resources */,
 				652AB8B81130A4E90083BD1C /* potion-red-V.png in Resources */,
+				D7C333631136E45C00798D3D /* monster-bug-dead.png in Resources */,
+				D7C333641136E45C00798D3D /* monster-bug.png in Resources */,
+				D7C333651136E45C00798D3D /* monster-demon-dead.png in Resources */,
+				D7C333661136E45C00798D3D /* monster-demon.png in Resources */,
+				D7C333671136E45C00798D3D /* monster-dragon-green-dead.png in Resources */,
+				D7C333681136E45C00798D3D /* monster-dragon-green.png in Resources */,
+				D7C333691136E45C00798D3D /* monster-fierydemon-dead.png in Resources */,
+				D7C3336A1136E45C00798D3D /* monster-fierydemon.png in Resources */,
+				D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */,
+				D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */,
+				D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */,
+				D7C3336E1136E45C00798D3D /* monster-guard.png in Resources */,
+				D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */,
+				D7C333701136E45C00798D3D /* monster-hornman.png in Resources */,
+				D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */,
+				D7C333721136E45C00798D3D /* monster-iceman.png in Resources */,
+				D7C333731136E45C00798D3D /* monster-ogre-dead.png in Resources */,
+				D7C333741136E45C00798D3D /* monster-ogre.png in Resources */,
+				D7C333761136E47D00798D3D /* shopkeeper.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

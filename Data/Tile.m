@@ -75,6 +75,10 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockMove = true;
 			blockShoot = true;
 			break;
+		case tileShopKeeper:
+			blockMove = true;
+			blockShoot = true;
+			break;			
 		default:
 			break;
 	}
@@ -121,6 +125,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"dirt-cracked6.png");
 		ADD(@"dirt-cracked5.png");
 		ADD(@"wood-door-broken.png");
+		ADD(@"shopkeeper.png");
 
 //		ADD(@"wall-rock.gif");
 	}
