@@ -274,15 +274,28 @@ extern NSMutableDictionary *items; // from Dungeon
 		return;
 	}
 	[self moveCreature:c ToTileAtCoord:next];
-	if([c.selectedMoveTarget equals:[c creatureLocation]])
-	{
+	
+	// creature has reached its destination
+	if ([c.creatureLocation equals: c.selectedMoveTarget]) {
 		[self setSelectedMoveTarget:nil ForCreature:c];
-		slopeType currSlope = [currentDungeon tileAt:c.creatureLocation].slope;
-		if (currSlope)
-			[self moveCreature:c ToTileAtCoord:
-				[Coord withX:c.creatureLocation.X
-					Y:c.creatureLocation.Y
-					Z:c.creatureLocation.Z += (currSlope == slopeDown ? 1 : -1) ]];
+		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
+		switch (currSlope) {
+			case slopeDown:
+				c.creatureLocation.Z++;
+				break;
+			case slopeUp:
+				c.creatureLocation.Z--;
+				break;
+			case slopeToOrc:
+				c.creatureLocation.Z = 0;
+				c.creatureLocation.X = 0;
+				c.creatureLocation.Y = 0;
+				if( c == player)
+					[currentDungeon initWithType: orcMines];
+				break;
+			default:
+				break;
+		}
 	}
 	if(battleMode)
 		[self setSelectedMoveTarget:nil ForCreature:c];
@@ -690,48 +703,6 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	c.creatureLocation = tileCoord;
 	[self redetermineBattleMode];
-
-//	// check to make sure position is free of monsters
-//	BOOL touchMonster = NO;
-//	for (Creature *m in liveEnemies) {
-//		Coord *mp = [m creatureLocation];
-//		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
-//			touchMonster = YES;
-//			currentTarget = m;
-//			showBattleMenu = YES;
-//			break;
-//		}
-//	}
-//	if (touchMonster == NO) {
-	if ([player.creatureLocation equals: tileCoord]) {
-		slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
-		if (currSlope) {
-//			[self setSelectedMoveTarget:nil];
-			[self setSelectedMoveTarget:nil ForCreature: c];
-		}
-		switch (currSlope) {
-			case slopeDown:
-				player.creatureLocation.Z++;
-				break;
-			case slopeUp:
-				player.creatureLocation.Z--;
-				break;
-			case slopeToOrc:
-				player.creatureLocation.Z = 0;
-				player.creatureLocation.X = 0;
-				player.creatureLocation.Y = 0;
-				[currentDungeon initWithType: orcMines];
-				break;
-				
-				
-			default:
-				break;
-		}
-		
-	}
-
-//	// after moving, run turn loop
-//	[self doTurnLoop];
 }
 
 /*!
