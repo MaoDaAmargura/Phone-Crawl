@@ -12,6 +12,24 @@
 #define STAT_MIN 0
 #define FIRST_AVAIL_INV_SLOT -1
 
+//Examples -- we'll need a couple more, in all likelihood.
+//I can add a new method to Creature like -initMonsterOfType: (creatureType) type level: (int) in_level
+//which creates a default creature of a type with a specific set of equipment and inventory.
+//That will likely be useful, as the two "create" functions that we use now will only be useful for
+//creating NEW characters -- we'll need a new init that loads saved data.
+typedef enum {
+	WARRIOR,
+	ARCHER,
+	FIREBOSS,
+	COLDBOSS,
+	SHOCKBOSS,
+	POISONBOSS,
+	DARKBOSS,
+	MERCHANT,
+	PLAYER
+} creatureType;
+
+
 //Conditions
 typedef uint32_t condition_bitset;
 typedef enum {
@@ -55,6 +73,7 @@ typedef enum {
 
 @interface Creature : NSObject {
 	NSString *name;
+	creatureType creature_type;
 	Coord *creatureLocation;
 	
 	NSString *iconName;
@@ -93,8 +112,9 @@ typedef enum {
 	Points *real;
 }
 
-- (id) initWithLevel: (int) lvl;
-- (id) initWithInfo: (NSString *) in_name level: (int) lvl;
+- (id) initPlayerWithLevel: (int) lvl;
+- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl;
+- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z;
 
 
 //Reset stats modified by conditions during combat

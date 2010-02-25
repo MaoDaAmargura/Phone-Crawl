@@ -27,19 +27,38 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initWithLevel: (int) lvl {
-	return [self initWithInfo:@"Bob" level: lvl];
+- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z{
+	if (self = [super init])
+	{
+		name = [NSString stringWithString:@"Monster"];
+		self.creatureLocation = [Coord withX:x Y:y Z:z];
+		creature_type = type;
+		level = in_level;
+		[self Set_Base_Stats];
+		self.equipment = [[[EquipSlots alloc] init] autorelease];
+		money = 10000;
+		ability_points = 10;
+		condition = NO_CONDITION;
+		return self;
+	}
+	return nil;
+}
+		
+- (id) initPlayerWithLevel: (int) lvl {
+	return [self initPlayerWithInfo:@"Bob" level: lvl];
 }
 
-- (id) initWithInfo: (NSString *) in_name level: (int) lvl
+- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl
 {
 	if(self = [super init])
 	{
 		name = [NSString stringWithString:in_name];
+		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
+		level = lvl;
+		creature_type = PLAYER;
 		[self Set_Base_Stats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
-		level = lvl;
 		money = 10000;
 		ability_points = 10;
 		condition = NO_CONDITION;
@@ -55,7 +74,7 @@
 
 - (id) init
 {
-	return [self initWithLevel:0];
+	return [self initPlayerWithLevel:0];
 }
 
 

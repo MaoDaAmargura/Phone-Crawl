@@ -41,8 +41,8 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) createDevPlayer
 {
-	player = [[Creature alloc] init];
-	[player Take_Damage:150];
+	player = [[Creature alloc] initPlayerWithLevel:0];
+	//[player Take_Damage:150];
 	player.inventory = [NSMutableArray arrayWithObjects:[Item generate_random_item:1 elem_type:FIRE],
 														[Item generate_random_item:2 elem_type:COLD],
 														[Item generate_random_item:1 elem_type:LIGHTNING],
@@ -50,31 +50,7 @@ extern NSMutableDictionary *items; // from Dungeon
 														[Item generate_random_item:9 elem_type:DARK], 
 														[Item generate_random_item:4 elem_type:FIRE], nil];
 	player.iconName = @"human1.png";
-	Item *heal_test = [[Item alloc] initWithStats : @"Test Healing Potion"
-										 icon_name: @"potion-red.png"
-									  item_quality: REGULAR
-										 item_slot: BAG 
-										 elem_type: DARK 
-										 item_type: POTION
-											damage: 1
-									   elem_damage: 0
-										   charges: 1
-											 range: 1 
-												hp: 0 
-											shield: 0 
-											  mana: 0 
-											  fire: 0 
-											  cold: 0 
-										 lightning: 0
-											poison: 0 
-											  dark: 0 
-											 armor: 0
-										  spell_id: ITEM_HEAL_SPELL_ID];
-
-	DLog(@"Attempting to cast heal item");
-	[heal_test cast:player target:nil];
-	//[Spell cast_id:heal_test.spell_id caster:player target:nil];
-	
+	DLog(@"Created player successfully");
 }
 
 - (id) initWithView:(UIView*)view
@@ -91,9 +67,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		showBattleMenu = NO;
 		
 		// create enemy for battle testing
-		Creature *creature = [Creature alloc];
-		[creature initWithLevel: 0];
-		creature.creatureLocation = [Coord withX:4 Y:0 Z:0];
+		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR level:0 atX:4 Y:0 Z:0];
 		[liveEnemies addObject:creature];
 		
 		tilesPerSide = 9;
@@ -104,8 +78,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
-		
-		
 		CGPoint origin = CGPointMake(0, 300);
 		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
@@ -177,7 +149,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	}
 	[liveEnemies removeObjectsInArray:discard];
 	[deadEnemies addObjectsFromArray:discard];
-	
 	battleMode = FALSE;
 	// check to see if we are in battle mode
 	for (Creature *m in liveEnemies) {
@@ -197,6 +168,8 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (currentTarget == nil) {
 		[battleMenu hide];
 		[attackMenu hide];
+		[spellMenu hide];
+		[itemMenu hide];
 	}
 	
 	if (selectedItemToUse)
@@ -205,7 +178,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		selectedItemToUse = nil;
 		return;
 	}
-	
 	if(selectedMoveTarget)
 	{
 		Coord *next = [self nextStepBetween:[player creatureLocation] and:selectedMoveTarget];
@@ -213,7 +185,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		if([selectedMoveTarget equals:[player creatureLocation]])
 			[self setSelectedMoveTarget:nil];
 	}
-	
 	[self updateWorldView:wView];
 
 }
@@ -718,14 +689,20 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) showAttackMenu {
 	[attackMenu show];
+	[spellMenu hide];
+	[itemMenu hide];
 }
 
 - (void) showSpellMenu {
 	[spellMenu show];
+	[attackMenu hide];
+	[spellMenu hide];
 }
 
 - (void) showItemMenu {
 	[itemMenu show];
+	[attackMenu hide];
+	[spellMenu hide];
 }
 
 - (void) ability_handler: (NSNumber *) ability_id{
