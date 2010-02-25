@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-@class Item,Coord;
+@class Spell,CombatAbility,Item,Coord;
 @class Dungeon;
 
 //#define NUM_EQUIP_SLOTS 4
@@ -57,11 +57,18 @@ typedef enum {
 	NSString *name;
 	Coord *creatureLocation;
 	
+	Creature *selectedCreatureForAction;
+	
+	CombatAbility *selectedCombatAbilityToUse;
+	Spell *selectedSpellToUse;
+	Item *selectedItemToUse;
+	Coord *selectedMoveTarget;
+	
 	NSString *iconName;
 	
 	int aggro_range;
     int   level;
-	int current_turn_points;
+	int turn_points;
 
 	condition_bitset condition;
 	Points *current;
@@ -103,6 +110,8 @@ typedef enum {
 - (void) Update_Stats_Item: (Item *) item;
 - (void) Set_Base_Stats;
 
+- (void) ClearTurnActions;
+
 - (void) Take_Damage: (int) amount;
 - (void) Heal: (int) amount;
 - (void) Mana_Heal: (int) amount;
@@ -119,15 +128,19 @@ typedef enum {
 - (int) regular_weapon_damage;
 - (int) elemental_weapon_damage;
 
-- (void) doTurn:(Dungeon *)map player:(Creature *)player;
-
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
+
+@property (nonatomic, retain) Creature *selectedCreatureForAction;
+@property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;
+@property (nonatomic, retain) Spell *selectedSpellToUse;
+@property (nonatomic, retain) Item *selectedItemToUse;
+@property (nonatomic, retain) Coord *selectedMoveTarget;
 
 @property (nonatomic,retain) EquipSlots *equipment;
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
-@property (nonatomic) int current_turn_points;
+@property (nonatomic) int turn_points;
 @property (readonly) NSString *name;
 @property int money;
 @property int ability_points;

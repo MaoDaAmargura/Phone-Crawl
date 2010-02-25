@@ -21,10 +21,18 @@
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
 
-- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
+- (void) redetermineBattleMode;
+- (Creature *) nextCreatureToTakeTurn;
+- (void) incrementCreatureTurnPoints;
+- (void) determineActionForCreature:(Creature*)c;
+- (void) performMoveActionForCreature:(Creature *)c;
+- (void) performItemActionForCreature:(Creature *)c;
+- (void) performSpellActionForCreature:(Creature *)c;
+- (void) performCombatAbilityActionForCreature:(Creature *)c;
 
+- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
 - (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
-- (NSMutableArray*) getAdjacentEnterableTiles:(Coord*) c;
+- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
 - (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
 - (void) drawMiniMapForWorldView: (WorldView*) wView;
@@ -85,8 +93,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		[CombatAbility fill_ability_list];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
-		
-		currentTarget = nil;
 		
 		showBattleMenu = NO;
 		
@@ -165,82 +171,215 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	NSMutableArray *discard = [NSMutableArray array];
-	// remove all dead monsters
-	for (Creature *m in liveEnemies) {
-		if (m.current.health <= 0) {
-			if (m == currentTarget) {
-				currentTarget = nil;
-			}
-			[discard addObject:m];
-		}
-	}
-	[liveEnemies removeObjectsInArray:discard];
-	[deadEnemies addObjectsFromArray:discard];
-	
-	battleMode = FALSE;
-	// check to see if we are in battle mode
-	for (Creature *m in liveEnemies) {
-		Coord *pc = [player creatureLocation];
-		Coord *mc = [m creatureLocation];
-		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
-		if (dist <= player.aggro_range+m.aggro_range) {
-			battleMode = TRUE;
-			selectedMoveTarget = nil;
-			break;
-		}
-	}
-	
+	/* 
 	if (battleMenu.hidden == YES) {
 		currentTarget = nil;
 	}
 	if (currentTarget == nil) {
 		[battleMenu hide];
 		[attackMenu hide];
-	}
+	} */
 	
-	if (selectedItemToUse)
+	Creature *creature = [self nextCreatureToTakeTurn];
+	
+	
+	if( creature == player
+		&& creature.selectedMoveTarget == nil
+		&& creature.selectedItemToUse == nil
+		&& creature.selectedSpellToUse == nil
+		&& creature.selectedCombatAbilityToUse == nil )
 	{
-		//use item
-		selectedItemToUse = nil;
+		[self updateWorldView:wView];
 		return;
 	}
 	
-	if(selectedMoveTarget)
+	// if the creature is a monster, call the AI code
+	if( creature != player )
+		[self determineActionForCreature:creature];
+	
+	
+	if (creature.selectedItemToUse)
 	{
-		Coord *next = [self nextStepBetween:[player creatureLocation] and:selectedMoveTarget];
-		[self movePlayerToTileAtCoord:next];
-		if([selectedMoveTarget equals:[player creatureLocation]])
-			[self setSelectedMoveTarget:nil];
+		//use item on selected target
+		creature.selectedCreatureForAction = nil;
+		creature.selectedItemToUse = nil;
+	} 
+	if (creature.selectedCombatAbilityToUse)
+	{
+		//todo: use the combat ability on the target
+		creature.selectedCreatureForAction = nil;
+		creature.selectedCombatAbilityToUse = nil;
 	}
+	if (creature.selectedSpellToUse)
+	{
+		//use the spell on the target
+		creature.selectedCreatureForAction = nil;
+		creature.selectedCombatAbilityToUse = nil;
+	} 
+	if(creature.selectedMoveTarget)
+	{
+		[self performMoveActionForCreature:creature];
+	}
+	
+	if(battleMode)
+		[self incrementCreatureTurnPoints];
 	
 	[self updateWorldView:wView];
 
 }
 
-- (void) doTurnLoop {
-	while (TRUE) {
-		for (Creature *m in liveEnemies) {
-			m.current_turn_points += m.current.turn_speed;
-			if (m.current_turn_points >= 100) {
-				m.current_turn_points -= POINTS_TO_TAKE_TURN;
-				[m doTurn:currentDungeon player:player];
-			}
-		}
-		player.current_turn_points += player.current.turn_speed;
-		if (player.current_turn_points >= 100) {
-			player.current_turn_points -= POINTS_TO_TAKE_TURN;
-			// when it is player's turn, just quit function and wait for input
-			return;
-		}
+- (void) redetermineBattleMode
+{
+	// calculate battle mode
+	BOOL previousBattleMode = battleMode;
+	battleMode = NO;
+	for (Creature *m in liveEnemies) {
+		Coord *pc = [player creatureLocation];
+		Coord *mc = [m creatureLocation];
+		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
+		battleMode |= (dist <= player.aggro_range+m.aggro_range);
+	}
+	
+	// a quick hack to prevent turn_points from becoming unruly.
+	if(previousBattleMode == NO && battleMode == YES)
+	{
+		player.turn_points = 0;
+		for (Creature *m in liveEnemies)
+			m.turn_points = 0;
 	}
 }
+
+/*!
+	@method		nextCreatureToTakeTurn
+	@abstract		Returns a creature (any living monster or the player) that should take the next turn.
+*/
+- (Creature *) nextCreatureToTakeTurn
+{
+	if(!battleMode)
+		return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
+	
+	int highestPoints = player.turn_points;
+	Creature *highestCreature = player;
+	for( Creature *m in liveEnemies ) {
+		if(m.turn_points > highestPoints) {
+			highestPoints = m.turn_points;
+			highestCreature = m;
+		}
+	}
+	return highestCreature;
+}
+
+- (void) incrementCreatureTurnPoints {
+	player.turn_points += 30;
+	for(Creature *m in liveEnemies)
+		m.turn_points += 25;
+}
+
+- (void) determineActionForCreature:(Creature*)c
+{
+	if(battleMode)
+	{
+		[self setSelectedMoveTarget:player.creatureLocation ForCreature:c];
+	} else {
+		[self setSelectedMoveTarget:c.creatureLocation ForCreature:c];
+	}
+}
+
+#define TURN_POINTS_FOR_MOVEMENT_ACTION 25
+- (void) performMoveActionForCreature:(Creature *)c
+{
+	Coord *next = [self nextStepBetween:[c creatureLocation] and:c.selectedMoveTarget];
+	if(![self creature:c CanEnterTileAtCoord:next])
+	{
+		//something other than terrain is blocking the path (probably monster)
+		//this is not an impossible situation to get into, but I dont know how to handle it nicely.
+		//the player probably didnt want to do this anyways.
+		NSLog(@"A Creature has tried to run through a monster.");
+		[c ClearTurnActions];
+		return;
+	}
+	[self moveCreature:c ToTileAtCoord:next];
+	if([c.selectedMoveTarget equals:[c creatureLocation]])
+	{
+		[self setSelectedMoveTarget:nil ForCreature:c];
+		slopeType currSlope = [currentDungeon tileAt:c.creatureLocation].slope;
+		if (currSlope)
+			[self moveCreature:c ToTileAtCoord:
+				[Coord withX:c.creatureLocation.X
+					Y:c.creatureLocation.Y
+					Z:c.creatureLocation.Z += (currSlope == slopeDown ? 1 : -1) ]];
+	}
+	if(battleMode)
+		[self setSelectedMoveTarget:nil ForCreature:c];
+	c.turn_points -= TURN_POINTS_FOR_MOVEMENT_ACTION;
+}
+
+/*!
+	@method		performItemActionForCreature
+	@abstract		given a creature with an item and target marked for use, this method will use the item. 
+	@discussion		This should be handled by the spell handler instead.
+*/
+- (void) performItemActionForCreature:(Creature *)c
+{
+	//if the item has a spell associated with it
+	{
+		//use the spell
+	}
+	//else
+	{
+		//do nothing.  The player can't use a helmet as a turn action.  
+		//Equiping and dropping items is done outside of the turn system.
+		[c ClearTurnActions];
+	}
+		
+}
+
+/*!
+	@method		performSpellActionForCreature
+	@abstract		given a creature with a spell and target marked for use, this method will cast the spell. 
+*/
+- (void) performSpellActionForCreature:(Creature *)c
+{
+		//maintenance
+	c.turn_points -= c.selectedSpellToUse.required_turn_points;
+	[c ClearTurnActions];
+}
+- (void) performCombatAbilityActionForCreature:(Creature *)c
+{
+	//if creature is in range
+		//do combatAction
+		
+		//c.turn_points -= c.selectedCombatAbilityToUse.required_turn_points;
+		//[c ClearTurnActions];
+	//else
+	{
+		Coord *moveTo = nil;
+		//if equiped item has a minimum range
+			//i dunno, crap out.  I really don't want to calculate moving backwards to get in range.
+		//else
+			moveTo = c.selectedCreatureForAction.creatureLocation;
+		[self setSelectedMoveTarget:moveTo ForCreature:c];
+		[self performMoveActionForCreature:c];
+		[self setSelectedMoveTarget:nil ForCreature:c];
+		
+	}
+}
+
 
 #pragma mark -
 #pragma mark Pathing
 
+/*!
+	@method		nextStepBetween:c1 and:c2
+	@abstract		Runs an A* algorithm to find the next step on an optimal path towards the destination.
+						Monsters are not considered.  They do not block the path.
+	@discussion		This method does not save the path when it's generated.  It definitely should.
+						Gets slow (>0.25 seconds) when paths are above 80 tiles or so.
+*/
 - (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2
 {
+	if([c1 equals:c2])
+		return c1;
    NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
    c2.distance = 0;
    [discovered addObject: (id)c2];
@@ -250,7 +389,7 @@ extern NSMutableDictionary *items; // from Dungeon
       Coord *c = [self coordWithShortestEstimatedPathFromArray:discovered toDest:c1];
       [evaluated addObject:c];
       [discovered removeObject:c];
-      NSMutableArray *arr = [self getAdjacentEnterableTiles:c];
+      NSMutableArray *arr = [self getAdjacentNonBlockingTiles:c];
       for( Coord *cadj in arr )
       {
          if( [cadj equals:c1] )
@@ -265,26 +404,25 @@ extern NSMutableDictionary *items; // from Dungeon
          else
             [discovered addObject:(id)cadj];
       }
-   
    }
    
 	return c1;
 }
 
-- (NSMutableArray*) getAdjacentEnterableTiles:(Coord*) c
+- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c
 {
    NSMutableArray *ret = [NSMutableArray arrayWithCapacity:4];
    Coord *c1 = [Coord withX:c.X + 1 Y:c.Y Z:c.Z];
-   if([self canEnterTileAtCoord: c1])
+   if(![self tileAtCoordBlocksMovement: c1])
       [ret addObject: c1];
    c1 = [Coord withX:c.X - 1 Y:c.Y Z:c.Z];
-   if([self canEnterTileAtCoord: c1])
+   if(![self tileAtCoordBlocksMovement: c1])
       [ret addObject: c1];
    c1 = [Coord withX:c.X Y:c.Y + 1 Z:c.Z];
-   if([self canEnterTileAtCoord: c1])
+   if(![self tileAtCoordBlocksMovement: c1])
       [ret addObject: c1];
    c1 = [Coord withX:c.X Y:c.Y - 1 Z:c.Z];
-   if([self canEnterTileAtCoord: c1])
+   if(![self tileAtCoordBlocksMovement: c1])
       [ret addObject: c1];
    return ret;
 }
@@ -309,7 +447,6 @@ extern NSMutableDictionary *items; // from Dungeon
    {
       if( [c1 equals: c] )
       {
-//         DLog(@"returning true");
          return c1;
       }
    }
@@ -546,76 +683,71 @@ extern NSMutableDictionary *items; // from Dungeon
 
 #pragma mark -
 #pragma mark control
+
 /*!
- @method		canEnterTileAtCoord:
- @abstract		query function for whether the player is allowed to move into a certain spot.
+ @method		tileAtCoordBlocksMovement:
+ @abstract		query function for whether the tile object blocks movement (blocked by environment, not monsters)
  */
-- (BOOL) canEnterTileAtCoord:(Coord*) coord
+- (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
 	Tile *t = [currentDungeon tileAt:coord];
-	
 	if(t) 
-		return !t.blockMove;
+		return t.blockMove;
 	else 
-		return NO;
-	
+		return YES;
+}
+
+
+/*!
+ @method		creature:c CanEnterTileAtCoord:
+ @abstract		query function for if anything prevents creature entrance to coord (blocked by environment or monsters)
+					A creature doesn't block itself.
+ */
+- (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord
+{
+	BOOL blockedBySomething = [self tileAtCoordBlocksMovement: coord];
+	if( !blockedBySomething )
+		for (Creature *m in liveEnemies) 
+			blockedBySomething |= (c != m && [coord equals:[m creatureLocation]] );
+	return !blockedBySomething;
 }
 
 /*!
  @method		movePlayerToTileAtCoord:
- @abstract		public function to move the player. don't call it lightly. and if you want to see the movement,
-				then call engines updateWorldView right after a call to this function.
-				note that this will automatically toss the player up or down any stairs he lands on.
+ @abstract	Public function to move any creature. don't call it lightly.  
+				This method has no checks, and problems will occur if you aren't sure the tile is OK for movement.
+				If you want to see the movement, then call engines updateWorldView after a call to this function.
+				Moving creatures is the only thing that changes battle mode, so it is recalculated here
  */
-- (void) movePlayerToTileAtCoord:(Coord*)tileCoord
+- (void) moveCreature:(Creature *)c ToTileAtCoord:(Coord*)tileCoord
 {
-	// check to make sure position is free of monsters
-	BOOL touchMonster = NO;
-	for (Creature *m in liveEnemies) {
-		Coord *mp = [m creatureLocation];
-		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
-			touchMonster = YES;
-			currentTarget = m;
-			showBattleMenu = YES;
-			break;
-		}
-	}
-	if (touchMonster == NO) {
-		player.creatureLocation = tileCoord;
-		slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
-		if (currSlope) {
-			player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
-			[self setSelectedMoveTarget:nil];
-		}
-	}
-	// after moving, run turn loop
-	[self doTurnLoop];
+	c.creatureLocation = tileCoord;
+	[self redetermineBattleMode];
 }
 
-#define PLAYER_INSTANT_TRANSMISSION true
-
+/*!
+	@method		processTouch
+	@abstract	method called when a tile is touched.
+					Determines if the touch issues a move command or a different action.
+*/
 - (void) processTouch:(Coord *)tileCoord {
 	BOOL touchMonster = NO;
 	for (Creature *m in liveEnemies) {
-		Coord *mp = [m creatureLocation];
-		if (mp.X == tileCoord.X && mp.Y == tileCoord.Y) {
+		if( [tileCoord equals:[m creatureLocation]] ) {
 			touchMonster = YES;
-			currentTarget = m;
-			[battleMenu show];
+			player.selectedCreatureForAction = m;
 			break;
 		}
 	}
-	if (touchMonster == NO) {
-		if(PLAYER_INSTANT_TRANSMISSION) {
-			[self movePlayerToTileAtCoord:tileCoord];
-		} else {
-			if (!battleMode) {
-				[self setSelectedMoveTarget:tileCoord];
-			} else {
-				Coord *c = [self nextStepBetween:player.creatureLocation and: tileCoord];
-				[self movePlayerToTileAtCoord: c];
-			}
-		}
+	if (touchMonster == YES) {
+		// The player has touched a monster.
+		// The game should show a menu of actions and be ready for additional user input.
+		//     -the menu should be triggered here.
+		// After the player has selected the additional input, other code will be called
+		// which will allow the character to take its turn.
+	}
+	else {
+		[self setSelectedMoveTarget:tileCoord ForCreature:player];
 	}
 }
 
@@ -678,7 +810,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
-	if([i cast:player target:currentTarget] == 0)
+	if([i cast:player target:player.selectedCreatureForAction] == 0)
 		[self playerDropItem:i];
 }
 
@@ -692,10 +824,10 @@ extern NSMutableDictionary *items; // from Dungeon
 #pragma mark -
 #pragma mark Custom Accessors
 
-- (void) setSelectedMoveTarget:(Coord *)loc
+- (void) setSelectedMoveTarget:(Coord *)loc ForCreature:(Creature *)c
 {
-	[selectedMoveTarget release];
-	selectedMoveTarget = [loc retain];
+	[c.selectedMoveTarget release];
+	c.selectedMoveTarget = [loc retain];
 }
 
 - (NSArray*) getPlayerInventory
@@ -726,21 +858,5 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) showItemMenu {
 	[itemMenu show];
-}
-
-- (void) ability_handler: (NSNumber *) ability_id{
-	//DLog(@"ability handler");
-	[CombatAbility use_ability_id:[ability_id intValue] caster:player target:currentTarget];
-	[self doTurnLoop];
-}
-	 
-- (void) spell_handler: (NSNumber *) spell_id {
-	//DLog(@"spell handler");
-	[Spell cast_id:[spell_id intValue] caster:player target:currentTarget];
-	[self doTurnLoop];
-}
-- (void) item_handler: (Item*) it{
-	[self playerUseItem:it];
-	[self doTurnLoop];
 }
 @end

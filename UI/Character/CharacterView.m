@@ -1,4 +1,6 @@
 #import "CharacterView.h"
+#import "CombatAbility.h"
+#import "Spell.h"
 #import "Creature.h"
 #import "Item.h"
 

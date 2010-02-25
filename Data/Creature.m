@@ -1,15 +1,22 @@
 #import "Creature.h"
+#import "CombatAbility.h"
+#import "Spell.h"
 #import "Item.h"
 #import "Dungeon.h"
 
 @implementation Creature
 
-@synthesize current_turn_points;
+@synthesize creatureLocation;
+@synthesize inventory;
+@synthesize selectedCreatureForAction;
+@synthesize selectedCombatAbilityToUse;
+@synthesize selectedSpellToUse;
+@synthesize selectedItemToUse;
+@synthesize selectedMoveTarget;
+@synthesize turn_points;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;
-@synthesize creatureLocation;
-@synthesize inventory;
 @synthesize money;
 @synthesize fire;
 @synthesize cold;
@@ -22,6 +29,7 @@
 @synthesize max;
 @synthesize aggro_range;
 @synthesize iconName;
+
 
 
 #pragma mark -
@@ -37,6 +45,11 @@
 	{
 		name = [NSString stringWithString:in_name];
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
+		self.selectedCreatureForAction = nil;
+		self.selectedCombatAbilityToUse = nil;
+		self.selectedSpellToUse = nil;
+		self.selectedItemToUse = nil;
+		self.selectedMoveTarget = nil;
 		[self Set_Base_Stats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		level = lvl;
@@ -84,7 +97,7 @@
 	current.health = current.shield = current.mana = max.health;
 	fire = cold = lightning = poison = dark = 20;
 	armor = 0;
-	aggro_range = 1;
+	aggro_range = 2;
 	[self Update_Stats_Item:equipment.head];
 	[self Update_Stats_Item:equipment.chest];
 	[self Update_Stats_Item:equipment.l_hand];
@@ -288,8 +301,12 @@
 	return dmg;
 }
 
-- (void) doTurn:(Dungeon *)map player:(Creature *)player {
-	
+- (void) ClearTurnActions
+{
+		self.selectedCombatAbilityToUse = nil;
+		self.selectedSpellToUse = nil;
+		self.selectedItemToUse = nil;
+		self.selectedMoveTarget = nil;
 }
 
 @end
