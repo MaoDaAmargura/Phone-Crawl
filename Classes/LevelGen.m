@@ -23,7 +23,7 @@ static tileType deadTile [] = {
 
 	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
 	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
-	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
+	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileStoneCrumbling, tileLichen,
 	tileNone, tileConcrete
 };
 
@@ -474,11 +474,10 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
-	if (!LVL_GEN_ENV) return;
+	if (!LVL_GEN_ENV) return dungeon;
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
-//	NSMutableArray *connected = [[NSMutableArray alloc] init];
 	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
 	}
