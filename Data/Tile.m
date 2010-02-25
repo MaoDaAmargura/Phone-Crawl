@@ -79,6 +79,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			blockMove = true;
 			blockShoot = true;
 			break;			
+		case tileStairsToTown:
+			slope = slopeToTown;
+			break;			
 		default:
 			break;
 	}
@@ -126,6 +129,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"dirt-cracked5.png");
 		ADD(@"wood-door-broken.png");
 		ADD(@"shopkeeper.png");
+		ADD(@"staircase-up.png");
 
 //		ADD(@"wall-rock.gif");
 	}

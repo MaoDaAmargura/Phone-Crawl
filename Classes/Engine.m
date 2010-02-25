@@ -698,21 +698,25 @@ extern NSMutableDictionary *items; // from Dungeon
 			[self setSelectedMoveTarget:nil ForCreature:c];
 		}
 		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
-		switch (currSlope) {
+		if (currSlope) switch (currSlope) {
 			case slopeDown:
 				c.creatureLocation.Z++;
 				break;
 			case slopeUp:
 				c.creatureLocation.Z--;
 				break;
-			case slopeToOrc:
+			default:
 				c.creatureLocation.Z = 0;
 				c.creatureLocation.X = 0;
 				c.creatureLocation.Y = 0;
-				if( c == player)
+				if (currSlope == slopeToOrc) {
 					[currentDungeon initWithType: orcMines];
-				break;
-			default:
+					break;
+				}
+				if (currSlope == slopeToTown) {
+					[currentDungeon initWithType: town];
+					break;
+				}
 				break;
 		}
 	}

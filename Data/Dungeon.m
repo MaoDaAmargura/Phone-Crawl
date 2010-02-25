@@ -65,6 +65,9 @@ NSMutableDictionary *items = nil;
 	if (!items) {
 		items = [[NSMutableDictionary alloc] init];
 	}
+	else {
+		[items removeAllObjects];
+	}
 
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];

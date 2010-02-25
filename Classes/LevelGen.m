@@ -456,6 +456,7 @@ typedef enum {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
+	[[dungeon tileAtX: 2 Y: 0 Z: 0] initWithTileType: tileStairsToTown];
 
 
 	[items removeAllObjects];
