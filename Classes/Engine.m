@@ -100,7 +100,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		
 		[self createDevPlayer];
 		
-		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		currentDungeon = [[Dungeon alloc] initWithType: town];
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
@@ -460,14 +460,6 @@ extern NSMutableDictionary *items; // from Dungeon
 			UIImage *img = [UIImage imageNamed: item.item_icon];
 			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
 
-			
-			
-//			if(t)
-//				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
-//			else
-//				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
-
-			// Draw each tile in the proper place
 			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
 		}
 	}	

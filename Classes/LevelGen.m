@@ -505,11 +505,56 @@ typedef enum {
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {
-	for (int XCV = 0; XCV < MAP_DIMENSION; XCV++) {
-		for (int YCV = 0; YCV < MAP_DIMENSION; YCV++) {
-//			bool validTile = [dungeon tileAtX:XCV Y:YCV Z:0]? true : false;
-//			Tile *tile = [];
-//			[dungeon setTile:  X:  Y:  Z: ];
+	/*
+	 ye olde key:
+	 g = Grass
+	 w = wooden Wall
+	 f = wooden Floor
+	 d = Door
+	 o = Orc mines stair
+	 m = Morlock tunnels stair
+	 c = Crypts stair
+	 u = Underground forest stair
+	 a = Abyss stair
+	 i = Innkeeper
+	 */
+	#define TOWN_DIMENSION 6
+	const char TOWN [TOWN_DIMENSION][TOWN_DIMENSION] =
+	{
+		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
+		{ 'g', 'g', 'd', 'f', 'i', 'w' } ,
+		{ 'g', 'g', 'w', 'f', 'f', 'w' } ,
+		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'g' } ,
+		{ 'o', 'm', 'c', 'u', 'g', 'a' }
+	};
+
+	[self setFloorOf: dungeon to: tilePit onZLevel: 0];
+
+	for (int x = 0; x < TOWN_DIMENSION; x++) {
+		for (int y = 0; y < TOWN_DIMENSION; y++) {
+			Tile *tile = [dungeon tileAtX:x Y:y Z:0];
+			switch (TOWN [x][y]) {
+				case 'g':
+					[tile initWithTileType: tileGrass];
+					break;
+				case 'w':
+					[tile initWithTileType: tileWoodWall];
+					break;
+				case 'f':
+					[tile initWithTileType: tileWoodFloor];
+					break;
+				case 'd':
+					[tile initWithTileType: tileWoodDoorOpen];
+					break;
+				case 'i':
+					[tile initWithTileType: tileWoodFloor];
+					// FIXME put an innkeeper here
+					break;
+				default:
+					[tile initWithTileType: tileSlopeDown];
+					// FIXME need more graphics
+			}
 		}
 	}
 	return dungeon;
