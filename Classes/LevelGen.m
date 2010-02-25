@@ -23,7 +23,7 @@ static tileType deadTile [] = {
 
 	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
 	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
-	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
+	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileStoneCrumbling, tileLichen,
 	tileNone, tileConcrete
 };
 
@@ -107,16 +107,15 @@ static tileType deadTile [] = {
 	while ([white count]) {
 		NSMutableArray *connected = [self singleComponent: dungeon withClearTiles: white];
 		if ([connected count]) [twoDimens addObject: connected];
-		else DLog(@"bug in flood fill?");
+//		else DLog(@"bug in flood fill?");
 	}
 
 	return [twoDimens autorelease];
 }
 
 + (void) bomb: (Dungeon*) dungeon targeting: (NSMutableArray*) targets tightly: (bool) tight towardsCenter: (bool) directed {
-	DLog(@"max %d", [targets count] - 1);
+//	DLog(@"max %d", [targets count] - 1);
 	Tile *target = [targets objectAtIndex: [Rand min: 0 max: [targets count] - 1]];
-	DLog(@"b");
 
 //	int height = [Rand min: 3 max: 9];
 //	int width = 12 - height;
@@ -474,11 +473,10 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
-	if (!LVL_GEN_ENV) return;
+	if (!LVL_GEN_ENV) return dungeon;
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
-//	NSMutableArray *connected = [[NSMutableArray alloc] init];
 	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
 	}

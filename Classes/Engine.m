@@ -15,7 +15,6 @@
 #import "CombatAbility.h"
 
 #define POINTS_TO_TAKE_TURN 15
-static int LVL_GEN_ENV;
 
 @interface Engine (Private)
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
