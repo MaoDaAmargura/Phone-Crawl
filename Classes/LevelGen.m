@@ -445,6 +445,8 @@ typedef enum {
 }
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
+	DLog(@"holy shit barf whatever yes metal");
+	
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
@@ -534,7 +536,7 @@ typedef enum {
 	for (int x = 0; x < TOWN_DIMENSION; x++) {
 		for (int y = 0; y < TOWN_DIMENSION; y++) {
 			Tile *tile = [dungeon tileAtX:x Y:y Z:0];
-			switch (TOWN [x][y]) {
+			switch (TOWN [y][x]) {
 				case 'g':
 					[tile initWithTileType: tileGrass];
 					break;
@@ -551,8 +553,12 @@ typedef enum {
 					[tile initWithTileType: tileWoodFloor];
 					// FIXME put an innkeeper here
 					break;
+				case 'o':
+					[tile initWithTileType: tileStairsToOrcMines];
+					// FIXME should be a staircase 
+					break;
 				default:
-					[tile initWithTileType: tileSlopeDown];
+					[tile initWithTileType: tileGroundCrumbling];
 					// FIXME need more graphics
 			}
 		}
@@ -565,9 +571,11 @@ typedef enum {
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
 	switch (lvlType) {
 		case orcMines:
+			DLog(@"i got here, you black steam raowlahr");
 			dungeon = [self makeOrcMines: dungeon];
 			break;
 		case town:
+			DLog(@"eat a dick, you black steam raowlahr");
 			dungeon = [self makeTown: dungeon];
 			break;
 		default:

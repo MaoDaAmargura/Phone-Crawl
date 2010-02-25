@@ -4,11 +4,11 @@ typedef enum {
 	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
 	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
 	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
-	tileGroundCrumbling, tileStoneCrumbling, tileDirt
+	tileGroundCrumbling, tileStoneCrumbling, tileDirt, tileStairsToOrcMines
 } tileType;
 
 typedef enum {
-	slopeNone, slopeUp, slopeDown
+	slopeNone, slopeUp, slopeDown, slopeToOrc, slopeToTown
 } slopeType;
 
 @interface Tile : NSObject {

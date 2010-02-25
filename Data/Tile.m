@@ -68,6 +68,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		case tileSlopeUp:
 			slope = slopeUp;
 			break;
+		case tileStairsToOrcMines:
+			slope = slopeToOrc;
+			break;			
 		case tileRockWall:
 			blockMove = true;
 			blockShoot = true;
@@ -117,7 +120,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 		ADD(@"dirt-cracked6.png");
 		ADD(@"dirt-cracked5.png");
-
+		ADD(@"wood-door-broken.png");
 
 //		ADD(@"wall-rock.gif");
 	}

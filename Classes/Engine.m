@@ -101,6 +101,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self createDevPlayer];
 		
 		currentDungeon = [[Dungeon alloc] initWithType: town];
+//		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
@@ -575,9 +576,25 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (touchMonster == NO) {
 		player.creatureLocation = tileCoord;
 		slopeType currSlope = [currentDungeon tileAt: tileCoord].slope;
-		if (currSlope) {
-			player.creatureLocation.Z += (currSlope == slopeDown)? 1 : -1;
-			[self setSelectedMoveTarget:nil];
+		if (currSlope) [self setSelectedMoveTarget:nil];
+		switch (currSlope) {
+			case slopeDown:
+				player.creatureLocation.Z++;
+				break;
+			case slopeUp:
+				player.creatureLocation.Z--;
+				break;
+			case slopeToOrc:
+				player.creatureLocation.Z = 0;
+				player.creatureLocation.X = 0;
+				player.creatureLocation.Y = 0;
+				[currentDungeon initWithType: orcMines];
+				DLog(@"bwah ha ha ha!!!");
+				break;
+
+
+			default:
+				break;
 		}
 	}
 	// after moving, run turn loop

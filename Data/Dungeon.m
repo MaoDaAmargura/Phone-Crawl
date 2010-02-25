@@ -62,7 +62,9 @@ NSMutableDictionary *items = nil;
 #pragma mark --public
 
 - (Dungeon*) initWithType: (levelType) lvlType {
-	items = [[NSMutableDictionary alloc] init];
+	if (!items) {
+		items = [[NSMutableDictionary alloc] init];
+	}
 
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
@@ -78,7 +80,7 @@ NSMutableDictionary *items = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
-	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
+//	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
 	return self;
 }
 
