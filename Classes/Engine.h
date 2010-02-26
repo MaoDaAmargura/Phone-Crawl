@@ -13,14 +13,6 @@
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
-typedef enum {
-	MOVE,
-	ATTACK,
-	SPELL,
-	USE_ITEM,
-	NO_ACTION
-} playerAction;
-
 @interface Engine : NSObject 
 {
 	
@@ -43,9 +35,6 @@ typedef enum {
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
 	PCPopupMenu *itemMenu;
-	
-	playerAction action;
-	id actionObj;
 }
 
 - (id) initWithView:(UIView*)view;
@@ -81,5 +70,7 @@ typedef enum {
 - (void) showSpellMenu;
 
 - (void) showItemMenu;
+
+- (void) ability_handler:(CombatAbility *)action;
 
 @end

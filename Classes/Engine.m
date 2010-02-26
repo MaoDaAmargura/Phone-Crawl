@@ -87,8 +87,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		
 		[self createDevPlayer];
 		
-		currentDungeon = [[Dungeon alloc] initWithType: town];
-//		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		//currentDungeon = [[Dungeon alloc] initWithType: town];
+		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 		battleMode = NO;
 		selectedMoveTarget = nil;
 
@@ -101,10 +101,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		battleMenu.hideOnFire = NO;
 
 		[battleMenu hide];
-		
-		// player action
-		action = NO_ACTION;
-		actionObj = nil;
 		
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
@@ -805,6 +801,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 	return CGPointMake((tileCoord.X-topleft.x)*tileSize.width, (tileCoord.Y-topleft.y)*tileSize.height);
 	
+}
+
+- (void) ability_handler:(CombatAbility *)action {
+	player.selectedCombatAbilityToUse = action;
 }
 
 #pragma mark -
