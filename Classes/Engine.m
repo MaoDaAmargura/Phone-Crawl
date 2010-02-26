@@ -107,7 +107,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (CombatAbility* ca in ability_list) {
-			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:[[NSNumber alloc] initWithInt:ca.ability_id]];
+			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:ca];
 		}
 		[attackMenu showInView:view];
 		[attackMenu hide];
@@ -151,16 +151,16 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	/* 
+	 
 	if (battleMenu.hidden == YES) {
-		currentTarget = nil;
+		player.selectedCreatureForAction = nil;
 	}
-	if (currentTarget == nil) {
+	if (player.selectedCreatureForAction == nil) {
 		[battleMenu hide];
 		[attackMenu hide];
 		[spellMenu hide];
 		[itemMenu hide];
-	} */
+	}
 	
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
@@ -169,7 +169,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		&& creature.selectedMoveTarget == nil
 		&& creature.selectedItemToUse == nil
 		&& creature.selectedSpellToUse == nil
-		&& creature.selectedCombatAbilityToUse == nil )
+		&& creature.selectedCombatAbilityToUse < 0 )
 	{
 		[self updateWorldView:wView];
 		return;
@@ -186,17 +186,18 @@ extern NSMutableDictionary *items; // from Dungeon
 		creature.selectedCreatureForAction = nil;
 		creature.selectedItemToUse = nil;
 	} 
-	if (creature.selectedCombatAbilityToUse)
+	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
 	{
 		//todo: use the combat ability on the target
+		[CombatAbility use_ability_id:creature.selectedCombatAbilityToUse caster:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
-		creature.selectedCombatAbilityToUse = nil;
+		creature.selectedCombatAbilityToUse = -1;
 	}
 	if (creature.selectedSpellToUse)
 	{
 		//use the spell on the target
 		creature.selectedCreatureForAction = nil;
-		creature.selectedCombatAbilityToUse = nil;
+		creature.selectedSpellToUse = nil;
 	} 
 	if(creature.selectedMoveTarget)
 	{
@@ -804,7 +805,7 @@ extern NSMutableDictionary *items; // from Dungeon
 }
 
 - (void) ability_handler:(CombatAbility *)action {
-	player.selectedCombatAbilityToUse = action;
+	player.selectedCombatAbilityToUse = action.ability_id;
 }
 
 #pragma mark -

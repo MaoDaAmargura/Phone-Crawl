@@ -65,7 +65,7 @@
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		
 		self.selectedCreatureForAction = nil;
-		self.selectedCombatAbilityToUse = nil;
+		self.selectedCombatAbilityToUse = -1;
 		self.selectedSpellToUse = nil;
 		self.selectedItemToUse = nil;
 		self.selectedMoveTarget = nil;

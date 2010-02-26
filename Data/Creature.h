@@ -78,7 +78,7 @@ typedef enum {
 	
 	Creature *selectedCreatureForAction;
 	
-	CombatAbility *selectedCombatAbilityToUse;
+	int selectedCombatAbilityToUse;
 	Spell *selectedSpellToUse;
 	Item *selectedItemToUse;
 	Coord *selectedMoveTarget;
@@ -152,7 +152,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *inventory;
 
 @property (nonatomic, retain) Creature *selectedCreatureForAction;
-@property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;
+@property (nonatomic) int selectedCombatAbilityToUse;
 @property (nonatomic, retain) Spell *selectedSpellToUse;
 @property (nonatomic, retain) Item *selectedItemToUse;
 @property (nonatomic, retain) Coord *selectedMoveTarget;
