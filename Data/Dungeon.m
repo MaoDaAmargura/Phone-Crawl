@@ -2,6 +2,7 @@
 #import "Util.h"
 #import "Dungeon.h"
 #import "LevelGen.h"
+#import "Item.h"
 
 #include <stdio.h>
 
@@ -16,12 +17,14 @@
 #pragma mark Dungeon
 
 @interface Dungeon () 
-NSMutableArray *tiles = nil;
+static NSMutableArray *tiles = nil;
 @end
 
 @implementation Dungeon
 
 @synthesize playerLocation;
+NSMutableDictionary *items = nil;
+
 #pragma mark --private
 
 - (int) indexOfTileAtX: (int) x Y: (int) y Z: (int) z {
@@ -59,6 +62,13 @@ NSMutableArray *tiles = nil;
 #pragma mark --public
 
 - (Dungeon*) initWithType: (levelType) lvlType {
+	if (!items) {
+		items = [[NSMutableDictionary alloc] init];
+	}
+	else {
+		[items removeAllObjects];
+	}
+
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
 		for (int z = 0; z < MAP_DEPTH; z++) {
@@ -73,7 +83,7 @@ NSMutableArray *tiles = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
-	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
+//	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
 	return self;
 }
 

@@ -25,4 +25,6 @@ typedef enum {
 // FIXME: is this ever updated / still necessary?
 @property (nonatomic, retain) Coord *playerLocation;
 
+extern NSMutableDictionary *items;
+
 @end

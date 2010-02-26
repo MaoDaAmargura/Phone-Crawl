@@ -12,6 +12,8 @@ extern NSMutableArray* ability_list;
 	int ability_level; //Novice, Journeyman, Master
 	int ability_id; //Index in combat_list
 	SEL ability_fn;
+	int ability_points;
+	int required_turn_points;
 }
 
 + (void) fill_ability_list;
@@ -19,7 +21,8 @@ extern NSMutableArray* ability_list;
 - (void) use_ability: (Creature *) caster target: (Creature *) target;
 
 - (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn;
+		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn points:(int)abilitypnts
+		 turn_points:(int) in_turn_points;
 	
 
 - (int) mitigate_damage: (Creature *) caster target: (Creature *) target damage: (int) amount_damage;
@@ -34,5 +37,7 @@ extern NSMutableArray* ability_list;
 @property (readonly) int ability_id;
 @property (readonly) int damage;
 @property (readonly) int ability_level;
+@property (readonly) int ability_points;
+@property (readonly) int required_turn_points;
 
 @end

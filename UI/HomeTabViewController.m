@@ -58,7 +58,7 @@
     [super viewDidLoad];
 	//[gameEngine updateWorldView:wView];
 	
-	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
+	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
 	
 	[timer fire];
 }
@@ -105,7 +105,7 @@
 	
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
 	
-	if([gameEngine canEnterTileAtCoord:tileCoord])
+	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
 		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
 	else 
 		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
@@ -127,7 +127,7 @@
 	
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
 	
-	if([gameEngine canEnterTileAtCoord:tileCoord])
+	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
 	{
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];

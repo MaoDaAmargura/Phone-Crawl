@@ -18,6 +18,10 @@
 	return NO;
 }
 
+- (BOOL) isEqual: (id)anObject {
+	return [self equals:(Coord*) anObject];
+}
+
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z {
 	Coord *ret = [[Coord alloc] autorelease];
 	ret.X = x;
@@ -26,15 +30,23 @@
 	return ret;
 }
 
+- (id) copyWithZone: (NSZone*) zone {
+	Coord *retval = [[self class] allocWithZone: zone];
+	retval.X = X;
+	retval.Y = Y;
+	retval.Z = Z;
+    return retval;
+	
+//	return [[Coord withX: X Y: Y Z: Z] retain];
+}
+
 @end
 
 
 @implementation Rand
 
-// blows up on assert if lowBound < highBound.
-// negative lowBound works fine, I'm not sober enough to figure out a negative
-// highBound that passes the assert just now, so shut up all of your head.  -Nate
 + (int) min: (int) lowBound max: (int) highBound {
+	if (lowBound == highBound) return lowBound;
 	assert (lowBound < highBound);
 	int range = highBound - lowBound + 1; // +1 is due to behavior of modulo
 	return ((arc4random() % range) + lowBound);

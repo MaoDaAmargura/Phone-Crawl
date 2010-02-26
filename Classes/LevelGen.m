@@ -2,6 +2,8 @@
 #import "Dungeon.h"
 #import "LevelGen.h"
 #import "Tile.h"
+#import "Item.h"
+#import "Creature.h"
 
 #pragma mark --hacks
 
@@ -11,6 +13,7 @@
 @end
 
 extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
+extern NSMutableDictionary *items; // from Dungeon.h
 
 static tileType deadTile [] = {
 //	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
@@ -18,10 +21,10 @@ static tileType deadTile [] = {
 //	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
 //	tileGroundCrumbling, tileStoneCrumbling
 
-tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
-tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
-tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileRockWall, tileLichen,
-tileNone, tileConcrete
+	tileNone, tileGrass, tileStoneCrumbling, tileRubble, tileRubble,
+	tileWoodDoorBroken, tileRubble, tileWoodDoorBroken, tileWoodDoorBroken, tileWoodFloor,
+	tileGroundCrumbling, tileGroundCrumbling, tileRubble, tileStoneCrumbling, tileLichen,
+	tileNone, tileConcrete
 };
 
 #pragma mark --private methods
@@ -103,13 +106,15 @@ tileNone, tileConcrete
 	NSMutableArray *twoDimens = [[NSMutableArray alloc] init];
 	while ([white count]) {
 		NSMutableArray *connected = [self singleComponent: dungeon withClearTiles: white];
-		[twoDimens addObject: connected];
+		if ([connected count]) [twoDimens addObject: connected];
+//		else DLog(@"bug in flood fill?");
 	}
 
 	return [twoDimens autorelease];
 }
 
 + (void) bomb: (Dungeon*) dungeon targeting: (NSMutableArray*) targets tightly: (bool) tight towardsCenter: (bool) directed {
+//	DLog(@"max %d", [targets count] - 1);
 	Tile *target = [targets objectAtIndex: [Rand min: 0 max: [targets count] - 1]];
 
 //	int height = [Rand min: 3 max: 9];
@@ -317,7 +322,8 @@ typedef enum {
 			if (x > startX && x < END_X - 1) inRoomOnXAxis = true;
 
 			// place either a wall or a floor, overwriting what was there.
-			if (inRoomOnXAxis && inRoomOnYAxis) {
+			// don't place walls on the edge of the map, preventing some initial box-ins.
+			if ((inRoomOnXAxis && inRoomOnYAxis) || x == 0 || x == MAP_DIMENSION - 1 || y == 0 || y == MAP_DIMENSION - 1) {
 				type = tileWoodFloor;
 			}
 
@@ -452,21 +458,27 @@ typedef enum {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
+	[[dungeon tileAtX: 2 Y: 0 Z: 0] initWithTileType: tileStairsToTown];
 
 
+	[items removeAllObjects];
+	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
+	for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION / 2; LCV++) {
+		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
+		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
+		Item *item = [Item generate_random_item: 0 elem_type: [Rand min: 0 max: 4]];
+
+		[items setObject: item forKey: coord];
+//		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
+//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
+	}
+
+	if (!LVL_GEN_ENV) return dungeon;
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
-//	NSMutableArray *connected = [[NSMutableArray alloc] init];
 	for (int LCV = 0; LCV < 18; LCV++) {
 		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
-
-//		connected = [self allConnected: dungeon onZLevel: 1];
-//		for (NSMutableArray *tiles in connected) {
-//			for (int SCV = 0; SCV < 12; SCV++) {
-//				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
-//			}
-//		}
 	}
 	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
@@ -484,18 +496,80 @@ typedef enum {
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
-
+	NSMutableArray *connected = [self allConnected: dungeon onZLevel: 2];
+	while ([connected count] > 1) {
+		for (NSMutableArray *tiles in connected) {
+			for (int SCV = 0; SCV < 12; SCV++) {
+				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
+			}
+		}
+		connected = [self allConnected: dungeon onZLevel: 2];
+	}
+	for (int LCV = 0; LCV < 3; LCV++) {
+		[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: agentOrange];
+		[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: average];
+	}
+	[self followDownSlopes: dungeon fromZLevel:1];
+	
 	//DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
 
 	return dungeon;
 }
 
 + (Dungeon*) makeTown: (Dungeon*) dungeon {
-	for (int XCV = 0; XCV < MAP_DIMENSION; XCV++) {
-		for (int YCV = 0; YCV < MAP_DIMENSION; YCV++) {
-//			bool validTile = [dungeon tileAtX:XCV Y:YCV Z:0]? true : false;
-//			Tile *tile = [];
-//			[dungeon setTile:  X:  Y:  Z: ];
+	/*
+	 ye olde key:
+	 g = Grass
+	 w = wooden Wall
+	 f = wooden Floor
+	 d = Door
+	 o = Orc mines stair
+	 m = Morlock tunnels stair
+	 c = Crypts stair
+	 u = Underground forest stair
+	 a = Abyss stair
+	 i = Innkeeper
+	 */
+	#define TOWN_DIMENSION 6
+	const char TOWN [TOWN_DIMENSION][TOWN_DIMENSION] =
+	{
+		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
+		{ 'g', 'g', 'd', 'f', 'i', 'w' } ,
+		{ 'g', 'g', 'w', 'f', 'f', 'w' } ,
+		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'g' } ,
+		{ 'o', 'm', 'c', 'u', 'g', 'a' }
+	};
+
+	[self setFloorOf: dungeon to: tilePit onZLevel: 0];
+
+	for (int x = 0; x < TOWN_DIMENSION; x++) {
+		for (int y = 0; y < TOWN_DIMENSION; y++) {
+			Tile *tile = [dungeon tileAtX:x Y:y Z:0];
+			switch (TOWN [y][x]) {
+				case 'g':
+					[tile initWithTileType: tileGrass];
+					break;
+				case 'w':
+					[tile initWithTileType: tileWoodWall];
+					break;
+				case 'f':
+					[tile initWithTileType: tileWoodFloor];
+					break;
+				case 'd':
+					[tile initWithTileType: tileWoodDoorOpen];
+					break;
+				case 'i':
+					[tile initWithTileType: tileShopKeeper];
+					break;
+				case 'o':
+					[tile initWithTileType: tileStairsToOrcMines];
+					// FIXME should be a staircase 
+					break;
+				default:
+					[tile initWithTileType: tileGroundCrumbling];
+					// FIXME need more graphics
+			}
 		}
 	}
 	return dungeon;

@@ -1,11 +1,3 @@
-//
-//  Item.m
-//  Phone-Crawl
-//
-//  Created by Benjamin Sangster on 1/23/10. 
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "Spell.h"
 #import "Item.h"
 
@@ -205,8 +197,8 @@ const int base_item_stats[10][9] = {
               spell_id: (int) in_spell_id
 {
 	if (self = [super init]) {
-        item_name = [NSString stringWithString: in_name];
-        item_icon = [NSString stringWithString:in_icon_name];
+        item_name = [in_name retain];
+        item_icon = [in_icon_name retain];
         if(in_item_type < POTION) is_equipable = TRUE;
         else is_equipable = FALSE;
         item_quality = in_item_quality;

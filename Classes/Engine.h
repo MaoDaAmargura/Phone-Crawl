@@ -29,24 +29,24 @@
 	Item *selectedItemToUse;
 	BOOL battleMode;
 	
-	Creature *currentTarget;
 	BOOL showBattleMenu;
 	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
 	PCPopupMenu *itemMenu;
-	
 }
 
 - (id) initWithView:(UIView*)view;
 
-- (void) setSelectedMoveTarget:(Coord*) loc;
+- (void) setSelectedMoveTarget:(Coord*) loc ForCreature:(Creature *)c;
 
 - (void) updateWorldView:(WorldView*) wView;
 
-- (BOOL) canEnterTileAtCoord:(Coord*) coord;
-- (void) movePlayerToTileAtCoord:(Coord*)tileCoord;
+
+- (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
+- (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord;
+- (void) moveCreature:(Creature *) c ToTileAtCoord:(Coord*)tileCoord;
 - (CGSize) tileSizeForWorldView:(WorldView*) wView;
 
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
@@ -71,8 +71,8 @@
 
 - (void) showItemMenu;
 
-- (void) ability_handler: (NSNumber *) ability_id;
-- (void) spell_handler: (NSNumber *) spell_id;
-- (void) item_handler:(Item *)it;
+- (void) ability_handler:(CombatAbility *)action;
+
+- (void) spell_handler:(Spell *)spell;
 
 @end

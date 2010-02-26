@@ -1,11 +1,3 @@
-//
-//  InventoryItemButton.h
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/6/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
@@ -15,8 +7,7 @@
 
 @protocol InventoryButtonDelegate;
 
-
-@interface InventoryItemButton : UIView 
+@interface InventoryItemButton : UIView
 {
 	Item *myItem;
 	UIImageView *itemImage;

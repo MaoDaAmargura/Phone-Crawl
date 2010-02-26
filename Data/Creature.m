@@ -1,14 +1,22 @@
 #import "Creature.h"
+#import "CombatAbility.h"
+#import "Spell.h"
 #import "Item.h"
+#import "Dungeon.h"
 
 @implementation Creature
 
-@synthesize current_turn_points;
+@synthesize creatureLocation;
+@synthesize inventory;
+@synthesize selectedCreatureForAction;
+@synthesize selectedCombatAbilityToUse;
+@synthesize selectedSpellToUse;
+@synthesize selectedItemToUse;
+@synthesize selectedMoveTarget;
+@synthesize turn_points;
 @synthesize name;
 @synthesize ability_points;
 @synthesize level;
-@synthesize creatureLocation;
-@synthesize inventory;
 @synthesize money;
 @synthesize fire;
 @synthesize cold;
@@ -23,22 +31,50 @@
 @synthesize iconName;
 
 
+
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initWithLevel: (int) lvl {
-	return [self initWithInfo:@"Bob" level: lvl];
+- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z{
+	if (self = [super init])
+	{
+		name = [NSString stringWithString:@"Monster"];
+		self.creatureLocation = [Coord withX:x Y:y Z:z];
+		creature_type = type;
+		level = in_level;
+		[self Set_Base_Stats];
+		self.equipment = [[[EquipSlots alloc] init] autorelease];
+		money = 10000;
+		ability_points = 10;
+		condition = NO_CONDITION;
+		return self;
+	}
+	return nil;
+}
+		
+- (id) initPlayerWithLevel: (int) lvl {
+	return [self initPlayerWithInfo:@"Bob" level: lvl];
 }
 
-- (id) initWithInfo: (NSString *) in_name level: (int) lvl
+- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl
 {
 	if(self = [super init])
 	{
 		name = [NSString stringWithString:in_name];
+		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
+		
+		self.selectedCreatureForAction = nil;
+		self.selectedCombatAbilityToUse = nil;
+		self.selectedSpellToUse = nil;
+		self.selectedItemToUse = nil;
+		self.selectedMoveTarget = nil;
+
+		level = lvl;
+		creature_type = PLAYER;
+		
 		[self Set_Base_Stats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
-		level = lvl;
 		money = 10000;
 		ability_points = 10;
 		condition = NO_CONDITION;
@@ -54,7 +90,7 @@
 
 - (id) init
 {
-	return [self initWithLevel:0];
+	return [self initPlayerWithLevel:0];
 }
 
 
@@ -83,7 +119,7 @@
 	current.health = current.shield = current.mana = max.health;
 	fire = cold = lightning = poison = dark = 20;
 	armor = 0;
-	aggro_range = 1;
+	aggro_range = 2;
 	[self Update_Stats_Item:equipment.head];
 	[self Update_Stats_Item:equipment.chest];
 	[self Update_Stats_Item:equipment.l_hand];
@@ -285,6 +321,14 @@
 	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.elem_damage;
 	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.elem_damage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
+}
+
+- (void) ClearTurnActions
+{
+		self.selectedCombatAbilityToUse = nil;
+		self.selectedSpellToUse = nil;
+		self.selectedItemToUse = nil;
+		self.selectedMoveTarget = nil;
 }
 
 @end

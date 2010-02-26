@@ -1,11 +1,3 @@
-//
-//  Spell.h
-//  Phone-Crawl
-// 
-//  Created by Benjamin Sangster on 1/19/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
@@ -44,6 +36,7 @@ NSMutableArray *spell_list;
 	int spell_level; //Minor,Lesser, (unnamed regular), Major, Superior
 	int spell_id; //Index in spell_list array of the spell
 	SEL spell_fn;
+	int required_turn_points;
 	//IMP spell_fn;
 }
 
@@ -54,7 +47,7 @@ NSMutableArray *spell_list;
 
 - (id) initWithInfo: (NSString *) in_name spell_type: (spellType) in_spell_type target_type: (targetType) in_target_type elem_type: (elemType) in_elem_type
 		  mana_cost: (int) in_mana_cost damage: (int) in_damage range: (int) in_range spell_level: (int) in_spell_level spell_id: (int) in_spell_id
-		   spell_fn: (SEL) in_spell_fn;
+		   spell_fn: (SEL) in_spell_fn turn_points: (int) in_turn_points;
 
 - (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target;
 
@@ -75,4 +68,6 @@ NSMutableArray *spell_list;
 @property (readonly) NSString * name;
 @property (readonly) targetType target_type;
 @property (readonly) int spell_id;
+@property (readonly) int required_turn_points;
+
 @end

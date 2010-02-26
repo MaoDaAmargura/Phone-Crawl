@@ -14,11 +14,11 @@ typedef enum {
     BAG = 6
 } slotType;
 
-@interface Coord : NSObject {
+@interface Coord : NSObject <NSCopying> {
 	int X;
 	int Y;
 	int Z;
-   
+
    // for pathfinding
    int distance;
 }
@@ -29,6 +29,7 @@ typedef enum {
 @property (nonatomic) int distance;
 
 - (BOOL) equals:(Coord*)other;
+- (id) copyWithZone: (NSZone*) zone;
 
 + (Coord*) withX:(int)x Y:(int)y Z:(int)z;
 

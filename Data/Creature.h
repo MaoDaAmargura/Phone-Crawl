@@ -1,7 +1,8 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-@class Item,Coord;
+@class Item,Spell,CombatAbility;
+@class Dungeon;
 
 //#define NUM_EQUIP_SLOTS 4
 #define NUM_INV_SLOTS 20
@@ -10,6 +11,24 @@
 #define STAT_MAX 100
 #define STAT_MIN 0
 #define FIRST_AVAIL_INV_SLOT -1
+
+//Examples -- we'll need a couple more, in all likelihood.
+//I can add a new method to Creature like -initMonsterOfType: (creatureType) type level: (int) in_level
+//which creates a default creature of a type with a specific set of equipment and inventory.
+//That will likely be useful, as the two "create" functions that we use now will only be useful for
+//creating NEW characters -- we'll need a new init that loads saved data.
+typedef enum {
+	WARRIOR,
+	ARCHER,
+	FIREBOSS,
+	COLDBOSS,
+	SHOCKBOSS,
+	POISONBOSS,
+	DARKBOSS,
+	MERCHANT,
+	PLAYER
+} creatureType;
+
 
 //Conditions
 typedef uint32_t condition_bitset;
@@ -54,13 +73,21 @@ typedef enum {
 
 @interface Creature : NSObject {
 	NSString *name;
+	creatureType creature_type;
 	Coord *creatureLocation;
+	
+	Creature *selectedCreatureForAction;
+	
+	CombatAbility *selectedCombatAbilityToUse;
+	Spell *selectedSpellToUse;
+	Item *selectedItemToUse;
+	Coord *selectedMoveTarget;
 	
 	NSString *iconName;
 	
 	int aggro_range;
     int   level;
-	int current_turn_points;
+	int turn_points;
 
 	condition_bitset condition;
 	Points *current;
@@ -92,8 +119,9 @@ typedef enum {
 	Points *real;
 }
 
-- (id) initWithLevel: (int) lvl;
-- (id) initWithInfo: (NSString *) in_name level: (int) lvl;
+- (id) initPlayerWithLevel: (int) lvl;
+- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl;
+- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z;
 
 
 //Reset stats modified by conditions during combat
@@ -101,6 +129,8 @@ typedef enum {
 - (int) statBase;
 - (void) Update_Stats_Item: (Item *) item;
 - (void) Set_Base_Stats;
+
+- (void) ClearTurnActions;
 
 - (void) Take_Damage: (int) amount;
 - (void) Heal: (int) amount;
@@ -121,10 +151,16 @@ typedef enum {
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
 
+@property (nonatomic, retain) Creature *selectedCreatureForAction;
+@property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;
+@property (nonatomic, retain) Spell *selectedSpellToUse;
+@property (nonatomic, retain) Item *selectedItemToUse;
+@property (nonatomic, retain) Coord *selectedMoveTarget;
+
 @property (nonatomic,retain) EquipSlots *equipment;
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
-@property (nonatomic) int current_turn_points;
+@property (nonatomic) int turn_points;
 @property (readonly) NSString *name;
 @property int money;
 @property int ability_points;
