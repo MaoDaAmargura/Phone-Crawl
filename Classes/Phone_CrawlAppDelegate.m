@@ -14,12 +14,15 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
+	flow = nil;
+	
+	//return;
 	if(QUICK_START)
 		[window addSubview:homeTabController.view];
 	else 
 		[window insertSubview:homeTabController.view atIndex:0];
 
-	flow = nil;
+
 }
 
 

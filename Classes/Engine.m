@@ -43,7 +43,7 @@
 														[Item generate_random_item:2 elem_type:COLD],
 														[Item generate_random_item:1 elem_type:LIGHTNING],
 														[Item generate_random_item:3 elem_type:POISON],
-														[Item generate_random_item:9 elem_type:DARK], 
+														[Item generate_random_item:2 elem_type:DARK], 
 														[Item generate_random_item:4 elem_type:FIRE], nil];
 	player.iconName = @"human1.png";
 	Item *heal_test = [[Item alloc] initWithStats : @"Test Healing Potion"
