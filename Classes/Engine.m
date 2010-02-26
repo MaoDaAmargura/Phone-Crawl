@@ -61,6 +61,7 @@ extern NSMutableDictionary *items; // from Dungeon
 
 	// this is an incredibly hackish workaround to GET PEOPLE TO QUIT STEPPING ON MY TELEPORT.
 	// so DON'T TOUCH IT.
+	// almost commented this out, just to see Nathan bust a vein -Bucky
 	NSError *error = nil;
 	[NSString stringWithContentsOfFile: @"/Users/nathanking/classes/cs115/Phone-Crawl/YES" encoding: NSUTF8StringEncoding error: &error];
 	DLog(@"%@", [error description]);
@@ -100,6 +101,10 @@ extern NSMutableDictionary *items; // from Dungeon
 		battleMenu.hideOnFire = NO;
 
 		[battleMenu hide];
+		
+		// player action
+		action = NO_ACTION;
+		actionObj = nil;
 		
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
@@ -743,6 +748,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
+		[battleMenu show];
 	}
 	else {
 		if (LVL_GEN_ENV) {
