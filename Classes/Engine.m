@@ -114,7 +114,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		
 		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Spell* spell in spell_list) {
-			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:[[NSNumber alloc] initWithInt:spell.spell_id]];
+			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:spell];
 		}
 		[spellMenu showInView:view];
 		[spellMenu hide];
@@ -122,7 +122,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Item* it in player.inventory) 
 			//if(!it.is_equipable)
-			if (it.item_type == WAND || it.item_type == POTION) // need to get this to be dynamic but can't figure out how right now
+			if (it.item_type == WAND || it.item_type == POTION)
 				[itemMenu addMenuItem:it.item_name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
 		[itemMenu hide];
@@ -169,7 +169,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		&& creature.selectedMoveTarget == nil
 		&& creature.selectedItemToUse == nil
 		&& creature.selectedSpellToUse == nil
-		&& creature.selectedCombatAbilityToUse < 0 )
+		&& creature.selectedCombatAbilityToUse == nil )
 	{
 		[self updateWorldView:wView];
 		return;
@@ -189,13 +189,14 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
 	{
 		//todo: use the combat ability on the target
-		[CombatAbility use_ability_id:creature.selectedCombatAbilityToUse caster:creature target:creature.selectedCreatureForAction];
+		[creature.selectedCombatAbilityToUse use_ability:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
-		creature.selectedCombatAbilityToUse = -1;
+		creature.selectedCombatAbilityToUse = nil;
 	}
 	if (creature.selectedSpellToUse)
 	{
 		//use the spell on the target
+		[creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
 		creature.selectedSpellToUse = nil;
 	} 
@@ -805,7 +806,11 @@ extern NSMutableDictionary *items; // from Dungeon
 }
 
 - (void) ability_handler:(CombatAbility *)action {
-	player.selectedCombatAbilityToUse = action.ability_id;
+	player.selectedCombatAbilityToUse = action;
+}
+
+- (void) spell_handler:(Spell *)spell {
+	player.selectedSpellToUse = spell;
 }
 
 #pragma mark -
@@ -867,7 +872,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) showSpellMenu {
 	[spellMenu show];
 	[attackMenu hide];
-	[spellMenu hide];
+	[itemMenu hide];
 }
 
 - (void) showItemMenu {

@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-@class Spell,CombatAbility,Item,Coord;
+@class Item,Spell,CombatAbility;
 @class Dungeon;
 
 //#define NUM_EQUIP_SLOTS 4
@@ -78,7 +78,7 @@ typedef enum {
 	
 	Creature *selectedCreatureForAction;
 	
-	int selectedCombatAbilityToUse;
+	CombatAbility *selectedCombatAbilityToUse;
 	Spell *selectedSpellToUse;
 	Item *selectedItemToUse;
 	Coord *selectedMoveTarget;
@@ -152,7 +152,7 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *inventory;
 
 @property (nonatomic, retain) Creature *selectedCreatureForAction;
-@property (nonatomic) int selectedCombatAbilityToUse;
+@property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;
 @property (nonatomic, retain) Spell *selectedSpellToUse;
 @property (nonatomic, retain) Item *selectedItemToUse;
 @property (nonatomic, retain) Coord *selectedMoveTarget;

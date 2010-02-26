@@ -73,4 +73,6 @@
 
 - (void) ability_handler:(CombatAbility *)action;
 
+- (void) spell_handler:(Spell *)spell;
+
 @end
