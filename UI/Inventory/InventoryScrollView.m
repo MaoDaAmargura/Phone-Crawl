@@ -25,7 +25,10 @@
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
 		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 340, 40, 20)];
 		[self addSubview:pageMaster];
-		self.backgroundColor = [UIColor redColor];
+		//self.backgroundColor = [UIColor redColor];
+		UIImageView *imgView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)] autorelease];
+		[imgView setImage:[UIImage imageNamed:@"ui-inventorybg.png"]];
+		[self addSubview:imgView];
 		self.bounces = YES;
 		return self;
 	}
