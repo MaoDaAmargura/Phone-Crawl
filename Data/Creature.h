@@ -45,6 +45,23 @@ typedef enum {
 	CONFUSION     = 256  //Messes with AI calls
 } conditionType;
 
+@interface Abilities : NSObject
+{
+	//Spell book currently has 10 indexes that will go from 1-5 indicating the level of the corresponding spell
+	//See "PC_SPELL_TYPE" enum
+	int spellBook[NUM_PC_SPELL_TYPES];
+	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
+	int combatAbility[NUM_COMBAT_ABILITY_TYPES];
+}
+- (int*) getSpellBookArray;
+- (void) setSpellBookArray:(int []) sb;
+- (int) getSpellAtIndex: (int)i;
+- (void) incrementSpellAtIndex: (int)i;
+- (int*) getCombatAbilityArray;
+- (int) getCombatAbilityAtIndex: (int)i;
+- (void) incrementCombatAbilityAtIndex: (int)i;
+- (void) setCombatAbilityArray:(int []) c;
+@end
 
 @interface Points : NSObject {
 	int health;
@@ -107,13 +124,8 @@ typedef enum {
     //currently 4 (Head, Chest, Right Hand, Left Hand)
 	EquipSlots *equipment;
 	NSMutableArray *inventory;
-	
-	//Spells stored in an NSArray, and a spellbook will be a list of the spell IDs
-	int spellbook[MAX_NUM_SPELLS];
-	
-	
-	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
-	int abilities[MAX_NUM_ABILITIES];
+	Abilities *abilities;
+
 	
 	@private
 	Points *real;
@@ -150,6 +162,7 @@ typedef enum {
 
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
+@property (nonatomic, retain) Abilities *abilities;
 
 @property (nonatomic, retain) Creature *selectedCreatureForAction;
 @property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;

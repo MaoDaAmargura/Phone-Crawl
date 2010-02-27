@@ -6,6 +6,7 @@
 
 @implementation Creature
 
+@synthesize abilities;
 @synthesize creatureLocation;
 @synthesize inventory;
 @synthesize selectedCreatureForAction;
@@ -40,6 +41,10 @@
 	{
 		name = [NSString stringWithString:@"Monster"];
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
+		int sb[] = {1,1,1,1,1,1,1,1,1,1};
+		int c[]= {1,0};
+		[self.abilities setSpellBookArray:sb];
+		[self.abilities setCombatAbilityArray:c];
 		creature_type = type;
 		level = in_level;
 		[self Set_Base_Stats];
@@ -63,7 +68,10 @@
 		name = [NSString stringWithString:in_name];
 		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		
+		int sb[] = {1,2,4,2,0,5,2,3,3,1};
+		int c[] = {1,1};
+		[self.abilities setSpellBookArray: sb];
+		[self.abilities setCombatAbilityArray: c];		
 		self.selectedCreatureForAction = nil;
 		self.selectedCombatAbilityToUse = nil;
 		self.selectedSpellToUse = nil;
@@ -358,3 +366,25 @@
 @synthesize mana;
 @synthesize turn_speed;
 @end
+
+@implementation Abilities
+- (int*) getSpellBookArray { return spellBook; }
+- (void) setSpellBookArray:(int []) sb {
+	int i = 0;
+	for (; i < NUM_PC_SPELL_TYPES; ++i)
+		spellBook[i] = sb[i];
+}
+- (int) getSpellAtIndex: (int)i {return spellBook[i];}
+- (void) incrementSpellAtIndex: (int)i {++spellBook[i];}
+
+- (int*) getCombatAbilityArray {return combatAbility;}
+- (int) getCombatAbilityAtIndex: (int)i {return combatAbility[i];}
+- (void) incrementCombatAbilityAtIndex: (int)i {++combatAbility[i];}
+- (void) setCombatAbilityArray:(int [])c {
+	int i = 0;
+	for (; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+		combatAbility[i] = c[i];
+}
+
+@end
+

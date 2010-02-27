@@ -2,6 +2,27 @@
 
 typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 
+#define NUM_COMBAT_ABILITY_TYPES 2
+
+typedef enum {
+	REG_STRIKE = 0,
+	HEAVY_STRIKE = 1
+} PC_COMBAT_ABILITY_TYPE;
+
+#define NUM_PC_SPELL_TYPES 10
+typedef enum {
+	FIREDAMAGE = 0,
+	FIRECONDITION = 1,
+	COLDDAMAGE = 2,
+	COLDCONDITION = 3,
+	LIGHTNINGDAMAGE = 4,
+	LIGHTNINGCONDITION = 5,
+	POISONDAMAGE = 6,
+	POISONCONDITION = 7,
+	DARKDAMAGE = 8,
+	DARKCONDITION = 9
+} PC_SPELL_TYPE; // For use by spellbook field in creature.h
+
 //Items can always go in Bag, need non-bag slot to go in more
 #define NUM_ARMOR_TYPES 2
 typedef enum {
