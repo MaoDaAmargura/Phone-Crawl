@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-#define ITEM_NO_SPELL -1
 #define ERR_NO_MANA -2
 #define ERR_RESIST -3
 #define SPELL_NO_DAMAGE -4

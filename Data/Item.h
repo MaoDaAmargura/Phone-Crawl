@@ -1,10 +1,11 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
+#define ITEM_NO_SPELL -1
 #define STAFF_RANGE 5
 #define MIN_BOW_RANGE 2
 #define MAX_BOW_RANGE 6
-#define NUM_ITEM_TYPES 11
+#define NUM_ITEM_TYPES 13
 #define OFFHAND_DMG_PERCENTAGE 0.75
 
 @class Creature;
@@ -16,11 +17,13 @@ typedef enum {
 	DAGGER = 3,
 	STAFF = 4,
 	SHIELD = 5,
-	HEAVY = 6,
-	LIGHT = 7,
-	POTION = 8,
-	WAND = 9,
-	SCROLL = 10
+	HEAVY_HELM = 6,
+	HEAVY_CHEST = 7,
+	LIGHT_HELM = 8,
+	LIGHT_CHEST = 9,
+	POTION = 10,
+	WAND = 11,
+	SCROLL = 12
 } itemType;
 
 typedef enum {DULL,REGULAR,SHARP} itemQuality;

@@ -2,7 +2,7 @@
 #import "Item.h"
 
 #define NUM_NAMES_PER_ITEM 2
-const NSString *name_string[8][NUM_NAMES_PER_ITEM] = {
+static const NSString *name_string[8][NUM_NAMES_PER_ITEM] = {
 	{@"Sword",@"Scimitar"},
 	{@"Greatsword",@"Glaive",},
 	{@"Bow",@"Crossbow"},
@@ -13,17 +13,17 @@ const NSString *name_string[8][NUM_NAMES_PER_ITEM] = {
 	{@"Cloth", @"Leather"},
 };
 
-const NSString *elem_string1[] = {@"Fiery",@"Icy",@"Shocking",@"Venomous",@"Dark"};
-const NSString *elem_string2[] = {@"Fire",@"Ice",@"Lightning",@"Poison",@"Darkness"};
-const NSString *spell_name[] = {@"Minor",@"Lesser",@"",@"Major",@"Superior"};
-const NSString *heal_pot_icon[] = {
+static const NSString *elem_string1[] = {@"Fiery",@"Icy",@"Shocking",@"Venomous",@"Dark"};
+static const NSString *elem_string2[] = {@"Fire",@"Ice",@"Lightning",@"Poison",@"Darkness"};
+static const NSString *spell_name[] = {@"Minor",@"Lesser",@"",@"Major",@"Superior"};
+static const NSString *heal_pot_icon[] = {
     @"potion-red-I.png",
     @"potion-red-II.png",
     @"potion-red-III.png",
     @"potion-red-IV.png",
     @"potion-red-V.png"
 };
-const NSString *mana_pot_icon[] = {
+static const NSString *mana_pot_icon[] = {
     @"potion-blue-I.png",
     @"potion-blue-II.png",
     @"potion-blue-III.png",
@@ -31,18 +31,18 @@ const NSString *mana_pot_icon[] = {
     @"potion-blue-V.png"
 };
 
-const int base_item_stats[10][9] = {
+static const int base_item_stats[10][9] = {
   //{hp,shield,mana,resist,armor,damage,elemental damage,elemental stat adjustment}
     {8 , 5 , 0 , 5 , 0 , 40, 15, 7 , -2 }, //One handed Sword
     {10, 12, 0 , 5 , 5 , 50, 20, 15, -7 }, //Two handed Sword
     {5 , 10, 0 , 5 , -5, 35, 5 , 12, -2 }, //Bow
     {5 , 0 , 10, 3 , 0 , 25, 10, 3 , 0  }, //Dagger
     {8 , 10, 25, 7 , 5 , 15, 20, 15, -8 }, //Staff
-    {20, 20, 10, 10, 12, 0 , 0 , 15, -5 }, //Heavy Chest
-    {10, 10, 30, 12, 2 , 0 , 0 , 15, -3 }, //Light Chest
     {6 , 6 , 0 , 5 , 6 , 0 , 0 , 2 , 3  }, //Shield
     {5 , 10, 0 , 5 , 7 , 0 , 0 , 10, -5 }, //Heavy Helm
+    {20, 20, 10, 10, 12, 0 , 0 , 15, -5 }, //Heavy Chest
     {2 , 2 , 10, 2 , 1 , 0 , 0 , 10, -8 }, //Light Helm
+    {10, 10, 30, 12, 2 , 0 , 0 , 15, -3 }, //Light Chest
 };
 
 @implementation Item
@@ -79,26 +79,66 @@ const int base_item_stats[10][9] = {
         case DAGGER:         return @"dagger.png";
         case STAFF:          return @"staff.png";
         case SHIELD:         return @"shield.png";
-        case HEAVY:
-            if(slot == HEAD) return @"helmet1.png";
-            else /*CHEST*/   return @"armor-heavy.png";
-        case LIGHT:
-            if(slot == HEAD) return @"helm2.png";
-            else /*CHEST*/   return @"armor-light.png";
+        case HEAVY_HELM:     return @"helmet1.png";
+        case HEAVY_CHEST:    return @"armor-heavy.png";
+        case LIGHT_HELM:     return @"helm2.png";
+        case LIGHT_CHEST:    return @"armor-light.png";
 
     }
     NSLog(@"Invalid Item Type %d", type);
     return nil;
 }
 
++ (NSString *) itemNameForItemType:(itemType)type element:(elemType) elem{
+    switch (type) 
+    {
+        case SWORD_ONE_HAND:
+        case SWORD_TWO_HAND: 
+        case BOW:            
+        case DAGGER:         
+        case STAFF:
+        case SHIELD:
+            if (arc4random() % 2)
+                return [NSString stringWithFormat:@"%@ %@",elem_string1[elem],
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
+            else
+                return [NSString stringWithFormat:@"%@ of %@",
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
+                        elem_string2[elem]];
+        case HEAVY_HELM:
+        case LIGHT_HELM:
+            if (arc4random() % 2)
+                return [NSString stringWithFormat:@"%@ %@ Helm",
+                        elem_string1[elem],
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
+            else
+                return [NSString stringWithFormat:@"%@ Helm of %@",
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
+                        elem_string2[elem]];
+        case HEAVY_CHEST:
+        case LIGHT_CHEST:
+            if (arc4random() % 2)
+                return [NSString stringWithFormat:@"%@ %@ Breastplate",
+                        elem_string1[elem],
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
+            else
+                return [NSString stringWithFormat:@"%@ Breastplate of %@",
+                        name_string[type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
+                        elem_string2[elem]];
+            
+    }
+    DLog(@"Invalid Item Type %d", type);
+    return nil;
+}
 
 - (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem
                item_type: (itemType) in_item_type 
                item_slot: (slotType) in_slot_type
 {
     if (self = [super init]) {
-        if(dungeon_level > 5) dungeon_level = 5;
-        if(dungeon_level < 1) dungeon_level = 1;
+        if(dungeon_level > MAX_DUNGEON_LEVEL) dungeon_level = MAX_DUNGEON_LEVEL;
+        if(dungeon_level < MIN_DUNGEON_LEVEL) dungeon_level = MIN_DUNGEON_LEVEL;
+        ++dungeon_level; //Dungeon levels = [0,4], desired values = [1,5]
         if (in_item_type == SWORD_ONE_HAND || in_item_type == DAGGER ||
             in_item_type == SWORD_TWO_HAND)
             item_quality = [Rand min: DULL max: SHARP];
@@ -109,59 +149,32 @@ const int base_item_stats[10][9] = {
         if(in_item_type < POTION) is_equipable = TRUE;
         else is_equipable = FALSE;
         
-        if(in_item_type < HEAVY) // Item Is a weapon
-        {
-            if (arc4random() % 2)
-                item_name = [NSString stringWithFormat:@"%@ %@",
-                             elem_string1[dungeon_elem],
-                             name_string[in_item_type]
-                             [[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
-            else
-                item_name = [NSString stringWithFormat:@"%@ of %@",
-                             name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
-                             elem_string2[dungeon_elem]];
-        }
-        else if (in_item_type < POTION) // Item Is Armor
-        {
-            if (arc4random() % 2)
-                item_name = [NSString stringWithFormat:@"%@ %@ %@",
-                             elem_string1[dungeon_elem],
-                             name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
-                             (in_slot_type == CHEST)?@"Breastplate":@"Helm"];
-            else
-                item_name = [NSString stringWithFormat:@"%@ %@ of %@",
-                             name_string[in_item_type][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
-                             (in_slot_type == CHEST)?@"Breastplate":@"Helm",
-                             elem_string2[dungeon_elem]];
-        }
+        item_name = [Item itemNameForItemType:in_item_type element:dungeon_elem];
             
-        //Offset needed because of different base stats for helm and chest armor
-        int base_stat_index = in_item_type + (in_slot_type == HEAD)? 3 : 0;
-        
-        hp = dungeon_level * base_item_stats[base_stat_index][0];
-        shield = dungeon_level * base_item_stats[base_stat_index][1];
-        mana = dungeon_level * base_item_stats[base_stat_index][2];
-        fire = cold = lightning = poison = dark = dungeon_level * base_item_stats[base_stat_index][8];
+        hp = dungeon_level * base_item_stats[in_item_type][0];
+        shield = dungeon_level * base_item_stats[in_item_type][1];
+        mana = dungeon_level * base_item_stats[in_item_type][2];
+        fire = cold = lightning = poison = dark = dungeon_level * base_item_stats[in_item_type][8];
         switch (dungeon_elem) {
             case FIRE:
-                fire = dungeon_level * base_item_stats[base_stat_index][3];
+                fire = dungeon_level * base_item_stats[in_item_type][3];
                 break;
             case COLD:
-                cold = dungeon_level * base_item_stats[base_stat_index][3];
+                cold = dungeon_level * base_item_stats[in_item_type][3];
                 break;
             case LIGHTNING:
-                lightning = dungeon_level * base_item_stats[base_stat_index][3];
+                lightning = dungeon_level * base_item_stats[in_item_type][3];
                 break;
             case POISON:
-                poison = dungeon_level * base_item_stats[base_stat_index][3];
+                poison = dungeon_level * base_item_stats[in_item_type][3];
                 break;
             case DARK:
-                dark = dungeon_level * base_item_stats[base_stat_index][3];
+                dark = dungeon_level * base_item_stats[in_item_type][3];
                 break;
         }
-        armor = dungeon_level * base_item_stats[base_stat_index][4];
-        damage = dungeon_level * base_item_stats[base_stat_index][5];
-        elem_damage =dungeon_level * base_item_stats[base_stat_index][6];
+        armor = dungeon_level * base_item_stats[in_item_type][4];
+        damage = dungeon_level * base_item_stats[in_item_type][5];
+        elem_damage =dungeon_level * base_item_stats[in_item_type][6];
         range = (in_item_type == BOW) ? (MIN_BOW_RANGE + dungeon_level) : 
                                         (in_item_type == STAFF)? STAFF_RANGE:1;
         charges = 0;
@@ -227,8 +240,15 @@ const int base_item_stats[10][9] = {
 	return nil;
 };
 
+//Each item with a spell effect has that spell ID stored in it.
+//When the time comes to cast that spell, the spell does its effect internally
+//Decrements the number of charges, then returns to engine. Engine should
+//use the returned value to determine if an item needs to be dropped from inventory.
 - (int) cast: (Creature *) caster target: (Creature *) target {
-    if(spell_id == ITEM_NO_SPELL) return ITEM_NO_SPELL;
+    if(spell_id == ITEM_NO_SPELL) {
+        DLog(@"Tried to cast item: %@ which has no effect",self.item_name);
+        return ITEM_NO_SPELL;
+    }
     [Spell cast_id:spell_id caster:caster target:target];
     return --charges;
 }
@@ -237,72 +257,68 @@ const int base_item_stats[10][9] = {
 
 +(Item *) generate_random_item: (int) dungeon_level
 					 elem_type: (elemType) elem_type {
-    if(dungeon_level > 5) dungeon_level = 5;
-    if(dungeon_level < 1) dungeon_level = 1;
+    if(dungeon_level > MAX_DUNGEON_LEVEL) dungeon_level = MAX_DUNGEON_LEVEL;
+    if(dungeon_level < MIN_DUNGEON_LEVEL) dungeon_level = MIN_DUNGEON_LEVEL;
     itemType item_type = [Rand min:SWORD_ONE_HAND max:NUM_ITEM_TYPES + SWORD_ONE_HAND - 1];
+    slotType itemSlot;
     switch(item_type) {
         case SWORD_ONE_HAND:
         case DAGGER:
-            return [[Item alloc] initWithBaseStats:dungeon_level
-                                         elem_type:elem_type
-                                         item_type:item_type
-                                         item_slot:EITHER];
+            itemSlot = EITHER;
+            break;
         case SWORD_TWO_HAND:
         case BOW:
         case STAFF:
-            return [[Item alloc] initWithBaseStats:dungeon_level
-                                         elem_type:elem_type
-                                         item_type:item_type
-                                         item_slot:BOTH];
-        case HEAVY:
-        case LIGHT:
-            return [[Item alloc] initWithBaseStats:dungeon_level 
-                                         elem_type:elem_type 
-                                         item_type:item_type 
-                                         item_slot:HEAD + arc4random()%2];
-                                         //HEAD or CHEST
+            itemSlot = BOTH;
+            break;
+        case HEAVY_HELM:
+        case LIGHT_HELM:
+            itemSlot = HEAD;
+            break;
+        case HEAVY_CHEST:
+        case LIGHT_CHEST:
+            itemSlot = CHEST;
+            break;
         case SHIELD:
-            return [[Item alloc] initWithBaseStats:dungeon_level 
-                                         elem_type:elem_type 
-                                         item_type:item_type 
-                                         item_slot:LEFT];
+            itemSlot = LEFT;
+            break;
+        // Define and return exact items (potions, wands, scrolls)
         case POTION:
-            if (arc4random()%2) // Pick 0 or 1
-                return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Potion of Healing",spell_name[dungeon_level-1]]
-                                          icon_name: [NSString stringWithFormat:@"%@",heal_pot_icon[dungeon_level-1]]
+            if (arc4random()%2)
+                return [[[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Potion of Healing",spell_name[dungeon_level]]
+                                          icon_name: [NSString stringWithFormat:@"%@",heal_pot_icon[dungeon_level]]
                                        item_quality: REGULAR item_slot: BAG 
                                           elem_type: DARK    item_type: POTION
-                                             damage:dungeon_level elem_damage:0
+                                             damage: dungeon_level elem_damage:0
                                             charges:1 range:1 hp:0  shield:0 
                                                mana:0 fire:0 cold:0 lightning:0
                                              poison:0 dark:0 armor: 0
-                                           spell_id: ITEM_HEAL_SPELL_ID + dungeon_level - 1];
+                                           spell_id: ITEM_HEAL_SPELL_ID + dungeon_level] autorelease];
             else
-                return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Potion of Mana",spell_name[dungeon_level-1]]
-                                          icon_name: [NSString stringWithFormat:@"%@",mana_pot_icon[dungeon_level-1]]
+                return [[[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Potion of Mana",spell_name[dungeon_level]]
+                                          icon_name: [NSString stringWithFormat:@"%@",mana_pot_icon[dungeon_level]]
                                        item_quality: REGULAR item_slot: BAG 
                                           elem_type: DARK    item_type: POTION
-                                             damage:dungeon_level elem_damage:0
+                                             damage: dungeon_level elem_damage:0
                                             charges:1 range:1 hp:0  shield:0 
                                                mana:0 fire:0 cold:0 lightning:0
                                              poison:0 dark:0 armor: 0
-                                           spell_id: ITEM_MANA_SPELL_ID + 
-                                                            dungeon_level - 1];
+                                           spell_id: ITEM_MANA_SPELL_ID + dungeon_level] autorelease];
         case WAND:
-            return [[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Wand of %@ Magic",spell_name[dungeon_level-1],elem_string1[elem_type]]
+            return [[[Item alloc] initWithStats : [NSString stringWithFormat:@"%@ Wand of %@ Magic",spell_name[dungeon_level],elem_string1[elem_type]]
                                       icon_name: @"wand2.png"
                                    item_quality: REGULAR item_slot: BAG 
                                       elem_type: DARK    item_type: WAND
-                                         damage:dungeon_level elem_damage:0
-                                        charges:[Rand min:1 max: (dungeon_level * 2)]
+                                         damage: dungeon_level elem_damage:0
+                                        charges:[Rand min:1 max: ((dungeon_level+1) * 2)]
                                           range:1 hp:0  shield:0 mana:0 fire:0
                                            cold:0 lightning:0 poison:0 dark:0 
                                           armor:0
-                                       spell_id: START_WAND_SPELLS + elem_type * 5 + dungeon_level - 1];
+                                       spell_id: START_WAND_SPELLS + elem_type * 5 + dungeon_level] autorelease];
                             //Get to start of wand spells, then get to the
                             //correct element, then get to the spell level.
         case SCROLL:
-            return [[Item alloc] initWithStats: @"Tome of Knowledge"
+            return [[[Item alloc] initWithStats: @"Tome of Knowledge"
                                      icon_name: @"scroll-book.png"
                                   item_quality: REGULAR item_slot: BAG 
                                      elem_type: DARK    item_type: SCROLL
@@ -310,12 +326,15 @@ const int base_item_stats[10][9] = {
                                        charges:1 range:1 hp:0  shield:0 
                                           mana:0 fire:0 cold:0 lightning:0
                                         poison:0 dark:0 armor: 0
-                                      spell_id: ITEM_BOOK_SPELL_ID];
+                                      spell_id: ITEM_BOOK_SPELL_ID] autorelease];
         default:
             DLog("Error in random item generation");
             return nil;
     };
-	
+    return [[[Item alloc] initWithBaseStats:dungeon_level
+                                 elem_type:elem_type
+                                 item_type:item_type
+                                 item_slot:itemSlot] autorelease];
 };
 
 +(int) item_val : (Item *) item {
@@ -333,28 +352,34 @@ const int base_item_stats[10][9] = {
             point_val += item.damage;
             point_val += item.elem_damage;
             break;
-        case HEAVY:
-        case LIGHT:
+        case HEAVY_HELM:
+        case HEAVY_CHEST:
+        case LIGHT_HELM:
+        case LIGHT_CHEST:
         case SHIELD:
             if (item.item_slot == CHEST) {
                 point_val += (item.hp + item.shield + item.mana) * 2;
             } else point_val += (item.hp + item.shield + item.mana);
             break;
+            
+        //Item.damage overloaded to contain dungeon_level for potions
         case POTION: // Potion
             switch (item.damage) {
-                case 1: return 10;
-                case 2: return 50;
-                case 3: return 100;
-                case 4: return 500;
-                case 5: return 1000;
+                case 0: return 10;
+                case 1: return 50;
+                case 2: return 100;
+                case 3: return 500;
+                case 4: return 1000;
             }
+            
+        //Item.damage overloaded to contain dungeon_level for wands
         case WAND: // Wand
             switch (item.damage) {
-                case 1: return 10 * item.charges;
-                case 2: return 50 * item.charges;
-                case 3: return 100 * item.charges;
-                case 4: return 500 * item.charges;
-                case 5: return 1000 * item.charges;
+                case 0: return 10 * item.charges;
+                case 1: return 50 * item.charges;
+                case 2: return 100 * item.charges;
+                case 3: return 500 * item.charges;
+                case 4: return 1000 * item.charges;
             }
         case SCROLL:  // Scroll
 			return 2000;

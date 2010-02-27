@@ -1,5 +1,8 @@
 #import <Foundation/Foundation.h>
 
+#define MAX_DUNGEON_LEVEL 4
+#define MIN_DUNGEON_LEVEL 0
+
 typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 
 #define NUM_COMBAT_ABILITY_TYPES 2
