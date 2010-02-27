@@ -69,11 +69,6 @@
 		D7C95245112B382200CCF8AC /* stalactite4.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95238112B382200CCF8AC /* stalactite4.png */; };
 		D7C95246112B382200CCF8AC /* stalagmite.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95239112B382200CCF8AC /* stalagmite.png */; };
 		D7C95248112B3A2600CCF8AC /* dirt-cracked6.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */; };
-		D7C953F4112CB2DD00CCF8AC /* green-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C953F3112CB2DD00CCF8AC /* green-dot.png */; };
-		D7C953F6112CB2E700CCF8AC /* white-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C953F5112CB2E700CCF8AC /* white-dot.png */; };
-		D7C95402112CB47600CCF8AC /* black-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95401112CB47600CCF8AC /* black-dot.png */; };
-		D7C95426112CBAB500CCF8AC /* blue-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95425112CBAB500CCF8AC /* blue-dot.png */; };
-		D7C95428112CBAC200CCF8AC /* orange-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C95427112CBAC200CCF8AC /* orange-dot.png */; };
 		D7D42DBC1119197800A8D7FF /* door-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBA1119197800A8D7FF /* door-wood.png */; };
 		D7D42DBD1119197800A8D7FF /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42DBB1119197800A8D7FF /* wall-wood.png */; };
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
@@ -121,6 +116,16 @@
 		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
 		D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */; };
 		D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */; };
+		D9F2B2DF1138AB000031058B /* black-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2D41138AB000031058B /* black-dot.png */; };
+		D9F2B2E01138AB000031058B /* blue-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2D51138AB000031058B /* blue-dot.png */; };
+		D9F2B2E11138AB000031058B /* green-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2D61138AB000031058B /* green-dot.png */; };
+		D9F2B2E21138AB000031058B /* orange-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2D71138AB000031058B /* orange-dot.png */; };
+		D9F2B2E31138AB000031058B /* white-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2D81138AB000031058B /* white-dot.png */; };
+		D9F2B2E41138AB000031058B /* bg-cold.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DA1138AB000031058B /* bg-cold.png */; };
+		D9F2B2E51138AB000031058B /* bg-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DB1138AB000031058B /* bg-dark.png */; };
+		D9F2B2E61138AB000031058B /* bg-fire.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DC1138AB000031058B /* bg-fire.png */; };
+		D9F2B2E71138AB000031058B /* bg-lightning.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DD1138AB000031058B /* bg-lightning.png */; };
+		D9F2B2E81138AB000031058B /* bg-poison.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DE1138AB000031058B /* bg-poison.png */; };
 		D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E5110BA8E000536EA7 /* potion-brown.png */; };
 		D9FFB121110BA8E000536EA7 /* potion-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E6110BA8E000536EA7 /* potion-green.png */; };
 		D9FFB122110BA8E000536EA7 /* potion-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E7110BA8E000536EA7 /* potion-purple.png */; };
@@ -245,11 +250,6 @@
 		D7C95238112B382200CCF8AC /* stalactite4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalactite4.png; sourceTree = "<group>"; };
 		D7C95239112B382200CCF8AC /* stalagmite.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = stalagmite.png; sourceTree = "<group>"; };
 		D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "dirt-cracked6.png"; sourceTree = "<group>"; };
-		D7C953F3112CB2DD00CCF8AC /* green-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-dot.png"; sourceTree = "<group>"; };
-		D7C953F5112CB2E700CCF8AC /* white-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white-dot.png"; sourceTree = "<group>"; };
-		D7C95401112CB47600CCF8AC /* black-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black-dot.png"; sourceTree = "<group>"; };
-		D7C95425112CBAB500CCF8AC /* blue-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue-dot.png"; sourceTree = "<group>"; };
-		D7C95427112CBAC200CCF8AC /* orange-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-dot.png"; sourceTree = "<group>"; };
 		D7D42DBA1119197800A8D7FF /* door-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "door-wood.png"; sourceTree = "<group>"; };
 		D7D42DBB1119197800A8D7FF /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
@@ -316,6 +316,16 @@
 		D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillUpgradeViewController.h; sourceTree = "<group>"; };
 		D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillUpgradeViewController.m; sourceTree = "<group>"; };
 		D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SkillUpgradeViewController.xib; sourceTree = "<group>"; };
+		D9F2B2D41138AB000031058B /* black-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "black-dot.png"; sourceTree = "<group>"; };
+		D9F2B2D51138AB000031058B /* blue-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "blue-dot.png"; sourceTree = "<group>"; };
+		D9F2B2D61138AB000031058B /* green-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "green-dot.png"; sourceTree = "<group>"; };
+		D9F2B2D71138AB000031058B /* orange-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orange-dot.png"; sourceTree = "<group>"; };
+		D9F2B2D81138AB000031058B /* white-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "white-dot.png"; sourceTree = "<group>"; };
+		D9F2B2DA1138AB000031058B /* bg-cold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-cold.png"; sourceTree = "<group>"; };
+		D9F2B2DB1138AB000031058B /* bg-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-dark.png"; sourceTree = "<group>"; };
+		D9F2B2DC1138AB000031058B /* bg-fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-fire.png"; sourceTree = "<group>"; };
+		D9F2B2DD1138AB000031058B /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-lightning.png"; sourceTree = "<group>"; };
+		D9F2B2DE1138AB000031058B /* bg-poison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-poison.png"; sourceTree = "<group>"; };
 		D9FFB0E5110BA8E000536EA7 /* potion-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-brown.png"; sourceTree = "<group>"; };
 		D9FFB0E6110BA8E000536EA7 /* potion-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-green.png"; sourceTree = "<group>"; };
 		D9FFB0E7110BA8E000536EA7 /* potion-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-purple.png"; sourceTree = "<group>"; };
@@ -635,18 +645,6 @@
 			name = PhoneCrawl;
 			sourceTree = "<group>";
 		};
-		D9A1DAE1112DDD7700EE126E /* MiniMapDots */ = {
-			isa = PBXGroup;
-			children = (
-				D7C95427112CBAC200CCF8AC /* orange-dot.png */,
-				D7C95425112CBAB500CCF8AC /* blue-dot.png */,
-				D7C95401112CB47600CCF8AC /* black-dot.png */,
-				D7C953F5112CB2E700CCF8AC /* white-dot.png */,
-				D7C953F3112CB2DD00CCF8AC /* green-dot.png */,
-			);
-			name = MiniMapDots;
-			sourceTree = "<group>";
-		};
 		D9A1DAE3112DDD8E00EE126E /* TempFiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -702,9 +700,35 @@
 			name = Item;
 			sourceTree = "<group>";
 		};
+		D9F2B2D31138AB000031058B /* MiniMapDots */ = {
+			isa = PBXGroup;
+			children = (
+				D9F2B2D41138AB000031058B /* black-dot.png */,
+				D9F2B2D51138AB000031058B /* blue-dot.png */,
+				D9F2B2D61138AB000031058B /* green-dot.png */,
+				D9F2B2D71138AB000031058B /* orange-dot.png */,
+				D9F2B2D81138AB000031058B /* white-dot.png */,
+			);
+			path = MiniMapDots;
+			sourceTree = "<group>";
+		};
+		D9F2B2D91138AB000031058B /* SkillBkGrds */ = {
+			isa = PBXGroup;
+			children = (
+				D9F2B2DA1138AB000031058B /* bg-cold.png */,
+				D9F2B2DB1138AB000031058B /* bg-dark.png */,
+				D9F2B2DC1138AB000031058B /* bg-fire.png */,
+				D9F2B2DD1138AB000031058B /* bg-lightning.png */,
+				D9F2B2DE1138AB000031058B /* bg-poison.png */,
+			);
+			path = SkillBkGrds;
+			sourceTree = "<group>";
+		};
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D9F2B2D31138AB000031058B /* MiniMapDots */,
+				D9F2B2D91138AB000031058B /* SkillBkGrds */,
 				D925B802113715C0004C2A18 /* Buttons */,
 				D925B809113715C0004C2A18 /* Numerals */,
 				D925B80F113715C0004C2A18 /* ui-inventorybg.png */,
@@ -712,7 +736,6 @@
 				D7C333751136E47D00798D3D /* shopkeeper.png */,
 				D7C3334F1136E43000798D3D /* Monsters */,
 				D9A1DAE3112DDD8E00EE126E /* TempFiles */,
-				D9A1DAE1112DDD7700EE126E /* MiniMapDots */,
 				D957F369112B337100809C1B /* popup_menu_background.png */,
 				D76B4F8E110D2A6500BBF5C0 /* highlight.png */,
 				D9FFB0E4110BA8E000536EA7 /* Consumable */,
@@ -972,11 +995,6 @@
 				D7C95246112B382200CCF8AC /* stalagmite.png in Resources */,
 				D7C95248112B3A2600CCF8AC /* dirt-cracked6.png in Resources */,
 				D957F36A112B337100809C1B /* popup_menu_background.png in Resources */,
-				D7C953F4112CB2DD00CCF8AC /* green-dot.png in Resources */,
-				D7C953F6112CB2E700CCF8AC /* white-dot.png in Resources */,
-				D7C95402112CB47600CCF8AC /* black-dot.png in Resources */,
-				D7C95426112CBAB500CCF8AC /* blue-dot.png in Resources */,
-				D7C95428112CBAC200CCF8AC /* orange-dot.png in Resources */,
 				D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */,
 				65A337F8112F4C79001BB370 /* potion-red-I.png in Resources */,
 				65A337F9112F4C79001BB370 /* potion-red-II.png in Resources */,
@@ -1029,6 +1047,16 @@
 				D925B81C113715C0004C2A18 /* ui-inventorybg.png in Resources */,
 				D925B81D113715C0004C2A18 /* ui-splashbg.png in Resources */,
 				D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */,
+				D9F2B2DF1138AB000031058B /* black-dot.png in Resources */,
+				D9F2B2E01138AB000031058B /* blue-dot.png in Resources */,
+				D9F2B2E11138AB000031058B /* green-dot.png in Resources */,
+				D9F2B2E21138AB000031058B /* orange-dot.png in Resources */,
+				D9F2B2E31138AB000031058B /* white-dot.png in Resources */,
+				D9F2B2E41138AB000031058B /* bg-cold.png in Resources */,
+				D9F2B2E51138AB000031058B /* bg-dark.png in Resources */,
+				D9F2B2E61138AB000031058B /* bg-fire.png in Resources */,
+				D9F2B2E71138AB000031058B /* bg-lightning.png in Resources */,
+				D9F2B2E81138AB000031058B /* bg-poison.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
