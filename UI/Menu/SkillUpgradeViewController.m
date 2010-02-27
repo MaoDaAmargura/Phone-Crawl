@@ -31,6 +31,7 @@
     [super viewDidLoad];
 	[subspaceView addSubview:spellView];
 	[subspaceView addSubview:abilityView];
+	abilityView.hidden = YES;
 	[mainSegmentControl setSelectedSegmentIndex:0];
 }
 
@@ -62,10 +63,12 @@
 	switch (segCont.selectedSegmentIndex) 
 	{
 		case 0:
-			[subspaceView bringSubviewToFront:spellView];
+			abilityView.hidden = YES;
+			spellView.hidden = NO;
 			break;
 		case 1:
-			[subspaceView bringSubviewToFront:abilityView];
+			abilityView.hidden = NO;
+			spellView.hidden = YES;
 			break;
 		default:
 			//TODO: Error
