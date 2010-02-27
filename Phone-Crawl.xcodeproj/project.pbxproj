@@ -119,6 +119,8 @@
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
 		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
+		D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */; };
+		D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */; };
 		D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E5110BA8E000536EA7 /* potion-brown.png */; };
 		D9FFB121110BA8E000536EA7 /* potion-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E6110BA8E000536EA7 /* potion-green.png */; };
 		D9FFB122110BA8E000536EA7 /* potion-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E7110BA8E000536EA7 /* potion-purple.png */; };
@@ -311,6 +313,9 @@
 		D9B55D2011015886007173A3 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
 		D9EBB8ED110688A800C34836 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		D9EBB8EE110688A800C34836 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
+		D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillUpgradeViewController.h; sourceTree = "<group>"; };
+		D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SkillUpgradeViewController.m; sourceTree = "<group>"; };
+		D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SkillUpgradeViewController.xib; sourceTree = "<group>"; };
 		D9FFB0E5110BA8E000536EA7 /* potion-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-brown.png"; sourceTree = "<group>"; };
 		D9FFB0E6110BA8E000536EA7 /* potion-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-green.png"; sourceTree = "<group>"; };
 		D9FFB0E7110BA8E000536EA7 /* potion-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-purple.png"; sourceTree = "<group>"; };
@@ -541,7 +546,7 @@
 		D95F3AC910FFCE5C00323446 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				D988806B110D272C00AFFB2E /* Menu */,
+				D988806B110D272C00AFFB2E /* Misc */,
 				D95F3ACA10FFCE5C00323446 /* Character */,
 				D95F3AD010FFCE5C00323446 /* Inventory */,
 				D95F3AD410FFCE5C00323446 /* Options */,
@@ -605,13 +610,17 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
-		D988806B110D272C00AFFB2E /* Menu */ = {
+		D988806B110D272C00AFFB2E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
 				D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */,
 				D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */,
 				D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */,
+				D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */,
+				D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */,
+				D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */,
 			);
+			name = Misc;
 			path = Menu;
 			sourceTree = "<group>";
 		};
@@ -1019,6 +1028,7 @@
 				D925B81B113715C0004C2A18 /* Numeral5-Normal.png in Resources */,
 				D925B81C113715C0004C2A18 /* ui-inventorybg.png in Resources */,
 				D925B81D113715C0004C2A18 /* ui-splashbg.png in Resources */,
+				D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1050,6 +1060,7 @@
 				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
+				D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
