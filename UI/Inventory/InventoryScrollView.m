@@ -122,9 +122,9 @@
 	[menu addMenuItem:@"Drop" delegate:gEngine selector:@selector(playerDropItem:) context:button.item];
 	menu.dieOnFire = YES;
 	
-	if([button.item is_equipable])
+	if([button.item isEquipable])
 		[menu addMenuItem:@"Equip" delegate:gEngine selector:@selector(playerEquipItem:) context:button.item];
-	if(![button.item is_equipable])
+	if(![button.item isEquipable])
 		[menu addMenuItem:@"Use" delegate:gEngine selector:@selector(playerUseItem:) context:button.item];
 	
 	[menu showInView:self];

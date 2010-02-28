@@ -67,30 +67,30 @@ typedef enum {
 	int health;
 	int shield;
 	int mana;
-	int turn_speed;
+	int turnSpeed;
 }
 @property (nonatomic) int health;
 @property (nonatomic) int shield;
 @property (nonatomic) int mana;
-@property (nonatomic) int turn_speed;
+@property (nonatomic) int turnSpeed;
 @end
 
 @interface EquipSlots : NSObject {
 	Item *head;
 	Item *chest;
-	Item *r_hand;
-	Item *l_hand;
+	Item *rHand;
+	Item *lHand;
 }
 - (id) init;
 @property (nonatomic, retain) Item* head;
 @property (nonatomic, retain) Item* chest;
-@property (nonatomic, retain) Item* r_hand;
-@property (nonatomic, retain) Item* l_hand;
+@property (nonatomic, retain) Item* rHand;
+@property (nonatomic, retain) Item* lHand;
 @end
 
 @interface Creature : NSObject {
 	NSString *name;
-	creatureType creature_type;
+	creatureType type;
 	Coord *creatureLocation;
 	
 	Creature *selectedCreatureForAction;
@@ -102,16 +102,16 @@ typedef enum {
 	
 	NSString *iconName;
 	
-	int aggro_range;
+	int aggroRange;
     int   level;
-	int turn_points;
+	int turnPoints;
 
 	condition_bitset condition;
 	Points *current;
 	Points *max;
 
 	int   money;
-	int   ability_points;
+	int   abilityPoints;
 
 	//Resists
 	int fire;
@@ -132,33 +132,33 @@ typedef enum {
 }
 
 - (id) initPlayerWithLevel: (int) lvl;
-- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl;
-- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z;
+- (id) initPlayerWithInfo: (NSString *) inName level: (int) lvl;
+- (id) initMonsterOfType: (creatureType) monsterType level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z;
 
 
 //Reset stats modified by conditions during combat
-- (void) Reset_Stats;
+- (void) resetStats;
 - (int) statBase;
-- (void) Update_Stats_Item: (Item *) item;
-- (void) Set_Base_Stats;
+- (void) updateStatsItem: (Item *) item;
+- (void) setBaseStats;
 
 - (void) ClearTurnActions;
 
-- (void) Take_Damage: (int) amount;
-- (void) Heal: (int) amount;
-- (void) Mana_Heal: (int) amount;
+- (void) takeDamage: (int) amount;
+- (void) heal: (int) amount;
+- (void) healMana: (int) amount;
 
-- (void) Add_Condition: (conditionType) new_condition;
-- (void) Remove_Condition: (conditionType) rem_condition;
-- (void) Clear_Condition;
+- (void) addCondition: (conditionType) newCondition;
+- (void) removeCondition: (conditionType) removeCondition;
+- (void) clearCondition;
 
-- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot;
-- (void) Remove_Equipment: (slotType) dest_slot;
-- (void) Add_Inventory: (Item *) new_item inv_slot: (int) inv_slot;
-- (void) Remove_Inventory: (int) inv_slot;
+- (void) addEquipment: (Item *) item slot: (slotType) destSlot;
+- (void) removeEquipment: (slotType) destSlot;
+- (void) addInventory: (Item *) item inSlotNumber: (int) slotNumber;
+- (void) removeItemFromInventoryInSlot: (int) slotNumber;
 
-- (int) regular_weapon_damage;
-- (int) elemental_weapon_damage;
+- (int) regularWeaponDamage;
+- (int) elementalWeaponDamage;
 
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
@@ -173,10 +173,10 @@ typedef enum {
 @property (nonatomic,retain) EquipSlots *equipment;
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
-@property (nonatomic) int turn_points;
+@property (nonatomic) int turnPoints;
 @property (readonly) NSString *name;
 @property int money;
-@property int ability_points;
+@property int abilityPoints;
 @property (readonly) int level;
 @property (nonatomic) int fire;
 @property (nonatomic) int cold;
@@ -184,7 +184,7 @@ typedef enum {
 @property (nonatomic) int poison;
 @property (nonatomic) int dark;
 @property (nonatomic) int armor;
-@property (nonatomic) int aggro_range;
+@property (nonatomic) int aggroRange;
 @property (nonatomic, retain) NSString *iconName;
 
 @end

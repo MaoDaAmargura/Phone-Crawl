@@ -5,58 +5,58 @@
 #import "PCPopupMenu.h"
 #import "Item.h"
 
-#define ADD_ABILITY(NAME,DMG,FN,PNTS,TPNTS) [ability_list addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
-ability_level:ability_lvl++%3+1 ability_id:id_cnt++ ability_fn:FN points:PNTS turn_points:TPNTS] autorelease]]
+#define ADD_ABILITY(NAME,DMG,FN,PNTS,TPNTS) [abilityList addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
+abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN points:PNTS turnPoints:TPNTS] autorelease]]
 
-NSMutableArray *ability_list = nil;
+NSMutableArray *abilityList = nil;
 BOOL have_set_abilities = FALSE;
 
 @implementation CombatAbility
 
 @synthesize name;
-@synthesize ability_id;
+@synthesize abilityId;
 @synthesize damage;
-@synthesize ability_level;
-@synthesize ability_points;
-@synthesize required_turn_points;
+@synthesize abilityLevel;
+@synthesize turnPoints;
+@synthesize turnPointCost;
 
 
-- (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn points:(int)abilitypnts 
-		 turn_points:(int) in_turn_points {
+- (id) initWithInfo: (NSString *) abilityName damage: (int) abilityDamage abilityLevel: (int) level 
+		 abilityId: (int) desiredId abilityFn: (SEL) fn points:(int)turnPnts 
+		 turnPoints:(int) turnPntCost {
 	if (self = [super init]) {
-		name = in_name;
-		damage = in_damage;
-		ability_level = in_ability_level;
-		ability_fn = in_ability_fn;
-		ability_id = in_ability_id;
-		ability_points = abilitypnts;
-		required_turn_points = in_turn_points;
+		name = abilityName;
+		damage = abilityDamage;
+		abilityLevel = level;
+		abilityFn = fn;
+		desiredId = desiredId;
+		turnPoints = turnPnts;
+		turnPointCost = turnPntCost;
 		return self;
 	}
 	return nil;
 }
 
-- (void) use_ability: (Creature *) caster target: (Creature *) target 
+- (void) useAbility: (Creature *) caster target: (Creature *) target 
 {
-	if (caster.turn_points >= ability_points) {
-		caster.turn_points -= ability_points;
-		if([self respondsToSelector:ability_fn])
+	if (caster.turnPoints >= turnPoints) {
+		caster.turnPoints -= turnPoints;
+		if([self respondsToSelector:abilityFn])
 		{
-			IMP f = [self methodForSelector:ability_fn];
-			(void)(f)(self, ability_fn, caster, target);
+			IMP f = [self methodForSelector:abilityFn];
+			(void)(f)(self, abilityFn, caster, target);
 		}
 	}
 }
 
-+ (void) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target {
-	if(!have_set_abilities) [CombatAbility fill_ability_list];
++ (void) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target {
+	if(!have_set_abilities) [CombatAbility fillAbilityList];
 
-	CombatAbility *ca = [ability_list objectAtIndex:in_ability_id];
-	[ca use_ability:caster target:target];
+	CombatAbility *ca = [abilityList objectAtIndex:desiredAbilityId];
+	[ca useAbility:caster target:target];
 };
 
-- (int) mitigate_damage:(Creature *)caster target:(Creature *)target damage: (int) amt_damage {
+- (int) mitigateDamage:(Creature *)caster target:(Creature *)target damage: (int) amountDamage {
 	int resist = target.armor;
 	if (resist > STAT_MAX) {
 		resist = STAT_MAX;
@@ -68,11 +68,11 @@ BOOL have_set_abilities = FALSE;
 		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
 	else if(level_diff > 0)
 		resist = resist * LEVEL_DIFF_MULT / level_diff;
-	return amt_damage * resist / 100;
+	return amountDamage * resist / 100;
 }
 
 //Specialized ability function example
-- (void) detr_ability: (Creature *) attacker target: (Creature *) defender {
+- (void) defaultAbility: (Creature *) attacker target: (Creature *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
@@ -81,17 +81,17 @@ BOOL have_set_abilities = FALSE;
 }
 
 - (void) basicAttack:(Creature *)attacker def:(Creature *)defender {
-	float basedamage = [attacker regular_weapon_damage];
+	float basedamage = [attacker regularWeaponDamage];
 	basedamage *= damage;
 	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
-	[defender Take_Damage:finaldamage];
+	[defender takeDamage:finaldamage];
 }
 
 - (void) elementalAttack:(Creature *)attacker def:(Creature *)defender {
 	float resist1;
 	// this assumes weapon is held in right hand
-	float elementDamage = [attacker elemental_weapon_damage];
-	elemType type1 = attacker.equipment.r_hand.elem_type;
+	float elementDamage = [attacker elementalWeaponDamage];
+	elemType type1 = attacker.equipment.rHand.element;
 	conditionType condtype1;
 	switch (type1) {
 		case FIRE:
@@ -120,17 +120,17 @@ BOOL have_set_abilities = FALSE;
 	}
 
 	int finaldamage = (elementDamage * (100-resist1) / 100);
-	if ([Rand min:0 max:100] > 20 * ability_level)
-		[defender Add_Condition:condtype1];
-	[defender Take_Damage:finaldamage];
+	if ([Rand min:0 max:100] > 20 * abilityLevel)
+		[defender addCondition:condtype1];
+	[defender takeDamage:finaldamage];
 }
 
-+ (void) fill_ability_list {
++ (void) fillAbilityList {
 	have_set_abilities = TRUE;
-	int id_cnt = 0, ability_lvl = 1;
+	int id_cnt = 0, abilityLvl = 1;
 	//ability_list = [[[NSMutableArray alloc] init] autorelease];
-	ability_list = [[NSMutableArray alloc] init];
-	SEL detr = @selector(detr_ability:target:);
+	abilityList = [[NSMutableArray alloc] init];
+	SEL detr = @selector(defaultAbility:target:);
 	
 	ADD_ABILITY(@"Strike",80,detr,50,20);
 	ADD_ABILITY(@"Heavy",1000,detr,50,100);

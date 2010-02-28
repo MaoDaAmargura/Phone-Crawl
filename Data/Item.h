@@ -29,20 +29,20 @@ typedef enum {
 typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
 @interface Item : NSObject {
-	NSString *item_name;
-	NSString *item_icon;
-	BOOL is_equipable;
+	NSString *name;
+	NSString *icon;
+	BOOL isEquipable;
 	int damage;
-	int elem_damage;
+	int elementalDamage;
 	int range;
 	int charges;
-	int point_val; //Sell value + high score point value
+	int pointValue; //Sell value + high score point value
 	
-	itemQuality item_quality; // Dull, Regular, Sharp, for critical hits
-	slotType item_slot; //What slot can the item go in?
-	elemType elem_type; //Elemental type of item
-	itemType item_type; //Item type
-	int spell_id; //Which spell the item casts
+	itemQuality quality; // Dull, Regular, Sharp, for critical hits
+	slotType slot; //What slot can the item go in?
+	elemType element; //Elemental type of item
+	itemType type; //Item type
+	int effectSpellId; //Which spell the item casts
 	
 	int hp;
 	int shield;
@@ -55,12 +55,12 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 	int armor;
 }
 
-@property (nonatomic) slotType item_slot;
-@property (nonatomic) elemType elem_type;
-@property (nonatomic) itemType item_type;
+@property (nonatomic) slotType slot;
+@property (nonatomic) elemType element;
+@property (nonatomic) itemType type;
 
-@property (nonatomic,readonly) NSString *item_name;
-@property (nonatomic,readonly) NSString *item_icon;
+@property (nonatomic,readonly) NSString *name;
+@property (nonatomic,readonly) NSString *icon;
 @property (nonatomic) int hp;
 @property (nonatomic) int shield;
 @property (nonatomic) int mana;
@@ -71,39 +71,39 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int dark;
 @property (nonatomic) int armor;
 @property (nonatomic) int damage;
-@property (nonatomic) int elem_damage;
+@property (nonatomic) int elementalDamage;
 @property (nonatomic) int range;
 @property (nonatomic) int charges;
-@property (nonatomic) int spell_id;
-@property (nonatomic,readonly) BOOL is_equipable;
+@property (nonatomic) int effectSpellId;
+@property (nonatomic,readonly) BOOL isEquipable;
 
 - (int) cast: (Creature *) caster target: (Creature *) target;
 
 // Generate a random item based on the dungeon level and elemental type
-+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
++(Item *) generateRandomItem: (int) dungeonLevel elemType: (elemType) elementalType;
 // Determine an item's value for high score
-+ (int) item_val : (Item *) item; 
++ (int) getItemValue : (Item *) item; 
 
-- (id) initWithBaseStats: (int) dungeon_level elem_type: (elemType) dungeon_elem item_type: (itemType) in_item_type item_slot: (slotType) in_slot_type;
-- (id) initWithStats: (NSString *) in_name
-			 icon_name: (NSString *) in_icon_name
-		  item_quality: (itemQuality) in_item_quality
-			 item_slot: (slotType) in_item_slot 
-			 elem_type: (elemType) in_elem_type 
-			 item_type: (itemType) in_item_type 
-				damage: (int) in_damage 
-		   elem_damage: (int) in_elem_damage
-			   charges: (int) in_charges
-				 range: (int) in_range
-					hp: (int) in_hp 
-				shield: (int) in_shield 
-				  mana: (int) in_mana 
-				  fire: (int) in_fire 
-				  cold: (int) in_cold 
-			 lightning: (int) in_lightning 
-				poison: (int) in_poison 
-				  dark: (int) in_dark 
-				 armor: (int) in_armor
-			  spell_id: (int) in_spell_id;
+- (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType itemSlot: (slotType) desiredSlot;
+- (id) initExactItemWithName: (NSString *) itemName
+			 iconFileName: (NSString *) iconFileName
+		  itemQuality: (itemQuality) quality
+			 itemSlot: (slotType) desiredSlot 
+			 elemType: (elemType) itemElement 
+			 itemType: (itemType) desiredType 
+				damage: (int) itemDamage 
+		   elementalDamage: (int) elemDamage
+			   charges: (int) numberOfCharges
+				 range: (int) itemRange
+					hp: (int) itemHP 
+				shield: (int) itemShield 
+				  mana: (int) itemMana 
+				  fire: (int) itemFire 
+				  cold: (int) itemCold 
+			 lightning: (int) itemLightning 
+				poison: (int) itemPoison 
+				  dark: (int) itemDark 
+				 armor: (int) itemArmor
+			  effectSpellId: (int) itemSpellId;
 
 @end

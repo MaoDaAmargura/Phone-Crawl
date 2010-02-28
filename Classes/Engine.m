@@ -50,12 +50,12 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	player = [[Creature alloc] initPlayerWithLevel:0];
 	//[player Take_Damage:150];
-	player.inventory = [NSMutableArray arrayWithObjects:[Item generate_random_item:1 elem_type:FIRE],
-														[Item generate_random_item:2 elem_type:COLD],
-														[Item generate_random_item:1 elem_type:LIGHTNING],
-														[Item generate_random_item:3 elem_type:POISON],
-														[Item generate_random_item:2 elem_type:DARK], 
-														[Item generate_random_item:4 elem_type:FIRE], nil];
+	player.inventory = [NSMutableArray arrayWithObjects:[Item generateRandomItem:1 elemType:FIRE],
+														[Item generateRandomItem:2 elemType:COLD],
+														[Item generateRandomItem:1 elemType:LIGHTNING],
+														[Item generateRandomItem:3 elemType:POISON],
+														[Item generateRandomItem:2 elemType:DARK], 
+														[Item generateRandomItem:4 elemType:FIRE], nil];
 	player.iconName = @"human1.png";
 	DLog(@"Created player successfully");
 
@@ -72,8 +72,8 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	if(self = [super init])
 	{
-		[Spell fill_spell_list];
-		[CombatAbility fill_ability_list];
+		[Spell fillSpellList];
+		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
 		
@@ -106,14 +106,14 @@ extern NSMutableDictionary *items; // from Dungeon
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		for (CombatAbility* ca in ability_list) {
+		for (CombatAbility* ca in abilityList) {
 			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:ca];
 		}
 		[attackMenu showInView:view];
 		[attackMenu hide];
 		
 		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		for (Spell* spell in spell_list) {
+		for (Spell* spell in spellList) {
 			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:spell];
 		}
 		[spellMenu showInView:view];
@@ -122,8 +122,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Item* it in player.inventory) 
 			//if(!it.is_equipable)
-			if (it.item_type == WAND || it.item_type == POTION)
-				[itemMenu addMenuItem:it.item_name delegate:self selector:@selector(item_handler:) context:it];
+			if (it.type == WAND || it.type == POTION)
+				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
 		[itemMenu hide];
 		return self;
@@ -189,7 +189,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
 	{
 		//todo: use the combat ability on the target
-		[creature.selectedCombatAbilityToUse use_ability:creature target:creature.selectedCreatureForAction];
+		[creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
 		creature.selectedCombatAbilityToUse = nil;
 	}
@@ -221,15 +221,15 @@ extern NSMutableDictionary *items; // from Dungeon
 		Coord *pc = [player creatureLocation];
 		Coord *mc = [m creatureLocation];
 		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
-		battleMode |= (dist <= player.aggro_range+m.aggro_range);
+		battleMode |= (dist <= player.aggroRange+m.aggroRange);
 	}
 	
 	// a quick hack to prevent turn_points from becoming unruly.
 	if(previousBattleMode == NO && battleMode == YES)
 	{
-		player.turn_points = 0;
+		player.turnPoints = 0;
 		for (Creature *m in liveEnemies)
-			m.turn_points = 0;
+			m.turnPoints = 0;
 	}
 }
 
@@ -242,11 +242,11 @@ extern NSMutableDictionary *items; // from Dungeon
 	if(!battleMode)
 		return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
 	
-	int highestPoints = player.turn_points;
+	int highestPoints = player.turnPoints;
 	Creature *highestCreature = player;
 	for( Creature *m in liveEnemies ) {
-		if(m.turn_points > highestPoints) {
-			highestPoints = m.turn_points;
+		if(m.turnPoints > highestPoints) {
+			highestPoints = m.turnPoints;
 			highestCreature = m;
 		}
 	}
@@ -254,9 +254,9 @@ extern NSMutableDictionary *items; // from Dungeon
 }
 
 - (void) incrementCreatureTurnPoints {
-	player.turn_points += 30;
+	player.turnPoints += 30;
 	for(Creature *m in liveEnemies)
-		m.turn_points += 25;
+		m.turnPoints += 25;
 }
 
 - (void) determineActionForCreature:(Creature*)c
@@ -290,7 +290,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	}
 	if(battleMode)
 		[self setSelectedMoveTarget:nil ForCreature:c];
-	c.turn_points -= TURN_POINTS_FOR_MOVEMENT_ACTION;
+	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
 /*!
@@ -320,7 +320,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) performSpellActionForCreature:(Creature *)c
 {
 		//maintenance
-	c.turn_points -= c.selectedSpellToUse.required_turn_points;
+	c.turnPoints -= c.selectedSpellToUse.turnPointCost;
 	[c ClearTurnActions];
 }
 - (void) performCombatAbilityActionForCreature:(Creature *)c
@@ -573,7 +573,7 @@ extern NSMutableDictionary *items; // from Dungeon
 				}
 			}
 
-			UIImage *img = [UIImage imageNamed: item.item_icon];
+			UIImage *img = [UIImage imageNamed: item.icon];
 			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
 
 			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
@@ -818,7 +818,7 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) playerEquipItem:(Item*)i
 {
-	[player Add_Equipment:i slot:i.item_slot];
+	[player addEquipment:i slot:i.slot];
 	
 }
 
