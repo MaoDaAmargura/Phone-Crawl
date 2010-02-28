@@ -1,6 +1,30 @@
 #import <Foundation/Foundation.h>
 
+#define MAX_DUNGEON_LEVEL 4
+#define MIN_DUNGEON_LEVEL 0
+
 typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
+
+#define NUM_COMBAT_ABILITY_TYPES 2
+
+typedef enum {
+	REG_STRIKE = 0,
+	HEAVY_STRIKE = 1
+} PC_COMBAT_ABILITY_TYPE;
+
+#define NUM_PC_SPELL_TYPES 10
+typedef enum {
+	FIREDAMAGE = 0,
+	COLDDAMAGE = 1,
+	LIGHTNINGDAMAGE = 2,
+	POISONDAMAGE = 3,
+	DARKDAMAGE = 4,
+	FIRECONDITION = 5,
+	COLDCONDITION = 6,
+	LIGHTNINGCONDITION = 7,
+	POISONCONDITION = 8,
+	DARKCONDITION = 9,
+} PC_SPELL_TYPE; // For use by spellbook field in creature.h
 
 //Items can always go in Bag, need non-bag slot to go in more
 #define NUM_ARMOR_TYPES 2

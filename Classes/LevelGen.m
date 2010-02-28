@@ -466,7 +466,7 @@ typedef enum {
 	for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION / 2; LCV++) {
 		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
 		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
-		Item *item = [Item generate_random_item: 0 elem_type: [Rand min: 0 max: 4]];
+		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
 
 		[items setObject: item forKey: coord];
 //		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;

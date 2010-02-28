@@ -1,8 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-
-#define ITEM_NO_SPELL -1
 #define ERR_NO_MANA -2
 #define ERR_RESIST -3
 #define SPELL_NO_DAMAGE -4
@@ -22,40 +20,40 @@
 typedef enum {DAMAGE, CONDITION, ITEM} spellType;
 typedef enum {SELF,SINGLE} targetType;
 
-NSMutableArray *spell_list;
+NSMutableArray *spellList;
 
 @class Creature;
 @interface Spell : NSObject {
 	NSString *name;
-	spellType spell_type; //Hurt or Help
-	targetType target_type; //Self, one target, all in range
-	elemType elem_type; //Elemental type of damage or buff
-	int mana_cost;
+	spellType type; //Hurt or Help
+	targetType spellTarget; //Self, one target, all in range
+	elemType element; //Elemental type of damage or buff
+	int manaCost;
 	int damage;
 	int range;
-	int spell_level; //Minor,Lesser, (unnamed regular), Major, Superior
-	int spell_id; //Index in spell_list array of the spell
-	SEL spell_fn;
-	int required_turn_points;
+	int level; //Minor,Lesser, (unnamed regular), Major, Superior
+	int spellId; //Index in spell_list array of the spell
+	SEL spellFn;
+	int turnPointCost;
 	//IMP spell_fn;
 }
 
-+ (void) fill_spell_list;
++ (void) fillSpellList;
 
-+ (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target;
++ (int) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target;
 - (int) cast: (Creature *) caster target: (Creature *) target;
 
-- (id) initWithInfo: (NSString *) in_name spell_type: (spellType) in_spell_type target_type: (targetType) in_target_type elem_type: (elemType) in_elem_type
-		  mana_cost: (int) in_mana_cost damage: (int) in_damage range: (int) in_range spell_level: (int) in_spell_level spell_id: (int) in_spell_id
-		   spell_fn: (SEL) in_spell_fn turn_points: (int) in_turn_points;
+- (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
+				manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
+				 spellFn: (SEL) fn turnPointCost: (int) turnPntCost;
 
-- (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target;
+- (BOOL) resistCheck: (Creature *) caster target: (Creature *) target;
 
 //Specialized spell functions
 
-- (int) detr_spell: (Creature *) caster target: (Creature *) target;
-- (int) heal_potion: (Creature *) caster target: (Creature *) target;
-- (int) mana_potion: (Creature *) caster target: (Creature *) target;
+- (int) damageSpell: (Creature *) caster target: (Creature *) target;
+- (int) healPotion: (Creature *) caster target: (Creature *) target;
+- (int) manaPotion: (Creature *) caster target: (Creature *) target;
 - (int) scroll: (Creature *) caster target: (Creature *) target;
 - (int) haste: (Creature *) caster target: (Creature *) target;
 - (int) freeze: (Creature *) caster target: (Creature *) target;
@@ -66,8 +64,8 @@ NSMutableArray *spell_list;
 
 @property (readonly) int range;
 @property (readonly) NSString * name;
-@property (readonly) targetType target_type;
-@property (readonly) int spell_id;
-@property (readonly) int required_turn_points;
+@property (readonly) targetType spellTarget;
+@property (readonly) int spellId;
+@property (readonly) int turnPointCost;
 
 @end

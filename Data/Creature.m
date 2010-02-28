@@ -6,6 +6,7 @@
 
 @implementation Creature
 
+@synthesize abilities;
 @synthesize creatureLocation;
 @synthesize inventory;
 @synthesize selectedCreatureForAction;
@@ -13,9 +14,9 @@
 @synthesize selectedSpellToUse;
 @synthesize selectedItemToUse;
 @synthesize selectedMoveTarget;
-@synthesize turn_points;
+@synthesize turnPoints;
 @synthesize name;
-@synthesize ability_points;
+@synthesize abilityPoints;
 @synthesize level;
 @synthesize money;
 @synthesize fire;
@@ -27,7 +28,7 @@
 @synthesize equipment;
 @synthesize current;
 @synthesize max;
-@synthesize aggro_range;
+@synthesize aggroRange;
 @synthesize iconName;
 
 
@@ -35,17 +36,22 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initMonsterOfType: (creatureType) type level: (int) in_level atX:(int)x Y:(int)y Z:(int)z{
+- (id) initMonsterOfType: (creatureType) monsterType level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
 	if (self = [super init])
 	{
 		name = [NSString stringWithString:@"Monster"];
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
-		creature_type = type;
-		level = in_level;
-		[self Set_Base_Stats];
+		int sb[] = {1,1,1,1,1,1,1,1,1,1};
+		int c[]= {1,0};
+		self.abilities = [[[Abilities alloc] init] autorelease];
+		[self.abilities setSpellBookArray:sb];
+		[self.abilities setCombatAbilityArray:c];
+		monsterType = monsterType;
+		level = inLevel;
+		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = 10000;
-		ability_points = 10;
+		abilityPoints = 10;
 		condition = NO_CONDITION;
 		return self;
 	}
@@ -56,14 +62,18 @@
 	return [self initPlayerWithInfo:@"Bob" level: lvl];
 }
 
-- (id) initPlayerWithInfo: (NSString *) in_name level: (int) lvl
+- (id) initPlayerWithInfo: (NSString *) inName level: (int) lvl
 {
 	if(self = [super init])
 	{
-		name = [NSString stringWithString:in_name];
+		name = [NSString stringWithString:inName];
 		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		
+		int sb[] = {5,0,0,0,0,0,0,0,0,0};
+		int c[] = {1,1};
+		self.abilities = [[[Abilities alloc] init] autorelease];
+		[self.abilities setSpellBookArray: sb];
+		[self.abilities setCombatAbilityArray: c];		
 		self.selectedCreatureForAction = nil;
 		self.selectedCombatAbilityToUse = nil;
 		self.selectedSpellToUse = nil;
@@ -71,12 +81,12 @@
 		self.selectedMoveTarget = nil;
 
 		level = lvl;
-		creature_type = PLAYER;
+		type = PLAYER;
 		
-		[self Set_Base_Stats];
+		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = 10000;
-		ability_points = 10;
+		abilityPoints = 10;
 		condition = NO_CONDITION;
 		return self;
 	}
@@ -94,12 +104,12 @@
 }
 
 
-- (void) Reset_Stats {
-	[self Clear_Condition];
+- (void) resetStats {
+	[self clearCondition];
 	max.health = real.health;
 	max.shield = real.shield;
 	max.mana = real.mana;
-	current.turn_speed = max.turn_speed = real.turn_speed;
+	current.turnSpeed = max.turnSpeed = real.turnSpeed;
 	if (current.health > max.health) current.health = max.health;
 	if (current.mana > max.mana) current.mana = max.mana;
 	if (current.shield > max.shield) current.shield = max.shield;
@@ -108,25 +118,25 @@
 #pragma mark -
 #pragma mark Helpers
 
-- (void) Set_Base_Stats {
+- (void) setBaseStats {
 	current = [[Points alloc] init];
 	max = [[Points alloc] init];
 	real = [[Points alloc] init];
-	current.turn_speed = 1.05;
-	real.turn_speed = 1.05;
-	max.turn_speed = 1.05;
+	current.turnSpeed = 1.05;
+	real.turnSpeed = 1.05;
+	max.turnSpeed = 1.05;
 	max.health = max.shield = max.mana = 100 + level * 25;
 	current.health = current.shield = current.mana = max.health;
 	fire = cold = lightning = poison = dark = 20;
 	armor = 0;
-	aggro_range = 2;
-	[self Update_Stats_Item:equipment.head];
-	[self Update_Stats_Item:equipment.chest];
-	[self Update_Stats_Item:equipment.l_hand];
-	[self Update_Stats_Item:equipment.r_hand];
+	aggroRange = 2;
+	[self updateStatsItem:equipment.head];
+	[self updateStatsItem:equipment.chest];
+	[self updateStatsItem:equipment.lHand];
+	[self updateStatsItem:equipment.rHand];
 }
 
-- (void) Update_Stats_Item: (Item*) item {
+- (void) updateStatsItem: (Item*) item {
 	max.health += item.hp;
 	max.shield += item.shield;
 	max.mana += item.mana;
@@ -148,7 +158,7 @@
 	armor += item.armor;
 }
 
-- (void) Take_Damage: (int) amount {
+- (void) takeDamage: (int) amount {
 	current.shield -= amount;
 	if (current.shield < 0) {
 		current.health += current.shield;
@@ -160,7 +170,7 @@
 	}
 }
 
-- (void) Heal: (int) amount {
+- (void) heal: (int) amount {
 	current.health += amount;
 	if (current.health > max.health) {
 		current.shield += (current.health - max.health);
@@ -170,25 +180,25 @@
 	}
 }
 
-- (void) Mana_Heal:(int)amount {
+- (void) healMana:(int)amount {
 	current.mana += amount;
 	if (current.mana > max.mana) {
 		current.mana = max.mana;
 	}
 }
 
-- (void) Add_Condition: (conditionType) new_condition { condition |= new_condition; }
-- (void) Remove_Condition: (conditionType) rem_condition { condition = condition &~ rem_condition; }
-- (void) Clear_Condition { condition = NO_CONDITION; }
+- (void) addCondition: (conditionType) newCondition { condition |= newCondition; }
+- (void) removeCondition: (conditionType) removeCondition { condition = condition &~ removeCondition; }
+- (void) clearCondition { condition = NO_CONDITION; }
 
 - (slotType) destinationForEitherHandItem
 {
 	//some simple logic for now. can be modified later to launch menu
-	if(equipment.r_hand == nil)
+	if(equipment.rHand == nil)
 	{
 		return RIGHT;
 	}
-	else if(equipment.l_hand == nil && equipment.r_hand.item_slot != BOTH)
+	else if(equipment.lHand == nil && equipment.rHand.slot != BOTH)
 	{
 		return LEFT;
 	}
@@ -198,10 +208,10 @@
 	}
 }
 
-- (void) Add_Equipment: (Item *) new_item slot: (slotType) dest_slot 
+- (void) addEquipment: (Item *) item slot: (slotType) destSlot 
 {
-	slotType destination = dest_slot;
-	slotType itemSlot = new_item.item_slot;
+	slotType destination = destSlot;
+	slotType itemSlot = item.slot;
 	
 	if(itemSlot == BAG)
 	{
@@ -210,27 +220,27 @@
 	else if(itemSlot == BOTH)
 	{
 		destination = RIGHT;
-		if(equipment.l_hand != nil)
-			[self Remove_Equipment:LEFT];
+		if(equipment.lHand != nil)
+			[self removeEquipment:LEFT];
 	}
 	else if(itemSlot ==  EITHER)
 	{
 		destination = [self destinationForEitherHandItem];
 	}
 	
-	[self Update_Stats_Item:new_item];
+	[self updateStatsItem:item];
 	switch (destination) {
 		case HEAD:
-			equipment.head = new_item;
+			equipment.head = item;
 			break;
 		case CHEST:
-			equipment.chest = new_item;
+			equipment.chest = item;
 			break;
 		case LEFT:
-			equipment.l_hand = new_item;
+			equipment.lHand = item;
 			break;
 		case RIGHT:
-			equipment.r_hand = new_item;
+			equipment.rHand = item;
 			break;				
 	};
 	
@@ -238,9 +248,9 @@
 	return;
 }
 
-- (void) Remove_Equipment: (slotType) dest_slot {
+- (void) removeEquipment: (slotType) destSlot {
 	Item *rem_item;
-	switch (dest_slot) {
+	switch (destSlot) {
 		case HEAD:
 			rem_item = equipment.head;
 			equipment.head = nil;
@@ -250,12 +260,12 @@
 			equipment.chest = nil;
 			break;
 		case LEFT:
-			rem_item = equipment.l_hand;
-			equipment.l_hand = nil;
+			rem_item = equipment.lHand;
+			equipment.lHand = nil;
 			break;
 		case RIGHT:
-			rem_item = equipment.r_hand;
-			equipment.r_hand = nil;
+			rem_item = equipment.rHand;
+			equipment.rHand = nil;
 			break;				
 	};
 	max.health -= rem_item.hp;
@@ -281,45 +291,45 @@
 	//return rem_item;
 };
 	
-- (void) Add_Inventory: (Item *) new_item inv_slot: (int) inv_slot {
-	if (inv_slot == FIRST_AVAIL_INV_SLOT) {
-		for (inv_slot = 0; inv_slot < NUM_INV_SLOTS; ++inv_slot) {
-			if ([inventory objectAtIndex:inv_slot] == nil)
+- (void) addInventory: (Item *) item inSlotNumber: (int) slotNumber {
+	if (slotNumber == FIRST_AVAIL_INV_SLOT) {
+		for (slotNumber = 0; slotNumber < NUM_INV_SLOTS; ++slotNumber) {
+			if ([inventory objectAtIndex:slotNumber] == nil)
 				break;
 		}
-		if (inv_slot >= NUM_INV_SLOTS) {
+		if (slotNumber >= NUM_INV_SLOTS) {
 			//No free inventory slots
 			return;
 		}
-	} else if (inv_slot >= NUM_INV_SLOTS || inv_slot < FIRST_AVAIL_INV_SLOT) {
+	} else if (slotNumber >= NUM_INV_SLOTS || slotNumber < FIRST_AVAIL_INV_SLOT) {
 		//Invalid inventory slot
 		return;
 	}
-	[inventory insertObject:new_item atIndex:inv_slot];
+	[inventory insertObject:item atIndex:slotNumber];
 	//Remove item from cursor
 };
 	
-- (void) Remove_Inventory: (int) inv_slot {
-	if(inv_slot >= NUM_INV_SLOTS || inv_slot < 0) {
+- (void) removeItemFromInventoryInSlot: (int) slotNumber {
+	if(slotNumber >= NUM_INV_SLOTS || slotNumber < 0) {
 		//No free inventory slots
 		return;
 	}
 //	Item *rem_item = [inventory objectAtIndex:inv_slot];
-	[inventory insertObject:nil atIndex:inv_slot];
+	[inventory insertObject:nil atIndex:slotNumber];
 	//return rem_item;
 };
 
-- (int) regular_weapon_damage {
+- (int) regularWeaponDamage {
 	int dmg = 0;
-	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.damage;
-	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.damage * OFFHAND_DMG_PERCENTAGE;
+	if (equipment.rHand != NULL) dmg+=equipment.rHand.damage;
+	if (equipment.lHand != NULL && (equipment.lHand.type == SWORD_ONE_HAND || equipment.lHand.type == DAGGER)) dmg+=equipment.lHand.damage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
 }
 
-- (int) elemental_weapon_damage {
+- (int) elementalWeaponDamage {
 	int dmg = 0;
-	if (equipment.r_hand != NULL) dmg+=equipment.r_hand.elem_damage;
-	if (equipment.l_hand != NULL && (equipment.l_hand.item_type == SWORD_ONE_HAND || equipment.l_hand.item_type == DAGGER)) dmg+=equipment.l_hand.elem_damage * OFFHAND_DMG_PERCENTAGE;
+	if (equipment.rHand != NULL) dmg+=equipment.rHand.elementalDamage;
+	if (equipment.lHand != NULL && (equipment.lHand.type == SWORD_ONE_HAND || equipment.lHand.type == DAGGER)) dmg+=equipment.lHand.elementalDamage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
 }
 
@@ -336,16 +346,16 @@
 @implementation EquipSlots
 @synthesize head;
 @synthesize chest;
-@synthesize l_hand;
-@synthesize r_hand;
+@synthesize lHand;
+@synthesize rHand;
 - (id) init
 {
 	if(self = [super init])
 	{
 		head = nil;
 		chest = nil;
-		l_hand = nil;
-		r_hand = nil;
+		lHand = nil;
+		rHand = nil;
 		return self;
 	}
 	return nil;
@@ -356,5 +366,32 @@
 @synthesize health;
 @synthesize shield;
 @synthesize mana;
-@synthesize turn_speed;
+@synthesize turnSpeed;
 @end
+
+@implementation Abilities
+@synthesize spellBook;
+@synthesize combatAbility;
+- (id) init
+{
+	if(self = [super init])
+	{
+		spellBook = (int*)malloc(sizeof(int) * NUM_PC_SPELL_TYPES);
+		combatAbility = (int*)malloc(sizeof(int) * NUM_COMBAT_ABILITY_TYPES);
+		return self;
+	}
+	return nil;
+}
+- (void) setSpellBookArray:(int []) sb {
+	int i = 0;
+	for (; i < NUM_PC_SPELL_TYPES; ++i)
+		spellBook[i] = sb[i];
+}
+- (void) setCombatAbilityArray:(int [])c {
+	int i = 0;
+	for (; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+		combatAbility[i] = c[i];
+}
+
+@end
+
