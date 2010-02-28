@@ -1,4 +1,6 @@
+
 #import <Foundation/Foundation.h>
+#import "NewGameFlowControl.h"
 
 @class WorldView;
 @class Creature;
@@ -13,7 +15,7 @@
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
-@interface Engine : NSObject 
+@interface Engine : NSObject <NewGameFlowDelegate>
 {
 	
 	NSMutableArray *liveEnemies; 

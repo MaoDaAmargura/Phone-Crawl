@@ -5,7 +5,6 @@
 #import "OptionsView.h"
 #import "Engine.h"
 
-
 @interface HomeTabViewController : UIViewController <WorldViewDelegate, UITabBarControllerDelegate, CharacterViewDelegate>
 {
 	UITabBarController *mainTabController;

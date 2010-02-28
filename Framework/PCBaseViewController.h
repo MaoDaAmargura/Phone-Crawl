@@ -18,4 +18,6 @@
 
 - (id) initWithNibName:(NSString *)nibNameOrNil;
 
+- (void) flipToView:(UIView*) nView WithTransition:(UIViewAnimationTransition) transition;
+
 @end

@@ -880,4 +880,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	[attackMenu hide];
 	[spellMenu hide];
 }
+
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	
+}
+
 @end
