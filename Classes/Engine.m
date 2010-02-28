@@ -106,22 +106,18 @@ extern NSMutableDictionary *items; // from Dungeon
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		origin = CGPointMake(60, 300);
 		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		for (CombatAbility* ca in abilityList) {
-			[attackMenu addMenuItem:ca.name delegate:self selector: @selector(ability_handler:) context:ca];
-		}
+		DLog(@"Filling attack menu");
+		[self fillAttackMenuForCreature:player];
 		[attackMenu showInView:view];
 		[attackMenu hide];
-		
+		DLog(@"Filling spell menu");
 		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		for (Spell* spell in spellList) {
-			[spellMenu addMenuItem:spell.name delegate:self selector: @selector(spell_handler:) context:spell];
-		}
+		[self fillSpellMenuForCreature: player];
 		[spellMenu showInView:view];
 		[spellMenu hide];
-		
+		DLog(@"Filling item menu");
 		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Item* it in player.inventory) 
-			//if(!it.is_equipable)
 			if (it.type == WAND || it.type == POTION)
 				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
@@ -129,6 +125,29 @@ extern NSMutableDictionary *items; // from Dungeon
 		return self;
 	}
 	return nil;
+}
+
+- (void) fillSpellMenuForCreature: (Creature *) c {
+	for (int i = 0 ; i < NUM_PC_SPELL_TYPES ; ++i) {
+		if(c.abilities.spellBook[i] == 0) // No points trained in that spell
+			continue;
+		else {
+			Spell *spell = [spellList objectAtIndex:START_PC_SPELLS + i * 5 + c.abilities.spellBook[i] - 1];
+			[spellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+		}
+	}
+}
+
+- (void) fillAttackMenuForCreature: (Creature *) c {
+	for (int i = 0 ; i < NUM_COMBAT_ABILITY_TYPES ; ++i) {
+		if(c.abilities.combatAbility[i] == 0) // No points trained in that ability
+			continue;
+		else {
+			//CombatAbility *ca = [abilityList objectAtIndex:i * 3 + c.abilities.combatAbility[i] - 1]; // For once we have combat ability levels done
+			CombatAbility *ca = [abilityList objectAtIndex:i];
+			[attackMenu addMenuItem:ca.name delegate:self selector:@selector(ability_handler:) context:ca];
+		}
+	}
 }
 
 - (void) releaseResources

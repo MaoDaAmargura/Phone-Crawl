@@ -43,6 +43,7 @@
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
 		int sb[] = {1,1,1,1,1,1,1,1,1,1};
 		int c[]= {1,0};
+		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray:sb];
 		[self.abilities setCombatAbilityArray:c];
 		monsterType = monsterType;
@@ -68,8 +69,9 @@
 		name = [NSString stringWithString:inName];
 		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		int sb[] = {1,2,4,2,0,5,2,3,3,1};
+		int sb[] = {5,0,0,0,0,0,0,0,0,0};
 		int c[] = {1,1};
+		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray: sb];
 		[self.abilities setCombatAbilityArray: c];		
 		self.selectedCreatureForAction = nil;
@@ -368,18 +370,23 @@
 @end
 
 @implementation Abilities
-- (int*) getSpellBookArray { return spellBook; }
+@synthesize spellBook;
+@synthesize combatAbility;
+- (id) init
+{
+	if(self = [super init])
+	{
+		spellBook = (int*)malloc(sizeof(int) * NUM_PC_SPELL_TYPES);
+		combatAbility = (int*)malloc(sizeof(int) * NUM_COMBAT_ABILITY_TYPES);
+		return self;
+	}
+	return nil;
+}
 - (void) setSpellBookArray:(int []) sb {
 	int i = 0;
 	for (; i < NUM_PC_SPELL_TYPES; ++i)
 		spellBook[i] = sb[i];
 }
-- (int) getSpellAtIndex: (int)i {return spellBook[i];}
-- (void) incrementSpellAtIndex: (int)i {++spellBook[i];}
-
-- (int*) getCombatAbilityArray {return combatAbility;}
-- (int) getCombatAbilityAtIndex: (int)i {return combatAbility[i];}
-- (void) incrementCombatAbilityAtIndex: (int)i {++combatAbility[i];}
 - (void) setCombatAbilityArray:(int [])c {
 	int i = 0;
 	for (; i < NUM_COMBAT_ABILITY_TYPES; ++i)

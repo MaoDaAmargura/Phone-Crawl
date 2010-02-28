@@ -48,19 +48,16 @@ typedef enum {
 @interface Abilities : NSObject
 {
 	//Spell book currently has 10 indexes that will go from 1-5 indicating the level of the corresponding spell
-	//See "PC_SPELL_TYPE" enum
-	int spellBook[NUM_PC_SPELL_TYPES];
+	//See "PC_SPELL_TYPE" enum in util.h
+	int *spellBook; //[NUM_PC_SPELL_TYPES]
 	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
-	int combatAbility[NUM_COMBAT_ABILITY_TYPES];
+	int *combatAbility; //[NUM_COMBAT_ABILITY_TYPES]
 }
-- (int*) getSpellBookArray;
+@property (nonatomic) int* spellBook;
+@property (nonatomic) int* combatAbility;
+- (id) init;
 - (void) setSpellBookArray:(int []) sb;
-- (int) getSpellAtIndex: (int)i;
-- (void) incrementSpellAtIndex: (int)i;
-- (int*) getCombatAbilityArray;
-- (int) getCombatAbilityAtIndex: (int)i;
-- (void) incrementCombatAbilityAtIndex: (int)i;
-- (void) setCombatAbilityArray:(int []) c;
+- (void) setCombatAbilityArray:(int []) cb;
 @end
 
 @interface Points : NSObject {

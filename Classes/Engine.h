@@ -43,6 +43,9 @@
 
 - (void) updateWorldView:(WorldView*) wView;
 
+- (void) fillSpellMenuForCreature: (Creature *) c;
+- (void) fillAttackMenuForCreature: (Creature *) c;
+
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
 - (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord;
