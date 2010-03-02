@@ -12,7 +12,7 @@
     //if (self = [super initWithNibName:@"InventoryView"]) 
 	if (self = [super init])
 	{
-		sView = [[[InventoryScrollView alloc] initWithFrame:CGRectMake(0, 0, 10, 10)] autorelease];
+		sView = [[[InventoryScrollView alloc] initWithFrame:CGRectMake(0, 0, 320, 460)] autorelease];
  		self.view = sView;
     }
     return self;

@@ -2,42 +2,42 @@
 
 #define ABILITY_ERR -1
 
-extern NSMutableArray* ability_list;
+extern NSMutableArray* abilityList;
 
 @class Creature;
 @interface CombatAbility : NSObject {
 
 	NSString *name;
 	int damage;
-	int ability_level; //Novice, Journeyman, Master
-	int ability_id; //Index in combat_list
-	SEL ability_fn;
-	int ability_points;
-	int required_turn_points;
+	int abilityLevel; //Novice, Journeyman, Master
+	int abilityId; //Index in combat_list
+	SEL abilityFn;
+	int turnPoints;
+	int turnPointCost;
 }
 
-+ (void) fill_ability_list;
-+ (void) use_ability_id: (int) in_ability_id caster: (Creature *) caster target: (Creature *) target;
-- (void) use_ability: (Creature *) caster target: (Creature *) target;
++ (void) fillAbilityList;
++ (void) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target;
+- (void) useAbility: (Creature *) caster target: (Creature *) target;
 
-- (id) initWithInfo: (NSString *) in_name damage: (int) in_damage ability_level: (int) in_ability_level 
-		 ability_id: (int) in_ability_id ability_fn: (SEL) in_ability_fn points:(int)abilitypnts
-		 turn_points:(int) in_turn_points;
+- (id) initWithInfo: (NSString *) abilityName damage: (int) abilityDamage abilityLevel: (int) level 
+		 abilityId: (int) desiredId abilityFn: (SEL) fn points:(int)turnPnts
+		 turnPoints:(int) turnPntCost;
 	
 
-- (int) mitigate_damage: (Creature *) caster target: (Creature *) target damage: (int) amount_damage;
+- (int) mitigateDamage: (Creature *) caster target: (Creature *) target damage: (int) amountDamage;
 
 
 //Specialized ability function example
-- (void) detr_ability: (Creature *) caster target: (Creature *) target;
+- (void) defaultAbility: (Creature *) caster target: (Creature *) target;
 - (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
 - (void) elementalAttack:(Creature *)attacker def:(Creature *)defender;
 
 @property (readonly) NSString *name;
-@property (readonly) int ability_id;
+@property (readonly) int abilityId;
 @property (readonly) int damage;
-@property (readonly) int ability_level;
-@property (readonly) int ability_points;
-@property (readonly) int required_turn_points;
+@property (readonly) int abilityLevel;
+@property (readonly) int turnPoints;
+@property (readonly) int turnPointCost;
 
 @end

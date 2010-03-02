@@ -35,7 +35,6 @@
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
 	PCPopupMenu *itemMenu;
-	
 }
 
 - (id) initWithView:(UIView*)view;
@@ -43,6 +42,9 @@
 - (void) setSelectedMoveTarget:(Coord*) loc ForCreature:(Creature *)c;
 
 - (void) updateWorldView:(WorldView*) wView;
+
+- (void) fillSpellMenuForCreature: (Creature *) c;
+- (void) fillAttackMenuForCreature: (Creature *) c;
 
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
@@ -71,5 +73,9 @@
 - (void) showSpellMenu;
 
 - (void) showItemMenu;
+
+- (void) ability_handler:(CombatAbility *)action;
+
+- (void) spell_handler:(Spell *)spell;
 
 @end

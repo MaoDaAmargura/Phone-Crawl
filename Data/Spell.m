@@ -4,75 +4,75 @@
 #import "PCPopupMenu.h"
 
 //Spell spell_list[NUM_SPELLS];
-BOOL have_set_spells = FALSE;
+BOOL haveSetSpells = FALSE;
 #define LEVEL_DIFF_MULT 2
 
 @implementation Spell
 
 @synthesize name;
 @synthesize range;
-@synthesize target_type;
-@synthesize spell_id;
-@synthesize required_turn_points;
+@synthesize spellTarget;
+@synthesize spellId;
+@synthesize turnPointCost;
 
-- (id) initWithInfo: (NSString *) in_name spell_type: (spellType) in_spell_type target_type: (targetType) in_target_type elem_type: (elemType) in_elem_type
-		  mana_cost: (int) in_mana_cost damage: (int) in_damage range: (int) in_range spell_level: (int) in_spell_level spell_id: (int) in_spell_id
-		   spell_fn: (SEL) in_spell_fn turn_points: (int) in_turn_points {
+- (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
+		  manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
+		   spellFn: (SEL) fn turnPointCost: (int) turnPntCost {
 	
 	if(self = [super init])
 	{
-		if (!have_set_spells) {
-			[Spell fill_spell_list];
+		if (!haveSetSpells) {
+			[Spell fillSpellList];
 		}
-		name = [NSString stringWithString: in_name];
+		name = [NSString stringWithString: spellName];
 		//DLog(@"Creating spell with name: %@, name is: %@",in_name,name);
-	    spell_type = in_spell_type;
-		target_type = in_target_type; 
-		elem_type = in_elem_type;
-		mana_cost = in_mana_cost;
-		damage = in_damage;
-		range = in_range; 
-		spell_level = in_spell_level; 
-		spell_id = in_spell_id;
-		spell_fn = in_spell_fn;
-		required_turn_points = in_turn_points;
+	    type = desiredSpellType;
+		spellTarget = spellTargetType; 
+		element = elementalType;
+		manaCost = mana;
+		damage = dmg;
+		range = spellRange; 
+		level = spellLevel; 
+		spellId = desiredSpellId;
+		spellFn = fn;
+		turnPointCost = turnPntCost;
 		return self;
 	}
 	return nil;
 }
 
 - (int) cast: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || (target_type != SELF && target == nil)) {
+	if (caster == nil || (target != SELF && target == nil)) {
 		DLog(@"SPELL CAST ERROR: CASTER NIL");
 		return CAST_ERR;
 	}
-	if(target.current.mana < mana_cost)
+	if(target.current.mana < manaCost)
 		return ERR_NO_MANA;
 	
-	caster.current.mana = (caster.current.mana - mana_cost) < 0 ? 0 : (caster.current.mana - mana_cost);
+	caster.current.mana = (caster.current.mana - manaCost) < 0 ? 0 : (caster.current.mana - manaCost);
 	
-	if (target_type == SELF || (target_type != SELF && [self Resist_Check:caster target:target])) {
+	if (target == SELF || (target != SELF && [self resistCheck:caster target:target])) {
 		
-		if([self respondsToSelector:spell_fn])
+		if([self respondsToSelector:spellFn])
 		{
-			IMP f = [self methodForSelector:spell_fn];
-			return (int)(f)(self, spell_fn, caster, target);
+			IMP f = [self methodForSelector:spellFn];
+			return (int)(f)(self, spellFn, caster, target);
 		}
 
 	}
 	return ERR_RESIST;
 }
 
-+ (int) cast_id: (int) in_spell_id caster: (Creature *) caster target: (Creature *) target {
-	if (!have_set_spells) [Spell fill_spell_list];
-	DLog(@"In cast_id: Casting %d by %@",in_spell_id,caster.name);
-	Spell *spell = [spell_list objectAtIndex:in_spell_id];
++ (int) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
+	if (!haveSetSpells) [Spell fillSpellList];
+	DLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
+	Spell *spell = [spellList objectAtIndex:desiredSpellId];
 	DLog(@"Casting spell: %@",spell.name);
 	return [spell cast:caster target:target];
 	//return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
 };
 
-- (BOOL) Resist_Check: (Creature *) caster target: (Creature *) target {
+- (BOOL) resistCheck: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) 
 	{
 		DLog(@"Resist_Check nil");
@@ -80,7 +80,7 @@ BOOL have_set_spells = FALSE;
 	}
 	if (caster == target) return TRUE;
 	int resist;
-	switch (elem_type) {
+	switch (element) {
 		case FIRE:
 			resist = target.fire;
 			break;
@@ -113,77 +113,77 @@ BOOL have_set_spells = FALSE;
 }
 
 //Return amount of damage to deal to combat system
-- (int) detr_spell: (Creature *) caster target: (Creature *) target {
+- (int) damageSpell: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) return CAST_ERR;
 	//[target Take_Damage:damage];
-	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * spell_level ) {
-		switch (elem_type) {
+	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
+		switch (element) {
 			case FIRE:
-				[target Add_Condition:BURNED];
+				[target addCondition:BURNED];
 				break;
 			case COLD:
-				[target Add_Condition:CHILLED];
+				[target addCondition:CHILLED];
 				break;
 			case LIGHTNING:
-				[target Add_Condition:HASTENED];
+				[target addCondition:HASTENED];
 				break;
 			case POISON:
-				[target Add_Condition:POISONED];
+				[target addCondition:POISONED];
 				break;
 			case DARK:
-				[target Add_Condition:CURSED];
-				[caster Heal:damage];
+				[target addCondition:CURSED];
+				[caster heal:damage];
 				break;
 		}
 	}
 	return damage;
 };
 
-- (int) heal_potion: (Creature *) caster target: (Creature *) target {
+- (int) healPotion: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
 	//DLog(@"In heal potion, healing for %d", damage);
-	[caster Heal: damage];
+	[caster heal: damage];
 	//DLog(@"Post heal");
 	return SPELL_NO_DAMAGE;
 }
 
-- (int) mana_potion: (Creature *) caster target: (Creature *) target {
+- (int) manaPotion: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
-	[caster Mana_Heal: damage];
+	[caster healMana: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
 - (int) scroll: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
-	++caster.ability_points;
+	++caster.abilityPoints;
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) haste: (Creature *) caster target: (Creature *) target {
 	if (caster == nil) return CAST_ERR;
-	[caster Add_Condition:HASTENED];
-	caster.current.turn_speed += caster.current.turn_speed * (damage/100.0); // Increase turn speed by percentage
+	[caster addCondition:HASTENED];
+	caster.current.turnSpeed += caster.current.turnSpeed * (damage/100.0); // Increase turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) freeze: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return CAST_ERR;
-	[target Add_Condition:CHILLED];
-	target.current.turn_speed -= target.current.turn_speed * (damage / 100.0); // Decrease turn speed by percentage
+	[target addCondition:CHILLED];
+	target.current.turnSpeed -= target.current.turnSpeed * (damage / 100.0); // Decrease turn speed by percentage
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) purge: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) return CAST_ERR;
-	[target Clear_Condition];
+	[target clearCondition];
 	//[target Take_Damage:damage];
-	[caster Take_Damage:(damage / spell_level)];
+	[caster takeDamage:(damage / level)];
 	return damage;
 }
 	
 - (int) taint: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return CAST_ERR;
-	[target Add_Condition:WEAKENED];
+	[target addCondition:WEAKENED];
 	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
 	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
 	return SPELL_NO_DAMAGE;
@@ -191,20 +191,19 @@ BOOL have_set_spells = FALSE;
 
 - (int) confusion: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return CAST_ERR;
-	[target Add_Condition:CONFUSION];
+	[target addCondition:CONFUSION];
 	//What is confusion supposed to do?
 	return SPELL_NO_DAMAGE;
 }
 
-+ (void) fill_spell_list {
-	have_set_spells = TRUE;
++ (void) fillSpellList {
+	haveSetSpells = TRUE;
 	int id_cnt = 0, spell_lvl = 1;
-	//spell_list = [[[NSMutableArray alloc] init] autorelease];
-	spell_list = [[NSMutableArray alloc] init];
+	spellList = [[NSMutableArray alloc] init];
 	SEL scroll = @selector(scroll:target:);
-	SEL heal_potion = @selector(heal_potion:target:);
-	SEL mana_potion = @selector(mana_potion:target:);
-	SEL detr = @selector(detr_spell:target:);
+	SEL healPotion = @selector(healPotion:target:);
+	SEL manaPotion = @selector(manaPotion:target:);
+	SEL detr = @selector(damageSpell:target:);
 	SEL haste = @selector(haste:target:);
 	SEL freeze = @selector(freeze:target:);
 	SEL	purge = @selector(purge:target:);
@@ -212,24 +211,24 @@ BOOL have_set_spells = FALSE;
 	SEL confusion = @selector(confusion:target:);
 	
 	
-#define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN,TPNTS) [spell_list addObject:[[[Spell alloc] initWithInfo:NAME spell_type:TYPE target_type:TARGET elem_type:ELEM mana_cost:MANA damage:DMG range:MAX_BOW_RANGE spell_level:spell_lvl++%5+1 spell_id:id_cnt++ spell_fn:FN turn_points:TPNTS] autorelease]]
+#define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN,TPNTS) [spellList addObject:[[[Spell alloc] initSpellWithName:NAME spellType:TYPE targetType:TARGET elemType:ELEM manaCost:MANA damage:DMG range:MAX_BOW_RANGE spellLevel:spell_lvl++%5+1 spellId:id_cnt++ spellFn:FN turnPointCost:TPNTS] autorelease]]
 	
-	[spell_list addObject:[[[Spell alloc] initWithInfo:@"Tome of Knowledge" spell_type:ITEM target_type:SELF 
-											 elem_type:DARK mana_cost:0 damage:0 range:MAX_BOW_RANGE
-										   spell_level:1 spell_id:id_cnt++ spell_fn:scroll turn_points:10] autorelease]];
+	[spellList addObject:[[[Spell alloc] initSpellWithName:@"Tome of Knowledge" spellType:ITEM targetType:SELF 
+											 elemType:DARK manaCost:0 damage:0 range:MAX_BOW_RANGE
+										   spellLevel:1 spellId:id_cnt++ spellFn:scroll turnPointCost:10] autorelease]];
 	
 	
-	ADD_SPELL(@"Minor Healing Potion",ITEM,SELF,DARK,0,100,heal_potion,30);
-	ADD_SPELL(@"Lesser Healing Potion",ITEM,SELF,DARK,0,200,heal_potion,40);
-	ADD_SPELL(@"Healing Potion",ITEM,SELF,DARK,0,300,heal_potion,50);
-	ADD_SPELL(@"Major Healing Potion",ITEM,SELF,DARK,0,400,heal_potion,60);
-	ADD_SPELL(@"Superior Healing Potion",ITEM,SELF,DARK,0,500,heal_potion,70);
+	ADD_SPELL(@"Minor Healing Potion",ITEM,SELF,DARK,0,100,healPotion,30);
+	ADD_SPELL(@"Lesser Healing Potion",ITEM,SELF,DARK,0,200,healPotion,40);
+	ADD_SPELL(@"Healing Potion",ITEM,SELF,DARK,0,300,healPotion,50);
+	ADD_SPELL(@"Major Healing Potion",ITEM,SELF,DARK,0,400,healPotion,60);
+	ADD_SPELL(@"Superior Healing Potion",ITEM,SELF,DARK,0,500,healPotion,70);
 	
-	ADD_SPELL(@"Minor Mana Potion",ITEM,SELF,DARK,0,100,mana_potion,30);
-	ADD_SPELL(@"Lesser Mana Potion",ITEM,SINGLE,DARK,0,200,mana_potion,40);
-	ADD_SPELL(@"Mana Potion",ITEM,SINGLE,DARK,0,300,mana_potion,50);
-	ADD_SPELL(@"Major Mana Potion",ITEM,SINGLE,DARK,0,400,mana_potion,60);
-	ADD_SPELL(@"Superior Mana Potion",ITEM,SINGLE,DARK,0,500,mana_potion,70);
+	ADD_SPELL(@"Minor Mana Potion",ITEM,SELF,DARK,0,100,manaPotion,30);
+	ADD_SPELL(@"Lesser Mana Potion",ITEM,SINGLE,DARK,0,200,manaPotion,40);
+	ADD_SPELL(@"Mana Potion",ITEM,SINGLE,DARK,0,300,manaPotion,50);
+	ADD_SPELL(@"Major Mana Potion",ITEM,SINGLE,DARK,0,400,manaPotion,60);
+	ADD_SPELL(@"Superior Mana Potion",ITEM,SINGLE,DARK,0,500,manaPotion,70);
 	
 	//PC spells
 	ADD_SPELL(@"Minor Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,50);

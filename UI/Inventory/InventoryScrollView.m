@@ -25,7 +25,10 @@
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
 		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 340, 40, 20)];
 		[self addSubview:pageMaster];
-		self.backgroundColor = [UIColor redColor];
+		//self.backgroundColor = [UIColor redColor];
+		UIImageView *imgView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)] autorelease];
+		[imgView setImage:[UIImage imageNamed:@"ui-inventorybg.png"]];
+		[self addSubview:imgView];
 		self.bounces = YES;
 		return self;
 	}
@@ -119,9 +122,9 @@
 	[menu addMenuItem:@"Drop" delegate:gEngine selector:@selector(playerDropItem:) context:button.item];
 	menu.dieOnFire = YES;
 	
-	if([button.item is_equipable])
+	if([button.item isEquipable])
 		[menu addMenuItem:@"Equip" delegate:gEngine selector:@selector(playerEquipItem:) context:button.item];
-	if(![button.item is_equipable])
+	if(![button.item isEquipable])
 		[menu addMenuItem:@"Use" delegate:gEngine selector:@selector(playerUseItem:) context:button.item];
 	
 	[menu showInView:self];

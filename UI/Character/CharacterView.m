@@ -49,10 +49,10 @@
 
 - (void) updateWithEquippedItems:(EquipSlots*) items
 {
-	[leftHandEquipImg setImage:[UIImage imageNamed:items.l_hand.item_icon]];
-	[rightHandEquipImg setImage:[UIImage imageNamed:items.r_hand.item_icon]];
-	[headArmorEquipImg setImage:[UIImage imageNamed:items.head.item_icon]];
-	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.item_icon]];
+	[leftHandEquipImg setImage:[UIImage imageNamed:items.lHand.icon]];
+	[rightHandEquipImg setImage:[UIImage imageNamed:items.rHand.icon]];
+	[headArmorEquipImg setImage:[UIImage imageNamed:items.head.icon]];
+	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.icon]];
 }
 
 
