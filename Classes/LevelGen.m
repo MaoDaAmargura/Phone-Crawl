@@ -151,10 +151,16 @@ typedef enum {
 			}
 		}
 	}
+	DLog(@"%d", neighbors);
 	return neighbors;
 }
-
+static int wham = 0;
 + (bool) killWithNeighbors:(int) neighbors harshness: (golParam) harshness {
+	if (neighbors == 8) {
+//		DLog(@"skips");
+		return false;
+	}
+
 	switch (harshness) {
 		case agentOrange:
 			if (neighbors < 3) {
@@ -163,6 +169,7 @@ typedef enum {
 			return false;
 		case average:
 			if (neighbors < 2 || neighbors > 3) {
+//				DLog(@"%d", wham++);
 				return true;
 			}
 			return false;
@@ -200,8 +207,8 @@ typedef enum {
 + (void) gameOfLife: (Dungeon*) dungeon zLevel: (int) z targeting: (tileType) type harshness: (golParam) harshness {
 	// declared outside loop to avoid a fat autorelease pool
 	Coord *coord = [Coord withX:0 Y:0 Z:z];
-	NSMutableArray *tilesToKill = [[NSMutableArray alloc] initWithCapacity: 120];
-	NSMutableArray *tilesToBirth = [[NSMutableArray alloc] initWithCapacity: 120];
+	NSMutableSet *tilesToKill = [[NSMutableSet alloc] initWithCapacity: 120];
+	NSMutableSet *tilesToBirth = [[NSMutableSet alloc] initWithCapacity: 120];
 
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
@@ -210,6 +217,7 @@ typedef enum {
 
 			if ([dungeon tileAt:coord].type == type && [self killWithNeighbors:neighbors harshness:harshness]) {
 				[tilesToKill addObject: [dungeon tileAt: coord]];
+				continue;
 			}
 
 			else if ([dungeon tileAt:coord].type != type && [self birthWithNeighbors:neighbors harshness:harshness]) {
@@ -217,6 +225,9 @@ typedef enum {
 			}
 		}
 	}
+
+	DLog(@"%d",[tilesToKill count]);
+	DLog(@"%d",[tilesToBirth count]);
 
 	for (Tile *tile in tilesToKill) {
 		[tile initWithTileType: deadTile[type]];
@@ -476,23 +487,30 @@ typedef enum {
 	if (!LVL_GEN_ENV) return dungeon;
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
-	[self followPit:dungeon fromZLevel:0];
-	for (int LCV = 0; LCV < 18; LCV++) {
-		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
-	}
+//	[self followPit:dungeon fromZLevel:0];
+//	for (int LCV = 0; LCV < 18; LCV++) {
+//		[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: agentOrange];
+//	}
+	
+
+	DLog(@"WHY!!!");
 	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
-	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
-	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
-	for (int LCV = 0; LCV < 4; LCV++) {
-		[self putPit: dungeon onZLevel: 1];
-	}
-	for (int LCV = 0; LCV < 2; LCV++) {
-		[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: average];
-	}
-	[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: agentOrange];
-	[self followDownSlopes:dungeon fromZLevel:0];
+	DLog(@"FUCK!!!");	
+	
+	
+	
+//	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
+//	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
+//	for (int LCV = 0; LCV < 4; LCV++) {
+//		[self putPit: dungeon onZLevel: 1];
+//	}
+//	for (int LCV = 0; LCV < 2; LCV++) {
+//		[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: average];
+//	}
+//	[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: agentOrange];
+//	[self followDownSlopes:dungeon fromZLevel:0];
 
-
+return dungeon;
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
