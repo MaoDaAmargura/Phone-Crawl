@@ -110,11 +110,6 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self fillAttackMenuForCreature:player];
 		[attackMenu showInView:view];
 		[attackMenu hide];
-		DLog(@"Filling spell menu");
-		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[self fillSpellMenuForCreature: player];
-		[spellMenu showInView:view];
-		[spellMenu hide];
 		DLog(@"Filling item menu");
 		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 		for (Item* it in player.inventory) 
@@ -122,6 +117,19 @@ extern NSMutableDictionary *items; // from Dungeon
 				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
 		[itemMenu hide];
+		DLog(@"Filling spell menu");
+		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[spellMenu addMenuItem:@"Damage" delegate:self selector:@selector(showDamageSpellMenu) context:nil];
+		[spellMenu addMenuItem:@"Condition" delegate:self selector:@selector(showConditionSpellMenu) context:nil];
+		damageSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		conditionSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[self fillSpellMenuForCreature: player];
+		[spellMenu showInView:view];
+		[conditionSpellMenu showInView:view];
+		[damageSpellMenu showInView:view];
+		[damageSpellMenu hide];
+		[conditionSpellMenu hide];	
+		[spellMenu hide];
 		return self;
 	}
 	return nil;
@@ -133,7 +141,10 @@ extern NSMutableDictionary *items; // from Dungeon
 			continue;
 		else {
 			Spell *spell = [spellList objectAtIndex:START_PC_SPELLS + i * 5 + c.abilities.spellBook[i] - 1];
-			[spellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+			if(i < FIRECONDITION) //Is a damage spell
+				[damageSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+			else
+				[conditionSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
 		}
 	}
 }
@@ -898,5 +909,14 @@ extern NSMutableDictionary *items; // from Dungeon
 	[itemMenu show];
 	[attackMenu hide];
 	[spellMenu hide];
+}
+
+- (void) showDamageSpellMenu {
+	[damageSpellMenu show];
+	[conditionSpellMenu hide];
+}
+- (void) showConditionSpellMenu {
+	[conditionSpellMenu show];
+	[damageSpellMenu hide];
 }
 @end

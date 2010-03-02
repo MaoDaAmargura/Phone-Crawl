@@ -35,6 +35,8 @@
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
 	PCPopupMenu *itemMenu;
+	PCPopupMenu *damageSpellMenu;
+	PCPopupMenu *conditionSpellMenu;
 }
 
 - (id) initWithView:(UIView*)view;
@@ -69,10 +71,10 @@
 - (void) processTouch:(Coord *) coord;
 
 - (void) showAttackMenu;
-
 - (void) showSpellMenu;
-
 - (void) showItemMenu;
+- (void) showDamageSpellMenu;
+- (void) showConditionSpellMenu;
 
 - (void) ability_handler:(CombatAbility *)action;
 
