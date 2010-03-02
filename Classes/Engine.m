@@ -111,7 +111,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		[attackMenu showInView:view];
 		[attackMenu hide];
 		DLog(@"Filling item menu");
-		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
 		for (Item* it in player.inventory) 
 			if (it.type == WAND || it.type == POTION)
 				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
@@ -209,24 +209,37 @@ extern NSMutableDictionary *items; // from Dungeon
 	if( creature != player )
 		[self determineActionForCreature:creature];
 	
-	
+	NSString *actionResult = @"";
 	if (creature.selectedItemToUse)
 	{
 		//use item on selected target
+		DLog(@"In item usage");
+		actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
+		DLog(@"Used item, result: %@",actionResult);
+		// If charges are used up, drop item from inventory and rebuild item menu
+		if (creature.selectedItemToUse.charges <= 0) {
+			[creature.inventory removeObject:creature.selectedItemToUse];
+			itemMenu = [[[PCPopupMenu alloc] initWithOrigin:CGPointMake(60, 300)] autorelease];
+			for (Item* it in player.inventory) 
+				if (it.type == WAND || it.type == POTION)
+					[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+			[itemMenu showInView:wView.view];
+			[itemMenu hide];
+		}
 		creature.selectedCreatureForAction = nil;
 		creature.selectedItemToUse = nil;
 	} 
 	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
 	{
 		//todo: use the combat ability on the target
-		[creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+		actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
 		creature.selectedCombatAbilityToUse = nil;
 	}
 	if (creature.selectedSpellToUse)
 	{
 		//use the spell on the target
-		[creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
+		actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];				
 		creature.selectedCreatureForAction = nil;
 		creature.selectedSpellToUse = nil;
 	} 
@@ -238,6 +251,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	if(battleMode)
 		[self incrementCreatureTurnPoints];
 	
+	wView.actionResult.text = actionResult; //Set some result string from actions
 	[self updateWorldView:wView];
 
 }
@@ -841,6 +855,10 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) spell_handler:(Spell *)spell {
 	player.selectedSpellToUse = spell;
+}
+
+- (void) item_handler:(Item *)item {
+	player.selectedItemToUse = item;
 }
 
 #pragma mark -

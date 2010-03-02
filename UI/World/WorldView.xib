@@ -199,6 +199,20 @@
 						<int key="IBUIContentMode">4</int>
 						<bool key="IBUIUserInteractionEnabled">NO</bool>
 					</object>
+					<object class="IBUILabel" id="624379238">
+						<reference key="NSNextResponder" ref="1005989924"/>
+						<int key="NSvFlags">292</int>
+						<string key="NSFrame">{{5.97266, 320}, {186.027, 27}}</string>
+						<reference key="NSSuperview" ref="1005989924"/>
+						<bool key="IBUIOpaque">NO</bool>
+						<bool key="IBUIClipsSubviews">YES</bool>
+						<bool key="IBUIUserInteractionEnabled">NO</bool>
+						<string key="IBUIText">Label</string>
+						<reference key="IBUITextColor" ref="871825097"/>
+						<nil key="IBUIHighlightedColor"/>
+						<int key="IBUIBaselineAdjustment">1</int>
+						<float key="IBUIMinimumFontSize">10</float>
+					</object>
 				</object>
 				<string key="NSFrameSize">{320, 460}</string>
 				<reference key="NSSuperview"/>
@@ -284,6 +298,14 @@
 					</object>
 					<int key="connectionID">41</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">actionResult</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="624379238"/>
+					</object>
+					<int key="connectionID">46</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -314,6 +336,7 @@
 							<reference ref="6008375"/>
 							<reference ref="761876962"/>
 							<reference ref="239278507"/>
+							<reference ref="624379238"/>
 						</object>
 						<reference key="parent" ref="0"/>
 					</object>
@@ -394,6 +417,11 @@
 						<reference key="object" ref="239278507"/>
 						<reference key="parent" ref="1005989924"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">45</int>
+						<reference key="object" ref="624379238"/>
+						<reference key="parent" ref="1005989924"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -413,6 +441,7 @@
 					<string>36.IBPluginDependency</string>
 					<string>38.IBPluginDependency</string>
 					<string>40.IBPluginDependency</string>
+					<string>45.IBPluginDependency</string>
 					<string>8.IBEditorWindowLastContentRect</string>
 					<string>8.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
@@ -432,7 +461,8 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{409, 258}, {320, 460}}</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>{{778, 301}, {320, 460}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
@@ -453,7 +483,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">44</int>
+			<int key="maxID">46</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -477,6 +507,7 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>actionResult</string>
 							<string>healthBar</string>
 							<string>healthLabel</string>
 							<string>manaBar</string>
@@ -488,6 +519,7 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>UILabel</string>
 							<string>UIView</string>
 							<string>UILabel</string>
 							<string>UIView</string>

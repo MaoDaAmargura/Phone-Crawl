@@ -6,6 +6,7 @@
 
 @synthesize mapImageView, highlight, miniMapImageView;
 @synthesize healthBar, shieldBar, manaBar;
+@synthesize actionResult;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -33,7 +34,7 @@
 
 	displayBarArray = [[NSArray arrayWithObjects:healthBar, shieldBar, manaBar, nil] retain];
 	displayLabelArray = [[NSArray arrayWithObjects:healthLabel, shieldLabel, manaLabel, nil] retain];
-
+	actionResult.text = @"";
 	[delegate worldViewDidLoad:self];
 	[self.view addSubview:highlight];
 }

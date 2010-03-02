@@ -41,29 +41,39 @@ BOOL haveSetSpells = FALSE;
 	return nil;
 }
 
-- (int) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || (target != SELF && target == nil)) {
 		DLog(@"SPELL CAST ERROR: CASTER NIL");
-		return CAST_ERR;
+		return @"Spell: Caster/Target nil";
 	}
+	int spellResult = 0;
 	if(target.current.mana < manaCost)
-		return ERR_NO_MANA;
-	
-	caster.current.mana = (caster.current.mana - manaCost) < 0 ? 0 : (caster.current.mana - manaCost);
-	
-	if (target == SELF || (target != SELF && [self resistCheck:caster target:target])) {
-		
-		if([self respondsToSelector:spellFn])
-		{
+		return @"Not enough mana!";
+	//caster.current.mana -= manaCost;
+	BOOL didSpellLand = [self resistCheck:caster target:target];
+	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
+	else {
+		if([self respondsToSelector:spellFn]){
 			IMP f = [self methodForSelector:spellFn];
-			return (int)(f)(self, spellFn, caster, target);
+			spellResult = (int)(f)(self, spellFn, caster, target);
 		}
-
 	}
-	return ERR_RESIST;
+	if(spellResult > 0) return [NSString stringWithFormat:@"%d damage dealt!",spellResult];
+	else switch (spellResult) {
+		case SPELL_HASTENED: return @"Attack speed has increased!";
+		case SPELL_FROZEN: return @"Target's attack speed decreased!";
+		case SPELL_PURGED: return @"All conditions purged!";
+		case SPELL_TAINTED: return @"Target tainted!";
+		case SPELL_CONFUSED: return @"Target is confused!";
+		case SPELL_RESIST: return @"Target resisted your spell!";
+		case SPELL_NO_DAMAGE: return @""; 
+		case SPELL_CAST_ERR: return @"Spell casting error!";
+		default: return @"Spell result error!";
+	}
+	return @"Spell result switch error!";
 }
 
-+ (int) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
++ (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
 	if (!haveSetSpells) [Spell fillSpellList];
 	DLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
@@ -114,7 +124,7 @@ BOOL haveSetSpells = FALSE;
 
 //Return amount of damage to deal to combat system
 - (int) damageSpell: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || target == nil) return CAST_ERR;
+	if (caster == nil || target == nil) return SPELL_CAST_ERR;
 	//[target Take_Damage:damage];
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
@@ -140,7 +150,7 @@ BOOL haveSetSpells = FALSE;
 };
 
 - (int) healPotion: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	//DLog(@"In heal potion, healing for %d", damage);
 	[caster heal: damage];
 	//DLog(@"Post heal");
@@ -148,52 +158,51 @@ BOOL haveSetSpells = FALSE;
 }
 
 - (int) manaPotion: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	[caster healMana: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
 - (int) scroll: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	++caster.abilityPoints;
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) haste: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	[caster addCondition:HASTENED];
 	caster.current.turnSpeed += caster.current.turnSpeed * (damage/100.0); // Increase turn speed by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_HASTENED;
 }
 
 - (int) freeze: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CHILLED];
 	target.current.turnSpeed -= target.current.turnSpeed * (damage / 100.0); // Decrease turn speed by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_FROZEN;
 }
 
 - (int) purge: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || target == nil) return CAST_ERR;
-	[target clearCondition];
-	//[target Take_Damage:damage];
+	if (caster == nil || target == nil) return SPELL_CAST_ERR;
+	[caster clearCondition];
 	[caster takeDamage:(damage / level)];
-	return damage;
+	return SPELL_PURGED;
 }
 	
 - (int) taint: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:WEAKENED];
 	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
 	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_TAINTED;
 }
 
 - (int) confusion: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CONFUSION];
 	//What is confusion supposed to do?
-	return SPELL_NO_DAMAGE;
+	return SPELL_CONFUSED;
 }
 
 + (void) fillSpellList {

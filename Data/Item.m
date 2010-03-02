@@ -239,17 +239,14 @@ static const int baseItemStats[10][9] = {
 	return nil;
 };
 
-//Each item with a spell effect has that spell ID stored in it.
-//When the time comes to cast that spell, the spell does its effect internally
-//Decrements the number of charges, then returns to engine. Engine should
-//use the returned value to determine if an item needs to be dropped from inventory.
-- (int) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Creature *) caster target: (Creature *) target {
     if(effectSpellId == ITEM_NO_SPELL) {
         DLog(@"Tried to cast item: %@ which has no effect",self.name);
-        return ITEM_NO_SPELL;
+        return @"Item spell cast err!";
     }
-    [Spell castSpellById:effectSpellId caster:caster target:target];
-    return --charges;
+    --charges;
+    return [Spell castSpellById:effectSpellId caster:caster target:target];
+    //return --charges;
 }
 
 // Generate a random item based on the dungeon level and elemental type
