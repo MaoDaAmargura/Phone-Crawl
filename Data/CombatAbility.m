@@ -134,15 +134,43 @@ BOOL have_set_abilities = FALSE;
 	return finaldamage;
 }
 
+- (int) elementalStrike: (Creature *) attacker target: (Creature *) defender {
+	if (attacker == nil || defender == nil) {
+		DLog(@"ABILITY_ERR");
+	}
+	return [self elementalAttack: attacker def: defender] * 2;
+}
+
+- (int) bruteStrike: (Creature *) attacker target: (Creature *) defender {
+	if (attacker == nil || defender == nil) {
+		DLog(@"ABILITY_ERR");
+	}
+	return [self basicAttack: attacker def: defender] * 2;
+}
+
+- (int) quickStrike: (Creature *) attacker target: (Creature *) defender {
+	if (attacker == nil || defender == nil) {
+		DLog(@"ABILITY_ERR");
+	}
+	attacker.turnPoints += 40;
+	return [self basicAttack: attacker def: defender] + [self elementalAttack:attacker def:defender];
+}
+
 + (void) fillAbilityList {
 	have_set_abilities = TRUE;
 	int id_cnt = 0, abilityLvl = 1;
 	//ability_list = [[[NSMutableArray alloc] init] autorelease];
 	abilityList = [[NSMutableArray alloc] init];
 	SEL detr = @selector(defaultAbility:target:);
+	SEL ele = @selector(elementalStrike:target:);
+	SEL brute = @selector(bruteStrike:target:);
+	SEL quick = @selector(quickStrike:target:);
 	
-	ADD_ABILITY(@"Strike",80,detr,50,20);
-	ADD_ABILITY(@"Heavy",1000,detr,50,100);
+	ADD_ABILITY(@"Swing",80,detr,50,20);
+	ADD_ABILITY(@"Brute",1000,brute,50,100);
+	ADD_ABILITY(@"EStrike",60,ele,50,40);
+	ADD_ABILITY(@"Quick",40,quick,50,20);
+	
 }
 
 @end

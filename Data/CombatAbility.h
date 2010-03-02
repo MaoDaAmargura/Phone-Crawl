@@ -32,6 +32,9 @@ extern NSMutableArray* abilityList;
 - (int) defaultAbility: (Creature *) caster target: (Creature *) target;
 - (int) basicAttack:(Creature *)attacker def:(Creature *)defender;
 - (int) elementalAttack:(Creature *)attacker def:(Creature *)defender;
+- (int) bruteStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) elementalStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) quickStrike:(Creature *)attacker target:(Creature *)defender;
 
 @property (readonly) NSString *name;
 @property (readonly) int abilityId;

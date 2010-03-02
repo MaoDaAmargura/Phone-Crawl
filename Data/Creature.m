@@ -42,7 +42,7 @@
 		name = [NSString stringWithString:@"Monster"];
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
 		int sb[] = {1,1,1,1,1,1,1,1,1,1};
-		int c[]= {1,0};
+		int c[]= {1,0,1,1};
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray:sb];
 		[self.abilities setCombatAbilityArray:c];
@@ -70,7 +70,7 @@
 		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
 		int sb[] = {5,5,5,5,5,5,5,5,5,5};
-		int c[] = {1,1};
+		int c[] = {1,1,1,1};
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray: sb];
 		[self.abilities setCombatAbilityArray: c];		
