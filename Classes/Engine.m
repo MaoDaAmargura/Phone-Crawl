@@ -213,18 +213,20 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (creature.selectedItemToUse)
 	{
 		//use item on selected target
-		DLog(@"In item usage");
+		//DLog(@"In item usage");
 		actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
-		DLog(@"Used item, result: %@",actionResult);
+		//DLog(@"Used item, result: %@",actionResult);
 		// If charges are used up, drop item from inventory and rebuild item menu
 		if (creature.selectedItemToUse.charges <= 0) {
 			[creature.inventory removeObject:creature.selectedItemToUse];
-			itemMenu = [[[PCPopupMenu alloc] initWithOrigin:CGPointMake(60, 300)] autorelease];
-			for (Item* it in player.inventory) 
-				if (it.type == WAND || it.type == POTION)
-					[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
-			[itemMenu showInView:wView.view];
-			[itemMenu hide];
+			if(creature == player) {
+				itemMenu = [[[PCPopupMenu alloc] initWithOrigin:CGPointMake(60, 300)] autorelease];
+				for (Item* it in player.inventory) 
+					if (it.type == WAND || it.type == POTION)
+						[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+				[itemMenu showInView:wView.view];
+				[itemMenu hide];
+			}
 		}
 		creature.selectedCreatureForAction = nil;
 		creature.selectedItemToUse = nil;
@@ -251,7 +253,8 @@ extern NSMutableDictionary *items; // from Dungeon
 	//if(battleMode)
 		//[self incrementCreatureTurnPoints];
 	
-	wView.actionResult.text = actionResult; //Set some result string from actions
+	if(creature == player)
+		wView.actionResult.text = actionResult; //Set some result string from actions
 	[self updateWorldView:wView];
 
 }
