@@ -43,7 +43,7 @@ BOOL haveSetSpells = FALSE;
 
 - (NSString *) cast: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || (target != SELF && target == nil)) {
-		DLog(@"SPELL CAST ERROR: CASTER NIL");
+		NSLog(@"SPELL CAST ERROR: CASTER NIL");
 		return @"Spell: Caster/Target nil";
 	}
 	int spellResult = 0;
@@ -75,9 +75,9 @@ BOOL haveSetSpells = FALSE;
 
 + (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
 	if (!haveSetSpells) [Spell fillSpellList];
-	DLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
+	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
-	DLog(@"Casting spell: %@",spell.name);
+	NSLog(@"Casting spell: %@",spell.name);
 	return [spell cast:caster target:target];
 	//return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
 };
@@ -85,7 +85,7 @@ BOOL haveSetSpells = FALSE;
 - (BOOL) resistCheck: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) 
 	{
-		DLog(@"Resist_Check nil");
+		NSLog(@"Resist_Check nil");
 		return FALSE;
 	}
 	if (caster == target) return TRUE;
