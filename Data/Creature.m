@@ -323,7 +323,7 @@
 	int dmg = 0;
 	if (equipment.rHand != NULL) dmg+=equipment.rHand.damage;
 	if (equipment.lHand != NULL && (equipment.lHand.type == SWORD_ONE_HAND || equipment.lHand.type == DAGGER)) dmg+=equipment.lHand.damage * OFFHAND_DMG_PERCENTAGE;
-	return dmg;
+	return dmg == 0 ? 1 : dmg;
 }
 
 - (int) elementalWeaponDamage {
