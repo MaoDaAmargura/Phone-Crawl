@@ -289,7 +289,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	int highestPoints = player.turnPoints;
 	Creature *highestCreature = nil;
 	while (highestCreature == nil) {
-		[self incrementCreatureTurnPoints];
 		for( Creature *m in liveEnemies ) {
 			if(m.turnPoints > highestPoints && m.turnPoints > 100) {
 				highestPoints = m.turnPoints;
@@ -300,6 +299,9 @@ extern NSMutableDictionary *items; // from Dungeon
 			highestPoints = player.turnPoints;
 			highestCreature = player;
 		}
+		if (highestCreature == nil) {
+			[self incrementCreatureTurnPoints];
+		}
 	}
 	return highestCreature;
 }
@@ -307,7 +309,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) incrementCreatureTurnPoints {
 	player.turnPoints += 30;
 	for(Creature *m in liveEnemies)
-		m.turnPoints += 25;
+		m.turnPoints += 30;
 }
 
 - (void) determineActionForCreature:(Creature*)c
