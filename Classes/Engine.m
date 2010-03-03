@@ -248,8 +248,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self performMoveActionForCreature:creature];
 	}
 	
-	if(battleMode)
-		[self incrementCreatureTurnPoints];
+	//if(battleMode)
+		//[self incrementCreatureTurnPoints];
 	
 	wView.actionResult.text = actionResult; //Set some result string from actions
 	[self updateWorldView:wView];
@@ -283,15 +283,22 @@ extern NSMutableDictionary *items; // from Dungeon
 */
 - (Creature *) nextCreatureToTakeTurn
 {
-	if(!battleMode)
-		return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
+	//if(!battleMode)
+		//return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
 	
 	int highestPoints = player.turnPoints;
-	Creature *highestCreature = player;
-	for( Creature *m in liveEnemies ) {
-		if(m.turnPoints > highestPoints) {
-			highestPoints = m.turnPoints;
-			highestCreature = m;
+	Creature *highestCreature = nil;
+	while (highestCreature == nil) {
+		[self incrementCreatureTurnPoints];
+		for( Creature *m in liveEnemies ) {
+			if(m.turnPoints > highestPoints && m.turnPoints > 100) {
+				highestPoints = m.turnPoints;
+				highestCreature = m;
+			}
+		}
+		if(player.turnPoints > highestPoints && player.turnPoints > 100) {
+			highestPoints = player.turnPoints;
+			highestCreature = player;
 		}
 	}
 	return highestCreature;
