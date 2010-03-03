@@ -80,7 +80,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		showBattleMenu = NO;
 		
 		// create enemy for battle testing
-		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR level:0 atX:4 Y:0 Z:0];
+		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:0 atX:4 Y:0 Z:0];
 		[liveEnemies addObject:creature];
 		
 		tilesPerSide = 9;
@@ -110,18 +110,26 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self fillAttackMenuForCreature:player];
 		[attackMenu showInView:view];
 		[attackMenu hide];
-		DLog(@"Filling spell menu");
-		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[self fillSpellMenuForCreature: player];
-		[spellMenu showInView:view];
-		[spellMenu hide];
 		DLog(@"Filling item menu");
-		itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
 		for (Item* it in player.inventory) 
 			if (it.type == WAND || it.type == POTION)
 				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
 		[itemMenu showInView:view];
 		[itemMenu hide];
+		DLog(@"Filling spell menu");
+		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[spellMenu addMenuItem:@"Damage" delegate:self selector:@selector(showDamageSpellMenu) context:nil];
+		[spellMenu addMenuItem:@"Condition" delegate:self selector:@selector(showConditionSpellMenu) context:nil];
+		damageSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		conditionSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+		[self fillSpellMenuForCreature: player];
+		[spellMenu showInView:view];
+		[conditionSpellMenu showInView:view];
+		[damageSpellMenu showInView:view];
+		[damageSpellMenu hide];
+		[conditionSpellMenu hide];	
+		[spellMenu hide];
 		return self;
 	}
 	return nil;
@@ -133,7 +141,10 @@ extern NSMutableDictionary *items; // from Dungeon
 			continue;
 		else {
 			Spell *spell = [spellList objectAtIndex:START_PC_SPELLS + i * 5 + c.abilities.spellBook[i] - 1];
-			[spellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+			if(i < FIRECONDITION) //Is a damage spell
+				[damageSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+			else
+				[conditionSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
 		}
 	}
 }
@@ -198,24 +209,39 @@ extern NSMutableDictionary *items; // from Dungeon
 	if( creature != player )
 		[self determineActionForCreature:creature];
 	
-	
+	NSString *actionResult = @"";
 	if (creature.selectedItemToUse)
 	{
 		//use item on selected target
+		//DLog(@"In item usage");
+		actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
+		//DLog(@"Used item, result: %@",actionResult);
+		// If charges are used up, drop item from inventory and rebuild item menu
+		if (creature.selectedItemToUse.charges <= 0) {
+			[creature.inventory removeObject:creature.selectedItemToUse];
+			if(creature == player) {
+				itemMenu = [[[PCPopupMenu alloc] initWithOrigin:CGPointMake(60, 300)] autorelease];
+				for (Item* it in player.inventory) 
+					if (it.type == WAND || it.type == POTION)
+						[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+				[itemMenu showInView:wView.view];
+				[itemMenu hide];
+			}
+		}
 		creature.selectedCreatureForAction = nil;
 		creature.selectedItemToUse = nil;
 	} 
 	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
 	{
 		//todo: use the combat ability on the target
-		[creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+		actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
 		creature.selectedCreatureForAction = nil;
 		creature.selectedCombatAbilityToUse = nil;
 	}
 	if (creature.selectedSpellToUse)
 	{
 		//use the spell on the target
-		[creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
+		actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];				
 		creature.selectedCreatureForAction = nil;
 		creature.selectedSpellToUse = nil;
 	} 
@@ -223,10 +249,11 @@ extern NSMutableDictionary *items; // from Dungeon
 	{
 		[self performMoveActionForCreature:creature];
 	}
+	//if(battleMode)
+		//[self incrementCreatureTurnPoints];
 	
-	if(battleMode)
-		[self incrementCreatureTurnPoints];
-	
+	if(creature == player)
+		wView.actionResult.text = actionResult; //Set some result string from actions
 	[self updateWorldView:wView];
 
 }
@@ -258,15 +285,28 @@ extern NSMutableDictionary *items; // from Dungeon
 */
 - (Creature *) nextCreatureToTakeTurn
 {
-	if(!battleMode)
-		return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
+	//if(!battleMode)
+		//return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
 	
 	int highestPoints = player.turnPoints;
-	Creature *highestCreature = player;
-	for( Creature *m in liveEnemies ) {
-		if(m.turnPoints > highestPoints) {
-			highestPoints = m.turnPoints;
-			highestCreature = m;
+	Creature *highestCreature = nil;
+	while (highestCreature == nil) {
+		for( Creature *m in liveEnemies ) {
+			if (m.current.health == 0){
+				[liveEnemies removeObject:m];
+				[deadEnemies addObject:m];
+			}
+			if(m.turnPoints > highestPoints && m.turnPoints > 100) {
+				highestPoints = m.turnPoints;
+				highestCreature = m;
+			}
+		}
+		if(player.turnPoints > highestPoints && player.turnPoints > 100) {
+			highestPoints = player.turnPoints;
+			highestCreature = player;
+		}
+		if (highestCreature == nil) {
+			[self incrementCreatureTurnPoints];
 		}
 	}
 	return highestCreature;
@@ -275,7 +315,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) incrementCreatureTurnPoints {
 	player.turnPoints += 30;
 	for(Creature *m in liveEnemies)
-		m.turnPoints += 25;
+		m.turnPoints += 30;
 }
 
 - (void) determineActionForCreature:(Creature*)c
@@ -832,6 +872,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	player.selectedSpellToUse = spell;
 }
 
+- (void) item_handler:(Item *)item {
+	player.selectedItemToUse = item;
+}
+
 #pragma mark -
 #pragma mark Player Commands
 
@@ -898,6 +942,15 @@ extern NSMutableDictionary *items; // from Dungeon
 	[itemMenu show];
 	[attackMenu hide];
 	[spellMenu hide];
+}
+
+- (void) showDamageSpellMenu {
+	[damageSpellMenu show];
+	[conditionSpellMenu hide];
+}
+- (void) showConditionSpellMenu {
+	[conditionSpellMenu show];
+	[damageSpellMenu hide];
 }
 
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon

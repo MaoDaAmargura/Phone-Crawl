@@ -77,14 +77,14 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int effectSpellId;
 @property (nonatomic,readonly) BOOL isEquipable;
 
-- (int) cast: (Creature *) caster target: (Creature *) target;
+- (NSString *) cast: (Creature *) caster target: (Creature *) target;
 
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generateRandomItem: (int) dungeonLevel elemType: (elemType) elementalType;
 // Determine an item's value for high score
 + (int) getItemValue : (Item *) item; 
 
-- (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType itemSlot: (slotType) desiredSlot;
+- (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType;
 - (id) initExactItemWithName: (NSString *) itemName
 			 iconFileName: (NSString *) iconFileName
 		  itemQuality: (itemQuality) quality

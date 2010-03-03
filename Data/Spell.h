@@ -1,11 +1,6 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-#define ERR_NO_MANA -2
-#define ERR_RESIST -3
-#define SPELL_NO_DAMAGE -4
-#define CAST_ERR -5
-
 #define NUM_PC_SPELLS 50
 #define NUM_DMG_SPELLS 25
 #define NUM_WAND_SPELLS NUM_DMG_SPELLS
@@ -19,6 +14,16 @@
 
 typedef enum {DAMAGE, CONDITION, ITEM} spellType;
 typedef enum {SELF,SINGLE} targetType;
+
+#define SPELL_HASTENED -1
+#define SPELL_FROZEN -2
+#define SPELL_PURGED -3
+#define SPELL_TAINTED -4
+#define SPELL_CONFUSED -5
+#define SPELL_NO_MANA -6
+#define SPELL_RESIST -7
+#define SPELL_NO_DAMAGE -8
+#define SPELL_CAST_ERR -9
 
 NSMutableArray *spellList;
 
@@ -40,8 +45,8 @@ NSMutableArray *spellList;
 
 + (void) fillSpellList;
 
-+ (int) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target;
-- (int) cast: (Creature *) caster target: (Creature *) target;
++ (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target;
+- (NSString *) cast: (Creature *) caster target: (Creature *) target;
 
 - (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
 				manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
