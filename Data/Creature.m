@@ -36,7 +36,7 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initMonsterOfType: (creatureType) monsterType level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
+- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
 	if (self = [super init])
 	{
 		name = [NSString stringWithString:@"Monster"];
@@ -46,13 +46,33 @@
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray:sb];
 		[self.abilities setCombatAbilityArray:c];
-		monsterType = monsterType;
+		type = monsterType;
 		level = inLevel;
+		int dungeonLevel = level %4;
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
-		money = 10000;
+		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
 		condition = NO_CONDITION;
+		
+		/*
+		 All monsters will have a default inventory of items specific to their element.
+		 AI for each creature can choose to equip whichever of the items they wish. 
+		 
+		 Exceptions for this will have to be: shopkeeper and bosses. Can get them done later.
+		 */
+		self.inventory = [NSMutableArray arrayWithObjects:
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:BOW] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:DAGGER] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  nil];
 		return self;
 	}
 	return nil;

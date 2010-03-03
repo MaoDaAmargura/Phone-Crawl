@@ -133,17 +133,38 @@ static const int baseItemStats[10][9] = {
 
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
-               itemSlot: (slotType) desiredSlot
 {
     if (self = [super init]) {
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
         ++dungeonLevel; //Dungeon levels = [0,4], desired values = [1,5]
+        switch (desiredType) {
+            case SWORD_ONE_HAND:
+            case DAGGER:
+                slot = EITHER;
+                break;
+            case SWORD_TWO_HAND:
+            case BOW:
+            case STAFF:
+                slot = BOTH;
+                break;
+            case HEAVY_HELM:
+            case LIGHT_HELM:
+                slot = HEAD;
+                break;
+            case HEAVY_CHEST:
+            case LIGHT_CHEST:
+                slot = CHEST;
+                break;
+            case SHIELD:
+                slot = LEFT;
+                break;
+        }
         if (desiredType == SWORD_ONE_HAND || desiredType == DAGGER || desiredType == SWORD_TWO_HAND)
             quality = [Rand min: DULL max: SHARP];
         else quality = REGULAR;
         
-        icon = [Item iconNameForItemType:desiredType slot:desiredSlot];
+        icon = [Item iconNameForItemType:desiredType slot:slot];
         
         if(desiredType < POTION) isEquipable = TRUE;
         else isEquipable = FALSE;
@@ -177,7 +198,6 @@ static const int baseItemStats[10][9] = {
         range = (desiredType == BOW) ? (MIN_BOW_RANGE + dungeonLevel) : 
                                         (desiredType == STAFF)? STAFF_RANGE:1;
         charges = 0;
-        slot = desiredSlot;
         element = dungeonElement;
         type = desiredType;
         effectSpellId = ITEM_NO_SPELL;
@@ -256,28 +276,20 @@ static const int baseItemStats[10][9] = {
     if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
     if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
     itemType item_type = [Rand min:SWORD_ONE_HAND max:NUM_ITEM_TYPES + SWORD_ONE_HAND - 1];
-    slotType itemSlot;
     switch(item_type) {
         case SWORD_ONE_HAND:
         case DAGGER:
-            itemSlot = EITHER;
-            break;
         case SWORD_TWO_HAND:
         case BOW:
         case STAFF:
-            itemSlot = BOTH;
-            break;
         case HEAVY_HELM:
         case LIGHT_HELM:
-            itemSlot = HEAD;
-            break;
         case HEAVY_CHEST:
         case LIGHT_CHEST:
-            itemSlot = CHEST;
-            break;
         case SHIELD:
-            itemSlot = LEFT;
-            break;
+            return [[[Item alloc] initWithBaseStats:dungeonLevel
+                                           elemType:elementalType
+                                           itemType:item_type] autorelease];
         // Define and return exact items (potions, wands, scrolls)
         case POTION:
             if (arc4random()%2)
@@ -327,10 +339,6 @@ static const int baseItemStats[10][9] = {
             DLog("Error in random item generation");
             return nil;
     };
-    return [[[Item alloc] initWithBaseStats:dungeonLevel
-                                 elemType:elementalType
-                                 itemType:item_type
-                                 itemSlot:itemSlot] autorelease];
 };
 
 +(int) getItemValue : (Item *) item {

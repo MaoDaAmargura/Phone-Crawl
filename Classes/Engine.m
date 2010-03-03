@@ -80,7 +80,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		showBattleMenu = NO;
 		
 		// create enemy for battle testing
-		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR level:0 atX:4 Y:0 Z:0];
+		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:0 atX:4 Y:0 Z:0];
 		[liveEnemies addObject:creature];
 		
 		tilesPerSide = 9;

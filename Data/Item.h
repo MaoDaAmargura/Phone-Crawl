@@ -84,7 +84,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 // Determine an item's value for high score
 + (int) getItemValue : (Item *) item; 
 
-- (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType itemSlot: (slotType) desiredSlot;
+- (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType;
 - (id) initExactItemWithName: (NSString *) itemName
 			 iconFileName: (NSString *) iconFileName
 		  itemQuality: (itemQuality) quality
