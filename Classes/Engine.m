@@ -952,4 +952,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	[conditionSpellMenu show];
 	[damageSpellMenu hide];
 }
+
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	
+}
+
 @end

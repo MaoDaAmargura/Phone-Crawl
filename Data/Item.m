@@ -129,7 +129,7 @@ static const int baseItemStats[10][9] = {
                         elemString2[elem]];
             
     }
-    DLog(@"Invalid Item Type %d", desiredType);
+    NSLog(@"Invalid Item Type %d", desiredType);
     return nil;
 }
 
@@ -263,7 +263,7 @@ static const int baseItemStats[10][9] = {
 
 - (NSString *) cast: (Creature *) caster target: (Creature *) target {
     if(effectSpellId == ITEM_NO_SPELL) {
-        DLog(@"Tried to cast item: %@ which has no effect",self.name);
+        NSLog(@"Tried to cast item: %@ which has no effect",self.name);
         return @"Item spell cast err!";
     }
     --charges;
@@ -338,7 +338,7 @@ static const int baseItemStats[10][9] = {
                                         poison:0 dark:0 armor: 0
                                       effectSpellId: ITEM_BOOK_SPELL_ID] autorelease];
         default:
-            DLog("Error in random item generation");
+            NSLog(@"Error in random item generation");
             return nil;
     };
 };

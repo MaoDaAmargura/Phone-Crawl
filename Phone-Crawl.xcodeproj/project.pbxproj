@@ -103,6 +103,11 @@
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
+		D965EE78113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE73113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m */; };
+		D965EE79113F28BB00455192 /* GTMIPhoneUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE74113F28BB00455192 /* GTMIPhoneUnitTestMain.m */; };
+		D965EE7A113F28BB00455192 /* GTMSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE76113F28BB00455192 /* GTMSenTestCase.m */; };
+		D965EE7B113F28BB00455192 /* RunIPhoneUnitTest.sh in Resources */ = {isa = PBXBuildFile; fileRef = D965EE77113F28BB00455192 /* RunIPhoneUnitTest.sh */; };
+		D965EE83113F296200455192 /* GTMObjC2Runtime.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE82113F296200455192 /* GTMObjC2Runtime.m */; };
 		D9887FEA110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */; };
 		D9888074110D3E7100AFFB2E /* wcrftbkgrd.png in Resources */ = {isa = PBXBuildFile; fileRef = D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */; };
 		D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */; };
@@ -126,6 +131,10 @@
 		D9F2B2E61138AB000031058B /* bg-fire.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DC1138AB000031058B /* bg-fire.png */; };
 		D9F2B2E71138AB000031058B /* bg-lightning.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DD1138AB000031058B /* bg-lightning.png */; };
 		D9F2B2E81138AB000031058B /* bg-poison.png in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2DE1138AB000031058B /* bg-poison.png */; };
+		D9F89CEF113F2AF1005DC43E /* ItemTest.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F89CEE113F2AF1005DC43E /* ItemTest.m */; };
+		D9F89CF0113F2B2D005DC43E /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
+		D9F89D13113F2D18005DC43E /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
+		D9F89D2C113F2DB2005DC43E /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E8F37C110BFC06000BF581 /* Spell.m */; };
 		D9FFB120110BA8E000536EA7 /* potion-brown.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E5110BA8E000536EA7 /* potion-brown.png */; };
 		D9FFB121110BA8E000536EA7 /* potion-green.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E6110BA8E000536EA7 /* potion-green.png */; };
 		D9FFB122110BA8E000536EA7 /* potion-purple.png in Resources */ = {isa = PBXBuildFile; fileRef = D9FFB0E7110BA8E000536EA7 /* potion-purple.png */; };
@@ -295,6 +304,17 @@
 		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
+		D965EE5A113F281300455192 /* Testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testing.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D965EE5C113F281300455192 /* Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Testing-Info.plist"; sourceTree = "<group>"; };
+		D965EE71113F28BB00455192 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		D965EE72113F28BB00455192 /* GTMIPhoneUnitTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMIPhoneUnitTestDelegate.h; sourceTree = "<group>"; };
+		D965EE73113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestDelegate.m; sourceTree = "<group>"; };
+		D965EE74113F28BB00455192 /* GTMIPhoneUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMIPhoneUnitTestMain.m; sourceTree = "<group>"; };
+		D965EE75113F28BB00455192 /* GTMSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMSenTestCase.h; sourceTree = "<group>"; };
+		D965EE76113F28BB00455192 /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMSenTestCase.m; sourceTree = "<group>"; };
+		D965EE77113F28BB00455192 /* RunIPhoneUnitTest.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = RunIPhoneUnitTest.sh; sourceTree = "<group>"; };
+		D965EE81113F296200455192 /* GTMObjC2Runtime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMObjC2Runtime.h; sourceTree = "<group>"; };
+		D965EE82113F296200455192 /* GTMObjC2Runtime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMObjC2Runtime.m; sourceTree = "<group>"; };
 		D9887FE9110D0E6200AFFB2E /* 1elf-warrior-elvina-1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "1elf-warrior-elvina-1.jpg"; sourceTree = "<group>"; };
 		D9888073110D3E7100AFFB2E /* wcrftbkgrd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wcrftbkgrd.png; sourceTree = "<group>"; };
 		D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "BB Watershed 8-03 003.jpg"; sourceTree = "<group>"; };
@@ -326,6 +346,8 @@
 		D9F2B2DC1138AB000031058B /* bg-fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-fire.png"; sourceTree = "<group>"; };
 		D9F2B2DD1138AB000031058B /* bg-lightning.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-lightning.png"; sourceTree = "<group>"; };
 		D9F2B2DE1138AB000031058B /* bg-poison.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-poison.png"; sourceTree = "<group>"; };
+		D9F89CED113F2AF1005DC43E /* ItemTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ItemTest.h; sourceTree = "<group>"; };
+		D9F89CEE113F2AF1005DC43E /* ItemTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ItemTest.m; sourceTree = "<group>"; };
 		D9FFB0E5110BA8E000536EA7 /* potion-brown.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-brown.png"; sourceTree = "<group>"; };
 		D9FFB0E6110BA8E000536EA7 /* potion-green.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-green.png"; sourceTree = "<group>"; };
 		D9FFB0E7110BA8E000536EA7 /* potion-purple.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-purple.png"; sourceTree = "<group>"; };
@@ -393,6 +415,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D965EE58113F281300455192 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -400,6 +429,7 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Phone-Crawl.app */,
+				D965EE5A113F281300455192 /* Testing.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -412,6 +442,8 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				D965EE70113F28BB00455192 /* UnitTesting */,
+				D965EE5C113F281300455192 /* Testing-Info.plist */,
 			);
 			name = "Phone-Crawl";
 			sourceTree = "<group>";
@@ -620,6 +652,16 @@
 			path = Classes;
 			sourceTree = "<group>";
 		};
+		D965EE70113F28BB00455192 /* UnitTesting */ = {
+			isa = PBXGroup;
+			children = (
+				D9F89CEC113F2A1A005DC43E /* GTM */,
+				D9F89CED113F2AF1005DC43E /* ItemTest.h */,
+				D9F89CEE113F2AF1005DC43E /* ItemTest.m */,
+			);
+			path = UnitTesting;
+			sourceTree = "<group>";
+		};
 		D988806B110D272C00AFFB2E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
@@ -722,6 +764,22 @@
 				D9F2B2DE1138AB000031058B /* bg-poison.png */,
 			);
 			path = SkillBkGrds;
+			sourceTree = "<group>";
+		};
+		D9F89CEC113F2A1A005DC43E /* GTM */ = {
+			isa = PBXGroup;
+			children = (
+				D965EE81113F296200455192 /* GTMObjC2Runtime.h */,
+				D965EE82113F296200455192 /* GTMObjC2Runtime.m */,
+				D965EE71113F28BB00455192 /* GTMDefines.h */,
+				D965EE72113F28BB00455192 /* GTMIPhoneUnitTestDelegate.h */,
+				D965EE73113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m */,
+				D965EE74113F28BB00455192 /* GTMIPhoneUnitTestMain.m */,
+				D965EE75113F28BB00455192 /* GTMSenTestCase.h */,
+				D965EE76113F28BB00455192 /* GTMSenTestCase.m */,
+				D965EE77113F28BB00455192 /* RunIPhoneUnitTest.sh */,
+			);
+			name = GTM;
 			sourceTree = "<group>";
 		};
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
@@ -887,6 +945,24 @@
 			productReference = 1D6058910D05DD3D006BFB54 /* Phone-Crawl.app */;
 			productType = "com.apple.product-type.application";
 		};
+		D965EE59113F281300455192 /* Testing */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D965EE5F113F281400455192 /* Build configuration list for PBXNativeTarget "Testing" */;
+			buildPhases = (
+				D965EE56113F281300455192 /* Resources */,
+				D965EE57113F281300455192 /* Sources */,
+				D965EE58113F281300455192 /* Frameworks */,
+				D965EE63113F282B00455192 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Testing;
+			productName = Testing;
+			productReference = D965EE5A113F281300455192 /* Testing.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -900,6 +976,7 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* Phone-Crawl */,
+				D965EE59113F281300455192 /* Testing */,
 			);
 		};
 /* End PBXProject section */
@@ -1060,7 +1137,31 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		D965EE56113F281300455192 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D965EE7B113F28BB00455192 /* RunIPhoneUnitTest.sh in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		D965EE63113F282B00455192 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"./UnitTesting/RunIPhoneUnitTest.sh\"";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -1089,6 +1190,21 @@
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
 				D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		D965EE57113F281300455192 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D965EE78113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m in Sources */,
+				D965EE79113F28BB00455192 /* GTMIPhoneUnitTestMain.m in Sources */,
+				D965EE7A113F28BB00455192 /* GTMSenTestCase.m in Sources */,
+				D965EE83113F296200455192 /* GTMObjC2Runtime.m in Sources */,
+				D9F89CEF113F2AF1005DC43E /* ItemTest.m in Sources */,
+				D9F89CF0113F2B2D005DC43E /* Item.m in Sources */,
+				D9F89D13113F2D18005DC43E /* Util.m in Sources */,
+				D9F89D2C113F2DB2005DC43E /* Spell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1147,6 +1263,55 @@
 			};
 			name = Release;
 		};
+		D965EE5D113F281400455192 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "Testing-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Testing;
+				SDKROOT = iphoneos3.1.2;
+			};
+			name = Debug;
+		};
+		D965EE5E113F281400455192 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/UIKit.framework/Headers/UIKit.h";
+				INFOPLIST_FILE = "Testing-Info.plist";
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = Testing;
+				SDKROOT = iphoneos3.1.2;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1164,6 +1329,15 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D965EE5F113F281400455192 /* Build configuration list for PBXNativeTarget "Testing" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D965EE5D113F281400455192 /* Debug */,
+				D965EE5E113F281400455192 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
