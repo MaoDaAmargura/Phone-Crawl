@@ -55,6 +55,7 @@ static const int baseItemStats[10][9] = {
 @synthesize element;
 @synthesize type;
 
+@synthesize quality;
 @synthesize hp;
 @synthesize shield;
 @synthesize mana;
@@ -68,6 +69,7 @@ static const int baseItemStats[10][9] = {
 @synthesize elementalDamage;
 @synthesize range;
 @synthesize charges;
+@synthesize pointValue;
 
 + (NSString*) iconNameForItemType:(itemType)desiredType slot:(slotType) slot 
 {
@@ -235,7 +237,7 @@ static const int baseItemStats[10][9] = {
         else isEquipable = FALSE;
         quality = itemQual;
         damage = itemDamage;
-        elemDamage = elemDamage;
+        elementalDamage = elemDamage;
         range = itemRange;
         slot = desiredSlot;
         type = desiredType;
