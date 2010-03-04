@@ -58,14 +58,6 @@ extern NSMutableDictionary *items; // from Dungeon
 														[Item generateRandomItem:4 elemType:FIRE], nil];
 	player.iconName = @"human1.png";
 	DLog(@"Created player successfully");
-
-	// this is an incredibly hackish workaround to GET PEOPLE TO QUIT STEPPING ON MY TELEPORT.
-	// so DON'T TOUCH IT.
-	// almost commented this out, just to see Nathan bust a vein -Bucky
-	NSError *error = nil;
-	[NSString stringWithContentsOfFile: @"/Users/nathanking/classes/cs115/Phone-Crawl/YES" encoding: NSUTF8StringEncoding error: &error];
-	DLog(@"%@", [error description]);
-	LVL_GEN_ENV = !error;
 }
 
 - (id) initWithView:(UIView*)view

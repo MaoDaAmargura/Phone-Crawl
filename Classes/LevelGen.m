@@ -44,13 +44,13 @@ static tileType deadTile [] = {
 #pragma mark Flood Fill
 
 + (NSMutableArray*) singleComponent: (Dungeon*) dungeon withClearTiles: (NSMutableArray*) white {
-	NSMutableArray *black = [[NSMutableArray alloc] init];
+	NSMutableArray *black = [[[NSMutableArray alloc] init] autorelease];
 
-	NSMutableArray *gray = [[NSMutableArray alloc] init];
+	NSMutableArray *gray = [[[NSMutableArray alloc] init] autorelease];
 	[gray addObject: [white objectAtIndex: 0]];
 	[white removeObjectAtIndex: 0];
 	
-	NSMutableArray *nextGray = [[NSMutableArray alloc] init];
+	NSMutableArray *nextGray = [[[NSMutableArray alloc] init] autorelease];
 	while ([gray count]) {
 		for (Tile *currTile in gray) {
 			
@@ -74,7 +74,7 @@ static tileType deadTile [] = {
 				if (!nextTile) continue; // invalid x or y index
 				if (nextTile.blockMove) continue;
 				if (![white containsObject: nextTile]) continue;
-				assert (![gray containsObject: nextTile]);
+//				assert (![gray containsObject: nextTile]); commented out for performance reasons
 
 				[white removeObject: nextTile];
 				[nextGray addObject: nextTile];
@@ -88,12 +88,12 @@ static tileType deadTile [] = {
 		[nextGray removeAllObjects];
 	}
 
-	return [black autorelease];
+	return black;
 }
 
 // returns a two dimensional array of all connected components of the Z level it's called on
 + (NSMutableArray*) allConnected: (Dungeon*) dungeon onZLevel: (int) z {
-	NSMutableArray *white = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION / 2];
+	NSMutableArray *white = [[[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION / 2] autorelease];
 
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
@@ -103,14 +103,14 @@ static tileType deadTile [] = {
 	}
 	assert ([white count]);
 
-	NSMutableArray *twoDimens = [[NSMutableArray alloc] init];
+	NSMutableArray *twoDimens = [[[NSMutableArray alloc] init] autorelease];
 	while ([white count]) {
 		NSMutableArray *connected = [self singleComponent: dungeon withClearTiles: white];
 		if ([connected count]) [twoDimens addObject: connected];
 //		else DLog(@"bug in flood fill?");
 	}
 
-	return [twoDimens autorelease];
+	return twoDimens;
 }
 
 + (void) bomb: (Dungeon*) dungeon targeting: (NSMutableArray*) targets tightly: (bool) tight towardsCenter: (bool) directed {
@@ -121,11 +121,12 @@ static tileType deadTile [] = {
 //	int width = 12 - height;
 
 //	int xRange = tight?  FIXME
-	int xBegin = target.x + [Rand min: -6 max: 6];
-	int yBegin = target.y + [Rand min: -6 max: 6];
+	#define BOMB_SIZE 6
+	int xBegin = target.x + [Rand min: -BOMB_SIZE max: BOMB_SIZE];
+	int yBegin = target.y + [Rand min: -BOMB_SIZE max: BOMB_SIZE];
 
-	for (int x = xBegin - 6; x <= xBegin + 6; x++) {
-		for (int y = yBegin - 6; y <= yBegin + 6; y++) {
+	for (int x = xBegin - BOMB_SIZE; x <= xBegin + BOMB_SIZE; x++) {
+		for (int y = yBegin - BOMB_SIZE; y <= yBegin + BOMB_SIZE; y++) {
 			Tile *curr = [dungeon tileAtX: x Y: y Z: target.z];
 			if (curr) [curr initWithTileType: tileConcrete];
 		}
@@ -205,8 +206,8 @@ typedef enum {
 + (void) gameOfLife: (Dungeon*) dungeon zLevel: (int) z targeting: (tileType) type harshness: (golParam) harshness {
 	// declared outside loop to avoid a fat autorelease pool
 	Coord *coord = [Coord withX:0 Y:0 Z:z];
-	NSMutableSet *tilesToKill = [[NSMutableSet alloc] initWithCapacity: 120];
-	NSMutableSet *tilesToBirth = [[NSMutableSet alloc] initWithCapacity: 120];
+	NSMutableSet *tilesToKill = [[[NSMutableSet alloc] initWithCapacity: 120] autorelease];
+	NSMutableSet *tilesToBirth = [[[NSMutableSet alloc] initWithCapacity: 120] autorelease];
 
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
@@ -233,6 +234,7 @@ typedef enum {
 	for (Tile *tile in tilesToBirth) {
 		[tile initWithTileType: type];
 	}
+	
 }
 
 #pragma mark -
@@ -482,8 +484,7 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
-	if (!LVL_GEN_ENV) return dungeon;
-
+	
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
 	for (int LCV = 0; LCV < 18; LCV++) {
@@ -512,12 +513,13 @@ typedef enum {
 	NSMutableArray *connected = [self allConnected: dungeon onZLevel: 2];
 	while ([connected count] > 1) {
 		for (NSMutableArray *tiles in connected) {
-//			for (int SCV = 0; SCV < 12; SCV++) {
-			[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
-			[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: agentOrange];
-			[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: average];
-//			}
+			for (int SCV = 0; SCV < 12; SCV++) {
+				[self bomb:dungeon targeting:tiles tightly:true towardsCenter:true];
+				[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: agentOrange];
+//			[self gameOfLife:dungeon zLevel:2 targeting:tileRockWall harshness: average];
+			}
 		}
+		break;
 		connected = [self allConnected: dungeon onZLevel: 2];
 	}
 //	for (int LCV = 0; LCV < 3; LCV++) {

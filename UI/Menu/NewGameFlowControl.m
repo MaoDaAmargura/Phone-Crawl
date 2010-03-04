@@ -1,15 +1,7 @@
-//
-//  NewGameFlowControl.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/20/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import "NewGameFlowControl.h"
 
 #define FIRST_DIALOGUE	@"Welcome, Adventurer, to the land of Tin'Foyel. A realm of dire monsters, dark dungeons and legendary weapons."
-#define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a schilling to tie up your boat in the dock. And I shall need to know your name."
+#define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a shilling to tie up your boat in the dock. And I shall need to know your name."
 #define THIRD_DIALOGUE	@"Welcome to Port Royal. Tell me a bit more about yourself. What do you look like?"
 
 #define NAME_SELECTION 3
