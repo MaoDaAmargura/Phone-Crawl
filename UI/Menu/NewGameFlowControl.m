@@ -15,6 +15,10 @@
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
 
+#define TOP_LEFT_ICON		@""
+#define TOP_RIGHT_ICON		@""
+#define BOTTOM_LEFT_ICON	@""
+#define BOTTOM_RIGHT_ICON	@""
 
 @interface NewGameFlowControl (Private)
 
@@ -45,7 +49,10 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-
+	topLeft.imageView.image		= [UIImage imageNamed:TOP_LEFT_ICON];
+	topRight.imageView.image	= [UIImage imageNamed:TOP_RIGHT_ICON];
+	bottomLeft.imageView.image	= [UIImage imageNamed:BOTTOM_LEFT_ICON];
+	bottomRight.imageView.image = [UIImage imageNamed:BOTTOM_RIGHT_ICON];
 }
 
 - (void)didReceiveMemoryWarning 
@@ -62,23 +69,20 @@
 	// e.g. self.myOutlet = nil;
 }
 
-
 - (void)dealloc 
 {
     [super dealloc];
 }
 
-- (void) flipToView:(UIView*) nView WithTransition:(UIViewAnimationTransition) transition
+- (void) setButtonsHidden:(BOOL)hidden
 {
-		
-	[UIView beginAnimations: @"ViewFlip" context: NULL];
-	[UIView setAnimationTransition: transition forView: self.view cache: NO];
-	[UIView setAnimationDuration: 0.8];	
-	[self.view bringSubviewToFront:nView];
-	
-	[UIView commitAnimations];
-	
+	topLeft.hidden = hidden;
+	topRight.hidden = hidden;
+	bottomLeft.hidden = hidden;
+	bottomRight.hidden = hidden;
 }
+
+
 
 - (IBAction) nextState
 {
@@ -98,9 +102,16 @@
 		case 4:
 			nameSelect.hidden = YES;
 			[mainTextLabel setText:THIRD_DIALOGUE];
+			nameField = nameSelect.text;
 			break;
 		case CHAR_SELECTION:
-			
+			[self setButtonsHidden:NO];
+			okayButton.userInteractionEnabled = NO;
+			break;
+		case 6:
+			okayButton.userInteractionEnabled = YES;
+			break;
+
 		default:
 			break;
 	}
@@ -109,11 +120,13 @@
 - (void) begin
 {
 	state = 0;
-	[self nextState];
-	[self.view bringSubviewToFront:dialogueView];
 	nameSelect.hidden = YES;
 	okayButton.userInteractionEnabled = YES;
+	[self setButtonsHidden:YES];
+	[self nextState];
+	[self.view bringSubviewToFront:dialogueView];
 }
+
 /*
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;        // return NO to disallow editing.
 - (void)textFieldDidBeginEditing:(UITextField *)textField;           // became first responder
@@ -142,7 +155,32 @@
 	return YES;
 }
 
+- (void) selectedCharacterPicture:(NSString*)icon
+{
+	iconField = icon;
+	[self setButtonsHidden:YES];
+	[self nextState];
+}
 
+- (IBAction) topLeftButton
+{
+	[self selectedCharacterPicture: TOP_LEFT_ICON];
+}
+
+- (IBAction) topRightButton
+{
+	[self selectedCharacterPicture: TOP_RIGHT_ICON];
+}
+
+- (IBAction) bottomLeftButton
+{
+	[self selectedCharacterPicture: BOTTOM_LEFT_ICON];
+}
+
+- (IBAction) bottomRightButton
+{
+	[self selectedCharacterPicture: BOTTOM_RIGHT_ICON];
+}
 
 
 

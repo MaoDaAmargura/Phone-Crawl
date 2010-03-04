@@ -41,33 +41,43 @@ BOOL haveSetSpells = FALSE;
 	return nil;
 }
 
-- (int) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || (target != SELF && target == nil)) {
-		DLog(@"SPELL CAST ERROR: CASTER NIL");
-		return CAST_ERR;
+		NSLog(@"SPELL CAST ERROR: CASTER NIL");
+		return @"Spell: Caster/Target nil";
 	}
+	int spellResult = 0;
 	if(target.current.mana < manaCost)
-		return ERR_NO_MANA;
-	
-	caster.current.mana = (caster.current.mana - manaCost) < 0 ? 0 : (caster.current.mana - manaCost);
-	
-	if (target == SELF || (target != SELF && [self resistCheck:caster target:target])) {
-		
-		if([self respondsToSelector:spellFn])
-		{
+		return @"Not enough mana!";
+	//caster.current.mana -= manaCost;
+	BOOL didSpellLand = [self resistCheck:caster target:target];
+	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
+	else {
+		if([self respondsToSelector:spellFn]){
 			IMP f = [self methodForSelector:spellFn];
-			return (int)(f)(self, spellFn, caster, target);
+			spellResult = (int)(f)(self, spellFn, caster, target);
 		}
-
 	}
-	return ERR_RESIST;
+	if(spellResult > 0) return [NSString stringWithFormat:@"%d damage dealt!",spellResult];
+	else switch (spellResult) {
+		case SPELL_HASTENED: return @"Attack speed has increased!";
+		case SPELL_FROZEN: return @"Target's attack speed decreased!";
+		case SPELL_PURGED: return @"All conditions purged!";
+		case SPELL_TAINTED: return @"Target tainted!";
+		case SPELL_CONFUSED: return @"Target is confused!";
+		case SPELL_RESIST: return @"Target resisted your spell!";
+		case SPELL_NO_DAMAGE: return @""; 
+		case SPELL_CAST_ERR: return @"Spell casting error!";
+		default: return @"Spell result error!";
+	}
+	return @"Spell result switch error!";
 }
 
-+ (int) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
++ (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
 	if (!haveSetSpells) [Spell fillSpellList];
-	DLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
+	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
-	DLog(@"Casting spell: %@",spell.name);
+	NSLog(@"Casting spell: %@",spell.name);
 	return [spell cast:caster target:target];
 	//return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
 };
@@ -75,7 +85,7 @@ BOOL haveSetSpells = FALSE;
 - (BOOL) resistCheck: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) 
 	{
-		DLog(@"Resist_Check nil");
+		NSLog(@"Resist_Check nil");
 		return FALSE;
 	}
 	if (caster == target) return TRUE;
@@ -114,7 +124,7 @@ BOOL haveSetSpells = FALSE;
 
 //Return amount of damage to deal to combat system
 - (int) damageSpell: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || target == nil) return CAST_ERR;
+	if (caster == nil || target == nil) return SPELL_CAST_ERR;
 	//[target Take_Damage:damage];
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
@@ -140,7 +150,7 @@ BOOL haveSetSpells = FALSE;
 };
 
 - (int) healPotion: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	//DLog(@"In heal potion, healing for %d", damage);
 	[caster heal: damage];
 	//DLog(@"Post heal");
@@ -148,52 +158,51 @@ BOOL haveSetSpells = FALSE;
 }
 
 - (int) manaPotion: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	[caster healMana: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
 - (int) scroll: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	++caster.abilityPoints;
 	return SPELL_NO_DAMAGE;
 }
 
 - (int) haste: (Creature *) caster target: (Creature *) target {
-	if (caster == nil) return CAST_ERR;
+	if (caster == nil) return SPELL_CAST_ERR;
 	[caster addCondition:HASTENED];
 	caster.current.turnSpeed += caster.current.turnSpeed * (damage/100.0); // Increase turn speed by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_HASTENED;
 }
 
 - (int) freeze: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CHILLED];
 	target.current.turnSpeed -= target.current.turnSpeed * (damage / 100.0); // Decrease turn speed by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_FROZEN;
 }
 
 - (int) purge: (Creature *) caster target: (Creature *) target {
-	if (caster == nil || target == nil) return CAST_ERR;
-	[target clearCondition];
-	//[target Take_Damage:damage];
+	if (caster == nil || target == nil) return SPELL_CAST_ERR;
+	[caster clearCondition];
 	[caster takeDamage:(damage / level)];
-	return damage;
+	return SPELL_PURGED;
 }
 	
 - (int) taint: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:WEAKENED];
 	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
 	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
-	return SPELL_NO_DAMAGE;
+	return SPELL_TAINTED;
 }
 
 - (int) confusion: (Creature *) caster target: (Creature *) target {
-	if (target == nil) return CAST_ERR;
+	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CONFUSION];
 	//What is confusion supposed to do?
-	return SPELL_NO_DAMAGE;
+	return SPELL_CONFUSED;
 }
 
 + (void) fillSpellList {
@@ -213,120 +222,115 @@ BOOL haveSetSpells = FALSE;
 	
 #define ADD_SPELL(NAME,TYPE,TARGET,ELEM,MANA,DMG,FN,TPNTS) [spellList addObject:[[[Spell alloc] initSpellWithName:NAME spellType:TYPE targetType:TARGET elemType:ELEM manaCost:MANA damage:DMG range:MAX_BOW_RANGE spellLevel:spell_lvl++%5+1 spellId:id_cnt++ spellFn:FN turnPointCost:TPNTS] autorelease]]
 	
-	[spellList addObject:[[[Spell alloc] initSpellWithName:@"Tome of Knowledge" spellType:ITEM targetType:SELF 
+	[spellList addObject:[[[Spell alloc] initSpellWithName:@"Tome" spellType:ITEM targetType:SELF 
 											 elemType:DARK manaCost:0 damage:0 range:MAX_BOW_RANGE
 										   spellLevel:1 spellId:id_cnt++ spellFn:scroll turnPointCost:10] autorelease]];
 	
 	
-	ADD_SPELL(@"Minor Healing Potion",ITEM,SELF,DARK,0,100,healPotion,30);
-	ADD_SPELL(@"Lesser Healing Potion",ITEM,SELF,DARK,0,200,healPotion,40);
-	ADD_SPELL(@"Healing Potion",ITEM,SELF,DARK,0,300,healPotion,50);
-	ADD_SPELL(@"Major Healing Potion",ITEM,SELF,DARK,0,400,healPotion,60);
-	ADD_SPELL(@"Superior Healing Potion",ITEM,SELF,DARK,0,500,healPotion,70);
+	ADD_SPELL(@"HPot1",ITEM,SELF,DARK,0,100,healPotion,30);
+	ADD_SPELL(@"HPot2",ITEM,SELF,DARK,0,200,healPotion,40);
+	ADD_SPELL(@"HPot3",ITEM,SELF,DARK,0,300,healPotion,50);
+	ADD_SPELL(@"HPot4",ITEM,SELF,DARK,0,400,healPotion,60);
+	ADD_SPELL(@"HPot5",ITEM,SELF,DARK,0,500,healPotion,70);
 	
-	ADD_SPELL(@"Minor Mana Potion",ITEM,SELF,DARK,0,100,manaPotion,30);
-	ADD_SPELL(@"Lesser Mana Potion",ITEM,SINGLE,DARK,0,200,manaPotion,40);
-	ADD_SPELL(@"Mana Potion",ITEM,SINGLE,DARK,0,300,manaPotion,50);
-	ADD_SPELL(@"Major Mana Potion",ITEM,SINGLE,DARK,0,400,manaPotion,60);
-	ADD_SPELL(@"Superior Mana Potion",ITEM,SINGLE,DARK,0,500,manaPotion,70);
+	ADD_SPELL(@"MPot1",ITEM,SELF,DARK,0,100,manaPotion,30);
+	ADD_SPELL(@"MPot2",ITEM,SINGLE,DARK,0,200,manaPotion,40);
+	ADD_SPELL(@"MPot3",ITEM,SINGLE,DARK,0,300,manaPotion,50);
+	ADD_SPELL(@"MPot4",ITEM,SINGLE,DARK,0,400,manaPotion,60);
+	ADD_SPELL(@"MPot5",ITEM,SINGLE,DARK,0,500,manaPotion,70);
 	
 	//PC spells
-	ADD_SPELL(@"Minor Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,50);
-	ADD_SPELL(@"Lesser Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,60);
-	ADD_SPELL(@"Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,70);
-	ADD_SPELL(@"Major Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,80);
-	ADD_SPELL(@"Superior Fireball",DAMAGE,SINGLE,FIRE,50,50,detr,90);
+	ADD_SPELL(@"Fire1",DAMAGE,SINGLE,FIRE,50,50,detr,50);
+	ADD_SPELL(@"Fire2",DAMAGE,SINGLE,FIRE,50,50,detr,60);
+	ADD_SPELL(@"Fire3",DAMAGE,SINGLE,FIRE,50,50,detr,70);
+	ADD_SPELL(@"Fire4",DAMAGE,SINGLE,FIRE,50,50,detr,80);
+	ADD_SPELL(@"Fire5",DAMAGE,SINGLE,FIRE,50,50,detr,90);
 	
-	ADD_SPELL(@"Minor Frostbolt",DAMAGE,SINGLE,COLD,50,50,detr,50);
-	ADD_SPELL(@"Lesser Frostbolt",DAMAGE,SINGLE,COLD,50,50,detr,60);
-	ADD_SPELL(@"Frostbolt",DAMAGE,SINGLE,COLD,50,50,detr,70);
-	ADD_SPELL(@"Major Frostbolt",DAMAGE,SINGLE,COLD,50,50,detr,80);
-	ADD_SPELL(@"Superior Frostbolt",DAMAGE,SINGLE,COLD,50,50,detr,90);
+	ADD_SPELL(@"Cold1",DAMAGE,SINGLE,COLD,50,50,detr,50);
+	ADD_SPELL(@"Cold2",DAMAGE,SINGLE,COLD,50,50,detr,60);
+	ADD_SPELL(@"Cold3",DAMAGE,SINGLE,COLD,50,50,detr,70);
+	ADD_SPELL(@"Cold4",DAMAGE,SINGLE,COLD,50,50,detr,80);
+	ADD_SPELL(@"Cold5",DAMAGE,SINGLE,COLD,50,50,detr,90);
 	
-	ADD_SPELL(@"Minor Shock",DAMAGE,SINGLE,LIGHTNING,50,70,detr,50);
-	ADD_SPELL(@"Lesser Shock",DAMAGE,SINGLE,LIGHTNING,50,70,detr,60);
-	ADD_SPELL(@"Shock",DAMAGE,SINGLE,LIGHTNING,50,70,detr,70);
-	ADD_SPELL(@"Major Shock",DAMAGE,SINGLE,LIGHTNING,50,70,detr,80);
-	ADD_SPELL(@"Superior Shock",DAMAGE,SINGLE,LIGHTNING,50,70,detr,90);
+	ADD_SPELL(@"Shock1",DAMAGE,SINGLE,LIGHTNING,50,70,detr,50);
+	ADD_SPELL(@"Shock2",DAMAGE,SINGLE,LIGHTNING,50,70,detr,60);
+	ADD_SPELL(@"Shock3",DAMAGE,SINGLE,LIGHTNING,50,70,detr,70);
+	ADD_SPELL(@"Shock4",DAMAGE,SINGLE,LIGHTNING,50,70,detr,80);
+	ADD_SPELL(@"Shock5",DAMAGE,SINGLE,LIGHTNING,50,70,detr,90);
 	
-	ADD_SPELL(@"Minor Poisoning",DAMAGE,SINGLE,POISON,40,40,detr,50);
-	ADD_SPELL(@"Lesser Poisoning",DAMAGE,SINGLE,POISON,40,40,detr,60);
-	ADD_SPELL(@"Poisoning",DAMAGE,SINGLE,POISON,40,40,detr,70);
-	ADD_SPELL(@"Major Poisoning",DAMAGE,SINGLE,POISON,40,40,detr,80);
-	ADD_SPELL(@"Superior Poisoning",DAMAGE,SINGLE,POISON,40,40,detr,90);
+	ADD_SPELL(@"Pzn1",DAMAGE,SINGLE,POISON,40,40,detr,50);
+	ADD_SPELL(@"Pzn2",DAMAGE,SINGLE,POISON,40,40,detr,60);
+	ADD_SPELL(@"Pzn3",DAMAGE,SINGLE,POISON,40,40,detr,70);
+	ADD_SPELL(@"Pzn4",DAMAGE,SINGLE,POISON,40,40,detr,80);
+	ADD_SPELL(@"Pzn5",DAMAGE,SINGLE,POISON,40,40,detr,90);
 	
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,50,30,detr,50);
-	ADD_SPELL(@"Lesser Drain",DAMAGE,SINGLE,DARK,50,30,detr,60);
-	ADD_SPELL(@"Drain Drain",DAMAGE,SINGLE,DARK,50,30,detr,70);
-	ADD_SPELL(@"Major Drain",DAMAGE,SINGLE,DARK,50,30,detr,80);
-	ADD_SPELL(@"Superior Drain",DAMAGE,SINGLE,DARK,50,30,detr,90);
+	ADD_SPELL(@"Drain1",DAMAGE,SINGLE,DARK,50,30,detr,50);
+	ADD_SPELL(@"Drain2",DAMAGE,SINGLE,DARK,50,30,detr,60);
+	ADD_SPELL(@"Drain3",DAMAGE,SINGLE,DARK,50,30,detr,70);
+	ADD_SPELL(@"Drain4",DAMAGE,SINGLE,DARK,50,30,detr,80);
+	ADD_SPELL(@"Drain5",DAMAGE,SINGLE,DARK,50,30,detr,90);
 	
 	//Condition spells
-	ADD_SPELL(@"Minor Haste",CONDITION,SELF,FIRE,80,10,haste,50);
-	ADD_SPELL(@"Lesser Haste",CONDITION,SELF,FIRE,80,15,haste,60);
-	ADD_SPELL(@"Haste",CONDITION,SELF,FIRE,80,20,haste,70);
-	ADD_SPELL(@"Major Haste",CONDITION,SELF,FIRE,80,25,haste,80);
-	ADD_SPELL(@"Superior Haste",CONDITION,SELF,FIRE,80,30,haste,90);
+	ADD_SPELL(@"Haste1",CONDITION,SELF,FIRE,80,10,haste,50);
+	ADD_SPELL(@"Haste2",CONDITION,SELF,FIRE,80,15,haste,60);
+	ADD_SPELL(@"Haste3",CONDITION,SELF,FIRE,80,20,haste,70);
+	ADD_SPELL(@"Haste4",CONDITION,SELF,FIRE,80,25,haste,80);
+	ADD_SPELL(@"Haste5",CONDITION,SELF,FIRE,80,30,haste,90);
 	
-	ADD_SPELL(@"Minor Freeze",CONDITION,SINGLE,COLD,50,10,freeze,50);
-	ADD_SPELL(@"Lesser Freeze",CONDITION,SINGLE,COLD,65,20,freeze,60);
-	ADD_SPELL(@"Freeze",CONDITION,SINGLE,COLD,80,30,freeze,70);
-	ADD_SPELL(@"Major Freeze",CONDITION,SINGLE,COLD,90,40,freeze,80);
-	ADD_SPELL(@"Superior Freeze",CONDITION,SINGLE,COLD,105,50,freeze,90);
+	ADD_SPELL(@"Freeze1",CONDITION,SINGLE,COLD,50,10,freeze,50);
+	ADD_SPELL(@"Freeze2",CONDITION,SINGLE,COLD,65,20,freeze,60);
+	ADD_SPELL(@"Freeze3",CONDITION,SINGLE,COLD,80,30,freeze,70);
+	ADD_SPELL(@"Freeze4",CONDITION,SINGLE,COLD,90,40,freeze,80);
+	ADD_SPELL(@"Freeze5",CONDITION,SINGLE,COLD,105,50,freeze,90);
 	
-	ADD_SPELL(@"Minor Purge",CONDITION,SINGLE,LIGHTNING,60,20,purge,50);
-	ADD_SPELL(@"Lesser Purge",CONDITION,SINGLE,LIGHTNING,75,40,purge,60);
-	ADD_SPELL(@"Purge",CONDITION,SINGLE,LIGHTNING,90,60,purge,70);
-	ADD_SPELL(@"Major Purge",CONDITION,SINGLE,LIGHTNING,110,80,purge,80);
-	ADD_SPELL(@"Superior Purge",CONDITION,SINGLE,LIGHTNING,60,60,purge,90);
+	ADD_SPELL(@"Purge1",CONDITION,SINGLE,LIGHTNING,60,20,purge,50);
+	ADD_SPELL(@"Purge2",CONDITION,SINGLE,LIGHTNING,75,40,purge,60);
+	ADD_SPELL(@"Purge3",CONDITION,SINGLE,LIGHTNING,90,60,purge,70);
+	ADD_SPELL(@"Purge4",CONDITION,SINGLE,LIGHTNING,110,80,purge,80);
+	ADD_SPELL(@"Purge5",CONDITION,SINGLE,LIGHTNING,60,60,purge,90);
 	
-	ADD_SPELL(@"Minor Taint",CONDITION,SINGLE,POISON,40,10,taint,50);
-	ADD_SPELL(@"Lesser Taint",CONDITION,SINGLE,POISON,50,15,taint,60);
-	ADD_SPELL(@"Taint",CONDITION,SINGLE,POISON,60,20,taint,70);
-	ADD_SPELL(@"Major Taint",CONDITION,SINGLE,POISON,70,25,taint,80);
-	ADD_SPELL(@"Superior Taint",CONDITION,SINGLE,POISON,80,30,taint,90);
+	ADD_SPELL(@"Taint1",CONDITION,SINGLE,POISON,40,10,taint,50);
+	ADD_SPELL(@"Taint2",CONDITION,SINGLE,POISON,50,15,taint,60);
+	ADD_SPELL(@"Taint3",CONDITION,SINGLE,POISON,60,20,taint,70);
+	ADD_SPELL(@"Taint4",CONDITION,SINGLE,POISON,70,25,taint,80);
+	ADD_SPELL(@"Taint5",CONDITION,SINGLE,POISON,80,30,taint,90);
 	
-	ADD_SPELL(@"Minor Confusion",CONDITION,SINGLE,DARK,40,10,confusion,50);
-	ADD_SPELL(@"Lesser Confusion",CONDITION,SINGLE,DARK,40,10,confusion,60);
-	ADD_SPELL(@"Confusion",CONDITION,SINGLE,DARK,40,10,confusion,70);
-	ADD_SPELL(@"Major Confusion",CONDITION,SINGLE,DARK,40,10,confusion,80);
-	ADD_SPELL(@"Superior Confusion",CONDITION,SINGLE,DARK,40,10,confusion,90);
-	
+	ADD_SPELL(@"Cnfzn1",CONDITION,SINGLE,DARK,40,10,confusion,50);
+	ADD_SPELL(@"Cnfzn2",CONDITION,SINGLE,DARK,40,10,confusion,60);
+	ADD_SPELL(@"Cnfzn3",CONDITION,SINGLE,DARK,40,10,confusion,70);
+	ADD_SPELL(@"Cnfzn4",CONDITION,SINGLE,DARK,40,10,confusion,80);
+	ADD_SPELL(@"Cnfzn5",CONDITION,SINGLE,DARK,40,10,confusion,90);
 	
 	//Wand spells
-	ADD_SPELL(@"Minor Fireball",DAMAGE,SINGLE,FIRE,0,50,detr,50);
-	ADD_SPELL(@"Lesser Fireball",DAMAGE,SINGLE,FIRE,0,50,detr,60);
-	ADD_SPELL(@"Fireball",DAMAGE,SINGLE,FIRE,0,50,detr,70);
-	ADD_SPELL(@"Major Fireball",DAMAGE,SINGLE,FIRE,0,50,detr,80);
-	ADD_SPELL(@"Superior Fireball",DAMAGE,SINGLE,FIRE,0,50,detr,90);
+	ADD_SPELL(@"Fire1",DAMAGE,SINGLE,FIRE,0,50,detr,50);
+	ADD_SPELL(@"Fire2",DAMAGE,SINGLE,FIRE,0,50,detr,60);
+	ADD_SPELL(@"Fire3",DAMAGE,SINGLE,FIRE,0,50,detr,70);
+	ADD_SPELL(@"Fire4",DAMAGE,SINGLE,FIRE,0,50,detr,80);
+	ADD_SPELL(@"Fire5",DAMAGE,SINGLE,FIRE,0,50,detr,90);
 	
-	ADD_SPELL(@"Minor Frostbolt",DAMAGE,SINGLE,COLD,0,50,detr,50);
-	ADD_SPELL(@"Lesser Frostbolt",DAMAGE,SINGLE,COLD,0,50,detr,60);
-	ADD_SPELL(@"Frostbolt",DAMAGE,SINGLE,COLD,0,50,detr,70);
-	ADD_SPELL(@"Major Frostbolt",DAMAGE,SINGLE,COLD,0,50,detr,80);
-	ADD_SPELL(@"Superior Frostbolt",DAMAGE,SINGLE,COLD,0,50,detr,90);
+	ADD_SPELL(@"Cold1",DAMAGE,SINGLE,COLD,0,50,detr,50);
+	ADD_SPELL(@"Cold2",DAMAGE,SINGLE,COLD,0,50,detr,60);
+	ADD_SPELL(@"Cold3",DAMAGE,SINGLE,COLD,0,50,detr,70);
+	ADD_SPELL(@"Cold4",DAMAGE,SINGLE,COLD,0,50,detr,80);
+	ADD_SPELL(@"Cold5",DAMAGE,SINGLE,COLD,0,50,detr,90);
 	
-	ADD_SPELL(@"Minor Shock",DAMAGE,SINGLE,LIGHTNING,0,70,detr,50);
-	ADD_SPELL(@"Lesser Shock",DAMAGE,SINGLE,LIGHTNING,0,70,detr,60);
-	ADD_SPELL(@"Shock",DAMAGE,SINGLE,LIGHTNING,0,70,detr,70);
-	ADD_SPELL(@"Major Shock",DAMAGE,SINGLE,LIGHTNING,0,70,detr,80);
-	ADD_SPELL(@"Superior Shock",DAMAGE,SINGLE,LIGHTNING,0,70,detr,90);
+	ADD_SPELL(@"Shock1",DAMAGE,SINGLE,LIGHTNING,0,70,detr,50);
+	ADD_SPELL(@"Shock2",DAMAGE,SINGLE,LIGHTNING,0,70,detr,60);
+	ADD_SPELL(@"Shock3",DAMAGE,SINGLE,LIGHTNING,0,70,detr,70);
+	ADD_SPELL(@"Shock4",DAMAGE,SINGLE,LIGHTNING,0,70,detr,80);
+	ADD_SPELL(@"Shock5",DAMAGE,SINGLE,LIGHTNING,0,70,detr,90);
 	
-	ADD_SPELL(@"Minor Poisoning",DAMAGE,SINGLE,POISON,0,40,detr,50);
-	ADD_SPELL(@"Lesser Poisoning",DAMAGE,SINGLE,POISON,0,40,detr,60);
-	ADD_SPELL(@"Poisoning",DAMAGE,SINGLE,POISON,0,40,detr,70);
-	ADD_SPELL(@"Major Poisoning",DAMAGE,SINGLE,POISON,0,40,detr,80);
-	ADD_SPELL(@"Superior Poisoning",DAMAGE,SINGLE,POISON,0,40,detr,90);
+	ADD_SPELL(@"Pzn1",DAMAGE,SINGLE,POISON,0,40,detr,50);
+	ADD_SPELL(@"Pzn2",DAMAGE,SINGLE,POISON,0,40,detr,60);
+	ADD_SPELL(@"Pzn3",DAMAGE,SINGLE,POISON,0,40,detr,70);
+	ADD_SPELL(@"Pzn4",DAMAGE,SINGLE,POISON,0,40,detr,80);
+	ADD_SPELL(@"Pzn5",DAMAGE,SINGLE,POISON,0,40,detr,90);
 	
-	ADD_SPELL(@"Minor Drain",DAMAGE,SINGLE,DARK,0,30,detr,50);
-	ADD_SPELL(@"Lesser Drain",DAMAGE,SINGLE,DARK,0,30,detr,60);
-	ADD_SPELL(@"Drain",DAMAGE,SINGLE,DARK,0,30,detr,70);
-	ADD_SPELL(@"Major Drain",DAMAGE,SINGLE,DARK,0,30,detr,80);
-	ADD_SPELL(@"Superior Drain",DAMAGE,SINGLE,DARK,0,30,detr,90);
-	
-	//for(Spell *s in spell_list)
-	//	DLog(@"ID: %d, Name: %@",element.spell_id, element.name);
-
+	ADD_SPELL(@"Drain1",DAMAGE,SINGLE,DARK,0,30,detr,50);
+	ADD_SPELL(@"Drain2",DAMAGE,SINGLE,DARK,0,30,detr,60);
+	ADD_SPELL(@"Drain3",DAMAGE,SINGLE,DARK,0,30,detr,70);
+	ADD_SPELL(@"Drain4",DAMAGE,SINGLE,DARK,0,30,detr,80);
+	ADD_SPELL(@"Drain5",DAMAGE,SINGLE,DARK,0,30,detr,90);
 	
 }
 

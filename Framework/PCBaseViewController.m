@@ -62,5 +62,17 @@
     [super dealloc];
 }
 
+- (void) flipToView:(UIView*) nView WithTransition:(UIViewAnimationTransition) transition
+{
+	
+	[UIView beginAnimations: @"ViewFlip" context: NULL];
+	[UIView setAnimationTransition: transition forView: self.view cache: NO];
+	[UIView setAnimationDuration: 0.8];	
+	[self.view bringSubviewToFront:nView];
+	
+	[UIView commitAnimations];
+	
+}
+
 
 @end

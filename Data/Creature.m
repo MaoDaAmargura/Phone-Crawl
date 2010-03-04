@@ -36,23 +36,43 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initMonsterOfType: (creatureType) monsterType level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
+- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
 	if (self = [super init])
 	{
 		name = [NSString stringWithString:@"Monster"];
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
 		int sb[] = {1,1,1,1,1,1,1,1,1,1};
-		int c[]= {1,0};
+		int c[]= {1,0,1,1};
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray:sb];
 		[self.abilities setCombatAbilityArray:c];
-		monsterType = monsterType;
+		type = monsterType;
 		level = inLevel;
+		int dungeonLevel = level %4;
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
-		money = 10000;
+		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
 		condition = NO_CONDITION;
+		
+		/*
+		 All monsters will have a default inventory of items specific to their element.
+		 AI for each creature can choose to equip whichever of the items they wish. 
+		 
+		 Exceptions for this will have to be: shopkeeper and bosses. Can get them done later.
+		 */
+		self.inventory = [NSMutableArray arrayWithObjects:
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:BOW] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:DAGGER] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  nil];
 		return self;
 	}
 	return nil;
@@ -69,8 +89,8 @@
 		name = [NSString stringWithString:inName];
 		iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		int sb[] = {5,0,0,0,0,0,0,0,0,0};
-		int c[] = {1,1};
+		int sb[] = {5,5,5,5,5,5,5,5,5,5};
+		int c[] = {1,1,1,1};
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray: sb];
 		[self.abilities setCombatAbilityArray: c];		
@@ -323,7 +343,7 @@
 	int dmg = 0;
 	if (equipment.rHand != NULL) dmg+=equipment.rHand.damage;
 	if (equipment.lHand != NULL && (equipment.lHand.type == SWORD_ONE_HAND || equipment.lHand.type == DAGGER)) dmg+=equipment.lHand.damage * OFFHAND_DMG_PERCENTAGE;
-	return dmg;
+	return dmg == 0 ? 1 : dmg;
 }
 
 - (int) elementalWeaponDamage {

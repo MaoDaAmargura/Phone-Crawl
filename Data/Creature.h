@@ -130,7 +130,7 @@ typedef enum {
 
 - (id) initPlayerWithLevel: (int) lvl;
 - (id) initPlayerWithInfo: (NSString *) inName level: (int) lvl;
-- (id) initMonsterOfType: (creatureType) monsterType level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z;
+- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z;
 
 
 //Reset stats modified by conditions during combat

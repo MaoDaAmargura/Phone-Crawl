@@ -55,6 +55,7 @@ static const int baseItemStats[10][9] = {
 @synthesize element;
 @synthesize type;
 
+@synthesize quality;
 @synthesize hp;
 @synthesize shield;
 @synthesize mana;
@@ -68,6 +69,7 @@ static const int baseItemStats[10][9] = {
 @synthesize elementalDamage;
 @synthesize range;
 @synthesize charges;
+@synthesize pointValue;
 
 + (NSString*) iconNameForItemType:(itemType)desiredType slot:(slotType) slot 
 {
@@ -127,23 +129,44 @@ static const int baseItemStats[10][9] = {
                         elemString2[elem]];
             
     }
-    DLog(@"Invalid Item Type %d", desiredType);
+    NSLog(@"Invalid Item Type %d", desiredType);
     return nil;
 }
 
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
-               itemSlot: (slotType) desiredSlot
 {
     if (self = [super init]) {
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
         ++dungeonLevel; //Dungeon levels = [0,4], desired values = [1,5]
+        switch (desiredType) {
+            case SWORD_ONE_HAND:
+            case DAGGER:
+                slot = EITHER;
+                break;
+            case SWORD_TWO_HAND:
+            case BOW:
+            case STAFF:
+                slot = BOTH;
+                break;
+            case HEAVY_HELM:
+            case LIGHT_HELM:
+                slot = HEAD;
+                break;
+            case HEAVY_CHEST:
+            case LIGHT_CHEST:
+                slot = CHEST;
+                break;
+            case SHIELD:
+                slot = LEFT;
+                break;
+        }
         if (desiredType == SWORD_ONE_HAND || desiredType == DAGGER || desiredType == SWORD_TWO_HAND)
             quality = [Rand min: DULL max: SHARP];
         else quality = REGULAR;
         
-        icon = [Item iconNameForItemType:desiredType slot:desiredSlot];
+        icon = [Item iconNameForItemType:desiredType slot:slot];
         
         if(desiredType < POTION) isEquipable = TRUE;
         else isEquipable = FALSE;
@@ -177,7 +200,6 @@ static const int baseItemStats[10][9] = {
         range = (desiredType == BOW) ? (MIN_BOW_RANGE + dungeonLevel) : 
                                         (desiredType == STAFF)? STAFF_RANGE:1;
         charges = 0;
-        slot = desiredSlot;
         element = dungeonElement;
         type = desiredType;
         effectSpellId = ITEM_NO_SPELL;
@@ -215,7 +237,7 @@ static const int baseItemStats[10][9] = {
         else isEquipable = FALSE;
         quality = itemQual;
         damage = itemDamage;
-        elemDamage = elemDamage;
+        elementalDamage = elemDamage;
         range = itemRange;
         slot = desiredSlot;
         type = desiredType;
@@ -239,17 +261,14 @@ static const int baseItemStats[10][9] = {
 	return nil;
 };
 
-//Each item with a spell effect has that spell ID stored in it.
-//When the time comes to cast that spell, the spell does its effect internally
-//Decrements the number of charges, then returns to engine. Engine should
-//use the returned value to determine if an item needs to be dropped from inventory.
-- (int) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Creature *) caster target: (Creature *) target {
     if(effectSpellId == ITEM_NO_SPELL) {
-        DLog(@"Tried to cast item: %@ which has no effect",self.name);
-        return ITEM_NO_SPELL;
+        NSLog(@"Tried to cast item: %@ which has no effect",self.name);
+        return @"Item spell cast err!";
     }
-    [Spell castSpellById:effectSpellId caster:caster target:target];
-    return --charges;
+    --charges;
+    return [Spell castSpellById:effectSpellId caster:caster target:target];
+    //return --charges;
 }
 
 // Generate a random item based on the dungeon level and elemental type
@@ -259,28 +278,20 @@ static const int baseItemStats[10][9] = {
     if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
     if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
     itemType item_type = [Rand min:SWORD_ONE_HAND max:NUM_ITEM_TYPES + SWORD_ONE_HAND - 1];
-    slotType itemSlot;
     switch(item_type) {
         case SWORD_ONE_HAND:
         case DAGGER:
-            itemSlot = EITHER;
-            break;
         case SWORD_TWO_HAND:
         case BOW:
         case STAFF:
-            itemSlot = BOTH;
-            break;
         case HEAVY_HELM:
         case LIGHT_HELM:
-            itemSlot = HEAD;
-            break;
         case HEAVY_CHEST:
         case LIGHT_CHEST:
-            itemSlot = CHEST;
-            break;
         case SHIELD:
-            itemSlot = LEFT;
-            break;
+            return [[[Item alloc] initWithBaseStats:dungeonLevel
+                                           elemType:elementalType
+                                           itemType:item_type] autorelease];
         // Define and return exact items (potions, wands, scrolls)
         case POTION:
             if (arc4random()%2)
@@ -327,13 +338,9 @@ static const int baseItemStats[10][9] = {
                                         poison:0 dark:0 armor: 0
                                       effectSpellId: ITEM_BOOK_SPELL_ID] autorelease];
         default:
-            DLog("Error in random item generation");
+            NSLog(@"Error in random item generation");
             return nil;
     };
-    return [[[Item alloc] initWithBaseStats:dungeonLevel
-                                 elemType:elementalType
-                                 itemType:item_type
-                                 itemSlot:itemSlot] autorelease];
 };
 
 +(int) getItemValue : (Item *) item {

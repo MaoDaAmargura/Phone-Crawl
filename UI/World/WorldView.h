@@ -26,6 +26,8 @@ typedef enum {
 	IBOutlet UILabel *manaLabel;
 	NSArray *displayLabelArray;
 
+	IBOutlet UILabel *actionResult;
+	
 	UIImageView *highlight;
 }
 
@@ -36,6 +38,7 @@ typedef enum {
 @property (nonatomic, retain) IBOutlet UIView *healthBar;
 @property (nonatomic, retain) IBOutlet UIView *shieldBar;
 @property (nonatomic, retain) IBOutlet UIView *manaBar;
+@property (nonatomic, retain) IBOutlet UILabel *actionResult;
 @property (nonatomic, retain) UIImageView *highlight;
 
 - (void) setDisplay:(displayStatType) display withAmount:(float) amount ofMax:(float) max;

@@ -17,8 +17,8 @@ extern NSMutableArray* abilityList;
 }
 
 + (void) fillAbilityList;
-+ (void) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target;
-- (void) useAbility: (Creature *) caster target: (Creature *) target;
++ (NSString *) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target;
+- (NSString *) useAbility: (Creature *) caster target: (Creature *) target;
 
 - (id) initWithInfo: (NSString *) abilityName damage: (int) abilityDamage abilityLevel: (int) level 
 		 abilityId: (int) desiredId abilityFn: (SEL) fn points:(int)turnPnts
@@ -29,9 +29,12 @@ extern NSMutableArray* abilityList;
 
 
 //Specialized ability function example
-- (void) defaultAbility: (Creature *) caster target: (Creature *) target;
-- (void) basicAttack:(Creature *)attacker def:(Creature *)defender;
-- (void) elementalAttack:(Creature *)attacker def:(Creature *)defender;
+- (int) defaultAbility: (Creature *) caster target: (Creature *) target;
+- (int) basicAttack:(Creature *)attacker def:(Creature *)defender;
+- (int) elementalAttack:(Creature *)attacker def:(Creature *)defender;
+- (int) bruteStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) elementalStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) quickStrike:(Creature *)attacker target:(Creature *)defender;
 
 @property (readonly) NSString *name;
 @property (readonly) int abilityId;
