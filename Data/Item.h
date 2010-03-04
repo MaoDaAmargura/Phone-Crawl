@@ -59,8 +59,8 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) elemType element;
 @property (nonatomic) itemType type;
 
-@property (nonatomic,readonly) NSString *name;
-@property (nonatomic,readonly) NSString *icon;
+@property (nonatomic,readonly, retain) NSString *name;
+@property (nonatomic,readonly, retain) NSString *icon;
 @property (nonatomic) itemQuality quality;
 @property (nonatomic) int hp;
 @property (nonatomic) int shield;

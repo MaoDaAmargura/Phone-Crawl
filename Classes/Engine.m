@@ -191,6 +191,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		[spellMenu hide];
 		[itemMenu hide];
 	}
+
 	
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
