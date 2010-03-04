@@ -33,6 +33,7 @@
 
 // Add an item to this menu.
 - (void) addMenuItem:(NSString*)name delegate:(id) delegate selector:(SEL) selector context:(id)context;
+- (void) removeMenuItemNamed:(NSString*)name;
 
 // Called once, when ready to display. This renders the menu. 
 - (void) showInView:(UIView*)view;
