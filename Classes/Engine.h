@@ -1,6 +1,6 @@
 
 #import <Foundation/Foundation.h>
-#import "NewGameFlowControl.h"
+
 
 @class WorldView;
 @class Creature;
@@ -15,7 +15,7 @@
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
-@interface Engine : NSObject <NewGameFlowDelegate>
+@interface Engine : NSObject 
 {
 	
 	NSMutableArray *liveEnemies; 
@@ -33,6 +33,8 @@
 	
 	BOOL showBattleMenu;
 	
+	BOOL hasAddedMenusToWorldView;
+	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
@@ -41,9 +43,16 @@
 	PCPopupMenu *conditionSpellMenu;
 }
 
-- (id) initWithView:(UIView*)view;
+@property (nonatomic, retain) Creature *player;
 
-- (void) setSelectedMoveTarget:(Coord*) loc ForCreature:(Creature *)c;
+@property (nonatomic, retain) PCPopupMenu *battleMenu;
+@property (nonatomic, retain) PCPopupMenu *attackMenu;
+@property (nonatomic, retain) PCPopupMenu *spellMenu;
+@property (nonatomic, retain) PCPopupMenu *itemMenu;
+@property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
+@property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
+
+- (id) init;
 
 - (void) updateWorldView:(WorldView*) wView;
 
@@ -52,7 +61,7 @@
 
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
-- (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord;
+- (BOOL) canEnterTileAtCoord:(Coord*) coord;
 - (void) moveCreature:(Creature *) c ToTileAtCoord:(Coord*)tileCoord;
 - (CGSize) tileSizeForWorldView:(WorldView*) wView;
 
@@ -68,19 +77,12 @@
 - (NSArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;
 
-- (Creature*) player;
-
 - (void) processTouch:(Coord *) coord;
 
-- (void) showAttackMenu;
-- (void) showSpellMenu;
-- (void) showItemMenu;
-- (void) showDamageSpellMenu;
-- (void) showConditionSpellMenu;
-
 - (void) ability_handler:(CombatAbility *)action;
-
 - (void) spell_handler:(Spell *)spell;
 - (void) item_handler:(Item *)item;
+
+- (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
 
 @end

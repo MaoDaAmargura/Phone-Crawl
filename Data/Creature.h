@@ -99,6 +99,8 @@ typedef enum {
 	
 	NSString *iconName;
 	
+	float experiencePoints;
+	
 	int aggroRange;
     int   level;
 	int turnPoints;
@@ -141,6 +143,7 @@ typedef enum {
 
 - (void) ClearTurnActions;
 
+- (void) gainExperience: (float) amount;
 - (void) takeDamage: (int) amount;
 - (void) heal: (int) amount;
 - (void) healMana: (int) amount;
@@ -157,6 +160,10 @@ typedef enum {
 - (int) regularWeaponDamage;
 - (int) elementalWeaponDamage;
 
+- (BOOL) hasActionToTake;
+
++ (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon;
+
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
 @property (nonatomic, retain) Abilities *abilities;
@@ -171,7 +178,7 @@ typedef enum {
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
 @property (nonatomic) int turnPoints;
-@property (readonly) NSString *name;
+@property (nonatomic, readonly, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
 @property (readonly) int level;

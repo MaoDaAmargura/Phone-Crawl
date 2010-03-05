@@ -8,6 +8,7 @@
 
 #import "GTMSenTestCase.h"
 #import "Item.h"
+#import "Item+TestingAdditions.h"
 #import "Phone_Crawl_Prefix.pch"
 
 @interface ItemTest : GTMTestCase
@@ -16,5 +17,9 @@
 }
 
 - (void) testInitWithBaseStats;
+
+- (void) testInitExactItemWithName;
+
+- (void) testIconNameForItemType;
 
 @end

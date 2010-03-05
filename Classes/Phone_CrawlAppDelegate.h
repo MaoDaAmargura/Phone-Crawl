@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "NewGameFlowControl.h"
 
-@class NewGameFlowControl;
 @class HomeTabViewController;
 
-@interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate> {
+@interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
+{
     UIWindow *window;
 
 	HomeTabViewController *homeTabController;

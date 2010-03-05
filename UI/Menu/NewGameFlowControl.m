@@ -3,6 +3,7 @@
 #define FIRST_DIALOGUE	@"Welcome, Adventurer, to the land of Tin'Foyel. A realm of dire monsters, dark dungeons and legendary weapons."
 #define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a shilling to tie up your boat in the dock. And I shall need to know your name."
 #define THIRD_DIALOGUE	@"Welcome to Port Royal. Tell me a bit more about yourself. What do you look like?"
+#define FOURTH_DIALOGUE	@"Alright, brave Adventurer. Step forth and take your place in history!"
 
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
@@ -101,9 +102,12 @@
 			okayButton.userInteractionEnabled = NO;
 			break;
 		case 6:
+			[mainTextLabel setText:FOURTH_DIALOGUE];
 			okayButton.userInteractionEnabled = YES;
 			break;
-
+		case 7:
+			[delegate newCharacterWithName:nameField andIcon:iconField];
+			break;
 		default:
 			break;
 	}

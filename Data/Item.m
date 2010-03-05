@@ -71,24 +71,25 @@ static const int baseItemStats[10][9] = {
 @synthesize charges;
 @synthesize pointValue;
 
-+ (NSString*) iconNameForItemType:(itemType)desiredType slot:(slotType) slot 
++ (NSString*) iconNameForItemType:(itemType)desiredType
 {
     switch (desiredType) 
     {
-        case SWORD_ONE_HAND: return @"swordsingle.png";
-        case SWORD_TWO_HAND: return @"claymore.png";
-        case BOW:            return @"bow.png";
-        case DAGGER:         return @"dagger.png";
-        case STAFF:          return @"staff.png";
-        case SHIELD:         return @"shield.png";
-        case HEAVY_HELM:     return @"helmet1.png";
-        case HEAVY_CHEST:    return @"armor-heavy.png";
-        case LIGHT_HELM:     return @"helm2.png";
-        case LIGHT_CHEST:    return @"armor-light.png";
-
+        case SWORD_ONE_HAND: return ICON_SWORD_SINGLE;
+        case SWORD_TWO_HAND: return ICON_SWORD_DOUBLE;
+        case BOW:            return ICON_BOW;
+        case DAGGER:         return ICON_DAGGER;
+        case STAFF:          return ICON_STAFF;
+        case SHIELD:         return ICON_SHIELD;
+        case HEAVY_HELM:     return ICON_HELM_HEAVY;
+        case HEAVY_CHEST:    return ICON_CHEST_HEAVY;
+        case LIGHT_HELM:     return ICON_HELM_LIGHT;
+        case LIGHT_CHEST:    return ICON_CHEST_LIGHT;
+        default:
+            NSLog(@"Invalid Item Type %d", desiredType);
+            return nil;
     }
-    NSLog(@"Invalid Item Type %d", desiredType);
-    return nil;
+    
 }
 
 + (NSString *) itemNameForItemType:(itemType)desiredType element:(elemType) elem{
@@ -136,6 +137,10 @@ static const int baseItemStats[10][9] = {
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
 {
+    if (desiredType > LIGHT_CHEST) { //Error: Function used for equipment only
+        NSLog(@"Cannot create BAG item from equipment creation function");
+        return nil;
+    }
     if (self = [super init]) {
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
@@ -166,7 +171,7 @@ static const int baseItemStats[10][9] = {
             quality = [Rand min: DULL max: SHARP];
         else quality = REGULAR;
         
-        icon = [Item iconNameForItemType:desiredType slot:slot];
+        icon = [Item iconNameForItemType:desiredType];
         
         if(desiredType < POTION) isEquipable = TRUE;
         else isEquipable = FALSE;
@@ -359,13 +364,13 @@ static const int baseItemStats[10][9] = {
             pointVal += item.elementalDamage;
             break;
         case HEAVY_HELM:
-        case HEAVY_CHEST:
         case LIGHT_HELM:
-        case LIGHT_CHEST:
         case SHIELD:
-            if (item.slot == CHEST) {
-                pointVal += (item.hp + item.shield + item.mana) * 2;
-            } else pointVal += (item.hp + item.shield + item.mana);
+            pointVal += (item.hp + item.shield + item.mana);
+            break;
+        case HEAVY_CHEST:
+        case LIGHT_CHEST:
+            pointVal += (item.hp + item.shield + item.mana) * 2;
             break;
             
         //Item.damage overloaded to contain dungeon_level for potions
@@ -390,6 +395,8 @@ static const int baseItemStats[10][9] = {
         case SCROLL:  // Scroll
 			return 2000;
             break;
+        default:
+            return -1;
     };
 
     pointVal += (item.hp + item.shield + item.mana) * 2;

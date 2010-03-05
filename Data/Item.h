@@ -8,6 +8,17 @@
 #define NUM_ITEM_TYPES 13
 #define OFFHAND_DMG_PERCENTAGE 0.75
 
+#define ICON_SWORD_SINGLE	@"swordsingle.png"
+#define ICON_SWORD_DOUBLE	@"claymore.png"
+#define ICON_BOW			@"bow.png"
+#define ICON_DAGGER			@"dagger.png"
+#define ICON_STAFF			@"staff.png"
+#define ICON_SHIELD			@"shield.png"
+#define ICON_HELM_LIGHT		@"helm2.png"
+#define ICON_HELM_HEAVY		@"helmet1.png"
+#define ICON_CHEST_LIGHT	@"armor-light.png"
+#define ICON_CHEST_HEAVY	@"armor-heavy.png"
+
 @class Creature;
 
 typedef enum {
@@ -59,8 +70,8 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) elemType element;
 @property (nonatomic) itemType type;
 
-@property (nonatomic,readonly) NSString *name;
-@property (nonatomic,readonly) NSString *icon;
+@property (nonatomic,readonly, retain) NSString *name;
+@property (nonatomic,readonly, retain) NSString *icon;
 @property (nonatomic) itemQuality quality;
 @property (nonatomic) int hp;
 @property (nonatomic) int shield;

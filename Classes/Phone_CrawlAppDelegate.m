@@ -31,7 +31,6 @@
 	else 
 		[window insertSubview:homeTabController.view atIndex:0];
 
-
 }
 
 
@@ -47,13 +46,26 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Delegates
+
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	[homeTabController.gameEngine startNewGameWithPlayerName:name andIcon:icon];
+	flow.view.hidden = YES;
+	[window bringSubviewToFront:homeTabController.view];
+}
+
+#pragma mark -
+#pragma mark IBActions
+
 - (IBAction) startNewGame
 {
 	if(!flow)
 	{
 		flow = [[NewGameFlowControl alloc] init];
 		[window addSubview:flow.view];
-		flow.delegate = homeTabController.gameEngine;
+		flow.delegate = self;
 	}
 	[window bringSubviewToFront:flow.view];
 	[flow begin];

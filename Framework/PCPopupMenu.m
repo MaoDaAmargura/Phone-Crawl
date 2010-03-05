@@ -70,6 +70,7 @@
 
 - (void) resize;
 - (void) die;
+- (void) renderMenuItems;
 
 @end
 
@@ -109,19 +110,46 @@
 	[backGroundImageView release];
 	[drawnItems release];
 	[super dealloc];
-}				
+}		
+
+#pragma mark -
+#pragma mark Helpers
+
+- (int) indexOfMenuItemNamed:(NSString*)name
+{
+	for ( int i = 0; i < [menuItems count]; ++i )
+	{
+		if ([[[menuItems objectAtIndex:i] title] isEqualToString:name])
+		{
+			return i;
+		}
+	}
+	return -1;
+}
 
 #pragma mark -
 #pragma mark Menu Creation
 
 - (void) addMenuItem:(NSString*)name delegate:(id) delegate selector:(SEL) selector context:(id)context
 {
+	if( [self indexOfMenuItemNamed:name] != -1 ) return; //Already an item with this name
+	
 	PopupMenuItem *i = [[[PopupMenuItem alloc] initWithName:name del:delegate sel:selector con:context] autorelease];
 	[menuItems addObject:i];
+	[self renderMenuItems];
+}
+
+- (void) removeMenuItemNamed:(NSString*)name
+{
+	int index = [self indexOfMenuItemNamed:name];
+	if(index == -1) return; // There is no item with this name
+	[menuItems removeObjectAtIndex:index];
+	[self renderMenuItems];
 }
 
 - (void) renderMenuItems
 {
+	[self resize];
 	for(UILabel *l in drawnItems)
 		[l removeFromSuperview];
 	[drawnItems removeAllObjects];
@@ -145,8 +173,6 @@
 	if(self.superview)
 		[self removeFromSuperview];
 	
-	[self resize];
-	[self renderMenuItems];
 	[view addSubview:self];
 	[view bringSubviewToFront:self];
 	[self show];

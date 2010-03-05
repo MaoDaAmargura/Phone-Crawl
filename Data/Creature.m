@@ -55,6 +55,8 @@
 		abilityPoints = 10;
 		condition = NO_CONDITION;
 		
+		iconName = @"monster-ogre.png";
+		
 		/*
 		 All monsters will have a default inventory of items specific to their element.
 		 AI for each creature can choose to equip whichever of the items they wish. 
@@ -99,7 +101,7 @@
 		self.selectedSpellToUse = nil;
 		self.selectedItemToUse = nil;
 		self.selectedMoveTarget = nil;
-
+		experiencePoints = 0;
 		level = lvl;
 		type = PLAYER;
 		
@@ -108,6 +110,7 @@
 		money = 10000;
 		abilityPoints = 10;
 		condition = NO_CONDITION;
+		inventory = nil;
 		return self;
 	}
 	return nil;
@@ -123,6 +126,19 @@
 	return [self initPlayerWithLevel:0];
 }
 
+- (void) gainExperience:(float)amount {
+	experiencePoints += amount;
+	while (experiencePoints >= 10) {
+		experiencePoints -= 10;
+		++level;
+		abilityPoints+=2;
+		max.health = max.shield = max.mana = 100 + level * 25;
+		[self updateStatsItem:equipment.head];
+		[self updateStatsItem:equipment.chest];
+		[self updateStatsItem:equipment.lHand];
+		[self updateStatsItem:equipment.rHand];
+	}
+}
 
 - (void) resetStats {
 	[self clearCondition];
@@ -133,6 +149,7 @@
 	if (current.health > max.health) current.health = max.health;
 	if (current.mana > max.mana) current.mana = max.mana;
 	if (current.shield > max.shield) current.shield = max.shield;
+	
 }
 
 #pragma mark -
@@ -359,6 +376,23 @@
 		self.selectedSpellToUse = nil;
 		self.selectedItemToUse = nil;
 		self.selectedMoveTarget = nil;
+}
+
+- (BOOL) hasActionToTake
+{
+	if (selectedMoveTarget || selectedCreatureForAction || selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse) 
+	{
+		return YES;
+	}
+	return NO;
+}
+
++ (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
+{
+	Creature *ret = [[[Creature alloc] initPlayerWithInfo:name level:1] autorelease];
+	ret.iconName = icon;
+	
+	return ret;
 }
 
 @end
