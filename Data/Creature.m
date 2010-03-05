@@ -36,7 +36,7 @@
 #pragma mark -
 #pragma mark Life Cycle
 
-- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z{
+- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z {
 	if (self = [super init])
 	{
 		name = [NSString stringWithString:@"Monster"];

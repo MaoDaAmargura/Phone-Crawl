@@ -1,17 +1,12 @@
 #import "Engine.h"
-
 #import "Dungeon.h"
 #import "Creature.h"
 #import "Tile.h"
 #import "Item.h"
 #import "Spell.h"
-
 #import "Util.h"
-
 #import "WorldView.h"
-
 #import "PCPopupMenu.h"
-
 #import "CombatAbility.h"
 
 #define POINTS_TO_TAKE_TURN 100

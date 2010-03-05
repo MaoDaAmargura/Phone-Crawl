@@ -458,6 +458,7 @@ typedef enum {
 	}
 }
 
+//- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
@@ -471,18 +472,22 @@ typedef enum {
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
 	[[dungeon tileAtX: 2 Y: 0 Z: 0] initWithTileType: tileStairsToTown];
 
-
 	[items removeAllObjects];
 	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
-	for (int LCV = 0; LCV < MAP_DIMENSION * MAP_DIMENSION / 2; LCV++) {
+	for (int LCV = 0; LCV < MAP_DIMENSION; LCV++) {
 		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
 		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
-		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
+		if ([dungeon tileAt: coord].blockMove) {
+			--LCV;
+			continue;
+		}
 
-		[items setObject: item forKey: coord];
+		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
+		[items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
 //		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
+
 
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];

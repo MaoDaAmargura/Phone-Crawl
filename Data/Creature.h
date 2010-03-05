@@ -102,15 +102,15 @@ typedef enum {
 	float experiencePoints;
 	
 	int aggroRange;
-    int   level;
+    int level;
 	int turnPoints;
 
 	condition_bitset condition;
 	Points *current;
 	Points *max;
 
-	int   money;
-	int   abilityPoints;
+	int money;
+	int abilityPoints;
 
 	//Resists
 	int fire;
@@ -125,7 +125,7 @@ typedef enum {
 	NSMutableArray *inventory;
 	Abilities *abilities;
 
-	
+
 	@private
 	Points *real;
 }

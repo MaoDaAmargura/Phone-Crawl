@@ -1,11 +1,3 @@
-//
-//  NewGameFlowControl.h
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/20/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
