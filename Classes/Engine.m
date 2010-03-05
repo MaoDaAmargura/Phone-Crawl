@@ -43,6 +43,8 @@ extern NSMutableDictionary *items; // from Dungeon
 
 @implementation Engine
 
+@synthesize player;
+
 #pragma mark -
 #pragma mark Life Cycle
 
@@ -860,7 +862,6 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) playerEquipItem:(Item*)i
 {
 	[player addEquipment:i slot:i.slot];
-	
 }
 
 - (void) playerUseItem:(Item*)i
@@ -896,11 +897,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	return player.equipment;
 }
 
-- (Creature*) player
-{
-	return player;
-}
-
 #pragma mark -
 #pragma mark Menu functions
 
@@ -931,9 +927,13 @@ extern NSMutableDictionary *items; // from Dungeon
 	[damageSpellMenu hide];
 }
 
-- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+
+#pragma mark -
+#pragma mark Starting a New Game
+
+- (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon
 {
-	
+	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
 }
 
 @end

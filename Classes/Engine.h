@@ -1,6 +1,6 @@
 
 #import <Foundation/Foundation.h>
-#import "NewGameFlowControl.h"
+
 
 @class WorldView;
 @class Creature;
@@ -15,7 +15,7 @@
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
-@interface Engine : NSObject <NewGameFlowDelegate>
+@interface Engine : NSObject 
 {
 	
 	NSMutableArray *liveEnemies; 
@@ -40,6 +40,8 @@
 	PCPopupMenu *damageSpellMenu;
 	PCPopupMenu *conditionSpellMenu;
 }
+
+@property (nonatomic, retain) Creature *player;
 
 - (id) initWithView:(UIView*)view;
 
@@ -68,8 +70,6 @@
 - (NSArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;
 
-- (Creature*) player;
-
 - (void) processTouch:(Coord *) coord;
 
 - (void) showAttackMenu;
@@ -79,8 +79,9 @@
 - (void) showConditionSpellMenu;
 
 - (void) ability_handler:(CombatAbility *)action;
-
 - (void) spell_handler:(Spell *)spell;
 - (void) item_handler:(Item *)item;
+
+- (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
 
 @end

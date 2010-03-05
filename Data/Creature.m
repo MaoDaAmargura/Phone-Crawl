@@ -363,6 +363,14 @@
 		self.selectedMoveTarget = nil;
 }
 
++ (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
+{
+	Creature *ret = [[[Creature alloc] initPlayerWithInfo:name level:1] autorelease];
+	ret.iconName = icon;
+	
+	return ret;
+}
+
 @end
 
 @implementation EquipSlots

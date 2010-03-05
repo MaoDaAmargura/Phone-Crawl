@@ -38,6 +38,17 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Delegates
+
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	homeTabController.gameEngine
+}
+
+#pragma mark -
+#pragma mark IBActions
+
 - (IBAction) startNewGame
 {
 	if(!flow)
