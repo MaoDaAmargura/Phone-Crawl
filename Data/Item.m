@@ -137,6 +137,10 @@ static const int baseItemStats[10][9] = {
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
 {
+    if (desiredType > LIGHT_CHEST) { //Error: Function used for equipment only
+        NSLog(@"Cannot create BAG item from equipment creation function");
+        return nil;
+    }
     if (self = [super init]) {
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
