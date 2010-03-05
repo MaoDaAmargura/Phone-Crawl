@@ -11,6 +11,11 @@
 
 @implementation ItemTest
 
+/*!
+ @method		testInitWithBaseStats
+ @abstract		Simple unit test for Item's initWithBaseStats constructor
+ @discussion	tests that attributes of item explicitly set by call are true for the returned Item
+ */
 - (void) testInitWithBaseStats
 {
 	elemType expectedElemType = FIRE;
@@ -22,11 +27,17 @@
 											 itemType:expectedItemType] autorelease];
 	
 	STAssertTrue(testItem.element == expectedElemType, @"Item elemental type was different than expected.");
-	
 	STAssertTrue(testItem.type == expectedItemType, @"Item weapon type was different than expected.");
 }
 
-- (void) testInitExactItemWithName {
+
+/*!
+ @method		testInitExactItemWithName
+ @abstract		Unit test for Item's initExactItemWithName constructor
+ @discussion	tests that all attributes of returned item line up with the stats that were specified in the call
+ */
+- (void) testInitExactItemWithName 
+{
 	NSString *expectedItemName = @"Wand of awesome coldness!";
 	NSString *expectedIconFileName = @"wand1.png";
 	itemQuality expectedItemQuality = REGULAR;
@@ -69,9 +80,6 @@
 													armor:expectedArmor
 											effectSpellId:expectedEffectSpellId] autorelease];
 
-
-	
-	
 	STAssertTrue(testItem.name == expectedItemName, @"Item name was different from expected");
 	STAssertTrue(testItem.icon == expectedIconFileName, @"Icon name was different from expected");
 	STAssertTrue(testItem.damage == expectedDamage, @"Item damage was different from expected");
