@@ -20,4 +20,6 @@
 
 - (void) testInitExactItemWithName;
 
+- (void) testIconNameForItemType;
+
 @end
