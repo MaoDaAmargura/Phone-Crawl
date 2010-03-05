@@ -160,6 +160,8 @@ typedef enum {
 - (int) regularWeaponDamage;
 - (int) elementalWeaponDamage;
 
+- (BOOL) hasActionToTake;
+
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon;
 
 @property (nonatomic, retain) Coord *creatureLocation;
@@ -176,7 +178,7 @@ typedef enum {
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
 @property (nonatomic) int turnPoints;
-@property (readonly) NSString *name;
+@property (nonatomic, readonly, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
 @property (readonly) int level;

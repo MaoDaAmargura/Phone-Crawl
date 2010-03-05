@@ -45,7 +45,14 @@
 
 @property (nonatomic, retain) Creature *player;
 
-- (id) initWithView:(UIView*)view;
+@property (nonatomic, retain) PCPopupMenu *battleMenu;
+@property (nonatomic, retain) PCPopupMenu *attackMenu;
+@property (nonatomic, retain) PCPopupMenu *spellMenu;
+@property (nonatomic, retain) PCPopupMenu *itemMenu;
+@property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
+@property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
+
+- (id) init;
 
 - (void) updateWorldView:(WorldView*) wView;
 
@@ -54,7 +61,7 @@
 
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
-- (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord;
+- (BOOL) canEnterTileAtCoord:(Coord*) coord;
 - (void) moveCreature:(Creature *) c ToTileAtCoord:(Coord*)tileCoord;
 - (CGSize) tileSizeForWorldView:(WorldView*) wView;
 

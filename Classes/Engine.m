@@ -14,30 +14,27 @@
 
 #import "CombatAbility.h"
 
-#define POINTS_TO_TAKE_TURN 15
+#define POINTS_TO_TAKE_TURN 100
 
-@interface Engine (Private)
+@interface Engine (UIUpdates)
+
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
+- (void) drawMiniMapForWorldView: (WorldView*) wView;
+- (void) drawItemsForWorldView: (WorldView*) wView;
+
+@end
+
+@interface Engine (TurnActions)
 
 - (void) redetermineBattleMode;
 - (Creature *) nextCreatureToTakeTurn;
 - (void) incrementCreatureTurnPoints;
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
-- (void) performItemActionForCreature:(Creature *)c;
-- (void) performSpellActionForCreature:(Creature *)c;
-- (void) performCombatAbilityActionForCreature:(Creature *)c;
-
-- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
-- (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
-- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
-- (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
-- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
-- (void) drawMiniMapForWorldView: (WorldView*) wView;
-- (void) drawItemsForWorldView: (WorldView*) wView;
 
 @end
+
 
 @interface Engine (MenuControl)
 
@@ -51,12 +48,24 @@
 
 @end
 
+@interface Engine (Movement)
+
+- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
+- (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
+- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
+- (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
+- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
+
+@end
+
+
 
 extern NSMutableDictionary *items; // from Dungeon
 
 @implementation Engine
 
 @synthesize player;
+@synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -132,7 +141,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	[self fillSpellMenuForCreature: player];
 }
 
-- (id) initWithView:(UIView*)view
+- (id) init
 {
 	if(self = [super init])
 	{
@@ -229,6 +238,51 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 }
 
+- (NSString*) performActionForCreature:(Creature*) creature
+{
+	NSString *actionResult = @"";
+	
+	if(creature.selectedCreatureForAction)
+	{
+		if(creature.selectedCombatAbilityToUse)
+		{
+			//todo: use the combat ability on the target
+			actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+			creature.selectedCreatureForAction = nil;
+			creature.selectedCombatAbilityToUse = nil;
+		}
+		else if(creature.selectedSpellToUse)
+		{
+			//use the spell on the target
+			actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];				
+			creature.selectedCreatureForAction = nil;
+			creature.selectedSpellToUse = nil;
+		}
+		else if(creature.selectedItemToUse)
+		{
+			actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
+			//DLog(@"Used item, result: %@",actionResult);
+			// If charges are used up, drop item from inventory and rebuild item menu
+			if (creature.selectedItemToUse.charges <= 0) 
+			{
+				[creature.inventory removeObject:creature.selectedItemToUse];
+				if(creature == player) 
+				{
+					[itemMenu removeMenuItemNamed:creature.selectedItemToUse.name];
+				}
+			}
+			creature.selectedCreatureForAction = nil;
+			creature.selectedItemToUse = nil;
+		}
+	}
+	else if(creature.selectedMoveTarget)
+	{
+		[self performMoveActionForCreature:creature];
+	}
+	
+	return actionResult;
+}
+
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
@@ -241,74 +295,52 @@ extern NSMutableDictionary *items; // from Dungeon
 	{
 		[self hideMenus];
 	}
-		
+	
+	NSString *actionResult = @"";
 	int oldLevel = player.level;
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
-	if( creature == player
-		&& creature.selectedMoveTarget == nil
-		&& creature.selectedItemToUse == nil
-		&& creature.selectedSpellToUse == nil
-		&& creature.selectedCombatAbilityToUse == nil )
+	if (creature == player)
 	{
-		[self updateWorldView:wView];
-		return;
-	}
-	
-	// if the creature is a monster, call the AI code
-	if( creature != player )
-		[self determineActionForCreature:creature];
-	
-	NSString *actionResult = @"";
-	if (creature.selectedItemToUse)
-	{
-		//use item on selected target
-		//DLog(@"In item usage");
-		actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
-		//DLog(@"Used item, result: %@",actionResult);
-		// If charges are used up, drop item from inventory and rebuild item menu
-		if (creature.selectedItemToUse.charges <= 0) {
-			[creature.inventory removeObject:creature.selectedItemToUse];
-			if(creature == player) {
-				itemMenu = [[[PCPopupMenu alloc] initWithOrigin:CGPointMake(60, 300)] autorelease];
-				for (Item* it in player.inventory) 
-					if (it.type == WAND || it.type == POTION)
-						[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
-				[itemMenu showInView:wView.view];
-				[itemMenu hide];
-			}
+		if(creature.current.health <= 0)
+		{
+			
 		}
-		creature.selectedCreatureForAction = nil;
-		creature.selectedItemToUse = nil;
-	} 
-	if (creature.selectedCombatAbilityToUse && creature.selectedCreatureForAction)
-	{
-		//todo: use the combat ability on the target
-		actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
-		creature.selectedCreatureForAction = nil;
-		creature.selectedCombatAbilityToUse = nil;
+		
+		if([creature hasActionToTake])
+			actionResult = [self performActionForCreature:creature]; 
+		else
+			player.turnPoints -= 5;
 	}
-	if (creature.selectedSpellToUse)
+	else if(creature != nil)
 	{
-		//use the spell on the target
-		actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];				
-		creature.selectedCreatureForAction = nil;
-		creature.selectedSpellToUse = nil;
-	} 
-	if(creature.selectedMoveTarget)
-	{
-		[self performMoveActionForCreature:creature];
+		if(creature.current.health <= 0)
+		{
+			[liveEnemies removeObject:creature];
+			[deadEnemies addObject:creature];
+			float experienceGained = 1.0;
+			int levelDifference = player.level - creature.level;
+			experienceGained *= pow(1.2, levelDifference);
+			[player gainExperience:experienceGained];
+		}
+		[self determineActionForCreature:creature];
+		if ([creature hasActionToTake]) 
+		{
+			actionResult = [self performActionForCreature:creature];
+		}
 	}
-	//if(battleMode)
-		//[self incrementCreatureTurnPoints];
+	else
+	{
+		[self incrementCreatureTurnPoints];		
+	}
+	
+	if (player.level > oldLevel)
+		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
 	
 	if(creature == player)
 		wView.actionResult.text = actionResult; //Set some result string from actions
-	if (player.level > oldLevel) {
-		wView.actionResult.text = @"You have gained a level!";
-	}
+	
 	[self updateWorldView:wView];
-
 }
 
 - (void) redetermineBattleMode
@@ -338,42 +370,21 @@ extern NSMutableDictionary *items; // from Dungeon
 */
 - (Creature *) nextCreatureToTakeTurn
 {
-	//if(!battleMode)
-		//return player; //ideally, the monsters will get a few turns. I have yet to figure out exactly how the point balance works.
-	
-	int highestPoints = player.turnPoints;
-	Creature *highestCreature = nil;
-	while (highestCreature == nil) {
-		for( Creature *m in liveEnemies ) {
-			if (m.current.health == 0){
-				[liveEnemies removeObject:m];
-				[deadEnemies addObject:m];
-				float experienceGained = 1.0;
-				//NSLog(@"Gained %d exp from %d",experienceGained,m.level);
-				int levelDifference = player.level - m.level;
-				if (levelDifference > 0)
-					experienceGained /= levelDifference;
-				else if (levelDifference < 0)
-					experienceGained *= abs(levelDifference);
-				//NSLog(@"Gained %f exp",experienceGained);
-				[player gainExperience:experienceGained];
-			}
-			if(m.turnPoints > highestPoints && m.turnPoints > 100) {
-				highestPoints = m.turnPoints;
-				highestCreature = m;
-			}
-		}
-		if(player.turnPoints > highestPoints && player.turnPoints > 100) {
-			highestPoints = player.turnPoints;
-			highestCreature = player;
-		}
-		if (highestCreature == nil) {
-			[self incrementCreatureTurnPoints];
+	if (player.turnPoints >= POINTS_TO_TAKE_TURN)
+	{
+		return player;
+	}
+	for (Creature *m in liveEnemies)
+	{
+		if (m.turnPoints >= POINTS_TO_TAKE_TURN) 
+		{
+			return m;
 		}
 	}
-	return highestCreature;
+	[self incrementCreatureTurnPoints];
+	return [self nextCreatureToTakeTurn];
 }
-
+	
 - (void) incrementCreatureTurnPoints 
 {
 	player.turnPoints += 30;
@@ -395,7 +406,7 @@ extern NSMutableDictionary *items; // from Dungeon
 - (void) performMoveActionForCreature:(Creature *)c
 {
 	Coord *next = [self nextStepBetween:[c creatureLocation] and:c.selectedMoveTarget];
-	if(![self creature:c CanEnterTileAtCoord:next])
+	if(![self canEnterTileAtCoord:next])
 	{
 		//something other than terrain is blocking the path (probably monster)
 		//this is not an impossible situation to get into, but I dont know how to handle it nicely.
@@ -407,64 +418,12 @@ extern NSMutableDictionary *items; // from Dungeon
 	[self moveCreature:c ToTileAtCoord:next];
 	
 	// creature has reached its destination
-	if ([c.creatureLocation equals: c.selectedMoveTarget]) {
+	if ([c.creatureLocation equals: c.selectedMoveTarget] || battleMode)
 		c.selectedMoveTarget = nil;
-	}
-	if(battleMode)
-		c.selectedMoveTarget = nil;
+
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
-/*!
-	@method		performItemActionForCreature
-	@abstract		given a creature with an item and target marked for use, this method will use the item. 
-	@discussion		This should be handled by the spell handler instead.
-*/
-- (void) performItemActionForCreature:(Creature *)c
-{
-	//if the item has a spell associated with it
-	{
-		//use the spell
-	}
-	//else
-	{
-		//do nothing.  The player can't use a helmet as a turn action.  
-		//Equiping and dropping items is done outside of the turn system.
-		[c ClearTurnActions];
-	}
-		
-}
-
-/*!
-	@method		performSpellActionForCreature
-	@abstract		given a creature with a spell and target marked for use, this method will cast the spell. 
-*/
-- (void) performSpellActionForCreature:(Creature *)c
-{
-		//maintenance
-	c.turnPoints -= c.selectedSpellToUse.turnPointCost;
-	[c ClearTurnActions];
-}
-- (void) performCombatAbilityActionForCreature:(Creature *)c
-{
-	//if creature is in range
-		//do combatAction
-		
-		//c.turn_points -= c.selectedCombatAbilityToUse.required_turn_points;
-		//[c ClearTurnActions];
-	//else
-	{
-		Coord *moveTo = nil;
-		//if equiped item has a minimum range
-			//i dunno, crap out.  I really don't want to calculate moving backwards to get in range.
-		//else
-			moveTo = c.selectedCreatureForAction.creatureLocation;
-		c.selectedMoveTarget = moveTo;
-		[self performMoveActionForCreature:c];
-		c.selectedMoveTarget = nil;
-		
-	}
-}
 
 
 #pragma mark -
@@ -767,19 +726,27 @@ extern NSMutableDictionary *items; // from Dungeon
 		return YES;
 }
 
+- (BOOL) isACreatureAtLocation:(Coord*)loc
+{
+	if ([player.creatureLocation equals:loc]) 
+		return YES;
+	
+	for (Creature *c in liveEnemies)
+		if ([c.creatureLocation equals:loc])
+			return YES;
+	
+	return NO;
+}
+
 
 /*!
  @method		creature:c CanEnterTileAtCoord:
  @abstract		query function for if anything prevents creature entrance to coord (blocked by environment or monsters)
 					A creature doesn't block itself.
  */
-- (BOOL) creature:(Creature *)c CanEnterTileAtCoord:(Coord*) coord
+- (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
-	BOOL blockedBySomething = [self tileAtCoordBlocksMovement: coord];
-	if( !blockedBySomething )
-		for (Creature *m in liveEnemies) 
-			blockedBySomething |= (c != m && [coord equals:[m creatureLocation]] );
-	return !blockedBySomething;
+	return ![self tileAtCoordBlocksMovement:coord] || [self isACreatureAtLocation:coord];
 }
 
 /*!
@@ -793,32 +760,34 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	c.creatureLocation = tileCoord;
 
-	if (c == player) {
+	if (c == player) 
+	{
 		// duplicate check.  leave this here, because LVL_GEN_ENV bypasses the original check.
 		if ([c.creatureLocation equals: c.selectedMoveTarget]) {
 			c.selectedMoveTarget = nil;
 		}
 		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
-		if (currSlope) switch (currSlope) {
-			case slopeDown:
-				c.creatureLocation.Z++;
-				break;
-			case slopeUp:
-				c.creatureLocation.Z--;
-				break;
-			default:
-				c.creatureLocation.Z = 0;
-				c.creatureLocation.X = 0;
-				c.creatureLocation.Y = 0;
-				if (currSlope == slopeToOrc) {
-					[currentDungeon initWithType: orcMines];
+		if (currSlope) 
+		{
+			switch (currSlope) 
+			{
+				case slopeDown:
+					c.creatureLocation.Z++;
 					break;
-				}
-				if (currSlope == slopeToTown) {
-					[currentDungeon initWithType: town];
+				case slopeUp:
+					c.creatureLocation.Z--;
 					break;
-				}
-				break;
+				case slopeToOrc:
+					[currentDungeon initWithType:orcMines];
+					c.creatureLocation = currentDungeon.playerLocation;
+					break;
+				case slopeToTown:
+					[currentDungeon initWithType:town];
+					c.creatureLocation = currentDungeon.playerLocation;
+					break;
+				default:
+					break;
+			}
 		}
 	}
 
@@ -1015,7 +984,7 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon
 {
-	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
+	//Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
 }
 
 @end

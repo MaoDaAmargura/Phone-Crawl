@@ -377,6 +377,15 @@
 		self.selectedMoveTarget = nil;
 }
 
+- (BOOL) hasActionToTake
+{
+	if (selectedMoveTarget || selectedCreatureForAction || selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse) 
+	{
+		return YES;
+	}
+	return NO;
+}
+
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
 {
 	Creature *ret = [[[Creature alloc] initPlayerWithInfo:name level:1] autorelease];
