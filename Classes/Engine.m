@@ -241,7 +241,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	{
 		[self hideMenus];
 	}
-
+		
 	int oldLevel = player.level;
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
@@ -374,7 +374,8 @@ extern NSMutableDictionary *items; // from Dungeon
 	return highestCreature;
 }
 
-- (void) incrementCreatureTurnPoints {
+- (void) incrementCreatureTurnPoints 
+{
 	player.turnPoints += 30;
 	for(Creature *m in liveEnemies)
 		m.turnPoints += 30;
@@ -384,9 +385,9 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	if(battleMode)
 	{
-		[self setSelectedMoveTarget:player.creatureLocation ForCreature:c];
+		c.selectedMoveTarget = player.creatureLocation;
 	} else {
-		[self setSelectedMoveTarget:c.creatureLocation ForCreature:c];
+		c.selectedMoveTarget = c.creatureLocation;
 	}
 }
 
@@ -407,10 +408,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 	// creature has reached its destination
 	if ([c.creatureLocation equals: c.selectedMoveTarget]) {
-		[self setSelectedMoveTarget:nil ForCreature:c];
+		c.selectedMoveTarget = nil;
 	}
 	if(battleMode)
-		[self setSelectedMoveTarget:nil ForCreature:c];
+		c.selectedMoveTarget = nil;
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
@@ -458,9 +459,9 @@ extern NSMutableDictionary *items; // from Dungeon
 			//i dunno, crap out.  I really don't want to calculate moving backwards to get in range.
 		//else
 			moveTo = c.selectedCreatureForAction.creatureLocation;
-		[self setSelectedMoveTarget:moveTo ForCreature:c];
+		c.selectedMoveTarget = moveTo;
 		[self performMoveActionForCreature:c];
-		[self setSelectedMoveTarget:nil ForCreature:c];
+		c.selectedMoveTarget = nil;
 		
 	}
 }
@@ -795,7 +796,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	if (c == player) {
 		// duplicate check.  leave this here, because LVL_GEN_ENV bypasses the original check.
 		if ([c.creatureLocation equals: c.selectedMoveTarget]) {
-			[self setSelectedMoveTarget:nil ForCreature:c];
+			c.selectedMoveTarget = nil;
 		}
 		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
 		if (currSlope) switch (currSlope) {
@@ -847,11 +848,13 @@ extern NSMutableDictionary *items; // from Dungeon
 		[battleMenu show];
 	}
 	else {
-		if (LVL_GEN_ENV) {
+		if (LVL_GEN_ENV) 
+		{
 			[self moveCreature: player ToTileAtCoord: tileCoord];
 		}
-		else {
-			[self setSelectedMoveTarget:tileCoord ForCreature:player];
+		else 
+		{
+			player.selectedMoveTarget = tileCoord;
 		}
 	}
 }
@@ -939,12 +942,6 @@ extern NSMutableDictionary *items; // from Dungeon
 
 #pragma mark -
 #pragma mark Custom Accessors
-
-- (void) setSelectedMoveTarget:(Coord *)loc ForCreature:(Creature *)c
-{
-	[c.selectedMoveTarget release];
-	c.selectedMoveTarget = [loc retain];
-}
 
 - (NSArray*) getPlayerInventory
 {

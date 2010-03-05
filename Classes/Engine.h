@@ -47,8 +47,6 @@
 
 - (id) initWithView:(UIView*)view;
 
-- (void) setSelectedMoveTarget:(Coord*) loc ForCreature:(Creature *)c;
-
 - (void) updateWorldView:(WorldView*) wView;
 
 - (void) fillSpellMenuForCreature: (Creature *) c;
