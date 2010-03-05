@@ -45,11 +45,11 @@ static tileType deadTile [] = {
 
 + (NSMutableArray*) singleComponent: (Dungeon*) dungeon withClearTiles: (NSMutableArray*) white {
 	NSMutableArray *black = [[[NSMutableArray alloc] init] autorelease];
-
 	NSMutableArray *gray = [[[NSMutableArray alloc] init] autorelease];
+
 	[gray addObject: [white objectAtIndex: 0]];
 	[white removeObjectAtIndex: 0];
-	
+
 	NSMutableArray *nextGray = [[[NSMutableArray alloc] init] autorelease];
 	while ([gray count]) {
 		for (Tile *currTile in gray) {
@@ -484,7 +484,7 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
-	
+
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
 	for (int LCV = 0; LCV < 18; LCV++) {
