@@ -115,7 +115,6 @@
 			break;
 		case 7:
 			[delegate newCharacterWithName:nameField andIcon:iconField];
-			[self.navigationController popViewControllerAnimated:YES];
 			break;
 		default:
 			break;

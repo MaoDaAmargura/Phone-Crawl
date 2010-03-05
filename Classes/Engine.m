@@ -993,7 +993,10 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon
 {
-	//Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
+	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
+	self.player = newPlayer;
+	
+	[currentDungeon initWithType:town];
 }
 
 @end

@@ -110,6 +110,7 @@
 		money = 10000;
 		abilityPoints = 10;
 		condition = NO_CONDITION;
+		inventory = nil;
 		return self;
 	}
 	return nil;

@@ -7,7 +7,7 @@
 /* I REPEAT: DO NOT #INCLUDE THIS CLASS.  FROM ANYWHERE. */
 
 @interface LevelGen : NSObject {
-	;
+
 }
 
 @end
