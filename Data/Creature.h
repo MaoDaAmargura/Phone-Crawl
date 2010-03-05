@@ -99,6 +99,8 @@ typedef enum {
 	
 	NSString *iconName;
 	
+	float experiencePoints;
+	
 	int aggroRange;
     int   level;
 	int turnPoints;
@@ -141,6 +143,7 @@ typedef enum {
 
 - (void) ClearTurnActions;
 
+- (void) gainExperience: (float) amount;
 - (void) takeDamage: (int) amount;
 - (void) heal: (int) amount;
 - (void) healMana: (int) amount;

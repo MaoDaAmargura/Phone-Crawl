@@ -101,7 +101,7 @@
 		self.selectedSpellToUse = nil;
 		self.selectedItemToUse = nil;
 		self.selectedMoveTarget = nil;
-
+		experiencePoints = 0;
 		level = lvl;
 		type = PLAYER;
 		
@@ -125,6 +125,19 @@
 	return [self initPlayerWithLevel:0];
 }
 
+- (void) gainExperience:(float)amount {
+	experiencePoints += amount;
+	while (experiencePoints >= 10) {
+		experiencePoints -= 10;
+		++level;
+		abilityPoints+=2;
+		max.health = max.shield = max.mana = 100 + level * 25;
+		[self updateStatsItem:equipment.head];
+		[self updateStatsItem:equipment.chest];
+		[self updateStatsItem:equipment.lHand];
+		[self updateStatsItem:equipment.rHand];
+	}
+}
 
 - (void) resetStats {
 	[self clearCondition];
@@ -135,6 +148,7 @@
 	if (current.health > max.health) current.health = max.health;
 	if (current.mana > max.mana) current.mana = max.mana;
 	if (current.shield > max.shield) current.shield = max.shield;
+	
 }
 
 #pragma mark -
