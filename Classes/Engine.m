@@ -567,79 +567,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	[self drawMiniMapForWorldView: wView];
 }
 
-/*!
- @method		drawTiles
- @abstract		subroutine to draw tiles to the current graphics context
- */
-- (void) drawTilesForWorldView:(WorldView*)wView
-{
-	int xInd, yInd;
-	CGSize tileSize = [self tileSizeForWorldView:wView];
-	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
-	CGPoint lowerRight = CGPointMake(center.X + halfTile, center.Y + halfTile);
-	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
-	
-	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
-	{
-		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
-		{
-			UIImage *img;
-			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
-			if(t)
-				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
-			else
-				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
-			
-			// Draw each tile in the proper place
-			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
-		}
-	}
-}
-
-// FIXME massive code duplication, snip snip
-- (void) drawItemsForWorldView: (WorldView*) wView {
-	int xInd, yInd;
-	CGSize tileSize = [self tileSizeForWorldView:wView];
-	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
-	CGPoint lowerRight = CGPointMake(center.X + halfTile, center.Y + halfTile);
-	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
-
-	NSArray *coords = [items allKeys];
-	Coord *coord = [Coord withX: 0 Y: 0 Z: center.Z];
-
-	for (xInd = upperLeft.x; xInd <= lowerRight.x; ++xInd)
-	{
-		for(yInd = upperLeft.y; yInd <= lowerRight.y; ++yInd)
-		{
-			if (yInd < 0 || yInd >= MAP_DIMENSION || xInd < 0 || xInd >= MAP_DIMENSION) continue;
-
-			coord.X = xInd;
-			coord.Y = yInd;
-
-			if (![coords containsObject: coord]) {
-				continue;
-			}
-
-			Item *item = nil;
-
-			NSEnumerator *enumerator = [items keyEnumerator];
-			Coord *key;
-			while ((key = [enumerator nextObject])) {
-				if ([key isEqual: coord]) {
-					item = [items objectForKey: key];
-					break;
-				}
-			}
-
-			UIImage *img = [UIImage imageNamed: item.icon];
-			if (!img) img = [UIImage imageNamed: @"BlackSquare.png"];
-
-			[img drawInRect:CGRectMake((xInd-upperLeft.x)*tileSize.width, (yInd-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
-		}
-	}	
-}
 
 - (BOOL) coordIsVisible:(Coord*) coord
 {
@@ -653,23 +580,73 @@ extern NSMutableDictionary *items; // from Dungeon
 	if(coord.Y <= center.Y - offScreenDist) return NO;
 	
 	return YES;
-	
 }
 
-- (void) drawCreature:(Creature*) creature inWorldView:(WorldView*) wView
+- (void) drawImage:(UIImage*) img atTile:(Coord*) loc inWorld:(WorldView*) wView
 {
-	Coord *loc = [creature creatureLocation];
-	if(![self coordIsVisible:[creature creatureLocation]]) return;
+	if(![self coordIsVisible:loc]) return;
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = [player creatureLocation];
-
+	
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
 	
-	UIImage *sprite = [UIImage imageNamed:[creature iconName]];
-	[sprite drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
+}
+
+- (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
+{
+	UIImage *img = [UIImage imageNamed:imgName];
+	[self drawImage:img atTile:loc inWorld:wView];
+}
+
+/*!
+ @method		drawTiles
+ @abstract		subroutine to draw tiles to the current graphics context
+ */
+- (void) drawTilesForWorldView:(WorldView*)wView
+{
+	int xInd, yInd;
+	int halfTile = (tilesPerSide-1)/2;
+	Coord *center = [player creatureLocation];
+	
+	for (xInd = center.X - halfTile; xInd <= center.X + halfTile; ++xInd)
+	{
+		for(yInd = center.Y - halfTile; yInd <= center.Y + halfTile; ++yInd)
+		{
+			UIImage *img;
+			Coord *loc = [Coord withX:xInd Y:yInd Z:center.Z];
+			Tile *t = [currentDungeon tileAtX:xInd Y:yInd Z:center.Z];
+			if(t)
+				img = [Tile imageForType:t.type]; //Get tile from array by index if it exists
+			else
+				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
+			
+			[self drawImage:img atTile:loc inWorld:wView];
+		}
+	}
+}
+
+- (void) drawPlayerInWorld:(WorldView*) wView
+{
+	[self drawImageNamed:[player iconName] atTile:[player creatureLocation] inWorld:wView];
+}
+
+- (void) drawEnemiesInWorld:(WorldView*) wView
+{
+	for (Creature *m in liveEnemies)
+		[self drawImageNamed:[m iconName] atTile:[m creatureLocation] inWorld:wView];
+}
+
+- (void) drawItemsInWorld:(WorldView*) wView
+{
+	for(Coord *c in [items allKeys])
+	{
+		Item *i = [items objectForKey:c];
+		[self drawImageNamed:[i icon]  atTile:c inWorld:wView];
+	}
 }
 
 
@@ -688,13 +665,9 @@ extern NSMutableDictionary *items; // from Dungeon
 	UIGraphicsPushContext(context);
 	
 	[self drawTilesForWorldView:wView];
-
-	[self drawItemsForWorldView:wView];
-
-	[self drawCreature:player inWorldView:wView];
-
-	for (Creature *m in liveEnemies)
-		[self drawCreature:m inWorldView:wView];
+	[self drawItemsInWorld:wView];
+	[self drawEnemiesInWorld:wView];
+	[self drawPlayerInWorld:wView];	
 	
 	UIGraphicsPopContext();
 
