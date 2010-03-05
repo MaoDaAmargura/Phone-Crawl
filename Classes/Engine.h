@@ -33,6 +33,8 @@
 	
 	BOOL showBattleMenu;
 	
+	BOOL hasAddedMenusToWorldView;
+	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
@@ -71,12 +73,6 @@
 - (EquipSlots*) getPlayerEquippedItems;
 
 - (void) processTouch:(Coord *) coord;
-
-- (void) showAttackMenu;
-- (void) showSpellMenu;
-- (void) showItemMenu;
-- (void) showDamageSpellMenu;
-- (void) showConditionSpellMenu;
 
 - (void) ability_handler:(CombatAbility *)action;
 - (void) spell_handler:(Spell *)spell;

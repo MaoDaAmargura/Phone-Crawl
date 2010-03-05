@@ -39,6 +39,19 @@
 
 @end
 
+@interface Engine (MenuControl)
+
+- (void) hideMenus;
+- (void) showBattleMenu;
+- (void) showAttackMenu;
+- (void) showSpellMenu;
+- (void) showItemMenu;
+- (void) showDamageSpellMenu;
+- (void) showConditionSpellMenu;
+
+@end
+
+
 extern NSMutableDictionary *items; // from Dungeon
 
 @implementation Engine
@@ -70,6 +83,55 @@ extern NSMutableDictionary *items; // from Dungeon
 	LVL_GEN_ENV = !error;
 }
 
+- (void) setupBattleMenu
+{
+	CGPoint origin = CGPointMake(0, 300);
+	battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
+	[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
+	[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
+	battleMenu.hideOnFire = NO;
+	[battleMenu hide];
+}
+
+- (void) setupAttackMenu
+{
+	DLog(@"Filling attack menu");
+	CGPoint origin = CGPointMake(60, 300);
+	attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[self fillAttackMenuForCreature:player];
+	[attackMenu hide];
+}
+
+- (void) setupItemMenu
+{
+	DLog(@"Filling item menu");
+	CGPoint origin = CGPointMake(60, 300);
+	itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
+	for (Item* it in player.inventory) 
+		if (it.type == WAND || it.type == POTION)
+			[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+	[itemMenu hide];
+}
+
+- (void) setupSpellMenus
+{
+	CGPoint origin = CGPointMake(60, 300);
+	DLog(@"Filling spell menu");
+	spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[spellMenu addMenuItem:@"Damage" delegate:self selector:@selector(showDamageSpellMenu) context:nil];
+	[spellMenu addMenuItem:@"Condition" delegate:self selector:@selector(showConditionSpellMenu) context:nil];
+	[spellMenu hide];
+	
+	damageSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[damageSpellMenu hide];
+	
+	conditionSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[conditionSpellMenu hide];	
+	
+	[self fillSpellMenuForCreature: player];
+}
+
 - (id) initWithView:(UIView*)view
 {
 	if(self = [super init])
@@ -80,7 +142,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		deadEnemies = [[NSMutableArray alloc] init];
 		
 		showBattleMenu = NO;
-		
+		hasAddedMenusToWorldView = NO;
 		// create enemy for battle testing
 		//for (int i = 0; i < 3; ++i) {
 			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX:4 Y:0 Z:0];
@@ -97,45 +159,15 @@ extern NSMutableDictionary *items; // from Dungeon
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
 		battleMode = NO;
 		selectedMoveTarget = nil;
-
-		CGPoint origin = CGPointMake(0, 300);
-		battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
-		[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
-		[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
-		[battleMenu showInView:view];
-		battleMenu.hideOnFire = NO;
-
-		[battleMenu hide];
 		
+		[self setupBattleMenu];
+		[self setupAttackMenu];
+		[self setupItemMenu];
+		[self setupSpellMenus];
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
-		origin = CGPointMake(60, 300);
-		attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		DLog(@"Filling attack menu");
-		[self fillAttackMenuForCreature:player];
-		[attackMenu showInView:view];
-		[attackMenu hide];
-		DLog(@"Filling item menu");
-		itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
-		for (Item* it in player.inventory) 
-			if (it.type == WAND || it.type == POTION)
-				[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
-		[itemMenu showInView:view];
-		[itemMenu hide];
-		DLog(@"Filling spell menu");
-		spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[spellMenu addMenuItem:@"Damage" delegate:self selector:@selector(showDamageSpellMenu) context:nil];
-		[spellMenu addMenuItem:@"Condition" delegate:self selector:@selector(showConditionSpellMenu) context:nil];
-		damageSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		conditionSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
-		[self fillSpellMenuForCreature: player];
-		[spellMenu showInView:view];
-		[conditionSpellMenu showInView:view];
-		[damageSpellMenu showInView:view];
-		[damageSpellMenu hide];
-		[conditionSpellMenu hide];	
-		[spellMenu hide];
+		
+		
 		return self;
 	}
 	return nil;
@@ -185,17 +217,29 @@ extern NSMutableDictionary *items; // from Dungeon
 #pragma mark -
 #pragma mark Control
 
+- (void) addMenusToWorldView:(WorldView*)wView
+{
+	[battleMenu showInView:wView.view];
+	[spellMenu showInView:wView.view];
+	[conditionSpellMenu showInView:wView.view];
+	[damageSpellMenu showInView:wView.view];
+	[attackMenu showInView:wView.view];
+	[itemMenu showInView:wView.view];
+	hasAddedMenusToWorldView = YES;
+	
+}
+
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	 
-	if (battleMenu.hidden == YES) {
+	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
+	
+	if (battleMenu.hidden == YES) 
+	{
 		player.selectedCreatureForAction = nil;
 	}
-	if (player.selectedCreatureForAction == nil) {
-		[battleMenu hide];
-		[attackMenu hide];
-		[spellMenu hide];
-		[itemMenu hide];
+	if (player.selectedCreatureForAction == nil) 
+	{
+		[self hideMenus];
 	}
 
 	int oldLevel = player.level;
@@ -915,31 +959,57 @@ extern NSMutableDictionary *items; // from Dungeon
 #pragma mark -
 #pragma mark Menu functions
 
-- (void) showAttackMenu {
-	[attackMenu show];
-	[spellMenu hide];
-	[itemMenu hide];
-}
-
-- (void) showSpellMenu {
-	[spellMenu show];
+- (void) hideMenus
+{
+	[battleMenu hide];
 	[attackMenu hide];
 	[itemMenu hide];
-}
-
-- (void) showItemMenu {
-	[itemMenu show];
-	[attackMenu hide];
 	[spellMenu hide];
-}
-
-- (void) showDamageSpellMenu {
-	[damageSpellMenu show];
+	[damageSpellMenu hide];
 	[conditionSpellMenu hide];
 }
-- (void) showConditionSpellMenu {
+
+- (void) showBattleMenu
+{
+	[self hideMenus];
+	[battleMenu show];
+}
+
+- (void) showAttackMenu 
+{
+	[self hideMenus];
+	[attackMenu show];
+	[battleMenu show];
+}
+
+- (void) showSpellMenu 
+{
+	[self hideMenus];
+	[spellMenu show];
+	[battleMenu show];
+}
+
+- (void) showItemMenu
+{
+	[self hideMenus];
+	[itemMenu show];
+	[battleMenu show];
+}
+
+- (void) showDamageSpellMenu 
+{
+	[self hideMenus];
+	[damageSpellMenu show];
+	[spellMenu show];
+	[battleMenu show];
+}
+
+- (void) showConditionSpellMenu 
+{
+	[self hideMenus];
 	[conditionSpellMenu show];
-	[damageSpellMenu hide];
+	[spellMenu show];
+	[battleMenu show];
 }
 
 

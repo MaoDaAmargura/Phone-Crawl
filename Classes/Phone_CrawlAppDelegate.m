@@ -43,7 +43,7 @@
 
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
 {
-	homeTabController.gameEngine
+	//homeTabController.gameEngine
 }
 
 #pragma mark -
