@@ -670,7 +670,6 @@ extern NSMutableDictionary *items; // from Dungeon
 	}
 }
 
-
 /*!
  @method		updateBackgroundImage
  @abstract		draws background image and player. 
@@ -882,15 +881,18 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 }
 
-- (void) ability_handler:(CombatAbility *)action {
+- (void) ability_handler:(CombatAbility *)action 
+{
 	player.selectedCombatAbilityToUse = action;
 }
 
-- (void) spell_handler:(Spell *)spell {
+- (void) spell_handler:(Spell *)spell 
+{
 	player.selectedSpellToUse = spell;
 }
 
-- (void) item_handler:(Item *)item {
+- (void) item_handler:(Item *)item 
+{
 	player.selectedItemToUse = item;
 }
 
