@@ -113,6 +113,7 @@
 	itemType itemBoundary = LIGHT_CHEST;
 	for (; itemIndex <= itemBoundary; ++itemIndex) 
 	{
+		//Test each item type
 		NSString *outcome = [Item iconNameForItemType:itemIndex];
 		NSString *expected;
 		switch (itemIndex) 
@@ -143,23 +144,29 @@
 	Item *item = nil;
 	int value, expectedPointVal;
 	
+	//Test function when no item is given
 	value = [Item getItemValue:item];
 	STAssertTrue(value == -1, @"(nil) item should have invalid score of -1.");
 	
+	//Test sword value
 	item = [[[Item alloc] initWithBaseStats:2 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
 	expectedPointVal = item.damage + item.elementalDamage + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
 	value = [Item getItemValue:item];
 	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to sword formula.");
 	
+	//Test Bow formula
 	item = [[[Item alloc] initWithBaseStats:5 elemType:COLD itemType:BOW] autorelease];
 	expectedPointVal = item.damage + item.elementalDamage + item.range * 20 + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
 	value = [Item getItemValue:item];
-	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to sword formula.");
+	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to bow formula.");
 
+	//Test scroll handling
 	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
 	expectedPointVal = 2000;
 	value = [Item getItemValue:item];
 	STAssertTrue(value == expectedPointVal, @"Item's value was not properly decided as a scroll.");
+	
+	//No need to test invalid Item objects because they cannot be created.
 }
 
 @end

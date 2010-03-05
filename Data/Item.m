@@ -391,6 +391,8 @@ static const int baseItemStats[10][9] = {
         case SCROLL:  // Scroll
 			return 2000;
             break;
+        default:
+            return -1;
     };
 
     pointVal += (item.hp + item.shield + item.mana) * 2;
