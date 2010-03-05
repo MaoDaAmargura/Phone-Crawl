@@ -360,13 +360,13 @@ static const int baseItemStats[10][9] = {
             pointVal += item.elementalDamage;
             break;
         case HEAVY_HELM:
-        case HEAVY_CHEST:
         case LIGHT_HELM:
-        case LIGHT_CHEST:
         case SHIELD:
-            if (item.slot == CHEST) {
-                pointVal += (item.hp + item.shield + item.mana) * 2;
-            } else pointVal += (item.hp + item.shield + item.mana);
+            pointVal += (item.hp + item.shield + item.mana);
+            break;
+        case HEAVY_CHEST:
+        case LIGHT_CHEST:
+            pointVal += (item.hp + item.shield + item.mana) * 2;
             break;
             
         //Item.damage overloaded to contain dungeon_level for potions
