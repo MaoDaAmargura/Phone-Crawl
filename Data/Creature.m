@@ -75,6 +75,8 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
 						  nil];
+
+		[self ClearTurnActions];
 		return self;
 	}
 	return nil;

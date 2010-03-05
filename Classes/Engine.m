@@ -141,9 +141,9 @@ extern NSMutableDictionary *items; // from Dungeon
 		hasAddedMenusToWorldView = NO;
 		// create enemy for battle testing
 		//for (int i = 0; i < 3; ++i) {
-			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX:4 Y:0 Z:0];
-			[creature ClearTurnActions];
-			[liveEnemies addObject:creature];
+//			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX:4 Y:0 Z:0];
+//			[creature ClearTurnActions];
+//			[liveEnemies addObject:creature];
 		//}
 		
 		tilesPerSide = 9;
@@ -152,7 +152,10 @@ extern NSMutableDictionary *items; // from Dungeon
 		[player ClearTurnActions];
 		
 		//currentDungeon = [[Dungeon alloc] initWithType: town];
-		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
+		currentDungeon = [Dungeon alloc];
+		currentDungeon.liveEnemies = liveEnemies;
+		[currentDungeon initWithType: orcMines];
+
 		battleMode = NO;
 		selectedMoveTarget = nil;
 		

@@ -12,6 +12,7 @@ typedef enum {
 
 @interface Dungeon : NSObject {
 	Coord *playerLocation;
+	NSMutableArray *liveEnemies;	// note: shared with Engine
 }
 
 - (Dungeon*) initWithType: (levelType) lvlType;
@@ -24,6 +25,7 @@ typedef enum {
 
 // FIXME: is this ever updated / still necessary?
 @property (nonatomic, retain) Coord *playerLocation;
+@property (nonatomic, retain) NSMutableArray *liveEnemies;
 
 extern NSMutableDictionary *items;
 

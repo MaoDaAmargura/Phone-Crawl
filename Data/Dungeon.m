@@ -22,7 +22,7 @@ static NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
-@synthesize playerLocation;
+@synthesize playerLocation, liveEnemies;
 NSMutableDictionary *items = nil;
 
 #pragma mark --private

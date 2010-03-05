@@ -458,7 +458,6 @@ typedef enum {
 	}
 }
 
-//- (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
@@ -488,6 +487,16 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
+	for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
+		int x = [Rand min:0 max:MAP_DIMENSION - 1];
+		int y = [Rand min:0 max:MAP_DIMENSION - 1];
+		if ([dungeon tileAt: coord].blockMove) {
+			--LCV;
+			continue;
+		}
+		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX: x Y: y Z:0];
+		[dungeon.liveEnemies addObject:creature];		
+	}
 
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
