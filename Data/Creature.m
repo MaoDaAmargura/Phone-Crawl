@@ -55,6 +55,8 @@
 		abilityPoints = 10;
 		condition = NO_CONDITION;
 		
+		iconName = @"monster-ogre.png";
+		
 		/*
 		 All monsters will have a default inventory of items specific to their element.
 		 AI for each creature can choose to equip whichever of the items they wish. 

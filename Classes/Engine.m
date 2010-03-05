@@ -641,32 +641,37 @@ extern NSMutableDictionary *items; // from Dungeon
 	}	
 }
 
-- (void) drawPlayerForWorldView:(WorldView*)wView
+- (BOOL) coordIsVisible:(Coord*) coord
 {
+	Coord *center = [player creatureLocation];
+	if(coord.Z != center.Z) return NO;
+	
+	int offScreenDist = (tilesPerSide-1)/2 + 1;
+	if(coord.X >= center.X + offScreenDist) return NO;
+	if(coord.X <= center.X - offScreenDist) return NO;
+	if(coord.Y >= center.Y + offScreenDist) return NO;
+	if(coord.Y <= center.Y - offScreenDist) return NO;
+	
+	return YES;
+	
+}
+
+- (void) drawCreature:(Creature*) creature inWorldView:(WorldView*) wView
+{
+	Coord *loc = [creature creatureLocation];
+	if(![self coordIsVisible:[creature creatureLocation]]) return;
+	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = [player creatureLocation];
+
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
-
-	// Draw the player on the proper tile.
-	UIImage *playerSprite = [UIImage imageNamed:[player iconName]];
-	[playerSprite drawInRect:CGRectMake((center.X-upperLeft.x)*tileSize.width, (center.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
-}
-
-- (void) drawMonsterForWorldView:(WorldView*)wView Monster:(Creature*)m
-{
-	CGSize tileSize = [self tileSizeForWorldView:wView];
-	Coord *center = [m creatureLocation];
-	Coord *c2 = [player creatureLocation];
-	Coord *dist = [Coord withX:center.X-c2.X Y:center.Y-c2.Y Z:0];
-	Coord *draw = [Coord withX:c2.X+dist.X*2 Y:c2.Y+dist.Y*2 Z:0];
-	CGPoint upperLeft = CGPointMake(draw.X-(4+dist.X), draw.Y-(4+dist.Y));
+	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
 	
-	// Draw the monster on the proper tile.
-	// this is just for testing-need to make proper image draw later
-	UIImage *monsterSprite = [UIImage imageNamed:@"1elf-warrior-elvina-1.jpg"];
-	[monsterSprite drawInRect:CGRectMake((draw.X-upperLeft.x)*tileSize.width, (draw.Y-upperLeft.y)*tileSize.height, tileSize.width, tileSize.height)];
+	UIImage *sprite = [UIImage imageNamed:[creature iconName]];
+	[sprite drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
 }
+
 
 /*!
  @method		updateBackgroundImage
@@ -686,12 +691,11 @@ extern NSMutableDictionary *items; // from Dungeon
 
 	[self drawItemsForWorldView:wView];
 
-	[self drawPlayerForWorldView:wView];
-	
-	for (Creature *m in liveEnemies) {
-		[self drawMonsterForWorldView:wView Monster:m];
-	}
+	[self drawCreature:player inWorldView:wView];
 
+	for (Creature *m in liveEnemies)
+		[self drawCreature:m inWorldView:wView];
+	
 	UIGraphicsPopContext();
 
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
