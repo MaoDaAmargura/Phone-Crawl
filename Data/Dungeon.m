@@ -83,7 +83,7 @@ NSMutableDictionary *items = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
-//	playerLocation = [[Coord withX: 2 Y: 2 Z: 0] retain];
+	playerLocation = [Coord withX: 0 Y: 0 Z: 0];
 	return self;
 }
 

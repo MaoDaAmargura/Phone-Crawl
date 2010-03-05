@@ -726,11 +726,16 @@ extern NSMutableDictionary *items; // from Dungeon
 		return YES;
 }
 
+- (Creature*) creatureAtLocation:(Coord*)loc
+{
+	for (Creature *c in liveEnemies)
+		if ([c.creatureLocation equals:loc])
+			return c;
+	return nil;
+}
+
 - (BOOL) isACreatureAtLocation:(Coord*)loc
 {
-	if ([player.creatureLocation equals:loc]) 
-		return YES;
-	
 	for (Creature *c in liveEnemies)
 		if ([c.creatureLocation equals:loc])
 			return YES;
@@ -738,6 +743,12 @@ extern NSMutableDictionary *items; // from Dungeon
 	return NO;
 }
 
+- (BOOL) locationIsOccupied:(Coord*)loc
+{
+	if ([player.creatureLocation equals:loc]) 
+		return YES;
+	return [self isACreatureAtLocation:loc];
+}
 
 /*!
  @method		creature:c CanEnterTileAtCoord:
@@ -746,7 +757,7 @@ extern NSMutableDictionary *items; // from Dungeon
  */
 - (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
-	return ![self tileAtCoordBlocksMovement:coord] || [self isACreatureAtLocation:coord];
+	return ![self tileAtCoordBlocksMovement:coord] || [self locationIsOccupied:coord];
 }
 
 /*!
@@ -799,16 +810,11 @@ extern NSMutableDictionary *items; // from Dungeon
 	@abstract	method called when a tile is touched.
 					Determines if the touch issues a move command or a different action.
 */
-- (void) processTouch:(Coord *)tileCoord {
-	BOOL touchMonster = NO;
-	for (Creature *m in liveEnemies) {
-		if( [tileCoord equals:[m creatureLocation]] ) {
-			touchMonster = YES;
-			player.selectedCreatureForAction = m;
-			break;
-		}
-	}
-	if (touchMonster == YES) {
+- (void) processTouch:(Coord *)tileCoord 
+{
+	player.selectedCreatureForAction = [self creatureAtLocation:tileCoord];
+	if (player.selectedCreatureForAction) 
+	{
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
@@ -816,7 +822,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		// which will allow the character to take its turn.
 		[battleMenu show];
 	}
-	else {
+	else 
+	{
 		if (LVL_GEN_ENV) 
 		{
 			[self moveCreature: player ToTileAtCoord: tileCoord];
