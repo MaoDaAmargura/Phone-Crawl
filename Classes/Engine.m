@@ -82,12 +82,16 @@ extern NSMutableDictionary *items; // from Dungeon
 		showBattleMenu = NO;
 		
 		// create enemy for battle testing
-		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:0 atX:4 Y:0 Z:0];
-		[liveEnemies addObject:creature];
+		//for (int i = 0; i < 3; ++i) {
+			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX:4 Y:0 Z:0];
+			[creature ClearTurnActions];
+			[liveEnemies addObject:creature];
+		//}
 		
 		tilesPerSide = 9;
 		
 		[self createDevPlayer];
+		[player ClearTurnActions];
 		
 		//currentDungeon = [[Dungeon alloc] initWithType: town];
 		currentDungeon = [[Dungeon alloc] initWithType: orcMines];
@@ -194,9 +198,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		[itemMenu hide];
 	}
 
-	
+	int oldLevel = player.level;
 	Creature *creature = [self nextCreatureToTakeTurn];
-	
 	
 	if( creature == player
 		&& creature.selectedMoveTarget == nil
@@ -257,6 +260,9 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 	if(creature == player)
 		wView.actionResult.text = actionResult; //Set some result string from actions
+	if (player.level > oldLevel) {
+		wView.actionResult.text = @"You have gained a level!";
+	}
 	[self updateWorldView:wView];
 
 }
@@ -298,6 +304,15 @@ extern NSMutableDictionary *items; // from Dungeon
 			if (m.current.health == 0){
 				[liveEnemies removeObject:m];
 				[deadEnemies addObject:m];
+				float experienceGained = 1.0;
+				//NSLog(@"Gained %d exp from %d",experienceGained,m.level);
+				int levelDifference = player.level - m.level;
+				if (levelDifference > 0)
+					experienceGained /= levelDifference;
+				else if (levelDifference < 0)
+					experienceGained *= abs(levelDifference);
+				//NSLog(@"Gained %f exp",experienceGained);
+				[player gainExperience:experienceGained];
 			}
 			if(m.turnPoints > highestPoints && m.turnPoints > 100) {
 				highestPoints = m.turnPoints;
