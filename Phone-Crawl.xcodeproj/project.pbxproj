@@ -322,6 +322,7 @@
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
 		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
 		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
+		D9AC6A2D11409C480073801E /* Item+TestingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Item+TestingAdditions.h"; sourceTree = "<group>"; };
 		D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameFlowControl.h; sourceTree = "<group>"; };
 		D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameFlowControl.m; sourceTree = "<group>"; };
 		D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGameFlowControl.xib; sourceTree = "<group>"; };
@@ -656,6 +657,7 @@
 			isa = PBXGroup;
 			children = (
 				D9F89CEC113F2A1A005DC43E /* GTM */,
+				D9AC6A2D11409C480073801E /* Item+TestingAdditions.h */,
 				D9F89CED113F2AF1005DC43E /* ItemTest.h */,
 				D9F89CEE113F2AF1005DC43E /* ItemTest.m */,
 			);

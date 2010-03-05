@@ -102,4 +102,35 @@
 	STAssertTrue(testItem.armor == expectedArmor, @"Item armor was different from expected");
 }
 
+/*!
+ @method		testIconNameForItemType
+ @abstract		Unit test for static method that determines the display icon of an item by its type
+ @discussion	Tests that all items this method handles are returned the proper icon name
+ */
+- (void) testIconNameForItemType
+{
+	itemType itemIndex = SWORD_ONE_HAND;
+	itemType itemBoundary = LIGHT_CHEST;
+	for (; itemIndex <= itemBoundary; ++itemIndex) 
+	{
+		NSString *outcome = [Item iconNameForItemType:itemIndex];
+		NSString *expected;
+		switch (itemIndex) 
+		{
+			case SWORD_ONE_HAND: expected = ICON_SWORD_SINGLE; break;
+			case SWORD_TWO_HAND: expected = ICON_SWORD_DOUBLE; break;
+			case BOW:            expected = ICON_BOW; break;
+			case DAGGER:         expected = ICON_DAGGER; break;
+			case STAFF:          expected = ICON_STAFF; break;
+			case SHIELD:         expected = ICON_SHIELD; break;
+			case HEAVY_HELM:     expected = ICON_HELM_HEAVY; break;
+			case HEAVY_CHEST:    expected = ICON_CHEST_HEAVY; break;
+			case LIGHT_HELM:     expected = ICON_HELM_LIGHT; break;
+			case LIGHT_CHEST:    expected = ICON_CHEST_LIGHT; break;
+			default:			 expected = nil; break;
+		}
+		STAssertTrue([outcome isEqualToString:expected], [NSString stringWithFormat:@"Expected icon name: %@ for Item type: %d but received icon name: %@", expected, itemIndex, outcome]);
+	}
+}
+
 @end
