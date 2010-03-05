@@ -17,4 +17,6 @@
 
 - (void) testInitWithBaseStats;
 
+- (void) testInitExactItemWithName;
+
 @end
