@@ -366,6 +366,12 @@ extern NSMutableDictionary *items; // from Dungeon
 	}
 	for (Creature *m in liveEnemies)
 	{
+		// FIXME: quick hack to stop the entire simulator from freezing up.
+		if (m.creatureLocation.Z != player.creatureLocation.Z) continue;
+		int distance = abs(m.creatureLocation.X - player.creatureLocation.X);
+		distance += abs(m.creatureLocation.Y - player.creatureLocation.Y);
+		if (distance > 12) continue;
+
 		if (m.turnPoints >= POINTS_TO_TAKE_TURN) 
 		{
 			return m;
