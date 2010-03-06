@@ -409,10 +409,9 @@ extern NSMutableDictionary *items; // from Dungeon
 	// let the turnpoints fall to below 100.
 	// FIXME: if creatures are REALLY fast, turnpoints can continue to crawl above 100
 	if(greatest.turnPoints < GREATEST_ALLOWED_TURN_POINTS)
-	{
-		DLog(@"Not incrementing turnpoints because the highest is %i", greatest.turnPoints);
 		[self incrementCreatureTurnPoints];
-	}
+	else
+		DLog(@"Not incrementing turnpoints because the highest is %i", greatest.turnPoints);
 	
 	return greatest;
 }
