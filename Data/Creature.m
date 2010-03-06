@@ -15,6 +15,7 @@
 @synthesize selectedItemToUse;
 @synthesize selectedMoveTarget;
 @synthesize turnPoints;
+@synthesize inBattle;
 @synthesize name;
 @synthesize abilityPoints;
 @synthesize level;
@@ -53,6 +54,8 @@
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
+		turnPoints = 0;
+		inBattle = NO;
 		condition = NO_CONDITION;
 		
 		iconName = @"monster-ogre.png";
@@ -111,6 +114,8 @@
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = 10000;
 		abilityPoints = 10;
+		turnPoints = 0;
+		inBattle = NO;
 		condition = NO_CONDITION;
 		inventory = nil;
 		return self;

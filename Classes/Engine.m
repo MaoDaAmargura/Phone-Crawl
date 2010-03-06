@@ -9,7 +9,7 @@
 #import "PCPopupMenu.h"
 #import "CombatAbility.h"
 
-#define POINTS_TO_TAKE_TURN 100
+#define GREATEST_ALLOWED_TURN_POINTS 100
 
 @interface Engine (UIUpdates)
 
@@ -22,11 +22,12 @@
 
 @interface Engine (TurnActions)
 
-- (void) redetermineBattleMode;
+- (void) calculateCreaturesInBattle;
 - (Creature *) nextCreatureToTakeTurn;
 - (void) incrementCreatureTurnPoints;
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
+- (void) checkIfCreatureIsDead: (Creature *) c
 
 @end
 
@@ -50,6 +51,7 @@
 - (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
 - (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
+- (int) manhattanDistanceFromPlayer: (Creature *) m;
 
 @end
 
@@ -156,7 +158,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		currentDungeon.liveEnemies = liveEnemies;
 		[currentDungeon initWithType: orcMines];
 
-		battleMode = NO;
+		player.inBattle = NO;
 		selectedMoveTarget = nil;
 		
 		[self setupBattleMenu];
@@ -228,6 +230,19 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 }
 
+- (void) checkIfCreatureIsDead: (Creature *) c
+{
+	if(c.current.health <= 0)
+	{
+		[liveEnemies removeObject:c];
+		[deadEnemies addObject:c];
+		float experienceGained = 1.0;
+		int levelDifference = player.level - c.level;
+		experienceGained *= pow(1.2, levelDifference);
+		[player gainExperience:experienceGained];
+	}
+}
+
 - (NSString*) performActionForCreature:(Creature*) creature
 {
 	NSString *actionResult = @"";
@@ -238,13 +253,17 @@ extern NSMutableDictionary *items; // from Dungeon
 		{
 			//todo: use the combat ability on the target
 			actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+			creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
 			creature.selectedCreatureForAction = nil;
 			creature.selectedCombatAbilityToUse = nil;
 		}
 		else if(creature.selectedSpellToUse)
 		{
 			//use the spell on the target
-			actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];				
+			actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
+			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+			creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;		
 			creature.selectedCreatureForAction = nil;
 			creature.selectedSpellToUse = nil;
 		}
@@ -261,6 +280,9 @@ extern NSMutableDictionary *items; // from Dungeon
 					[itemMenu removeMenuItemNamed:creature.selectedItemToUse.name];
 				}
 			}
+			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+			//not implemented because the spell of an item is innaccessable
+			//creature.turnPoints -= creature.selectedItemToUse.spell.turnPointCost;
 			creature.selectedCreatureForAction = nil;
 			creature.selectedItemToUse = nil;
 		}
@@ -299,30 +321,22 @@ extern NSMutableDictionary *items; // from Dungeon
 		
 		if([creature hasActionToTake])
 			actionResult = [self performActionForCreature:creature]; 
-		else
-			player.turnPoints -= 5;
+		// Why do we want this? If the player hasn't given any input yet, shouldnt the game freeze until they do?
+		//else
+			//player.turnPoints -= 5;
 	}
-	else if(creature != nil)
+	else //if(creature != nil) //nextCreatureToTakeTurn will always return a creature.
 	{
-		if(creature.current.health <= 0)
-		{
-			[liveEnemies removeObject:creature];
-			[deadEnemies addObject:creature];
-			float experienceGained = 1.0;
-			int levelDifference = player.level - creature.level;
-			experienceGained *= pow(1.2, levelDifference);
-			[player gainExperience:experienceGained];
-		}
 		[self determineActionForCreature:creature];
 		if ([creature hasActionToTake]) 
 		{
 			actionResult = [self performActionForCreature:creature];
 		}
 	}
-	else
-	{
-		[self incrementCreatureTurnPoints];		
-	}
+	//else
+	//{
+	//	[self incrementCreatureTurnPoints];		
+	//}
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
@@ -333,20 +347,25 @@ extern NSMutableDictionary *items; // from Dungeon
 	[self updateWorldView:wView];
 }
 
-- (void) redetermineBattleMode
+- (int) manhattanDistanceFromPlayer: (Creature *) m
 {
-	// calculate battle mode
-	BOOL previousBattleMode = battleMode;
-	battleMode = NO;
+	return abs(m.creatureLocation.X - player.creatureLocation.X)
+			+ abs(m.creatureLocation.Y - player.creatureLocation.Y);
+}
+
+- (void) calculateCreaturesInBattle
+{
+	BOOL previousBattleMode = player.inBattle;
+	
+	player.inBattle = NO;
 	for (Creature *m in liveEnemies) {
-		Coord *pc = [player creatureLocation];
-		Coord *mc = [m creatureLocation];
-		int dist = [Util point_distanceX1:pc.X Y1:pc.Y X2:mc.X Y2:mc.Y];
-		battleMode |= (dist <= player.aggroRange+m.aggroRange);
+		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 10) && (m.creatureLocation.Z == player.creatureLocation.Z);
+		player.inBattle |= m.inBattle;
 	}
 	
-	// a quick hack to prevent turn_points from becoming unruly.
-	if(previousBattleMode == NO && battleMode == YES)
+	// prevents turn_points from becoming unruly.
+	// entering battle mode zeroes all turn points.
+	if(previousBattleMode == NO && player.inBattle == YES)
 	{
 		player.turnPoints = 0;
 		for (Creature *m in liveEnemies)
@@ -356,45 +375,67 @@ extern NSMutableDictionary *items; // from Dungeon
 
 /*!
 	@method		nextCreatureToTakeTurn
-	@abstract		Returns a creature (any living monster or the player) that should take the next turn.
+	@abstract		ALWAYS returns a creature (any living monster or the player) that will take the next turn.
+	@discussion		This method chooses the highest turnPoint creature, normalizes turnpoints, then returns that creature.
+						This allows engine to always have 1 creature calculated per turn, no matter the mix of fast or slow creatures.
+						turn points can't leave the range of 0-100 because then new monsters that enter the battle later will have grossly different turnpoints						
 */
 - (Creature *) nextCreatureToTakeTurn
 {
-	if (player.turnPoints >= POINTS_TO_TAKE_TURN)
-	{
+	if(!player.inBattle)
 		return player;
-	}
+	
+	//get the creature with the most turnPoints (even if it's negative or above 100)
+	Creature *greatest = player;
 	for (Creature *m in liveEnemies)
 	{
-		// FIXME: quick hack to stop the entire simulator from freezing up.
-		if (m.creatureLocation.Z != player.creatureLocation.Z) continue;
-		int distance = abs(m.creatureLocation.X - player.creatureLocation.X);
-		distance += abs(m.creatureLocation.Y - player.creatureLocation.Y);
-		if (distance > 12) continue;
-
-		if (m.turnPoints >= POINTS_TO_TAKE_TURN) 
-		{
-			return m;
-		}
+		if (!m.inBattle)
+			continue;
+		else
+			greatest = (greatest.turnPoints >= m.turnPoints ? greatest : m);
 	}
-	[self incrementCreatureTurnPoints];
-	return [self nextCreatureToTakeTurn];
+	
+	// normalize turn points - they should be between 0 and 100
+	
+	// if the largest # of turn points is negative, then all of the creatures in battle are fucking slow.
+	// boost all turn points until it gets to 0
+	while( greatest.turnPoints < 0 )
+	{	
+		DLog(@"Boosting turnpoints, cause the highest is %i", greatest.turnPoints);
+		[self incrementCreatureTurnPoints];
+	}
+	
+	// if the largest # of turn points is too big, then all of the creatures in battle are fucking fast
+	// let the turnpoints fall to below 100.
+	// FIXME: if creatures are REALLY fast, turnpoints can continue to crawl above 100
+	if(greatest.turnPoints < GREATEST_ALLOWED_TURN_POINTS)
+	{
+		DLog(@"Not incrementing turnpoints because the highest is %i", greatest.turnPoints);
+		[self incrementCreatureTurnPoints];
+	}
+	
+	return greatest;
 }
 	
 - (void) incrementCreatureTurnPoints 
 {
-	player.turnPoints += 30;
+	if(player.inBattle)
+		player.turnPoints += 30;
 	for(Creature *m in liveEnemies)
-		m.turnPoints += 30;
+		if(m.inBattle)
+			m.turnPoints += 30;
 }
 
 - (void) determineActionForCreature:(Creature*)c
 {
-	if(battleMode)
-	{
+	assert(c.inBattle);
+	
+	if( [self manhattanDistanceFromPlayer: c] > 1)
 		c.selectedMoveTarget = player.creatureLocation;
-	} else {
-		c.selectedMoveTarget = c.creatureLocation;
+	else
+	{
+		c.selectedCreatureForAction = player;
+		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:3]; 
 	}
 }
 
@@ -418,7 +459,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	[next release];
 
 	// creature has reached its destination
-	if ([c.creatureLocation equals: c.selectedMoveTarget] || battleMode)
+	if ([c.creatureLocation equals: c.selectedMoveTarget] || player.inBattle)
 		c.selectedMoveTarget = nil;
 
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
@@ -803,7 +844,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		}
 	}
 
-	[self redetermineBattleMode];
+	[self calculateCreaturesInBattle];
 }
 
 /*!
