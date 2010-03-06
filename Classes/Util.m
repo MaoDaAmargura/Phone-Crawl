@@ -3,7 +3,7 @@
 
 @implementation Coord
 
-@synthesize X,Y,Z,distance;
+@synthesize X,Y,Z,pathing_distance,pathing_parentCoord;
 
 
 - (NSString*) description {
@@ -56,8 +56,14 @@
 
 @implementation Util
 
-+ (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2 {
-	return abs(sqrt(pow(x1-x2,2)+pow(y1-y2,2)));
++ (int) point_distanceC1:(Coord *)c1 C2:(Coord *)c2
+{
+	return [Util point_distanceX1:c1.X Y1:c1.Y X2:c2.X Y2:c2.Y];
+}
+
++ (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2
+{
+	return sqrt(pow(x1-x2,2)+pow(y1-y2,2));
 }
 
 @end
