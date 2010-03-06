@@ -27,7 +27,7 @@
 - (void) incrementCreatureTurnPoints;
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
-- (void) checkIfCreatureIsDead: (Creature *) c
+- (void) checkIfCreatureIsDead: (Creature *) c;
 
 @end
 
