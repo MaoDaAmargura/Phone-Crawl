@@ -460,6 +460,22 @@ typedef enum {
 
 + (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
+
+	
+	
+	if (LVL_GEN_ENV) {
+		for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
+			int x = [Rand min:0 max:MAP_DIMENSION - 1];
+			int y = [Rand min:0 max:MAP_DIMENSION - 1];
+			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX: x Y: y Z:0];
+			[dungeon.liveEnemies addObject:creature];		
+		}
+		return dungeon;
+	}
+
+	
+	
+	
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
 	for (int LCV = 0; LCV < 6; LCV++) {

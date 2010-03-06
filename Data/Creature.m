@@ -30,7 +30,7 @@
 @synthesize max;
 @synthesize aggroRange;
 @synthesize iconName;
-
+@synthesize path;
 
 
 #pragma mark -

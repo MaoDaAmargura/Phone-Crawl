@@ -45,7 +45,7 @@
 
 @interface Engine (Movement)
 
-- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2;
+- (NSMutableArray*) pathBetween:(Coord*) c1 and:(Coord*) c2;
 - (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
 - (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
 - (Coord*) arrayContains:(NSMutableArray*) arr Coord:(Coord*) c;
@@ -395,7 +395,10 @@ extern NSMutableDictionary *items; // from Dungeon
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 25
 - (void) performMoveActionForCreature:(Creature *)c
 {
-	Coord *next = [self nextStepBetween:[c creatureLocation] and:c.selectedMoveTarget];
+	if (![c.path count]) c.path = [self pathBetween:[c creatureLocation] and:c.selectedMoveTarget];
+	Coord *next = [[c.path lastObject] retain];
+	[c.path removeLastObject];
+
 	if(![self canEnterTileAtCoord:next])
 	{
 		//something other than terrain is blocking the path (probably monster)
@@ -406,7 +409,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		return;
 	}
 	[self moveCreature:c ToTileAtCoord:next];
-	
+	[next release];
+
 	// creature has reached its destination
 	if ([c.creatureLocation equals: c.selectedMoveTarget] || battleMode)
 		c.selectedMoveTarget = nil;
@@ -426,37 +430,39 @@ extern NSMutableDictionary *items; // from Dungeon
 	@discussion		This method does not save the path when it's generated.  It definitely should.
 						Gets slow (>0.25 seconds) when paths are above 80 tiles or so.
 */
-- (Coord*) nextStepBetween:(Coord*) c1 and:(Coord*) c2
+- (NSMutableArray*) pathBetween:(Coord*) c1 and:(Coord*) c2
 {
 	if([c1 equals:c2])
-		return c1;
-   NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
-   c2.distance = 0;
-   [discovered addObject: (id)c2];
-   NSMutableArray *evaluated = [NSMutableArray arrayWithCapacity:50];
-   while( [discovered count] != 0 )
-   {
-      Coord *c = [self coordWithShortestEstimatedPathFromArray:discovered toDest:c1];
-      [evaluated addObject:c];
-      [discovered removeObject:c];
-      NSMutableArray *arr = [self getAdjacentNonBlockingTiles:c];
-      for( Coord *cadj in arr )
-      {
-         if( [cadj equals:c1] )
-            return c;
-         if( [self arrayContains:evaluated Coord:cadj] )
-            continue;
-         cadj.distance = c.distance + 1;
-         Coord *existing = [self arrayContains:discovered Coord:cadj];
-         if( existing )
-            existing.distance = cadj.distance > existing.distance 
-                                 ? existing.distance : cadj.distance;
-         else
-            [discovered addObject:(id)cadj];
-      }
-   }
+		return [NSMutableArray arrayWithObject: c1];
+	NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
+	c2.distance = 0;
+	[discovered addObject: (id)c2];
+	NSMutableArray *evaluated = [NSMutableArray arrayWithCapacity:50];
+	while( [discovered count] != 0 )
+	{
+		Coord *closest = [self coordWithShortestEstimatedPathFromArray:discovered toDest:c1];
+		[evaluated addObject: closest];
+		[discovered removeObject: closest];
+		NSMutableArray *arr = [self getAdjacentNonBlockingTiles: closest];
+		for( Coord *cadj in arr )
+		{
+			if( [cadj equals:c1] ) {
+				[evaluated addObject: cadj];
+				return evaluated;
+			}
+			if( [self arrayContains:evaluated Coord:cadj] )
+				continue;
+			cadj.distance = closest.distance + 1;
+			Coord *existing = [self arrayContains:discovered Coord:cadj];
+			if( existing )
+				existing.distance = cadj.distance > existing.distance 
+								 ? existing.distance : cadj.distance;
+			else
+				[discovered addObject:(id)cadj];
+		}
+	}
    
-	return c1;
+	return evaluated;
 }
 
 - (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c

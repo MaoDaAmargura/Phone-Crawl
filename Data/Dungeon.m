@@ -103,6 +103,9 @@ NSMutableDictionary *items = nil;
 }
 
 - (Tile*) tileAt: (Coord*) coord {
+	NSString *tmp = [coord description];
+	assert (tiles);
+	tmp = [NSString stringWithFormat:@"%d",[tiles count]];
 	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 
