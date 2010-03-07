@@ -32,7 +32,6 @@
 
 @end
 
-
 @interface Engine (MenuControl)
 
 - (void) hideMenus;
@@ -324,6 +323,8 @@ extern NSMutableDictionary *items; // from Dungeon
 			actionResult = [self performActionForCreature:creature]; 
 		// Why do we want this? If the player hasn't given any input yet, shouldnt the game freeze until they do?
 		//else
+		// It was so that idling monsters would take turns whether or not the player did. Gives the world a sense of 
+		// real time. - Austin
 			//player.turnPoints -= 5;
 	}
 	else //if(creature != nil) //nextCreatureToTakeTurn will always return a creature.
@@ -383,6 +384,7 @@ extern NSMutableDictionary *items; // from Dungeon
 */
 - (Creature *) nextCreatureToTakeTurn
 {
+	/* This is not how we agreed we were going to do turn points. Is someone changing the system? */
 	if(!player.inBattle)
 		return player;
 	
