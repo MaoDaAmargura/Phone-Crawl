@@ -249,19 +249,28 @@
 	{
 		if(creature.selectedCombatAbilityToUse)
 		{
+			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= 1) {
 			//todo: use the combat ability on the target
-			actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
-			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-			creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
+				actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
+			} else {
+				actionResult = @"Out of range!";
+			}
 			creature.selectedCreatureForAction = nil;
 			creature.selectedCombatAbilityToUse = nil;
 		}
 		else if(creature.selectedSpellToUse)
 		{
-			//use the spell on the target
-			actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
-			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-			creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;		
+			
+			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= creature.selectedSpellToUse.range) {
+				//use the spell on the target
+				actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
+				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+				creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;
+			} else {
+				actionResult = @"Out of range!";
+			}
 			creature.selectedCreatureForAction = nil;
 			creature.selectedSpellToUse = nil;
 		}
