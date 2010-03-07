@@ -788,10 +788,15 @@ extern NSMutableDictionary *items; // from Dungeon
  */
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
+	if (LVL_GEN_ENV) {
+		NSLog([coord description]);
+		return false;
+	}
+	
 	Tile *t = [currentDungeon tileAt:coord];
-	if(t) 
+	if(t)
 		return t.blockMove;
-	else 
+	else
 		return YES;
 }
 

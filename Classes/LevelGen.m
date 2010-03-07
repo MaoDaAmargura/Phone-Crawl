@@ -430,16 +430,16 @@ typedef enum {
 
 + (Dungeon*) drunkenWalk: (Dungeon*) dungeon from: (Coord*) start to: (Coord*) end {
 //	bool foundBlockingTerrain = false;
-	NSLog([start description]);	
-	NSLog([end description]);
-	exit(1);
+//	NSLog(@"start %@",[start description]);
+//	NSLog(@"end %@",[end description]);
 	int xDelta = end.X - start.X;
 	int yDelta = end.Y - start.Y;
-	int xDir = xDelta < 0? 1 : -1;	// if it's == 0, these values are never used.
-	int yDir = yDelta < 0? 1 : -1;
+	int xDir = xDelta < 0? -1 : 1;	// if it's == 0, these values are never used.
+	int yDir = yDelta < 0? -1 : 1;
 
 	Coord *curr = [Coord withX: start.X Y: start.Y Z: start.Z];
 	while (![curr isEqual: end]) {
+//		DLog(@"%d %d %d %d", xDelta, xDir, yDelta, yDir);
 		if (xDelta) {
 			xDelta -= xDir;
 			curr.X += xDir;
@@ -451,8 +451,8 @@ typedef enum {
 			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
 		}
 
-		DLog(@"%d %d %d %d", xDelta, xDir, yDelta, yDir);
-		NSLog([curr description]);
+
+//		NSLog([curr description]);
 //		if (foundBlockingTerrain)
 	}
 	
@@ -460,13 +460,18 @@ typedef enum {
 }
 
 + (Dungeon*) connectRoomIn: (Dungeon*) dungeon at: (Coord*) coord toRoomIn: (bool [CRYPT_ROOMS_COUNT][CRYPT_ROOMS_COUNT]) rooms {
-	int xStart = coord.X / CRYPT_WALL_LENGTH;
-	int yStart = coord.Y / CRYPT_WALL_LENGTH;
+//	for (int y = 0; y < CRYPT_ROOMS_COUNT; y++) { 
+//		NSLog(@"%d %d %d %d", rooms[0][y], rooms[1][y], rooms[2][y], rooms[3][y]);
+//	}
+	
+	int xStart = coord.X;
+	int yStart = coord.Y;
 	int xRoomToConnectTo, yRoomToConnectTo;
 	for (int delta = 1; ; delta++) {
 		assert (delta < 6);
 		for (int xDelta = -delta; xDelta <= delta; xDelta++) {
 			for (int yDelta = -delta; yDelta <= delta; yDelta++) {
+				if (!xDelta && !yDelta) continue;
 				int xCurrent = xStart + xDelta;
 				int yCurrent = yStart + yDelta;
 
@@ -490,7 +495,7 @@ typedef enum {
 
 	for (int x = xRoomToConnectTo; ; x++) {
 		for (int y = yRoomToConnectTo; y < yRoomToConnectTo + CRYPT_WALL_LENGTH; y++) {
-			DLog(@"%d %d",x,y);
+//			DLog(@"%d %d",x,y);
 			assert(x < xRoomToConnectTo + CRYPT_WALL_LENGTH + 1);		
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (!tile.blockMove) {
@@ -506,8 +511,8 @@ typedef enum {
 	int xToConnectFrom = coord.X * CRYPT_WALL_LENGTH;
 	int yToConnectFrom = coord.Y * CRYPT_WALL_LENGTH;
 	
-	for (int x = xToConnectFrom; x < CRYPT_WALL_LENGTH; x++) {
-		for (int y = yToConnectFrom; y < CRYPT_WALL_LENGTH; y++) {
+	for (int x = xToConnectFrom; x < xToConnectFrom + CRYPT_WALL_LENGTH; x++) {
+		for (int y = yToConnectFrom; y < yToConnectFrom + CRYPT_WALL_LENGTH; y++) {
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (!tile.blockMove) {
 				xToConnectFrom = x, yToConnectFrom = y;
@@ -730,6 +735,7 @@ typedef enum {
 
 	int roomsPlaced = 0;
 	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
+	
 	while (roomsPlaced < CRYPT_ROOMS_COUNT * CRYPT_ROOMS_COUNT) {
 		int x = [Rand min:0 max:CRYPT_ROOMS_COUNT - 1];
 		int y = [Rand min:0 max:CRYPT_ROOMS_COUNT - 1];
@@ -746,7 +752,10 @@ typedef enum {
 		[self putBlockOf: tileStoneGround into: dungeon centeredAt: coord];
 
 		if (roomsPlaced > 1) {
+			coord.X = x;
+			coord.Y = y;
 			[self connectRoomIn: dungeon at: coord toRoomIn: rooms];
+			break;
 		}
 
 	}
