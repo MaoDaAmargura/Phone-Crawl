@@ -57,8 +57,6 @@
 
 
 
-extern NSMutableDictionary *items; // from Dungeon
-
 @implementation Engine
 
 @synthesize player;
@@ -735,6 +733,7 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) drawItemsInWorld:(WorldView*) wView
 {
+	NSMutableDictionary *items = currentDungeon.items;
 	for(Coord *c in [items allKeys])
 	{
 		Item *i = [items objectForKey:c];

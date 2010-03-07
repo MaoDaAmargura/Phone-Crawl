@@ -13,7 +13,6 @@
 @end
 
 extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
-extern NSMutableDictionary *items; // from Dungeon.h
 
 static tileType deadTile [] = {
 //	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
@@ -487,7 +486,7 @@ typedef enum {
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
 	[[dungeon tileAtX: 2 Y: 0 Z: 0] initWithTileType: tileStairsToTown];
 
-	[items removeAllObjects];
+	[dungeon.items removeAllObjects];
 	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
 	for (int LCV = 0; LCV < MAP_DIMENSION; LCV++) {
 		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
@@ -498,7 +497,7 @@ typedef enum {
 		}
 
 		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
-		[items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
+		[dungeon.items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
 //		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}

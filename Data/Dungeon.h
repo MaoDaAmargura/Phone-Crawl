@@ -1,4 +1,5 @@
-#import "Tile.h"
+
+
 typedef enum {
 	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss
 } levelType;
@@ -12,7 +13,8 @@ typedef enum {
 
 @interface Dungeon : NSObject {
 	Coord *playerLocation;
-	NSMutableArray *liveEnemies;	// note: shared with Engine
+	NSMutableArray *liveEnemies;
+	NSMutableDictionary *items;
 }
 
 - (Dungeon*) initWithType: (levelType) lvlType;
@@ -26,7 +28,6 @@ typedef enum {
 // FIXME: is this ever updated / still necessary?
 @property (nonatomic, retain) Coord *playerLocation;
 @property (nonatomic, retain) NSMutableArray *liveEnemies;
-
-extern NSMutableDictionary *items;
+@property (nonatomic, retain) NSMutableDictionary *items;
 
 @end
