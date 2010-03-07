@@ -76,6 +76,9 @@ typedef enum {
 	;
 }
 
++ (int) maxValueOfX:(int)x andY:(int)y;
++ (int) minValueOfX:(int)x andY:(int)y;
+
 + (int) point_distanceC1:(Coord *)c1 C2:(Coord *)c2;
 + (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2;
 
