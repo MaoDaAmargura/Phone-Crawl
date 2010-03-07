@@ -34,6 +34,12 @@
 
 -(void) loadView
 {
+	tutorialMode = NO;
+	checkOutOptions = NO;
+	checkOutCharacter = NO;
+	checkOutInventory = NO;
+	backToWorld = NO;
+	
 	mainTabController = [[UITabBarController alloc] init];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
@@ -140,9 +146,9 @@
 	[gameEngine updateWorldView:wView];
 }
 
-- (void) needUpdateForCharView:(CharacterView*)charView
+- (void) refreshInventoryView
 {
-	[charView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
+	[iView updateWithItemArray:[gameEngine getPlayerInventory]];
 }
 
 #pragma mark -
@@ -161,7 +167,6 @@
 {
 	cView = [[[CharacterView alloc] init] autorelease];
 	//
-	cView.delegate = self;
 	cView.title = @"Character";
 	return cView;
 }
@@ -170,7 +175,6 @@
 {
 	iView = [[[InventoryView alloc] init] autorelease];
 	//
-	iView.delegate = self;
 	iView.title = @"Inventory";
 	return iView;
 }
@@ -184,19 +188,40 @@
 	return navCont;
 }
 
+#pragma mark -
+#pragma mark Delegates
+/*!
+ @method		newCharacterWithName
+ @abstract		a horrendous hack to write a tutorial over our game engine by limiting player options in this view controller
+ */
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	[gameEngine startNewGameWithPlayerName:name andIcon:icon];
+	tutorialMode = YES;
+	
+	
+}
 
 #pragma mark -
 #pragma mark UITabBarControllerDelegate
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
+	if (tutorialMode)
+	{
+		if(viewController == oView) return checkOutOptions;
+		if(viewController == cView) return checkOutCharacter;
+		if(viewController == iView) return checkOutInventory;
+		if(viewController == wView) return backToWorld;
+		return NO;
+	}
 	return YES;
 }
 
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
 	if(viewController == iView)
-		[iView updateWithItemArray:[gameEngine getPlayerInventory]];
+		[self refreshInventoryView];
 	if(viewController == cView)
 		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
 }

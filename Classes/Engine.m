@@ -9,6 +9,9 @@
 #import "PCPopupMenu.h"
 #import "CombatAbility.h"
 
+#import "Phone_CrawlAppDelegate.h"
+#import "HomeTabViewController.h"
+
 #define GREATEST_ALLOWED_TURN_POINTS 100
 #define LARGEST_ALLOWED_PATH 80
 
@@ -993,22 +996,38 @@
 #pragma mark -
 #pragma mark Player Commands
 
+/*!
+ This is a hack. Don't do this unless you know what you're doing and you're me. -Austin
+ */
+- (void) refreshInventoryScreen
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController refreshInventoryView];
+}
+
 - (void) playerEquipItem:(Item*)i
 {
 	[player addEquipment:i slot:i.slot];
+	// The code below will remove items that are equipped from the inventory. But since addEquipment is coded in a
+	// way that doesn't allow for getting back the old equipment, we aren't going to do that. -Austin
+	//[player.inventory removeObject:i];
+	//[self refreshInventoryScreen];
 }
 
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
 	if([i cast:player target:player.selectedCreatureForAction] == 0)
-		[self playerDropItem:i];
+		[player.inventory removeObject:i];
+	[self refreshInventoryScreen];
 }
 
 - (void) playerDropItem:(Item*)i
 {	
 	if (i == nil) return;
+	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
 	[player.inventory removeObject:i];
+	[self refreshInventoryScreen];
 	//Currently does not update inventory view until press inventory screen's button again
 }
 
