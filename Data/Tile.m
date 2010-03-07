@@ -71,9 +71,8 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		case tileStairsToOrcMines:
 			slope = slopeToOrc;
 			break;			
-		case tileRockWall:
-			blockMove = true;
-			blockShoot = true;
+		case tileStairsToCrypt:
+			slope = slopeToCrypt;
 			break;
 		case tileShopKeeper:
 			blockMove = true;
@@ -81,6 +80,13 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			break;			
 		case tileStairsToTown:
 			slope = slopeToTown;
+			break;			
+		case tileBoneWall:
+		case tileBrickWall:
+		case tileBloodyWall:			
+		case tileRockWall:
+			blockMove = true;
+			blockShoot = true;
 			break;			
 		default:
 			break;
@@ -131,6 +137,13 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"shopkeeper.png");
 		ADD(@"staircase-up.png");
 
+		ADD(@"gate-with-skull.png");
+		ADD(@"skullwall.png");
+		ADD(@"stone-ground-dark.png");
+		ADD(@"brick-wall-gray.png");
+		ADD(@"brick-wall-bloody.png");
+
+		
 //		ADD(@"wall-rock.gif");
 	}
 }

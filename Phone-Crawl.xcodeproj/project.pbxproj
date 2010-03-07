@@ -36,6 +36,12 @@
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
 		D7812EED111A75A9004B201F /* staircase-up.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEB111A75A9004B201F /* staircase-up.png */; };
 		D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D7812FCC111B6A1A004B201F /* wall-rock.gif */; };
+		D7B634AA1144478600955293 /* brick-wall-bloody.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A41144478600955293 /* brick-wall-bloody.png */; };
+		D7B634AB1144478600955293 /* brick-wall-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A51144478600955293 /* brick-wall-gray.png */; };
+		D7B634AC1144478600955293 /* gate-with-skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A61144478600955293 /* gate-with-skull.png */; };
+		D7B634AD1144478600955293 /* skullDoorN.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A71144478600955293 /* skullDoorN.bmp */; };
+		D7B634AE1144478600955293 /* skullwall.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A81144478600955293 /* skullwall.png */; };
+		D7B634AF1144478600955293 /* stone-ground-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A91144478600955293 /* stone-ground-dark.png */; };
 		D7C333631136E45C00798D3D /* monster-bug-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333511136E45C00798D3D /* monster-bug-dead.png */; };
 		D7C333641136E45C00798D3D /* monster-bug.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333521136E45C00798D3D /* monster-bug.png */; };
 		D7C333651136E45C00798D3D /* monster-demon-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333531136E45C00798D3D /* monster-demon-dead.png */; };
@@ -226,6 +232,12 @@
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
 		D7812EEB111A75A9004B201F /* staircase-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-up.png"; sourceTree = "<group>"; };
 		D7812FCC111B6A1A004B201F /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
+		D7B634A41144478600955293 /* brick-wall-bloody.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-bloody.png"; sourceTree = "<group>"; };
+		D7B634A51144478600955293 /* brick-wall-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-gray.png"; sourceTree = "<group>"; };
+		D7B634A61144478600955293 /* gate-with-skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-with-skull.png"; sourceTree = "<group>"; };
+		D7B634A71144478600955293 /* skullDoorN.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = skullDoorN.bmp; sourceTree = "<group>"; };
+		D7B634A81144478600955293 /* skullwall.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skullwall.png; sourceTree = "<group>"; };
+		D7B634A91144478600955293 /* stone-ground-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stone-ground-dark.png"; sourceTree = "<group>"; };
 		D7C333511136E45C00798D3D /* monster-bug-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug-dead.png"; path = "monsters/monster-bug-dead.png"; sourceTree = "<group>"; };
 		D7C333521136E45C00798D3D /* monster-bug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug.png"; path = "monsters/monster-bug.png"; sourceTree = "<group>"; };
 		D7C333531136E45C00798D3D /* monster-demon-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-demon-dead.png"; path = "monsters/monster-demon-dead.png"; sourceTree = "<group>"; };
@@ -868,6 +880,12 @@
 		D9FFB102110BA8E000536EA7 /* FloorTile */ = {
 			isa = PBXGroup;
 			children = (
+				D7B634A41144478600955293 /* brick-wall-bloody.png */,
+				D7B634A51144478600955293 /* brick-wall-gray.png */,
+				D7B634A61144478600955293 /* gate-with-skull.png */,
+				D7B634A71144478600955293 /* skullDoorN.bmp */,
+				D7B634A81144478600955293 /* skullwall.png */,
+				D7B634A91144478600955293 /* stone-ground-dark.png */,
 				D7C95247112B3A2600CCF8AC /* dirt-cracked6.png */,
 				D7C9522D112B382200CCF8AC /* dirt-cracked1.png */,
 				D7C9522E112B382200CCF8AC /* dirt-cracked2.png */,
@@ -1136,6 +1154,12 @@
 				D9F2B2E61138AB000031058B /* bg-fire.png in Resources */,
 				D9F2B2E71138AB000031058B /* bg-lightning.png in Resources */,
 				D9F2B2E81138AB000031058B /* bg-poison.png in Resources */,
+				D7B634AA1144478600955293 /* brick-wall-bloody.png in Resources */,
+				D7B634AB1144478600955293 /* brick-wall-gray.png in Resources */,
+				D7B634AC1144478600955293 /* gate-with-skull.png in Resources */,
+				D7B634AD1144478600955293 /* skullDoorN.bmp in Resources */,
+				D7B634AE1144478600955293 /* skullwall.png in Resources */,
+				D7B634AF1144478600955293 /* stone-ground-dark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
