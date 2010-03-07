@@ -894,13 +894,27 @@
 	}
 	else 
 	{
-		if (LVL_GEN_ENV) 
-		{
-			[self moveCreature: player ToTileAtCoord: tileCoord];
+		if ([tileCoord equals:[player creatureLocation]]) {
+			for (Coord *c in [currentDungeon.items allKeys])
+			{
+				if([c equals:tileCoord])
+				{
+					Item *i = [currentDungeon.items objectForKey:c];
+					[player.inventory addObject:i];
+					[currentDungeon.items removeObjectForKey:c];
+				}
+			}
 		}
 		else 
 		{
-			player.selectedMoveTarget = tileCoord;
+			if (LVL_GEN_ENV) 
+			{
+				[self moveCreature: player ToTileAtCoord: tileCoord];
+			}
+			else 
+			{
+				player.selectedMoveTarget = tileCoord;
+			}
 		}
 	}
 }
