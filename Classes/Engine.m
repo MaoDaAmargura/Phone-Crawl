@@ -430,7 +430,7 @@ extern NSMutableDictionary *items; // from Dungeon
 #pragma mark Pathing
 
 /*!
-	@method		nextStepBetween:c1 and:c2
+	@method		pathBetween:c1 and:c2
 	@abstract		Runs an A* algorithm to find the next step on an optimal path towards the destination.
 						Monsters are not considered.  They do not block the path.
 	@discussion		This method does not save the path when it's generated.  It definitely should.
