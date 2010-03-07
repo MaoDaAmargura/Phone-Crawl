@@ -249,7 +249,7 @@
 	{
 		if(creature.selectedCombatAbilityToUse)
 		{
-			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= 1) {
+			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= [creature getRange]) {
 			//todo: use the combat ability on the target
 				actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
 				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];

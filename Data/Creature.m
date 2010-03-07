@@ -394,6 +394,21 @@
 	return NO;
 }
 
+- (int) getRange {
+	int lrange, rrange;
+	if (equipment.lHand) {
+		lrange = equipment.lHand.range;
+	} else {
+		lrange = 0;
+	}
+	if (equipment.rHand) {
+		rrange = equipment.rHand.range;
+	} else {
+		rrange = 0;
+	}
+	return [Util maxValueOfX:lrange andY:rrange];
+}
+
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
 {
 	Creature *ret = [[[Creature alloc] initPlayerWithInfo:name level:1] autorelease];

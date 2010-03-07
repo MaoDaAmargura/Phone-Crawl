@@ -164,6 +164,8 @@ typedef enum {
 
 - (BOOL) hasActionToTake;
 
+- (int) getRange;
+
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon;
 
 @property (nonatomic, retain) Coord *creatureLocation;
