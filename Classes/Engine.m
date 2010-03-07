@@ -1028,7 +1028,6 @@
 	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
 	[player.inventory removeObject:i];
 	[self refreshInventoryScreen];
-	//Currently does not update inventory view until press inventory screen's button again
 }
 
 #pragma mark -
