@@ -14,6 +14,8 @@
 
 extern int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObjectiveC;
 extern NSMutableDictionary *items; // from Dungeon.h
+#define CRYPT_ROOMS_COUNT 4
+#define CRYPT_WALL_LENGTH MAP_DIMENSION/CRYPT_ROOMS_COUNT
 
 static tileType deadTile [] = {
 //	tileNone, tileGrass, tileConcrete, tileRubble, tileWoodWall,
@@ -412,6 +414,62 @@ typedef enum {
 	return dungeon;
 }
 
++ (Dungeon*) putBlockOf: (tileType) type into: (Dungeon*) dungeon centeredAt: (Coord*) coord {
+	int xStart = coord.X;
+	int yStart = coord.Y;
+	xStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
+	yStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
+
+	for (int x = xStart; x < xStart + CRYPT_WALL_LENGTH / 2 - 1; x++) {
+		for (int y = yStart; y < yStart + CRYPT_WALL_LENGTH / 2 - 1; y++) {
+			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
+		}
+	}
+	return dungeon;
+}
+
++ (Dungeon*) connectRoomIn: (Dungeon*) dungeon atX: (int) xStart Y: (int) yStart toRoomIn: (bool [CRYPT_ROOMS_COUNT][CRYPT_ROOMS_COUNT]) rooms {
+	int xRoomToConnectTo, yRoomToConnectTo;
+	for (int delta = 1; ; delta++) {
+		assert (delta < 6);
+		for (int xDelta = -delta; xDelta <= delta; xDelta++) {
+			for (int yDelta = -delta; yDelta <= delta; yDelta++) {
+				int xCurrent = xStart + xDelta;
+				int yCurrent = yStart + yDelta;
+
+				if (xCurrent < 0 || yCurrent < 0 || xCurrent >= CRYPT_ROOMS_COUNT || yCurrent >= CRYPT_ROOMS_COUNT) {
+					continue;
+				}
+
+				if (rooms[xCurrent][yCurrent]) {
+					xRoomToConnectTo = xCurrent, yRoomToConnectTo = yCurrent;
+					goto FOUND_ROOM;
+				}
+			}
+		}
+	}
+	FOUND_ROOM:
+
+	xRoomToConnectTo *= CRYPT_WALL_LENGTH;
+	yRoomToConnectTo *= CRYPT_WALL_LENGTH;
+
+	int xTileToConnectTo, yTileToConnectTo;
+
+	for (int x = 0; x < CRYPT_WALL_LENGTH; x++) {
+		for (int y = 0; y < CRYPT_WALL_LENGTH; y++) {
+
+				xTileToConnectTo = x, yTileToConnectTo = y;
+				goto FOUND_TILE;
+		}
+	}
+	FOUND_TILE:
+	
+	
+	return dungeon;
+}
+
+
+
 #pragma mark -
 
 + (void) putPatchOf: (tileType) type into: (Dungeon*) dungeon at: (Coord*) coord tightly: (bool) tight {
@@ -598,13 +656,45 @@ typedef enum {
 				case 'o':
 					[tile initWithTileType: tileStairsToOrcMines];
 					break;
-					
 				default:
 					[tile initWithTileType: tileGroundCrumbling];
 					// FIXME need more graphics
 			}
 		}
 	}
+	return dungeon;
+}
+
+//tileStairsToCrypt, tileBoneWall, tileStoneGround, tileBrickWall, tileBloodyWall
++ (Dungeon*) makeCrypts: (Dungeon*) dungeon {
+	[self setFloorOf: dungeon to: tileBrickWall onZLevel: 0];
+
+	bool rooms [CRYPT_ROOMS_COUNT][CRYPT_ROOMS_COUNT];
+	for (int x = 0; x < CRYPT_ROOMS_COUNT; x++) { for (int y = 0; y < CRYPT_ROOMS_COUNT; y++) {
+		rooms[x][y] = 0;
+	} }
+
+	int roomsPlaced = 0;
+	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
+	while (roomsPlaced < CRYPT_ROOMS_COUNT * CRYPT_ROOMS_COUNT) {
+		int x = [Rand min:0 max:CRYPT_ROOMS_COUNT - 1];
+		int y = [Rand min:0 max:CRYPT_ROOMS_COUNT - 1];
+		if (rooms[x][y]) {
+			continue;
+		}
+		else {
+			rooms[x][y] = true;
+			roomsPlaced++;
+		}
+
+		coord.X = x * CRYPT_WALL_LENGTH;
+		coord.Y = y * CRYPT_WALL_LENGTH;
+		[self putBlockOf: tileStoneGround into: dungeon centeredAt: coord];
+		if (roomsPlaced > 1) {
+			[self connectRoomIn: dungeon atX: coord.X Y: coord.Y toRoomIn: rooms];
+		}
+	}
+
 	return dungeon;
 }
 
@@ -618,6 +708,9 @@ typedef enum {
 		case town:
 			dungeon = [self makeTown: dungeon];
 			break;
+		case crypts:
+			dungeon = [self makeCrypts: dungeon];
+			break;			
 		default:
 			DLog(@"invalid dungeon type");
 			break;

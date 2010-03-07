@@ -157,7 +157,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		//currentDungeon = [[Dungeon alloc] initWithType: town];
 		currentDungeon = [Dungeon alloc];
 		currentDungeon.liveEnemies = liveEnemies;
-		[currentDungeon initWithType: orcMines];
+		[currentDungeon initWithType: crypts];
 
 		player.inBattle = NO;
 		selectedMoveTarget = nil;
@@ -861,6 +861,10 @@ extern NSMutableDictionary *items; // from Dungeon
 					[currentDungeon initWithType:orcMines];
 					c.creatureLocation = currentDungeon.playerLocation;
 					break;
+				case slopeToCrypt:
+					[currentDungeon initWithType:crypts];
+					c.creatureLocation = currentDungeon.playerLocation;
+					break;					
 				case slopeToTown:
 					[currentDungeon initWithType:town];
 					c.creatureLocation = currentDungeon.playerLocation;
