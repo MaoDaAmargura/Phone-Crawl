@@ -46,13 +46,15 @@ typedef enum {
 	int Z;
 
    // for pathfinding
-   int distance;
+   int pathing_distance;
+	Coord *pathing_parentCoord;
 }
 
 @property (nonatomic) int X;
 @property (nonatomic) int Y;
 @property (nonatomic) int Z;
-@property (nonatomic) int distance;
+@property (nonatomic) int pathing_distance;
+@property (nonatomic, retain) Coord *pathing_parentCoord; // I don't think this needs retain. Not sure though.
 
 - (BOOL) equals:(Coord*)other;
 - (id) copyWithZone: (NSZone*) zone;
@@ -73,6 +75,8 @@ typedef enum {
 @interface Util : NSObject {
 	;
 }
+
++ (int) point_distanceC1:(Coord *)c1 C2:(Coord *)c2;
 + (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2;
 
 @end

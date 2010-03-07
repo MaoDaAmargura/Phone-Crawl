@@ -102,7 +102,8 @@ typedef enum {
 	float experiencePoints;
 	
 	int aggroRange;
-    int level;
+	BOOL inBattle;
+	int level;
 	int turnPoints;
 
 	condition_bitset condition;
@@ -124,7 +125,7 @@ typedef enum {
 	EquipSlots *equipment;
 	NSMutableArray *inventory;
 	Abilities *abilities;
-	NSMutableArray *path;
+	NSMutableArray *cachedPath;
 
 
 	@private
@@ -179,6 +180,7 @@ typedef enum {
 @property (nonatomic,retain) Points *current;
 @property (nonatomic,retain) Points *max;
 @property (nonatomic) int turnPoints;
+@property (nonatomic) BOOL inBattle;
 @property (nonatomic, readonly, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
@@ -191,6 +193,6 @@ typedef enum {
 @property (nonatomic) int armor;
 @property (nonatomic) int aggroRange;
 @property (nonatomic, retain) NSString *iconName;
-@property (nonatomic, retain) NSMutableArray *path;
+@property (nonatomic, retain) NSMutableArray *cachedPath;
 
 @end
