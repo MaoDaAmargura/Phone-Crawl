@@ -79,68 +79,20 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
 						  nil];
 		
-		if(monsterType == WARRIOR) {
-			int weaponChoice = [Rand min:0 max:6];
-			switch (weaponChoice) {
-				case 0:
-					[self addEquipment:[self.inventory objectAtIndex:0] slot:RIGHT];
-					break;
-				case 1:
-					[self addEquipment:[self.inventory objectAtIndex:0] slot:RIGHT];
-					[self addEquipment:[self.inventory objectAtIndex:3] slot:LEFT];
-					break;
-				case 2:
-					[self addEquipment:[self.inventory objectAtIndex:0] slot:RIGHT];
-					[self addEquipment:[self.inventory objectAtIndex:5] slot:LEFT];
-					break;
-				case 3:
-					[self addEquipment:[self.inventory objectAtIndex:3] slot:RIGHT];
-					break;
-				case 4:
-					[self addEquipment:[self.inventory objectAtIndex:3] slot:RIGHT];
-					[self addEquipment:[self.inventory objectAtIndex:0] slot:RIGHT];
-					break;
-				case 5:
-					[self addEquipment:[self.inventory objectAtIndex:3] slot:RIGHT];
-					[self addEquipment:[self.inventory objectAtIndex:5] slot:LEFT];
-					break;
-				case 6:
-					[self addEquipment:[self.inventory objectAtIndex:1] slot:RIGHT];
-					break;
-			}
-			int armorChoice = [Rand min:0 max:3];
-			switch (armorChoice) {
-				case 0:
-					break;
-				case 1:
-					[self addEquipment:[self.inventory objectAtIndex:6] slot:HEAD];
-					break;
-				case 2:
-					[self addEquipment:[self.inventory objectAtIndex:7] slot:CHEST];
-					break;
-				case 3:
-					[self addEquipment:[self.inventory objectAtIndex:6] slot:HEAD];
-					[self addEquipment:[self.inventory objectAtIndex:7] slot:CHEST];
-					break;
-			}
-		}
-		if(monsterType == ARCHER) {
-			[self addEquipment:[self.inventory objectAtIndex:3] slot:RIGHT];
-			int armorChoice = [Rand min:0 max:3];
-			switch (armorChoice) {
-				case 0:
-					break;
-				case 1:
-					[self addEquipment:[self.inventory objectAtIndex:8] slot:HEAD];
-					break;
-				case 2:
-					[self addEquipment:[self.inventory objectAtIndex:9] slot:CHEST];
-					break;
-				case 3:
-					[self addEquipment:[self.inventory objectAtIndex:8] slot:HEAD];
-					[self addEquipment:[self.inventory objectAtIndex:9] slot:CHEST];
-					break;
-			}
+		switch (monsterType) {
+			case WARRIOR:
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:SHIELD] slot:LEFT];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_CHEST] slot: CHEST];
+				break;
+			case ARCHER:
+				[self addEquipment:[self.inventory objectAtIndex:BOW] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_CHEST] slot:CHEST];
+				break;
+			default:
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 		}
 		[self ClearTurnActions];
 		return self;
