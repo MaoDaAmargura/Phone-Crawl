@@ -11,7 +11,6 @@
 
 #define GREATEST_ALLOWED_TURN_POINTS 100
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
-#define TURN_POINTS_PER_TURN 30
 #define LARGEST_ALLOWED_PATH 80
 
 @interface Engine (UIUpdates)
@@ -27,7 +26,7 @@
 
 - (void) calculateCreaturesInBattle;
 - (Creature *) nextCreatureToTakeTurn;
-- (void) incrementCreatureTurnPoints;
+- (void) incrementCreatureTurnPointsBy:(int)amount;
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
 - (void) checkIfCreatureIsDead: (Creature *) c;
@@ -323,20 +322,22 @@
 	
 	if (creature == player)
 	{
-		if(creature.current.health <= 0)
+		if(player.current.health <= 0)
 		{
 			
 		}
+		if(!player.inBattle)
+			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
 		
-		if([creature hasActionToTake])
-			actionResult = [self performActionForCreature:creature]; 
+		if([player hasActionToTake])
+			actionResult = [self performActionForCreature:player]; 
 		// Why do we want this? If the player hasn't given any input yet, shouldnt the game freeze until they do?
 		//else
 		// It was so that idling monsters would take turns whether or not the player did. Gives the world a sense of 
 		// real time. - Austin
 			//player.turnPoints -= 5;
 	}
-	else //if(creature != nil) //nextCreatureToTakeTurn will always return a creature.
+	else
 	{
 		[self determineActionForCreature:creature];
 		if ([creature hasActionToTake]) 
@@ -344,10 +345,6 @@
 			actionResult = [self performActionForCreature:creature];
 		}
 	}
-	//else
-	//{
-	//	[self incrementCreatureTurnPoints];		
-	//}
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
@@ -374,7 +371,6 @@
 		player.inBattle |= m.inBattle;
 	}
 	
-	// prevents turn_points from becoming unruly.
 	// entering battle mode zeroes all turn points.
 	if(previousBattleMode == NO && player.inBattle == YES)
 	{
@@ -387,13 +383,19 @@
 /*!
 	@method		nextCreatureToTakeTurn
 	@abstract		ALWAYS returns a creature (any living monster or the player) that will take the next turn.
-	@discussion		This method chooses the highest turnPoint creature, normalizes turnpoints, then returns that creature.
-						This allows engine to always have 1 creature calculated per turn, no matter the mix of fast or slow creatures.
-						turn points can't leave the range of 0-100 because then new monsters that enter the battle later will have grossly different turnpoints						
+	@discussion		Turn points work a little bit backwards now, but they behave exactly the same as we 
+						discussed at the whiteboards a while ago.  The method we discussed increasing everybody's 
+						turnpoints until one creature had 100, then that creature took a turn.
+						This method works backwards, because it picks the creature that is going to take a turn, 
+						then increments everybody's turnpoints by some amount such that the picked monster 
+						ends up with 100 turn points.  The behavior is exactly the same, except that we don't 
+						have to wait for a creature to reach 100 points - it happens instantly.  This is currently
+						not correct for creatures with different turnPoint regen, but it can be if needed.
 */
 - (Creature *) nextCreatureToTakeTurn
 {
 	/* This is not how we agreed we were going to do turn points. Is someone changing the system? */
+	// changed it again, I think it's more similar to how we discussed it should be. -Eric
 	if(!player.inBattle)
 		return player;
 	
@@ -407,33 +409,19 @@
 			greatest = (greatest.turnPoints >= m.turnPoints ? greatest : m);
 	}
 	
-	// normalize turn points - they should be between 0 and 100
-	
-	// if the largest # of turn points is negative, then all of the creatures in battle are fucking slow.
-	// boost all turn points until it gets to 0
-	while( greatest.turnPoints < 0 )
-	{	
-		DLog(@"Boosting turnpoints, cause the highest is %i", greatest.turnPoints);
-		[self incrementCreatureTurnPoints];
-	}
-	
-	// if the largest # of turn points is too big, then all of the creatures in battle are fucking fast
-	// let the turnpoints fall to below 100.
-	if(greatest.turnPoints < GREATEST_ALLOWED_TURN_POINTS)
-		[self incrementCreatureTurnPoints];
-	else
-		DLog(@"Not incrementing turnpoints because the highest is %i", greatest.turnPoints);
-	
+	// normalize turn points - add whatever amount is neccessary to make the chosen creature have TP of 100
+	[self incrementCreatureTurnPointsBy: 100-greatest.turnPoints];
+
 	return greatest;
 }
 	
-- (void) incrementCreatureTurnPoints 
+- (void) incrementCreatureTurnPointsBy:(int)amount
 {
 	if(player.inBattle)
-		player.turnPoints += TURN_POINTS_PER_TURN;
+		player.turnPoints += amount;
 	for(Creature *m in liveEnemies)
 		if(m.inBattle)
-			m.turnPoints += TURN_POINTS_PER_TURN;
+			m.turnPoints += amount;
 }
 
 - (void) determineActionForCreature:(Creature*)c
@@ -837,7 +825,7 @@
  */
 - (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
-	return ![self tileAtCoordBlocksMovement:coord] || [self locationIsOccupied:coord];
+	return ![self tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
 }
 
 /*!
