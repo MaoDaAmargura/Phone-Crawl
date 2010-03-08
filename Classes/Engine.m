@@ -498,11 +498,28 @@
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
+- (void) loadGame:(NSString *)filename {
+	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
+	FILE *file;
+	if (!(file = fopen(fname,"r"))) {
+		NSLog([@"Unable to open file for reading: " stringbyAppendingString:filename]);
+		return;
+	}
+	char line[100];
+	while (fgets(line,100,file) != NULL) {
+		// cut off trailing newline
+		if (line[strlen(line)-1] == '\n') {
+			line[strlen(line)-1] = '\0';
+		}
+		printf("%s\n",line);
+	}
+}
+
 - (void) saveGame:(NSString *)filename {
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"w"))) {
-		NSLog([@"Unable to open file: " stringByAppendingString:filename]);
+		NSLog([@"Unable to open file for writing: " stringByAppendingString:filename]);
 		return;
 	}
 	// name
@@ -560,11 +577,11 @@
 	fputs("\n",file);
 	for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; i++) {
 		int ability = player.abilities.combatAbility[i];
-		if (ability == 1) {
+		if (ability != 0) {
 			CombatAbility *ca = [abilityList objectAtIndex:i];
 			fputs([[NSString stringWithFormat:@"%d",i] cStringUsingEncoding:NSASCIIStringEncoding],file);
 			fputs("||",file);
-			fputs([[NSString stringWithFormat:@"%d",ca.abilityLevel] cStringUsingEncoding:NSASCIIStringEncoding],file);
+			fputs([[NSString stringWithFormat:@"%d",ability] cStringUsingEncoding:NSASCIIStringEncoding],file);
 			fputs("\n",file);
 		}
 	}
@@ -579,7 +596,7 @@
 			fputs("\n",file);
 		}
 	}
-	fputs([@"[spellsbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([@"[inventorybegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	for (int i=0;i<[player.inventory count];i++) {
 		Item *item = [player.inventory objectAtIndex:i];
@@ -592,7 +609,11 @@
 // ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 
 - (void) writeItemToFile:(Item *)item file:(FILE *)file {
-	fputs([@"[itembegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	//fputs([@"item||" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	if (item == nil) {
+		fputs([@"null\n" cStringUsingEncoding:NSASCIIStringEncoding],file);
+		return;
+	}
 	fputs([item.name cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("||",file);
 	fputs([item.icon cStringUsingEncoding:NSASCIIStringEncoding],file);
@@ -1318,6 +1339,7 @@
 	
 	// TODO: Take this line out, it is only to test save/load
 	[self saveGame:@"test.gam"];
+	[self loadGame:@"test.gam"];
 	
 	[currentDungeon initWithType:town];
 	
