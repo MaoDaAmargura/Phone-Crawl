@@ -414,14 +414,33 @@ typedef enum {
 	return dungeon;
 }
 
++ (Dungeon*) putCircleOf: (tileType) type into: (Dungeon*) dungeon centeredAt: (Coord*) coord {
+	int xStart = coord.X;
+	int yStart = coord.Y;
+	xStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
+	yStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
+	
+	for (int x = xStart; x < xStart + CRYPT_WALL_LENGTH / 2 - 1; x++) {
+		for (int y = yStart; y < yStart + CRYPT_WALL_LENGTH / 2 - 1; y++) {
+			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
+		}
+	}
+	return dungeon;
+}
+
 + (Dungeon*) putBlockOf: (tileType) type into: (Dungeon*) dungeon centeredAt: (Coord*) coord {
 	int xStart = coord.X;
 	int yStart = coord.Y;
 	xStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
 	yStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
 
-	for (int x = xStart; x < xStart + CRYPT_WALL_LENGTH / 2 - 1; x++) {
-		for (int y = yStart; y < yStart + CRYPT_WALL_LENGTH / 2 - 1; y++) {
+	int xEnd = xStart + CRYPT_WALL_LENGTH / 2 - 1;
+	int yEnd = yStart + CRYPT_WALL_LENGTH / 2 - 1;
+	int stretch = [Rand min: -CRYPT_WALL_LENGTH / 4 max: CRYPT_WALL_LENGTH / 4];
+	xEnd += stretch, yEnd -= stretch;
+
+	for (int x = xStart; x < xEnd; x++) {
+		for (int y = yStart; y < yEnd; y++) {
 			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
 		}
 	}
