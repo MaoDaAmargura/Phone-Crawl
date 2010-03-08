@@ -413,18 +413,7 @@
 }
 
 - (int) getRange {
-	int lrange, rrange;
-	if (equipment.lHand) {
-		lrange = equipment.lHand.range;
-	} else {
-		lrange = 1;
-	}
-	if (equipment.rHand) {
-		rrange = equipment.rHand.range;
-	} else {
-		rrange = 1;
-	}
-	return [Util maxValueOfX:lrange andY:rrange];
+	return equipment.rHand.range;
 }
 
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
