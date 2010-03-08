@@ -9,6 +9,9 @@
 #import "PCPopupMenu.h"
 #import "CombatAbility.h"
 
+#import "Phone_CrawlAppDelegate.h"
+#import "HomeTabViewController.h"
+
 #define GREATEST_ALLOWED_TURN_POINTS 100
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define LARGEST_ALLOWED_PATH 80
@@ -56,12 +59,18 @@
 
 @end
 
+@interface Engine (Tutorial)
+
+- (void) finishTutorial;
+
+@end
 
 
 @implementation Engine
 
-@synthesize player;
+@synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
+@synthesize tutorialMode;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -133,6 +142,8 @@
 {
 	if(self = [super init])
 	{
+		tutorialMode = NO;
+		
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
@@ -164,6 +175,7 @@
 		[self setupAttackMenu];
 		[self setupItemMenu];
 		[self setupSpellMenus];
+		[self hideMenus];
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		
@@ -226,6 +238,7 @@
 	[attackMenu showInView:wView.view];
 	[itemMenu showInView:wView.view];
 	hasAddedMenusToWorldView = YES;
+	[self hideMenus];
 	
 }
 
@@ -300,21 +313,15 @@
 		[self performMoveActionForCreature:creature];
 	}
 	
+	if(creature == player) [self hideMenus];
+	
 	return actionResult;
 }
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-	
-	if (battleMenu.hidden == YES) 
-	{
-		player.selectedCreatureForAction = nil;
-	}
-	if (player.selectedCreatureForAction == nil) 
-	{
-		[self hideMenus];
-	}
+
 	
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -324,7 +331,7 @@
 	{
 		if(player.current.health <= 0)
 		{
-			
+			//TODO: die
 		}
 		if(!player.inBattle)
 			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
@@ -367,7 +374,7 @@
 	
 	player.inBattle = NO;
 	for (Creature *m in liveEnemies) {
-		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 10) && (m.creatureLocation.Z == player.creatureLocation.Z);
+		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.creatureLocation.Z == player.creatureLocation.Z);
 		player.inBattle |= m.inBattle;
 	}
 	
@@ -859,6 +866,7 @@
 				case slopeToOrc:
 					[currentDungeon initWithType:orcMines];
 					c.creatureLocation = currentDungeon.playerLocation;
+					if(tutorialMode) [self finishTutorial];
 					break;
 				case slopeToTown:
 					[currentDungeon initWithType:town];
@@ -888,10 +896,11 @@
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
-		[battleMenu show];
+		[self showBattleMenu];
 	}
 	else 
 	{
+		[self hideMenus];
 		if ([tileCoord equals:[player creatureLocation]]) {
 			for (Coord *c in [currentDungeon.items allKeys])
 			{
@@ -982,23 +991,54 @@
 #pragma mark -
 #pragma mark Player Commands
 
+/*!
+ These are a hack. Don't do this unless you know what you're doing and you're me. -Austin
+ This is terrible practice. Once I have time, I'm going to do this in a better way. 
+ */
+- (void) refreshInventoryScreen
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController refreshInventoryView];
+}
+
+- (void) tutorialModeEquippedItem
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController continueTutorialFromSwordEquipped];
+}
+									  
+- (void) finishTutorial
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController finishTutorial];
+}
+
 - (void) playerEquipItem:(Item*)i
 {
 	[player addEquipment:i slot:i.slot];
+	// The code below will remove items that are equipped from the inventory. But since addEquipment is coded in a
+	// way that doesn't allow for getting back the old equipment, we aren't going to do that. -Austin
+	//[player.inventory removeObject:i];
+	//[self refreshInventoryScreen];
+	
+	if(tutorialMode)
+		[self tutorialModeEquippedItem];
 }
 
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
 	if([i cast:player target:player.selectedCreatureForAction] == 0)
-		[self playerDropItem:i];
+		[player.inventory removeObject:i];
+	[self refreshInventoryScreen];
 }
 
 - (void) playerDropItem:(Item*)i
 {	
 	if (i == nil) return;
+	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
 	[player.inventory removeObject:i];
-	//Currently does not update inventory view until press inventory screen's button again
+	[self refreshInventoryScreen];
 }
 
 #pragma mark -

@@ -11,7 +11,9 @@ typedef enum {
 
 #pragma mark -
 
-@interface Dungeon : NSObject {
+@interface Dungeon : NSObject 
+{
+	levelType dungeonType;
 	Coord *playerLocation;
 	NSMutableArray *liveEnemies;
 	NSMutableDictionary *items;
@@ -25,7 +27,9 @@ typedef enum {
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
 
-// FIXME: is this ever updated / still necessary?
+// These are attributes of the dungeon object used by engine to determine how to set up a game.
+// This is object oriented programming 101. 
+@property (nonatomic) levelType dungeonType;
 @property (nonatomic, retain) Coord *playerLocation;
 @property (nonatomic, retain) NSMutableArray *liveEnemies;
 @property (nonatomic, retain) NSMutableDictionary *items;

@@ -30,18 +30,25 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	return self;
 }
 
-- (Tile*) initWithTileType: (tileType) _type {
-	if (_type == tileRubble && (blockMove || slope)) {
+- (Tile*) initWithTileType: (tileType) newType {
+	if (newType == tileRubble && (blockMove || slope)) {
 		return self;
 	}
-
-	type = _type;
+	
 	placementOrder = 0;	// dummy value, never occurs in a wall
 	blockMove = false;
 	blockShoot = false;
 	smashable = false;
 	slope = slopeNone;
+	
+	self.type = newType;
+	
+	return self;
+}
 
+- (void) setType:(tileType) newType
+{
+	type = newType;
 	switch (type) {
 		case tileWoodWall:
 			blockMove = true;
@@ -81,12 +88,19 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			break;			
 		case tileStairsToTown:
 			slope = slopeToTown;
-			break;			
+			break;
+		case tileWoodDoorBroken:
+			slope = slopeNone;
+			blockMove = YES;
+			break;
+
 		default:
 			break;
 	}
-	return self;
+	
 }
+
+
 
 #pragma mark -
 #pragma mark Static

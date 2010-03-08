@@ -50,8 +50,8 @@
 
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
 {
-	[homeTabController.gameEngine startNewGameWithPlayerName:name andIcon:icon];
 	flow.view.hidden = YES;
+	[homeTabController newCharacterWithName:name andIcon:icon];
 	[window bringSubviewToFront:homeTabController.view];
 }
 

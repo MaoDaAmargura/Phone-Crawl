@@ -10,9 +10,18 @@
 #import "Engine.h"
 #import "Util.h"
 
+#import "Dungeon.h"
+#import "Tile.h"
+#import "Item.h"
+#import "Creature.h"
+
 #define NUMBER_OF_TABS 4
 
-@interface HomeTabViewController (Private)
+#define HIGHLIGHT_RED		[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]
+#define HIGHLIGHT_YELLOW	[UIColor colorWithRed:1 green:1 blue:0 alpha:0.5]
+#define HIGHLIGHT_GREEN		[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]
+
+@interface HomeTabViewController (ViewControllers)
 
 - (UIViewController*) initWorldView;
 - (UIViewController*) initCharacterView;
@@ -22,6 +31,7 @@
 - (void) fireGameLoop;
 
 @end
+
 
 
 @implementation HomeTabViewController
@@ -34,6 +44,10 @@
 
 -(void) loadView
 {
+	tutorialMode = NO;
+	doneMerchant = NO;
+	gotSword = NO;
+	
 	mainTabController = [[UITabBarController alloc] init];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
@@ -93,6 +107,16 @@
 #pragma mark Delegate Callbacks
 
 #pragma mark WorldView
+
+- (void) moveHighlightInWorldView:(WorldView*)worldView toCoord:(Coord*) loc
+{
+	CGPoint p = [gameEngine originOfTile:loc inWorldView:worldView];
+	
+	CGSize s = [gameEngine tileSizeForWorldView:worldView];
+	
+	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	
+}
 /*!
  @method		worldTouchedAt
  @abstract		worldView callback for when world gets touched 
@@ -106,15 +130,11 @@
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
 	
 	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
-		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+		worldView.highlight.backgroundColor = HIGHLIGHT_YELLOW;
 	else 
-		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+		worldView.highlight.backgroundColor = HIGHLIGHT_RED;
 	
-	CGPoint p = [gameEngine originOfTile:tileCoord inWorldView:worldView];
-	
-	CGSize s = [gameEngine tileSizeForWorldView:worldView];
-	
-	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	[self moveHighlightInWorldView:wView toCoord:tileCoord];
 	
 }
 
@@ -123,14 +143,33 @@
  @abstract		worldView callback for when world gets selected
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
-- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point {
-	
+- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point 
+{
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
 	
 	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
 	{
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];
+	}
+	
+	if([gameEngine.currentDungeon dungeonType] == town)
+	{
+		if(!doneMerchant && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
+		{
+			if(tutorialMode)
+			{
+				[self continueTutorialFromMerchant];
+			}
+			else
+			{
+				
+			}
+		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])
+		{
+			[self continueTutorialFromSword];
+		}
+		
 	}
 }
 
@@ -140,9 +179,9 @@
 	[gameEngine updateWorldView:wView];
 }
 
-- (void) needUpdateForCharView:(CharacterView*)charView
+- (void) refreshInventoryView
 {
-	[charView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
+	[iView updateWithItemArray:[gameEngine getPlayerInventory]];
 }
 
 #pragma mark -
@@ -161,7 +200,6 @@
 {
 	cView = [[[CharacterView alloc] init] autorelease];
 	//
-	cView.delegate = self;
 	cView.title = @"Character";
 	return cView;
 }
@@ -170,7 +208,6 @@
 {
 	iView = [[[InventoryView alloc] init] autorelease];
 	//
-	iView.delegate = self;
 	iView.title = @"Inventory";
 	return iView;
 }
@@ -184,6 +221,84 @@
 	return navCont;
 }
 
+#pragma mark -
+#pragma mark Delegates
+/*!
+ @method		newCharacterWithName
+ @abstract		a horrendous hack to write a tutorial over our game engine by limiting player options in this view controller
+ */
+- (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
+{
+	[gameEngine startNewGameWithPlayerName:name andIcon:icon];
+	tutorialMode = YES;
+	gameEngine.tutorialMode = YES;
+	
+	doneMerchant = NO;
+	gotSword = NO;
+	equippedSword = NO;
+	
+	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
+	
+	down.blockMove = YES;
+	
+	tutorialDialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 290, 80)] autorelease];
+	tutorialDialogueBox.backgroundColor = [UIColor whiteColor];
+	tutorialDialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
+	tutorialDialogueBox.numberOfLines = 4;
+	
+	[wView.view addSubview:tutorialDialogueBox];
+	
+	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
+	wView.highlight.hidden = NO;
+	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
+	
+}
+
+- (void) continueTutorialFromMerchant
+{
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
+		Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
+	
+		[gameEngine.currentDungeon.items setObject:tutorialSword forKey:[Coord withX:4 Y:2 Z:0]];
+	
+		doneMerchant = YES;
+	}
+}
+
+- (void) continueTutorialFromSword
+{
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Yeah, that's the spirit. Let's see how you hold it. Open your inventory, tap the sword, and equip it.";
+		gotSword = YES;
+	}
+	
+}
+
+- (void) continueTutorialFromSwordEquipped
+{
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
+		equippedSword = YES;
+		
+		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:4 Z:0]];
+		wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
+		wView.highlight.hidden = NO;
+		
+		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
+		down.blockMove = NO;
+	}
+}
+
+- (void) finishTutorial
+{
+	[tutorialDialogueBox removeFromSuperview];
+	tutorialMode = NO;
+	gameEngine.tutorialMode = NO;
+}
 
 #pragma mark -
 #pragma mark UITabBarControllerDelegate
@@ -196,7 +311,7 @@
 - (void)tabBarController:(UITabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController
 {
 	if(viewController == iView)
-		[iView updateWithItemArray:[gameEngine getPlayerInventory]];
+		[self refreshInventoryView];
 	if(viewController == cView)
 		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
 }
