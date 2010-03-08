@@ -430,31 +430,37 @@ typedef enum {
 
 + (Dungeon*) drunkenWalk: (Dungeon*) dungeon from: (Coord*) start to: (Coord*) end {
 //	bool foundBlockingTerrain = false;
-//	NSLog(@"start %@",[start description]);
-//	NSLog(@"end %@",[end description]);
 	int xDelta = end.X - start.X;
 	int yDelta = end.Y - start.Y;
 	int xDir = xDelta < 0? -1 : 1;	// if it's == 0, these values are never used.
 	int yDir = yDelta < 0? -1 : 1;
 
 	Coord *curr = [Coord withX: start.X Y: start.Y Z: start.Z];
+	NSMutableArray *trace = [[NSMutableArray alloc] init];
 	while (![curr isEqual: end]) {
 //		DLog(@"%d %d %d %d", xDelta, xDir, yDelta, yDir);
 		if (xDelta) {
 			xDelta -= xDir;
 			curr.X += xDir;
-			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
+//			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
+			[[dungeon tileAt: curr] initWithTileType: tileGrass];
+			[trace addObject: [Coord withX: curr.X Y: curr.Y Z: curr.Z]];
+			continue;
 		}
 		if (yDelta) {
 			yDelta -= yDir;
 			curr.Y += yDir;
-			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
+//			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
+			[[dungeon tileAt: curr] initWithTileType: tileGrass];
+			[trace addObject: [Coord withX: curr.X Y: curr.Y Z: curr.Z]];
 		}
 
 
 //		NSLog([curr description]);
 //		if (foundBlockingTerrain)
 	}
+//	DLog(@"%d\n%@\n\n",[trace count], [trace description]);
+	
 	
 	return dungeon;
 }
@@ -496,7 +502,7 @@ typedef enum {
 	for (int x = xRoomToConnectTo; ; x++) {
 		for (int y = yRoomToConnectTo; y < yRoomToConnectTo + CRYPT_WALL_LENGTH; y++) {
 //			DLog(@"%d %d",x,y);
-			assert(x < xRoomToConnectTo + CRYPT_WALL_LENGTH + 1);		
+			assert(x < xRoomToConnectTo + CRYPT_WALL_LENGTH + 1);
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (!tile.blockMove) {
 				xTileToConnectTo = x, yTileToConnectTo = y;
@@ -514,7 +520,8 @@ typedef enum {
 	for (int x = xToConnectFrom; x < xToConnectFrom + CRYPT_WALL_LENGTH; x++) {
 		for (int y = yToConnectFrom; y < yToConnectFrom + CRYPT_WALL_LENGTH; y++) {
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
-			if (!tile.blockMove) {
+//			if (!tile.blockMove) {
+			if (tile.type == tileStoneGround) {
 				xToConnectFrom = x, yToConnectFrom = y;
 				goto FOUND_START_TILE;
 			}
@@ -755,7 +762,6 @@ typedef enum {
 			coord.X = x;
 			coord.Y = y;
 			[self connectRoomIn: dungeon at: coord toRoomIn: rooms];
-			break;
 		}
 
 	}
