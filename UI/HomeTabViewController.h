@@ -37,5 +37,7 @@
 - (void) continueTutorialFromMerchant;
 - (void) continueTutorialFromSword;
 - (void) continueTutorialFromSwordEquipped;
+- (void) finishTutorial;
+
 
 @end

@@ -233,6 +233,10 @@
 	tutorialMode = YES;
 	gameEngine.tutorialMode = YES;
 	
+	doneMerchant = NO;
+	gotSword = NO;
+	equippedSword = NO;
+	
 	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
 	
 	down.blockMove = YES;
@@ -280,8 +284,6 @@
 		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
 		equippedSword = YES;
 		
-		tutorialMode = NO;
-		gameEngine.tutorialMode = NO;
 		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:4 Z:0]];
 		wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 		wView.highlight.hidden = NO;
@@ -289,6 +291,13 @@
 		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
 		down.blockMove = NO;
 	}
+}
+
+- (void) finishTutorial
+{
+	[tutorialDialogueBox removeFromSuperview];
+	tutorialMode = NO;
+	gameEngine.tutorialMode = NO;
 }
 
 #pragma mark -

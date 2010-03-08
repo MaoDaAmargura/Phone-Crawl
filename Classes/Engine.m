@@ -58,6 +58,11 @@
 
 @end
 
+@interface Engine (Tutorial)
+
+- (void) finishTutorial;
+
+@end
 
 
 @implementation Engine
@@ -232,6 +237,7 @@
 	[attackMenu showInView:wView.view];
 	[itemMenu showInView:wView.view];
 	hasAddedMenusToWorldView = YES;
+	[self hideMenus];
 	
 }
 
@@ -306,6 +312,8 @@
 		[self performMoveActionForCreature:creature];
 	}
 	
+	if(creature == player) [self hideMenus];
+	
 	return actionResult;
 }
 
@@ -322,7 +330,7 @@
 	{
 		if(creature.current.health <= 0)
 		{
-			
+			//TODO: die
 		}
 		
 		if([creature hasActionToTake])
@@ -869,6 +877,7 @@
 				case slopeToOrc:
 					[currentDungeon initWithType:orcMines];
 					c.creatureLocation = currentDungeon.playerLocation;
+					if(tutorialMode) [self finishTutorial];
 					break;
 				case slopeToTown:
 					[currentDungeon initWithType:town];
@@ -898,7 +907,7 @@
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
-		[battleMenu show];
+		[self showBattleMenu];
 	}
 	else 
 	{
@@ -1007,6 +1016,12 @@
 {
 	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDlgt.homeTabController continueTutorialFromSwordEquipped];
+}
+									  
+- (void) finishTutorial
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController finishTutorial];
 }
 
 - (void) playerEquipItem:(Item*)i
