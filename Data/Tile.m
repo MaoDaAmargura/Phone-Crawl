@@ -30,8 +30,15 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	return self;
 }
 
+- (Tile*) smash {
+	if (!smashable) return self;
+	[self initWithTileType: tileWoodDoorBroken];
+	return self;
+}
+
 - (Tile*) initWithTileType: (tileType) _type {
 	if (_type == tileRubble && (blockMove || slope)) {
+		DLog(@"can't overwrite that with rubble.");
 		return self;
 	}
 

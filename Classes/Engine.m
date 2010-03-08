@@ -443,7 +443,15 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.selectedMoveTarget])
 		c.cachedPath = [self pathBetween:c.creatureLocation and:c.selectedMoveTarget];
+
 	Coord *next = [[c.cachedPath lastObject] retain];
+	if ([currentDungeon tileAt: next].smashable) {
+		[[currentDungeon tileAt: next] smash];
+		[next release];
+		c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
+		return;
+	}
+
 	[c.cachedPath removeLastObject];
 	
 	if(![self canEnterTileAtCoord:next])
@@ -456,6 +464,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		[c ClearTurnActions];
 		return;
 	}
+	
 	[self moveCreature:c ToTileAtCoord:next];
 	[next release];
 
@@ -792,12 +801,14 @@ extern NSMutableDictionary *items; // from Dungeon
 		NSLog([coord description]);
 		return false;
 	}
-	
+
 	Tile *t = [currentDungeon tileAt:coord];
-	if(t)
-		return t.blockMove;
-	else
+	if(t) {
+		return !t.smashable && t.blockMove;
+	}
+	else {
 		return YES;
+	}
 }
 
 - (Creature*) creatureAtLocation:(Coord*)loc
