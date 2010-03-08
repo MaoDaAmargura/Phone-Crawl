@@ -830,7 +830,7 @@
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
 	if (LVL_GEN_ENV) {
-		NSLog([coord description]);
+		NSLog(@"%@",[coord description]);
 		return false;
 	}
 
