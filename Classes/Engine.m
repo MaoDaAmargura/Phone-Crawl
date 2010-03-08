@@ -10,6 +10,8 @@
 #import "CombatAbility.h"
 
 #define GREATEST_ALLOWED_TURN_POINTS 100
+#define TURN_POINTS_FOR_MOVEMENT_ACTION 50
+#define TURN_POINTS_PER_TURN 30
 #define LARGEST_ALLOWED_PATH 80
 
 @interface Engine (UIUpdates)
@@ -428,10 +430,10 @@
 - (void) incrementCreatureTurnPoints 
 {
 	if(player.inBattle)
-		player.turnPoints += 30;
+		player.turnPoints += TURN_POINTS_PER_TURN;
 	for(Creature *m in liveEnemies)
 		if(m.inBattle)
-			m.turnPoints += 30;
+			m.turnPoints += TURN_POINTS_PER_TURN;
 }
 
 - (void) determineActionForCreature:(Creature*)c
@@ -447,7 +449,6 @@
 	}
 }
 
-#define TURN_POINTS_FOR_MOVEMENT_ACTION 25
 - (void) performMoveActionForCreature:(Creature *)c
 {
 	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.selectedMoveTarget])
