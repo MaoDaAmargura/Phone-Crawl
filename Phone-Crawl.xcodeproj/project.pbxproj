@@ -44,6 +44,7 @@
 		D7B634AF1144478600955293 /* stone-ground-dark.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A91144478600955293 /* stone-ground-dark.png */; };
 		D7B63648114485DF00955293 /* brick-wall-bloody.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D7B63646114485DF00955293 /* brick-wall-bloody.PNG */; };
 		D7B63649114485DF00955293 /* gate-with-skull-broken.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B63647114485DF00955293 /* gate-with-skull-broken.png */; };
+		D7B636561144874E00955293 /* pink-dot.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B636551144874E00955293 /* pink-dot.png */; };
 		D7C333631136E45C00798D3D /* monster-bug-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333511136E45C00798D3D /* monster-bug-dead.png */; };
 		D7C333641136E45C00798D3D /* monster-bug.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333521136E45C00798D3D /* monster-bug.png */; };
 		D7C333651136E45C00798D3D /* monster-demon-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333531136E45C00798D3D /* monster-demon-dead.png */; };
@@ -242,6 +243,7 @@
 		D7B634A91144478600955293 /* stone-ground-dark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "stone-ground-dark.png"; sourceTree = "<group>"; };
 		D7B63646114485DF00955293 /* brick-wall-bloody.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-bloody.PNG"; sourceTree = "<group>"; };
 		D7B63647114485DF00955293 /* gate-with-skull-broken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-with-skull-broken.png"; sourceTree = "<group>"; };
+		D7B636551144874E00955293 /* pink-dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "pink-dot.png"; sourceTree = "<group>"; };
 		D7C333511136E45C00798D3D /* monster-bug-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug-dead.png"; path = "monsters/monster-bug-dead.png"; sourceTree = "<group>"; };
 		D7C333521136E45C00798D3D /* monster-bug.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-bug.png"; path = "monsters/monster-bug.png"; sourceTree = "<group>"; };
 		D7C333531136E45C00798D3D /* monster-demon-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-demon-dead.png"; path = "monsters/monster-demon-dead.png"; sourceTree = "<group>"; };
@@ -763,6 +765,7 @@
 		D9F2B2D31138AB000031058B /* MiniMapDots */ = {
 			isa = PBXGroup;
 			children = (
+				D7B636551144874E00955293 /* pink-dot.png */,
 				D9F2B2D41138AB000031058B /* black-dot.png */,
 				D9F2B2D51138AB000031058B /* blue-dot.png */,
 				D9F2B2D61138AB000031058B /* green-dot.png */,
@@ -1168,6 +1171,7 @@
 				D7B634AF1144478600955293 /* stone-ground-dark.png in Resources */,
 				D7B63648114485DF00955293 /* brick-wall-bloody.PNG in Resources */,
 				D7B63649114485DF00955293 /* gate-with-skull-broken.png in Resources */,
+				D7B636561144874E00955293 /* pink-dot.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

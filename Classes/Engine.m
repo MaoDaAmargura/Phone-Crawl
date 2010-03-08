@@ -53,6 +53,7 @@
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
 - (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
 - (int) manhattanDistanceFromPlayer: (Creature *) m;
+- (BOOL) isACreatureAtLocation:(Coord*)loc;
 
 @end
 
@@ -158,18 +159,32 @@ extern NSMutableDictionary *items; // from Dungeon
 		currentDungeon = [Dungeon alloc];
 		currentDungeon.liveEnemies = liveEnemies;
 		[currentDungeon initWithType: crypts];
-
+		DLog(@"%@",[currentDungeon.playerLocation description]);
+		
 		player.inBattle = NO;
 		selectedMoveTarget = nil;
-		
+
 		[self setupBattleMenu];
 		[self setupAttackMenu];
 		[self setupItemMenu];
 		[self setupSpellMenus];
-		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
-		
-		
+
+		// put the player on the top leftmost square that can take him
+		for (int delta = 0;; delta++) {
+			for (int x = delta; x >= 0; x--) {
+				if (![currentDungeon tileAtX: x Y: delta - x Z: 0].blockMove) {
+					player.creatureLocation.X = x;
+					player.creatureLocation.Y = delta - x;
+					player.creatureLocation.Z = 0;
+					goto OUTSIDE;
+				}			
+			}
+		}
+		OUTSIDE:;
+
+		DLog(@"%@",[player.creatureLocation description]);
+
 		return self;
 	}
 	return nil;
@@ -613,9 +628,11 @@ extern NSMutableDictionary *items; // from Dungeon
 	UIImage *black = [UIImage imageNamed: @"black-dot.png"];
 	UIImage *orange = [UIImage imageNamed: @"orange-dot.png"];
 	UIImage *blue = [UIImage imageNamed: @"blue-dot.png"];
-//	UIImage *black = [UIImage imageNamed: @"black-dot.png"];
+	UIImage *pink = [UIImage imageNamed: @"pink-dot.png"];
 
 	Coord *playerLoc = [player creatureLocation];
+	Coord *here = [Coord withX: 0 Y: 0 Z: playerLoc.Z];
+
 	int z = playerLoc.Z;
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
@@ -625,6 +642,12 @@ extern NSMutableDictionary *items; // from Dungeon
 			delta += abs(y - playerLoc.Y);
 			if (delta < 3) {
 				[green drawInRect: rect];
+				continue;
+			}
+
+			here.X = x, here.Y = y;
+			if ([self isACreatureAtLocation: here]) {
+				[pink drawInRect: rect];
 				continue;
 			}
 

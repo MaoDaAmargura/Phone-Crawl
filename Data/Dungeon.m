@@ -69,6 +69,8 @@ NSMutableDictionary *items = nil;
 		[items removeAllObjects];
 	}
 
+	if (!playerLocation) playerLocation = [Coord alloc];
+
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
 		for (int z = 0; z < MAP_DEPTH; z++) {

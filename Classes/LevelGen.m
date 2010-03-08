@@ -769,12 +769,39 @@ typedef enum {
 
 	}
 
+	for (int LCV = 0; LCV < MAP_DIMENSION; LCV++) {
+		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
+		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
+		if ([dungeon tileAt: coord].blockMove) {
+			--LCV;
+			continue;
+		}
+		
+		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
+		[items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
+		//		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
+		//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
+	}
+	
+	for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
+		coord.X = [Rand min:0 max:MAP_DIMENSION - 1];
+		coord.Y = [Rand min:0 max:MAP_DIMENSION - 1];
+		if ([dungeon tileAt: coord].blockMove) {
+			--LCV;
+			continue;
+		}
+		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX: coord.X Y: coord.Y Z:0];
+		[dungeon.liveEnemies addObject:creature];		
+	}
+
 	return dungeon;
 }
 
 #pragma mark -
 
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
+	bool lvlGen = LVL_GEN_ENV;
+	LVL_GEN_ENV = false;
 	switch (lvlType) {
 		case orcMines:
 			dungeon = [self makeOrcMines: dungeon];
@@ -789,7 +816,8 @@ typedef enum {
 			DLog(@"invalid dungeon type");
 			break;
 	}
-	return nil;
+	LVL_GEN_ENV = lvlGen;
+	return dungeon;
 }
 
 @end

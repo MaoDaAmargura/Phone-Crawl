@@ -118,6 +118,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
  @discussion	IMPORTANT: Elements MUST be added IN CORRESPONDING ORDER 
 				to that which they are declared in the tileType enum in Tile.h
  @note			I used mutableArray because NSDictionary is keyed by string only
+ @note			no it isn't
  */
 
 + (void) initialize
