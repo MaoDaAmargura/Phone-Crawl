@@ -919,7 +919,7 @@
 					[currentDungeon initWithType:town];
 					[liveEnemies removeAllObjects];
 					[deadEnemies removeAllObjects];
-					[self putPlayerAndUpstairs];
+					player.creatureLocation.X = player.creatureLocation.Y = player.creatureLocation.Z = 0;
 					break;
 				default:
 					break;
