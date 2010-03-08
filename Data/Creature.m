@@ -32,6 +32,7 @@
 @synthesize aggroRange;
 @synthesize iconName;
 @synthesize cachedPath;
+@synthesize experiencePoints;
 
 
 #pragma mark -

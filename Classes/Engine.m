@@ -498,6 +498,154 @@
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
+- (void) saveGame:(NSString *)filename {
+	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
+	FILE *file;
+	if (!(file = fopen(fname,"w"))) {
+		NSLog([@"Unable to open file: " stringByAppendingString:filename]);
+		return;
+	}
+	// name
+	// money
+	// level
+	// experience points
+	// head (all equipped follow item template below)
+	// chest
+	// rhand
+	// lhand
+	// health
+	// shield
+	// mana
+	// maxhealth
+	// maxshield
+	// maxmana
+	// turnspeed
+	// maxturnspeed
+	// [abilitiesbegin]
+	// id||level
+	// ...
+	// [spellsbegin]
+	// id||level
+	// ...
+	// [inventorybegin]
+	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
+	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
+	fputs([player.name cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.money] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.experiencePoints] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	[self writeItemToFile:player.equipment.head file:file];
+	[self writeItemToFile:player.equipment.chest file:file];
+	[self writeItemToFile:player.equipment.rHand file:file];
+	[self writeItemToFile:player.equipment.lHand file:file];
+	fputs([[NSString stringWithFormat:@"%d",player.current.health] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.current.shield] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.current.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.health] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.shield] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.current.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	fputs([@"[abilitiesbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; i++) {
+		int ability = player.abilities.combatAbility[i];
+		if (ability == 1) {
+			CombatAbility *ca = [abilityList objectAtIndex:i];
+			fputs([[NSString stringWithFormat:@"%d",i] cStringUsingEncoding:NSASCIIStringEncoding],file);
+			fputs("||",file);
+			fputs([[NSString stringWithFormat:@"%d",ca.abilityLevel] cStringUsingEncoding:NSASCIIStringEncoding],file);
+			fputs("\n",file);
+		}
+	}
+	fputs([@"[spellsbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	for (int i=0; i<NUM_PC_SPELL_TYPES; i++) {
+		int ability = player.abilities.spellBook[i];
+		if (ability != 0) {
+			fputs([[NSString stringWithFormat:@"%d",i] cStringUsingEncoding:NSASCIIStringEncoding],file);
+			fputs("||",file);
+			fputs([[NSString stringWithFormat:@"%d",ability] cStringUsingEncoding:NSASCIIStringEncoding],file);
+			fputs("\n",file);
+		}
+	}
+	fputs([@"[spellsbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("\n",file);
+	for (int i=0;i<[player.inventory count];i++) {
+		Item *item = [player.inventory objectAtIndex:i];
+		[self writeItemToFile:item file:file];
+	}
+	fclose(file);
+}
+
+// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
+// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
+
+- (void) writeItemToFile:(Item *)item file:(FILE *)file {
+	fputs([@"[itembegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([item.name cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([item.icon cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	if (item.isEquipable) {
+		fputs([@"YES" cStringUsingEncoding:NSASCIIStringEncoding],file);
+		fputs("||",file);
+	} else {
+		fputs([@"NO" cStringUsingEncoding:NSASCIIStringEncoding],file);
+		fputs("||",file);	
+	}
+	fputs([[NSString stringWithFormat:@"%d",item.damage] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.elementalDamage] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.range] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.charges] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.damage] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.pointValue] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.slot] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.element] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.type] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.effectSpellId] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.hp] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.shield] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.fire] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.cold] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.lightning] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.poison] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.dark] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("||",file);
+	fputs([[NSString stringWithFormat:@"%d",item.armor] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	
+	fputs("\n",file);
+}
+
+
 
 
 #pragma mark -
@@ -1168,7 +1316,12 @@
 	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
 	self.player = newPlayer;
 	
+	// TODO: Take this line out, it is only to test save/load
+	[self saveGame:@"test.gam"];
+	
 	[currentDungeon initWithType:town];
+	
+
 }
 
 @end

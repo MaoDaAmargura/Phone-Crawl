@@ -90,4 +90,8 @@
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
 
+- (void) saveGame:(NSString *)filename;
+
+- (void) writeItemToFile:(Item *)item file:(FILE *)file;
+
 @end

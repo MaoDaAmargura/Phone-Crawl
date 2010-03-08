@@ -196,5 +196,6 @@ typedef enum {
 @property (nonatomic) int aggroRange;
 @property (nonatomic, retain) NSString *iconName;
 @property (nonatomic, retain) NSMutableArray *cachedPath;
+@property float experiencePoints;
 
 @end
