@@ -3,7 +3,7 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START YES
+#define QUICK_START NO
 
 @implementation Phone_CrawlAppDelegate
 
