@@ -20,6 +20,8 @@
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
 	
+	BOOL tutorialMode;
+	
 	Creature *player;
 	
 	Dungeon *currentDungeon;
@@ -51,6 +53,9 @@
 @property (nonatomic, retain) PCPopupMenu *itemMenu;
 @property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
 @property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
+
+@property (nonatomic) BOOL tutorialMode;
+
 
 - (id) init;
 

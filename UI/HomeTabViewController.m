@@ -13,8 +13,13 @@
 #import "Dungeon.h"
 #import "Tile.h"
 #import "Item.h"
+#import "Creature.h"
 
 #define NUMBER_OF_TABS 4
+
+#define HIGHLIGHT_RED		[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]
+#define HIGHLIGHT_YELLOW	[UIColor colorWithRed:1 green:1 blue:0 alpha:0.5]
+#define HIGHLIGHT_GREEN		[UIColor colorWithRed:0 green:1 blue:0 alpha:0.5]
 
 @interface HomeTabViewController (ViewControllers)
 
@@ -24,12 +29,6 @@
 - (UIViewController*) initOptionsView;
 
 - (void) fireGameLoop;
-
-@end
-
-@interface HomeTabViewController (Tutorial)
-
-- (void) continueTutorialFromMerchant;
 
 @end
 
@@ -46,10 +45,8 @@
 -(void) loadView
 {
 	tutorialMode = NO;
-	checkOutOptions = NO;
-	checkOutCharacter = NO;
-	checkOutInventory = NO;
-	backToWorld = NO;
+	doneMerchant = NO;
+	gotSword = NO;
 	
 	mainTabController = [[UITabBarController alloc] init];
 	
@@ -133,9 +130,9 @@
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
 	
 	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
-		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:1 blue:0 alpha:0.5];
+		worldView.highlight.backgroundColor = HIGHLIGHT_YELLOW;
 	else 
-		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
+		worldView.highlight.backgroundColor = HIGHLIGHT_RED;
 	
 	[self moveHighlightInWorldView:wView toCoord:tileCoord];
 	
@@ -158,7 +155,7 @@
 	
 	if([gameEngine.currentDungeon dungeonType] == town)
 	{
-		if([gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
+		if(!doneMerchant && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
 		{
 			if(tutorialMode)
 			{
@@ -168,8 +165,11 @@
 			{
 				
 			}
-
+		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])
+		{
+			[self continueTutorialFromSword];
 		}
+		
 	}
 }
 
@@ -231,11 +231,11 @@
 {
 	[gameEngine startNewGameWithPlayerName:name andIcon:icon];
 	tutorialMode = YES;
+	gameEngine.tutorialMode = YES;
 	
 	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
 	
-	tileType oldtype = [down type];
-	[down setType:tileWoodDoorBroken]; //disallow moving down for now
+	down.blockMove = YES;
 	
 	tutorialDialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 290, 80)] autorelease];
 	tutorialDialogueBox.backgroundColor = [UIColor whiteColor];
@@ -246,18 +246,49 @@
 	
 	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
 	wView.highlight.hidden = NO;
-	wView.highlight.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.5];
+	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 	
 }
 
 - (void) continueTutorialFromMerchant
 {
-	tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
-	Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
+		Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
 	
-	[gameEngine.currentDungeon.items setObject:tutorialSword forKey:[Coord withX:4 Y:2 Z:0]];
+		[gameEngine.currentDungeon.items setObject:tutorialSword forKey:[Coord withX:4 Y:2 Z:0]];
 	
+		doneMerchant = YES;
+	}
+}
+
+- (void) continueTutorialFromSword
+{
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Yeah, that's the spirit. Let's see how you hold it. Open your inventory, tap the sword, and equip it.";
+		gotSword = YES;
+	}
 	
+}
+
+- (void) continueTutorialFromSwordEquipped
+{
+	if(tutorialMode)
+	{
+		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
+		equippedSword = YES;
+		
+		tutorialMode = NO;
+		gameEngine.tutorialMode = NO;
+		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:4 Z:0]];
+		wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
+		wView.highlight.hidden = NO;
+		
+		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
+		down.blockMove = NO;
+	}
 }
 
 #pragma mark -
@@ -265,14 +296,6 @@
 
 - (BOOL)tabBarController:(UITabBarController *)tabBarController shouldSelectViewController:(UIViewController *)viewController
 {
-	if (tutorialMode)
-	{
-		if(viewController == oView) return checkOutOptions;
-		if(viewController == cView) return checkOutCharacter;
-		if(viewController == iView) return checkOutInventory;
-		if(viewController == wView) return backToWorld;
-		return NO;
-	}
 	return YES;
 }
 

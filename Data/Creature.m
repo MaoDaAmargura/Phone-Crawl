@@ -112,12 +112,12 @@
 		
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
+		self.inventory = [[[NSMutableArray alloc] init] autorelease];
 		money = 10000;
 		abilityPoints = 10;
 		turnPoints = 0;
 		inBattle = NO;
 		condition = NO_CONDITION;
-		inventory = nil;
 		return self;
 	}
 	return nil;

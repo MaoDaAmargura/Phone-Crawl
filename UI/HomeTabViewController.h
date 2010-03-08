@@ -15,10 +15,10 @@
 	Engine *gameEngine;
 	
 	BOOL tutorialMode;
-	BOOL checkOutCharacter;
-	BOOL checkOutInventory;
-	BOOL checkOutOptions;
-	BOOL backToWorld;
+	
+	BOOL doneMerchant;
+	BOOL gotSword;
+	BOOL equippedSword;
 	
 	UILabel *tutorialDialogueBox;
 }
@@ -29,5 +29,13 @@
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon;
 
 - (void) refreshInventoryView;
+
+@end
+
+@interface HomeTabViewController (Tutorial)
+
+- (void) continueTutorialFromMerchant;
+- (void) continueTutorialFromSword;
+- (void) continueTutorialFromSwordEquipped;
 
 @end

@@ -64,6 +64,7 @@
 
 @synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
+@synthesize tutorialMode;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -135,6 +136,8 @@
 {
 	if(self = [super init])
 	{
+		tutorialMode = NO;
+		
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
@@ -166,6 +169,7 @@
 		[self setupAttackMenu];
 		[self setupItemMenu];
 		[self setupSpellMenus];
+		[self hideMenus];
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 		
@@ -308,15 +312,7 @@
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-	
-	if (battleMenu.hidden == YES) 
-	{
-		player.selectedCreatureForAction = nil;
-	}
-	if (player.selectedCreatureForAction == nil) 
-	{
-		[self hideMenus];
-	}
+
 	
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -371,7 +367,7 @@
 	
 	player.inBattle = NO;
 	for (Creature *m in liveEnemies) {
-		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 10) && (m.creatureLocation.Z == player.creatureLocation.Z);
+		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.creatureLocation.Z == player.creatureLocation.Z);
 		player.inBattle |= m.inBattle;
 	}
 	
@@ -906,6 +902,7 @@
 	}
 	else 
 	{
+		[self hideMenus];
 		if ([tileCoord equals:[player creatureLocation]]) {
 			for (Coord *c in [currentDungeon.items allKeys])
 			{
@@ -997,13 +994,19 @@
 #pragma mark Player Commands
 
 /*!
- This is a hack. Don't do this unless you know what you're doing and you're me. -Austin
+ These are a hack. Don't do this unless you know what you're doing and you're me. -Austin
  This is terrible practice. Once I have time, I'm going to do this in a better way. 
  */
 - (void) refreshInventoryScreen
 {
 	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDlgt.homeTabController refreshInventoryView];
+}
+
+- (void) tutorialModeEquippedItem
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController continueTutorialFromSwordEquipped];
 }
 
 - (void) playerEquipItem:(Item*)i
@@ -1013,6 +1016,9 @@
 	// way that doesn't allow for getting back the old equipment, we aren't going to do that. -Austin
 	//[player.inventory removeObject:i];
 	//[self refreshInventoryScreen];
+	
+	if(tutorialMode)
+		[self tutorialModeEquippedItem];
 }
 
 - (void) playerUseItem:(Item*)i
