@@ -19,6 +19,8 @@
 	BOOL checkOutInventory;
 	BOOL checkOutOptions;
 	BOOL backToWorld;
+	
+	UILabel *tutorialDialogueBox;
 }
 
 @property (nonatomic, retain) UITabBarController *mainTabController;

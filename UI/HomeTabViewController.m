@@ -12,10 +12,11 @@
 
 #import "Dungeon.h"
 #import "Tile.h"
+#import "Item.h"
 
 #define NUMBER_OF_TABS 4
 
-@interface HomeTabViewController (Private)
+@interface HomeTabViewController (ViewControllers)
 
 - (UIViewController*) initWorldView;
 - (UIViewController*) initCharacterView;
@@ -25,6 +26,13 @@
 - (void) fireGameLoop;
 
 @end
+
+@interface HomeTabViewController (Tutorial)
+
+- (void) continueTutorialFromMerchant;
+
+@end
+
 
 
 @implementation HomeTabViewController
@@ -154,7 +162,7 @@
 		{
 			if(tutorialMode)
 			{
-				
+				[self continueTutorialFromMerchant];
 			}
 			else
 			{
@@ -229,14 +237,26 @@
 	tileType oldtype = [down type];
 	[down setType:tileWoodDoorBroken]; //disallow moving down for now
 	
-	UILabel *dialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 250, 60)] autorelease];
-	dialogueBox.backgroundColor = [UIColor whiteColor];
-	dialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
-	dialogueBox.numberOfLines = 3;
+	tutorialDialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 290, 80)] autorelease];
+	tutorialDialogueBox.backgroundColor = [UIColor whiteColor];
+	tutorialDialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
+	tutorialDialogueBox.numberOfLines = 4;
 	
-	[wView.view addSubview:dialogueBox];
+	[wView.view addSubview:tutorialDialogueBox];
 	
 	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
+	wView.highlight.hidden = NO;
+	wView.highlight.backgroundColor = [UIColor colorWithRed:0 green:1 blue:0 alpha:0.5];
+	
+}
+
+- (void) continueTutorialFromMerchant
+{
+	tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
+	Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
+	
+	[gameEngine.currentDungeon.items setObject:tutorialSword forKey:[Coord withX:4 Y:2 Z:0]];
+	
 	
 }
 
