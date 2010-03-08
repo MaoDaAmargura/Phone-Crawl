@@ -399,12 +399,12 @@
 	if (equipment.lHand) {
 		lrange = equipment.lHand.range;
 	} else {
-		lrange = 0;
+		lrange = 1;
 	}
 	if (equipment.rHand) {
 		rrange = equipment.rHand.range;
 	} else {
-		rrange = 0;
+		rrange = 1;
 	}
 	return [Util maxValueOfX:lrange andY:rrange];
 }
