@@ -414,14 +414,26 @@ typedef enum {
 	return dungeon;
 }
 
-+ (Dungeon*) putCircleOf: (tileType) type into: (Dungeon*) dungeon centeredAt: (Coord*) coord {
++ (Dungeon*) putDiamondOf: (tileType) type into: (Dungeon*) dungeon centeredAt: (Coord*) coord {
 	int xStart = coord.X;
 	int yStart = coord.Y;
 	xStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
 	yStart += [Rand min: 1 max: CRYPT_WALL_LENGTH / 2];
-	
-	for (int x = xStart; x < xStart + CRYPT_WALL_LENGTH / 2 - 1; x++) {
-		for (int y = yStart; y < yStart + CRYPT_WALL_LENGTH / 2 - 1; y++) {
+
+	int xEnd = xStart + CRYPT_WALL_LENGTH / 2 - 1;
+	int yEnd = yStart + CRYPT_WALL_LENGTH / 2 - 1;
+	int stretch = [Rand min: -CRYPT_WALL_LENGTH / 4 max: CRYPT_WALL_LENGTH / 4];
+	xEnd += stretch, yEnd -= stretch;
+
+	for (int x = xStart; x < xEnd; x++) {
+		for (int y = yStart; y < yEnd; y++) {
+			int xCenter = xStart + (xEnd - xStart) / 2;
+			int yCenter = yStart + (yEnd - yStart) / 2;
+
+			int xDelta = abs(xCenter - x);
+			int yDelta = abs(yCenter - y);
+			if (xDelta + yDelta > CRYPT_WALL_LENGTH / 4) continue; 
+
 			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
 		}
 	}
@@ -531,7 +543,7 @@ typedef enum {
 	for (int x = xRoomToConnectTo; ; x++) {
 		for (int y = yRoomToConnectTo; y < yRoomToConnectTo + CRYPT_WALL_LENGTH; y++) {
 //			DLog(@"%d %d",x,y);
-			assert(x < xRoomToConnectTo + CRYPT_WALL_LENGTH + 1);
+//			assert(x < xRoomToConnectTo + CRYPT_WALL_LENGTH + 1);
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
 			if (!tile.blockMove) {
 				xTileToConnectTo = x, yTileToConnectTo = y;
@@ -785,7 +797,16 @@ typedef enum {
 
 		coord.X = x * CRYPT_WALL_LENGTH;
 		coord.Y = y * CRYPT_WALL_LENGTH;
-		[self putBlockOf: tileStoneGround into: dungeon centeredAt: coord];
+		switch ([Rand min: 0 max: 1]) {
+			case 0:
+				[self putBlockOf: tileStoneGround into: dungeon centeredAt: coord];
+				break;
+			case 1:
+				[self putDiamondOf: tileStoneGround into: dungeon centeredAt: coord];
+				break;
+			default:
+				assert (false);
+		}
 
 		if (roomsPlaced > 1) {
 			coord.X = x;
@@ -795,7 +816,7 @@ typedef enum {
 
 	}
 
-	for (int LCV = 0; LCV < MAP_DIMENSION; LCV++) {
+	for (int LCV = 0; LCV < MAP_DIMENSION / 2; LCV++) {
 		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
 		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
 		if ([dungeon tileAt: coord].blockMove) {
@@ -809,7 +830,7 @@ typedef enum {
 		//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 	
-	for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
+	for (int LCV = 0; LCV < MAP_DIMENSION / 2; LCV++) {
 		coord.X = [Rand min:0 max:MAP_DIMENSION - 1];
 		coord.Y = [Rand min:0 max:MAP_DIMENSION - 1];
 		if ([dungeon tileAt: coord].blockMove) {
