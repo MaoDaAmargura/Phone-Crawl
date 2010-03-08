@@ -450,7 +450,9 @@
 
 - (BOOL) hasActionToTake
 {
-	if (selectedMoveTarget || selectedCreatureForAction || selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse) 
+	if( selectedMoveTarget 
+		 || ( selectedCreatureForAction
+				&& ( selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse))) 
 	{
 		return YES;
 	}
