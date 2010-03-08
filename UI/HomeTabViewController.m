@@ -10,6 +10,9 @@
 #import "Engine.h"
 #import "Util.h"
 
+#import "Dungeon.h"
+#import "Tile.h"
+
 #define NUMBER_OF_TABS 4
 
 @interface HomeTabViewController (Private)
@@ -99,6 +102,16 @@
 #pragma mark Delegate Callbacks
 
 #pragma mark WorldView
+
+- (void) moveHighlightInWorldView:(WorldView*)worldView toCoord:(Coord*) loc
+{
+	CGPoint p = [gameEngine originOfTile:loc inWorldView:worldView];
+	
+	CGSize s = [gameEngine tileSizeForWorldView:worldView];
+	
+	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	
+}
 /*!
  @method		worldTouchedAt
  @abstract		worldView callback for when world gets touched 
@@ -116,11 +129,7 @@
 	else 
 		worldView.highlight.backgroundColor = [UIColor colorWithRed:1 green:0 blue:0 alpha:0.5];
 	
-	CGPoint p = [gameEngine originOfTile:tileCoord inWorldView:worldView];
-	
-	CGSize s = [gameEngine tileSizeForWorldView:worldView];
-	
-	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
+	[self moveHighlightInWorldView:wView toCoord:tileCoord];
 	
 }
 
@@ -129,14 +138,30 @@
  @abstract		worldView callback for when world gets selected
  @discussion	uses square as final choice for touch. Changes highlighted square
  */
-- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point {
-	
+- (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point 
+{
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
 	
 	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
 	{
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];
+	}
+	
+	if([gameEngine.currentDungeon dungeonType] == town)
+	{
+		if([gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
+		{
+			if(tutorialMode)
+			{
+				
+			}
+			else
+			{
+				
+			}
+
+		}
 	}
 }
 
@@ -199,6 +224,19 @@
 	[gameEngine startNewGameWithPlayerName:name andIcon:icon];
 	tutorialMode = YES;
 	
+	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:5 Z:0]];
+	
+	tileType oldtype = [down type];
+	[down setType:tileWoodDoorBroken]; //disallow moving down for now
+	
+	UILabel *dialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 250, 60)] autorelease];
+	dialogueBox.backgroundColor = [UIColor whiteColor];
+	dialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
+	dialogueBox.numberOfLines = 3;
+	
+	[wView.view addSubview:dialogueBox];
+	
+	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
 	
 }
 

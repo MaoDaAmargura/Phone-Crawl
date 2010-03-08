@@ -43,6 +43,7 @@
 }
 
 @property (nonatomic, retain) Creature *player;
+@property (nonatomic, retain) Dungeon *currentDungeon;
 
 @property (nonatomic, retain) PCPopupMenu *battleMenu;
 @property (nonatomic, retain) PCPopupMenu *attackMenu;

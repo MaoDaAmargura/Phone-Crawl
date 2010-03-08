@@ -62,7 +62,7 @@
 
 @implementation Engine
 
-@synthesize player;
+@synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
 
 #pragma mark -
@@ -998,6 +998,7 @@
 
 /*!
  This is a hack. Don't do this unless you know what you're doing and you're me. -Austin
+ This is terrible practice. Once I have time, I'm going to do this in a better way. 
  */
 - (void) refreshInventoryScreen
 {

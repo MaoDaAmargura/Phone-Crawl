@@ -23,7 +23,7 @@ static NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
-@synthesize playerLocation, liveEnemies, items;
+@synthesize playerLocation, liveEnemies, items, dungeonType;
 
 #pragma mark --private
 
@@ -76,6 +76,7 @@ static NSMutableArray *tiles = nil;
 		[liveEnemies removeAllObjects];
 	}
 
+	dungeonType = lvlType;
 
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
