@@ -32,7 +32,15 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 - (Tile*) smash {
 	if (!smashable) return self;
-	[self initWithTileType: tileWoodDoorBroken];
+	switch (type) {
+		case tileWoodDoor:
+			return [self initWithTileType: tileWoodDoorBroken];
+		case tileSkullDoor:
+			return [self initWithTileType: tileSkullDoorBroken];
+		default:
+			DLog(@"[tile smash] unimplemented for that type");
+			break;
+	}
 	return self;
 }
 
@@ -152,6 +160,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"brick-wall-bloody.png");
 
 		ADD(@"gate-with-skull.png");
+		ADD(@"gate-with-skull-broken.png");
 //		ADD(@"wall-rock.gif");
 	}
 }
