@@ -436,32 +436,35 @@ typedef enum {
 	int yDir = yDelta < 0? -1 : 1;
 
 	Coord *curr = [Coord withX: start.X Y: start.Y Z: start.Z];
-	NSMutableArray *trace = [[NSMutableArray alloc] init];
+	Tile *prev = nil;
 	while (![curr isEqual: end]) {
 //		DLog(@"%d %d %d %d", xDelta, xDir, yDelta, yDir);
 		if (xDelta) {
 			xDelta -= xDir;
 			curr.X += xDir;
-//			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
-			[[dungeon tileAt: curr] initWithTileType: tileGrass];
-			[trace addObject: [Coord withX: curr.X Y: curr.Y Z: curr.Z]];
-			continue;
 		}
-		if (yDelta) {
+		else if (yDelta) {
 			yDelta -= yDir;
 			curr.Y += yDir;
-//			[[dungeon tileAt: curr] initWithTileType: tileStoneGround];
-			[[dungeon tileAt: curr] initWithTileType: tileGrass];
-			[trace addObject: [Coord withX: curr.X Y: curr.Y Z: curr.Z]];
 		}
 
+		if ([dungeon tileAt: curr].type == tileStoneGround) {
+			if (prev && prev.type == tileBoneWall) {
+				[prev initWithTileType: tileSkullDoor];
+			}
+		}
+//		if (!prev) {
+//			[[dungeon tileAt: curr] initWithTileType: tileSkullDoor];
+//		}
+
+		if ([dungeon tileAt: curr].blockMove) {
+			[[dungeon tileAt: curr] initWithTileType: tileBoneWall];
+		}
+		prev = [dungeon tileAt: curr];
 
 //		NSLog([curr description]);
 //		if (foundBlockingTerrain)
 	}
-//	DLog(@"%d\n%@\n\n",[trace count], [trace description]);
-	
-	
 	return dungeon;
 }
 

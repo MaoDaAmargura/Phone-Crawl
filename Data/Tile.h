@@ -5,7 +5,8 @@ typedef enum {
 	tileWoodDoor, tileWoodFloor, tileWoodDoorOpen, tileWoodDoorSaloon, tileWoodDoorBroken,
 	tilePit, tileSlopeDown, tileSlopeUp, tileRockWall, tileLichen,
 	tileGroundCrumbling, tileStoneCrumbling, tileStairsToOrcMines, tileShopKeeper, tileStairsToTown,
-	tileStairsToCrypt, tileBoneWall, tileStoneGround, tileBrickWall, tileBloodyWall
+	tileStairsToCrypt, tileBoneWall, tileStoneGround, tileBrickWall, tileBloodyWall,
+	tileSkullDoor
 } tileType;
 
 typedef enum {

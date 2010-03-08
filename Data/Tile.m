@@ -53,6 +53,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 			smashable = true;
 			break;
 		case tileWoodDoor:
+		case tileSkullDoor:
 			blockMove = true;
 			blockShoot = true;
 			smashable = true;
@@ -81,9 +82,9 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		case tileStairsToTown:
 			slope = slopeToTown;
 			break;			
-		case tileBoneWall:
+//		case tileBoneWall:
 		case tileBrickWall:
-		case tileBloodyWall:			
+		case tileBloodyWall:
 		case tileRockWall:
 			blockMove = true;
 			blockShoot = true;
@@ -143,7 +144,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		ADD(@"brick-wall-gray.png");
 		ADD(@"brick-wall-bloody.png");
 
-		
+		ADD(@"gate-with-skull.png");
 //		ADD(@"wall-rock.gif");
 	}
 }
