@@ -5,13 +5,16 @@
 
 typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 
-#define NUM_COMBAT_ABILITY_TYPES 4
+#define NUM_COMBAT_ABILITY_TYPES 6
+#define NUM_PLAYER_COMBAT_ABILITY_TYPES 5
 
 typedef enum {
 	REG_STRIKE = 0,
 	BRUTE_STRIKE = 1,
 	ELE_STRIKE = 2,
-	QUICK_STRIKE = 3
+	MIX_STRIKE = 3,
+	QUICK_STRIKE = 4,
+	SHITTY_STRIKE = 5	// should not be available to player
 } PC_COMBAT_ABILITY_TYPE;
 
 #define NUM_PC_SPELL_TYPES 10
@@ -75,6 +78,9 @@ typedef enum {
 @interface Util : NSObject {
 	;
 }
+
++ (int) maxValueOfX:(int)x andY:(int)y;
++ (int) minValueOfX:(int)x andY:(int)y;
 
 + (int) point_distanceC1:(Coord *)c1 C2:(Coord *)c2;
 + (int) point_distanceX1:(int)x1 Y1:(int)y1 X2:(int)x2 Y2:(int)y2;

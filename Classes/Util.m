@@ -56,6 +56,16 @@
 
 @implementation Util
 
++ (int) maxValueOfX:(int)x andY:(int)y
+{
+	return (x>y)? x:y;
+}
+
++ (int) minValueOfX:(int)x andY:(int)y
+{
+	return (x>y)? y:x;
+}
+
 + (int) point_distanceC1:(Coord *)c1 C2:(Coord *)c2
 {
 	return [Util point_distanceX1:c1.X Y1:c1.Y X2:c2.X Y2:c2.Y];

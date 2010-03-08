@@ -3,6 +3,7 @@
 #import "Dungeon.h"
 #import "LevelGen.h"
 #import "Item.h"
+#import "Tile.h"
 
 #include <stdio.h>
 
@@ -22,8 +23,7 @@ static NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
-@synthesize playerLocation, liveEnemies;
-NSMutableDictionary *items = nil;
+@synthesize playerLocation, liveEnemies, items, dungeonType;
 
 #pragma mark --private
 
@@ -63,11 +63,20 @@ NSMutableDictionary *items = nil;
 
 - (Dungeon*) initWithType: (levelType) lvlType {
 	if (!items) {
-		items = [[NSMutableDictionary alloc] init];
+		self.items = [[[NSMutableDictionary alloc] init] autorelease];
 	}
 	else {
 		[items removeAllObjects];
 	}
+	if(!liveEnemies)
+	{
+		self.liveEnemies = [[[NSMutableArray alloc] init] autorelease];
+	}
+	else {
+		[liveEnemies removeAllObjects];
+	}
+
+	dungeonType = lvlType;
 
 	if (!playerLocation) playerLocation = [Coord alloc];
 

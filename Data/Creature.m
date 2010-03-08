@@ -78,7 +78,22 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
 						  nil];
-
+		
+		switch (monsterType) {
+			case WARRIOR:
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:SHIELD] slot:LEFT];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_CHEST] slot: CHEST];
+				break;
+			case ARCHER:
+				[self addEquipment:[self.inventory objectAtIndex:BOW] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_CHEST] slot:CHEST];
+				break;
+			default:
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
+		}
 		[self ClearTurnActions];
 		return self;
 	}
@@ -112,12 +127,12 @@
 		
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
+		self.inventory = [[[NSMutableArray alloc] init] autorelease];
 		money = 10000;
 		abilityPoints = 10;
 		turnPoints = 0;
 		inBattle = NO;
 		condition = NO_CONDITION;
-		inventory = nil;
 		return self;
 	}
 	return nil;
@@ -387,11 +402,28 @@
 
 - (BOOL) hasActionToTake
 {
-	if (selectedMoveTarget || selectedCreatureForAction || selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse) 
+	if( selectedMoveTarget 
+		 || ( selectedCreatureForAction
+				&& ( selectedCombatAbilityToUse || selectedSpellToUse || selectedItemToUse))) 
 	{
 		return YES;
 	}
 	return NO;
+}
+
+- (int) getRange {
+	int lrange, rrange;
+	if (equipment.lHand) {
+		lrange = equipment.lHand.range;
+	} else {
+		lrange = 1;
+	}
+	if (equipment.rHand) {
+		rrange = equipment.rHand.range;
+	} else {
+		rrange = 1;
+	}
+	return [Util maxValueOfX:lrange andY:rrange];
 }
 
 + (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon

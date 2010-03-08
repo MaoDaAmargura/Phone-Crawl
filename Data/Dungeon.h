@@ -1,4 +1,5 @@
-#import "Tile.h"
+
+
 typedef enum {
 	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss
 } levelType;
@@ -10,9 +11,12 @@ typedef enum {
 
 #pragma mark -
 
-@interface Dungeon : NSObject {
+@interface Dungeon : NSObject 
+{
+	levelType dungeonType;
 	Coord *playerLocation;
-	NSMutableArray *liveEnemies;	// note: shared with Engine
+	NSMutableArray *liveEnemies;
+	NSMutableDictionary *items;
 }
 
 - (Dungeon*) initWithType: (levelType) lvlType;
@@ -23,10 +27,11 @@ typedef enum {
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
 
-// FIXME: is this ever updated / still necessary?
+// These are attributes of the dungeon object used by engine to determine how to set up a game.
+// This is object oriented programming 101. 
+@property (nonatomic) levelType dungeonType;
 @property (nonatomic, retain) Coord *playerLocation;
 @property (nonatomic, retain) NSMutableArray *liveEnemies;
-
-extern NSMutableDictionary *items;
+@property (nonatomic, retain) NSMutableDictionary *items;
 
 @end

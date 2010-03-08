@@ -3,7 +3,7 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START NO
+#define QUICK_START YES
 
 @implementation Phone_CrawlAppDelegate
 
@@ -50,8 +50,8 @@
 
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
 {
-	[homeTabController.gameEngine startNewGameWithPlayerName:name andIcon:icon];
 	flow.view.hidden = YES;
+	[homeTabController newCharacterWithName:name andIcon:icon];
 	[window bringSubviewToFront:homeTabController.view];
 }
 

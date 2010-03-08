@@ -5,8 +5,8 @@
 #import "PCPopupMenu.h"
 #import "Item.h"
 
-#define ADD_ABILITY(NAME,DMG,FN,PNTS,TPNTS) [abilityList addObject:[[[CombatAbility alloc] initWithInfo:NAME damage:DMG \
-abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN points:PNTS turnPoints:TPNTS] autorelease]]
+#define ADD_ABILITY(NAME,DMG,FN,TPNTS) [abilityList addObject:[[[CombatAbility alloc] initWithInfo:NAME damageMultiplier:DMG \
+abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] autorelease]]
 
 NSMutableArray *abilityList = nil;
 BOOL have_set_abilities = FALSE;
@@ -15,22 +15,19 @@ BOOL have_set_abilities = FALSE;
 
 @synthesize name;
 @synthesize abilityId;
-@synthesize damage;
+@synthesize damageMultiplier;
 @synthesize abilityLevel;
-@synthesize turnPoints;
 @synthesize turnPointCost;
 
 
-- (id) initWithInfo: (NSString *) abilityName damage: (int) abilityDamage abilityLevel: (int) level 
-		 abilityId: (int) desiredId abilityFn: (SEL) fn points:(int)turnPnts 
-		 turnPoints:(int) turnPntCost {
+- (id) initWithInfo: (NSString *) abilityName damageMultiplier: (float) abilityDamage abilityLevel: (int) level 
+		 abilityId: (int) desiredId abilityFn: (SEL) fn turnPoints:(int) turnPntCost {
 	if (self = [super init]) {
 		name = abilityName;
-		damage = abilityDamage;
+		damageMultiplier = abilityDamage;
 		abilityLevel = level;
 		abilityFn = fn;
 		abilityId = desiredId;
-		turnPoints = turnPnts;
 		turnPointCost = turnPntCost;
 		return self;
 	}
@@ -40,13 +37,11 @@ BOOL have_set_abilities = FALSE;
 - (NSString *) useAbility: (Creature *) caster target: (Creature *) target 
 {
 	int abilityResult = 0;
-	if (caster.turnPoints >= turnPoints) {
-		caster.turnPoints -= turnPoints;
-		if([self respondsToSelector:abilityFn])
-		{
-			IMP f = [self methodForSelector:abilityFn];
-			abilityResult = (int)(f)(self, abilityFn, caster, target);
-		}
+
+	if([self respondsToSelector:abilityFn])
+	{
+		IMP f = [self methodForSelector:abilityFn];
+		abilityResult = (int)(f)(self, abilityFn, caster, target);
 	}
 	if (abilityResult >= 0) {
 		[target takeDamage:abilityResult];
@@ -79,17 +74,9 @@ BOOL have_set_abilities = FALSE;
 	return amountDamage * resist / 100;
 }
 
-//Specialized ability function example
-- (int) defaultAbility: (Creature *) attacker target: (Creature *) defender {
-	if (attacker == nil || defender == nil) {
-		DLog(@"ABILITY_ERR");
-	}
-	return [self basicAttack: attacker def: defender] + [self elementalAttack:attacker def:defender];
-}
-
 - (int) basicAttack:(Creature *)attacker def:(Creature *)defender {
 	float basedamage = [attacker regularWeaponDamage];
-	basedamage *= damage;
+	basedamage *= damageMultiplier;
 	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
 	//[defender takeDamage:finaldamage];
 	return finaldamage;
@@ -134,42 +121,44 @@ BOOL have_set_abilities = FALSE;
 	return finaldamage;
 }
 
+//Specialized ability function example
+- (int) mixedStrike: (Creature *) attacker target: (Creature *) defender {
+	if (attacker == nil || defender == nil) {
+		DLog(@"ABILITY_ERR");
+	}
+	return 0.5*([self basicAttack: attacker def: defender] + [self elementalAttack:attacker def:defender]);
+}
+
 - (int) elementalStrike: (Creature *) attacker target: (Creature *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
-	return [self elementalAttack: attacker def: defender] * 2;
+	return [self elementalAttack: attacker def: defender];
 }
 
-- (int) bruteStrike: (Creature *) attacker target: (Creature *) defender {
+- (int) defaultStrike: (Creature *) attacker target: (Creature *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
-	return [self basicAttack: attacker def: defender] * 2;
+	return [self basicAttack: attacker def: defender];
 }
 
-- (int) quickStrike: (Creature *) attacker target: (Creature *) defender {
-	if (attacker == nil || defender == nil) {
-		DLog(@"ABILITY_ERR");
-	}
-	attacker.turnPoints += 40;
-	return [self basicAttack: attacker def: defender] + [self elementalAttack:attacker def:defender];
-}
 
 + (void) fillAbilityList {
 	have_set_abilities = TRUE;
 	int id_cnt = 0, abilityLvl = 1;
 	//ability_list = [[[NSMutableArray alloc] init] autorelease];
 	abilityList = [[NSMutableArray alloc] init];
-	SEL detr = @selector(defaultAbility:target:);
+	SEL mix = @selector(mixedStrike:target:);
 	SEL ele = @selector(elementalStrike:target:);
-	SEL brute = @selector(bruteStrike:target:);
-	SEL quick = @selector(quickStrike:target:);
+	SEL def = @selector(defaultStrike:target:);
 	
-	ADD_ABILITY(@"Swing",80,detr,50,20);
-	ADD_ABILITY(@"Brute",1000,brute,50,100);
-	ADD_ABILITY(@"EStrike",60,ele,50,40);
-	ADD_ABILITY(@"Quick",40,quick,50,20);
+	ADD_ABILITY(@"Strike",2.0,def,50);
+	ADD_ABILITY(@"Brute",4.0,def,100);
+	ADD_ABILITY(@"EStrike",2.0,ele,50);
+	ADD_ABILITY(@"MStrike",2.0,mix,50);
+	ADD_ABILITY(@"Quick",1.0,def,25);
+	ADD_ABILITY(@"Shitty",0.8,def,50);
 	
 }
 

@@ -8,11 +8,10 @@ extern NSMutableArray* abilityList;
 @interface CombatAbility : NSObject {
 
 	NSString *name;
-	int damage;
+	float damageMultiplier;
 	int abilityLevel; //Novice, Journeyman, Master
 	int abilityId; //Index in combat_list
 	SEL abilityFn;
-	int turnPoints;
 	int turnPointCost;
 }
 
@@ -20,27 +19,24 @@ extern NSMutableArray* abilityList;
 + (NSString *) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target;
 - (NSString *) useAbility: (Creature *) caster target: (Creature *) target;
 
-- (id) initWithInfo: (NSString *) abilityName damage: (int) abilityDamage abilityLevel: (int) level 
-		 abilityId: (int) desiredId abilityFn: (SEL) fn points:(int)turnPnts
-		 turnPoints:(int) turnPntCost;
+- (id) initWithInfo: (NSString *) abilityName damageMultiplier: (float) abilityDamage abilityLevel: (int) level 
+		 abilityId: (int) desiredId abilityFn: (SEL) fn turnPoints:(int) turnPntCost;
 	
 
 - (int) mitigateDamage: (Creature *) caster target: (Creature *) target damage: (int) amountDamage;
 
 
 //Specialized ability function example
-- (int) defaultAbility: (Creature *) caster target: (Creature *) target;
 - (int) basicAttack:(Creature *)attacker def:(Creature *)defender;
 - (int) elementalAttack:(Creature *)attacker def:(Creature *)defender;
-- (int) bruteStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) defaultStrike: (Creature *) caster target: (Creature *) target;
 - (int) elementalStrike:(Creature *)attacker target:(Creature *)defender;
-- (int) quickStrike:(Creature *)attacker target:(Creature *)defender;
+- (int) mixedStrike:(Creature *)attacker target:(Creature *)defender;
 
-@property (readonly) NSString *name;
+@property (readonly, retain) NSString *name;
 @property (readonly) int abilityId;
-@property (readonly) int damage;
+@property (readonly) float damageMultiplier;
 @property (readonly) int abilityLevel;
-@property (readonly) int turnPoints;
 @property (readonly) int turnPointCost;
 
 @end

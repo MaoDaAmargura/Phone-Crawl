@@ -44,18 +44,18 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	return self;
 }
 
-- (Tile*) initWithTileType: (tileType) _type {
-	if (_type == tileRubble && (blockMove || slope)) {
+- (Tile*) initWithTileType: (tileType) newType {
+	if (newType == tileRubble && (blockMove || slope)) {
 		DLog(@"can't overwrite that with rubble.");
 		return self;
 	}
 
-	type = _type;
 	placementOrder = 0;	// dummy value, never occurs in a wall
 	blockMove = false;
 	blockShoot = false;
 	smashable = false;
 	slope = slopeNone;
+	type = newType;
 
 	switch (type) {
 		case tileWoodWall:

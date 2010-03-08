@@ -17,9 +17,10 @@
 
 @interface Engine : NSObject 
 {
-	
 	NSMutableArray *liveEnemies; 
 	NSMutableArray *deadEnemies;
+	
+	BOOL tutorialMode;
 	
 	Creature *player;
 	
@@ -44,6 +45,7 @@
 }
 
 @property (nonatomic, retain) Creature *player;
+@property (nonatomic, retain) Dungeon *currentDungeon;
 
 @property (nonatomic, retain) PCPopupMenu *battleMenu;
 @property (nonatomic, retain) PCPopupMenu *attackMenu;
@@ -51,6 +53,9 @@
 @property (nonatomic, retain) PCPopupMenu *itemMenu;
 @property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
 @property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
+
+@property (nonatomic) BOOL tutorialMode;
+
 
 - (id) init;
 

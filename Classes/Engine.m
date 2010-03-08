@@ -9,7 +9,11 @@
 #import "PCPopupMenu.h"
 #import "CombatAbility.h"
 
+#import "Phone_CrawlAppDelegate.h"
+#import "HomeTabViewController.h"
+
 #define GREATEST_ALLOWED_TURN_POINTS 100
+#define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define LARGEST_ALLOWED_PATH 80
 
 @interface Engine (UIUpdates)
@@ -25,13 +29,12 @@
 
 - (void) calculateCreaturesInBattle;
 - (Creature *) nextCreatureToTakeTurn;
-- (void) incrementCreatureTurnPoints;
+- (void) incrementCreatureTurnPointsBy:(int)amount;
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
 - (void) checkIfCreatureIsDead: (Creature *) c;
 
 @end
-
 
 @interface Engine (MenuControl)
 
@@ -58,14 +61,18 @@
 
 @end
 
+@interface Engine (Tutorial)
 
+- (void) finishTutorial;
 
-extern NSMutableDictionary *items; // from Dungeon
+@end
+
 
 @implementation Engine
 
-@synthesize player;
+@synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
+@synthesize tutorialMode;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -137,6 +144,8 @@ extern NSMutableDictionary *items; // from Dungeon
 {
 	if(self = [super init])
 	{
+		tutorialMode = NO;
+		
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
@@ -169,6 +178,8 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self setupAttackMenu];
 		[self setupItemMenu];
 		[self setupSpellMenus];
+		[self hideMenus];
+		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 
 		[self putPlayerAndUpstairs];
@@ -192,7 +203,7 @@ extern NSMutableDictionary *items; // from Dungeon
 }
 
 - (void) fillAttackMenuForCreature: (Creature *) c {
-	for (int i = 0 ; i < NUM_COMBAT_ABILITY_TYPES ; ++i) {
+	for (int i = 0 ; i < NUM_PLAYER_COMBAT_ABILITY_TYPES ; ++i) {
 		if(c.abilities.combatAbility[i] == 0) // No points trained in that ability
 			continue;
 		else {
@@ -245,6 +256,7 @@ extern NSMutableDictionary *items; // from Dungeon
 	[attackMenu showInView:wView.view];
 	[itemMenu showInView:wView.view];
 	hasAddedMenusToWorldView = YES;
+	[self hideMenus];
 	
 }
 
@@ -269,19 +281,28 @@ extern NSMutableDictionary *items; // from Dungeon
 	{
 		if(creature.selectedCombatAbilityToUse)
 		{
+			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= [creature getRange]) {
 			//todo: use the combat ability on the target
-			actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
-			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-			creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
+				actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
+			} else {
+				actionResult = @"Out of range!";
+			}
 			creature.selectedCreatureForAction = nil;
 			creature.selectedCombatAbilityToUse = nil;
 		}
 		else if(creature.selectedSpellToUse)
 		{
-			//use the spell on the target
-			actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
-			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-			creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;		
+			
+			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= creature.selectedSpellToUse.range) {
+				//use the spell on the target
+				actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
+				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
+				creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;
+			} else {
+				actionResult = @"Out of range!";
+			}
 			creature.selectedCreatureForAction = nil;
 			creature.selectedSpellToUse = nil;
 		}
@@ -310,21 +331,15 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self performMoveActionForCreature:creature];
 	}
 	
+	if(creature == player) [self hideMenus];
+	
 	return actionResult;
 }
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-	
-	if (battleMenu.hidden == YES) 
-	{
-		player.selectedCreatureForAction = nil;
-	}
-	if (player.selectedCreatureForAction == nil) 
-	{
-		[self hideMenus];
-	}
+
 	
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -332,18 +347,22 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 	if (creature == player)
 	{
-		if(creature.current.health <= 0)
+		if(player.current.health <= 0)
 		{
-			
+			//TODO: die
 		}
+		if(!player.inBattle)
+			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
 		
-		if([creature hasActionToTake])
-			actionResult = [self performActionForCreature:creature]; 
+		if([player hasActionToTake])
+			actionResult = [self performActionForCreature:player]; 
 		// Why do we want this? If the player hasn't given any input yet, shouldnt the game freeze until they do?
 		//else
+		// It was so that idling monsters would take turns whether or not the player did. Gives the world a sense of 
+		// real time. - Austin
 			//player.turnPoints -= 5;
 	}
-	else //if(creature != nil) //nextCreatureToTakeTurn will always return a creature.
+	else
 	{
 		[self determineActionForCreature:creature];
 		if ([creature hasActionToTake]) 
@@ -351,10 +370,6 @@ extern NSMutableDictionary *items; // from Dungeon
 			actionResult = [self performActionForCreature:creature];
 		}
 	}
-	//else
-	//{
-	//	[self incrementCreatureTurnPoints];		
-	//}
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
@@ -377,11 +392,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	
 	player.inBattle = NO;
 	for (Creature *m in liveEnemies) {
-		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 10) && (m.creatureLocation.Z == player.creatureLocation.Z);
+		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.creatureLocation.Z == player.creatureLocation.Z);
 		player.inBattle |= m.inBattle;
 	}
 	
-	// prevents turn_points from becoming unruly.
 	// entering battle mode zeroes all turn points.
 	if(previousBattleMode == NO && player.inBattle == YES)
 	{
@@ -394,12 +408,19 @@ extern NSMutableDictionary *items; // from Dungeon
 /*!
 	@method		nextCreatureToTakeTurn
 	@abstract		ALWAYS returns a creature (any living monster or the player) that will take the next turn.
-	@discussion		This method chooses the highest turnPoint creature, normalizes turnpoints, then returns that creature.
-						This allows engine to always have 1 creature calculated per turn, no matter the mix of fast or slow creatures.
-						turn points can't leave the range of 0-100 because then new monsters that enter the battle later will have grossly different turnpoints						
+	@discussion		Turn points work a little bit backwards now, but they behave exactly the same as we 
+						discussed at the whiteboards a while ago.  The method we discussed increasing everybody's 
+						turnpoints until one creature had 100, then that creature took a turn.
+						This method works backwards, because it picks the creature that is going to take a turn, 
+						then increments everybody's turnpoints by some amount such that the picked monster 
+						ends up with 100 turn points.  The behavior is exactly the same, except that we don't 
+						have to wait for a creature to reach 100 points - it happens instantly.  This is currently
+						not correct for creatures with different turnPoint regen, but it can be if needed.
 */
 - (Creature *) nextCreatureToTakeTurn
 {
+	/* This is not how we agreed we were going to do turn points. Is someone changing the system? */
+	// changed it again, I think it's more similar to how we discussed it should be. -Eric
 	if(!player.inBattle)
 		return player;
 	
@@ -413,33 +434,19 @@ extern NSMutableDictionary *items; // from Dungeon
 			greatest = (greatest.turnPoints >= m.turnPoints ? greatest : m);
 	}
 	
-	// normalize turn points - they should be between 0 and 100
-	
-	// if the largest # of turn points is negative, then all of the creatures in battle are fucking slow.
-	// boost all turn points until it gets to 0
-	while( greatest.turnPoints < 0 )
-	{	
-		DLog(@"Boosting turnpoints, cause the highest is %i", greatest.turnPoints);
-		[self incrementCreatureTurnPoints];
-	}
-	
-	// if the largest # of turn points is too big, then all of the creatures in battle are fucking fast
-	// let the turnpoints fall to below 100.
-	if(greatest.turnPoints < GREATEST_ALLOWED_TURN_POINTS)
-		[self incrementCreatureTurnPoints];
-	else
-		DLog(@"Not incrementing turnpoints because the highest is %i", greatest.turnPoints);
-	
+	// normalize turn points - add whatever amount is neccessary to make the chosen creature have TP of 100
+	[self incrementCreatureTurnPointsBy: 100-greatest.turnPoints];
+
 	return greatest;
 }
 	
-- (void) incrementCreatureTurnPoints 
+- (void) incrementCreatureTurnPointsBy:(int)amount
 {
 	if(player.inBattle)
-		player.turnPoints += 30;
+		player.turnPoints += amount;
 	for(Creature *m in liveEnemies)
 		if(m.inBattle)
-			m.turnPoints += 30;
+			m.turnPoints += amount;
 }
 
 - (void) determineActionForCreature:(Creature*)c
@@ -451,11 +458,10 @@ extern NSMutableDictionary *items; // from Dungeon
 	else
 	{
 		c.selectedCreatureForAction = player;
-		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:3]; 
+		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:SHITTY_STRIKE]; 
 	}
 }
 
-#define TURN_POINTS_FOR_MOVEMENT_ACTION 25
 - (void) performMoveActionForCreature:(Creature *)c
 {
 	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.selectedMoveTarget])
@@ -767,6 +773,7 @@ extern NSMutableDictionary *items; // from Dungeon
 
 - (void) drawItemsInWorld:(WorldView*) wView
 {
+	NSMutableDictionary *items = currentDungeon.items;
 	for(Coord *c in [items allKeys])
 	{
 		Item *i = [items objectForKey:c];
@@ -867,7 +874,7 @@ extern NSMutableDictionary *items; // from Dungeon
  */
 - (BOOL) canEnterTileAtCoord:(Coord*) coord
 {
-	return ![self tileAtCoordBlocksMovement:coord] || [self locationIsOccupied:coord];
+	return ![self tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
 }
 
 /*!
@@ -900,6 +907,8 @@ extern NSMutableDictionary *items; // from Dungeon
 					break;
 				case slopeToOrc:
 					[currentDungeon initWithType:orcMines];
+					c.creatureLocation = currentDungeon.playerLocation;
+					if(tutorialMode) [self finishTutorial];
 					[self putPlayerAndUpstairs];
 					break;
 				case slopeToCrypt:
@@ -936,17 +945,32 @@ extern NSMutableDictionary *items; // from Dungeon
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
-		[battleMenu show];
+		[self showBattleMenu];
 	}
 	else 
 	{
-		if (LVL_GEN_ENV) 
-		{
-			[self moveCreature: player ToTileAtCoord: tileCoord];
+		[self hideMenus];
+		if ([tileCoord equals:[player creatureLocation]]) {
+			for (Coord *c in [currentDungeon.items allKeys])
+			{
+				if([c equals:tileCoord])
+				{
+					Item *i = [currentDungeon.items objectForKey:c];
+					[player.inventory addObject:i];
+					[currentDungeon.items removeObjectForKey:c];
+				}
+			}
 		}
 		else 
 		{
-			player.selectedMoveTarget = tileCoord;
+			if (LVL_GEN_ENV) 
+			{
+				[self moveCreature: player ToTileAtCoord: tileCoord];
+			}
+			else 
+			{
+				player.selectedMoveTarget = tileCoord;
+			}
 		}
 	}
 }
@@ -1016,23 +1040,54 @@ extern NSMutableDictionary *items; // from Dungeon
 #pragma mark -
 #pragma mark Player Commands
 
+/*!
+ These are a hack. Don't do this unless you know what you're doing and you're me. -Austin
+ This is terrible practice. Once I have time, I'm going to do this in a better way. 
+ */
+- (void) refreshInventoryScreen
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController refreshInventoryView];
+}
+
+- (void) tutorialModeEquippedItem
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController continueTutorialFromSwordEquipped];
+}
+									  
+- (void) finishTutorial
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController finishTutorial];
+}
+
 - (void) playerEquipItem:(Item*)i
 {
 	[player addEquipment:i slot:i.slot];
+	// The code below will remove items that are equipped from the inventory. But since addEquipment is coded in a
+	// way that doesn't allow for getting back the old equipment, we aren't going to do that. -Austin
+	//[player.inventory removeObject:i];
+	//[self refreshInventoryScreen];
+	
+	if(tutorialMode)
+		[self tutorialModeEquippedItem];
 }
 
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
 	if([i cast:player target:player.selectedCreatureForAction] == 0)
-		[self playerDropItem:i];
+		[player.inventory removeObject:i];
+	[self refreshInventoryScreen];
 }
 
 - (void) playerDropItem:(Item*)i
 {	
 	if (i == nil) return;
+	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
 	[player.inventory removeObject:i];
-	//Currently does not update inventory view until press inventory screen's button again
+	[self refreshInventoryScreen];
 }
 
 #pragma mark -

@@ -68,7 +68,7 @@ NSMutableArray *spellList;
 
 
 @property (readonly) int range;
-@property (readonly) NSString * name;
+@property (readonly, retain) NSString * name;
 @property (readonly) targetType spellTarget;
 @property (readonly) int spellId;
 @property (readonly) int turnPointCost;
