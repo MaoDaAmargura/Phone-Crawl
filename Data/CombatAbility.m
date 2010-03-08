@@ -158,7 +158,7 @@ BOOL have_set_abilities = FALSE;
 	ADD_ABILITY(@"EStrike",2.0,ele,50);
 	ADD_ABILITY(@"MStrike",2.0,mix,50);
 	ADD_ABILITY(@"Quick",1.0,def,25);
-	ADD_ABILITY(@"Shitty",1.5,def,50);
+	ADD_ABILITY(@"Shitty",0.8,def,50);
 	
 }
 

@@ -5,13 +5,16 @@
 
 typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 
-#define NUM_COMBAT_ABILITY_TYPES 4
+#define NUM_COMBAT_ABILITY_TYPES 6
+#define NUM_PLAYER_COMBAT_ABILITY_TYPES 5
 
 typedef enum {
 	REG_STRIKE = 0,
 	BRUTE_STRIKE = 1,
 	ELE_STRIKE = 2,
-	QUICK_STRIKE = 3
+	MIX_STRIKE = 3,
+	QUICK_STRIKE = 4,
+	SHITTY_STRIKE = 5	// should not be available to player
 } PC_COMBAT_ABILITY_TYPE;
 
 #define NUM_PC_SPELL_TYPES 10

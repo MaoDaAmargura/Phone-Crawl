@@ -200,7 +200,7 @@
 }
 
 - (void) fillAttackMenuForCreature: (Creature *) c {
-	for (int i = 0 ; i < NUM_COMBAT_ABILITY_TYPES ; ++i) {
+	for (int i = 0 ; i < NUM_PLAYER_COMBAT_ABILITY_TYPES ; ++i) {
 		if(c.abilities.combatAbility[i] == 0) // No points trained in that ability
 			continue;
 		else {
@@ -440,7 +440,7 @@
 	else
 	{
 		c.selectedCreatureForAction = player;
-		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:3]; 
+		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:SHITTY_STRIKE]; 
 	}
 }
 
