@@ -437,6 +437,7 @@ typedef enum {
 
 	Coord *curr = [Coord withX: start.X Y: start.Y Z: start.Z];
 	Tile *prev = nil;
+	bool placedInitialDoor = false;
 	while (![curr isEqual: end]) {
 //		DLog(@"%d %d %d %d", xDelta, xDir, yDelta, yDir);
 		if (xDelta) {
@@ -458,7 +459,13 @@ typedef enum {
 //		}
 
 		if ([dungeon tileAt: curr].blockMove) {
-			[[dungeon tileAt: curr] initWithTileType: tileBoneWall];
+			if (!placedInitialDoor) {
+				[[dungeon tileAt: curr] initWithTileType: tileSkullDoor];
+				placedInitialDoor = true;
+			}
+			else {
+				[[dungeon tileAt: curr] initWithTileType: tileBoneWall];
+			}
 		}
 		prev = [dungeon tileAt: curr];
 
@@ -519,7 +526,7 @@ typedef enum {
 
 	int xToConnectFrom = coord.X * CRYPT_WALL_LENGTH;
 	int yToConnectFrom = coord.Y * CRYPT_WALL_LENGTH;
-	
+
 	for (int x = xToConnectFrom; x < xToConnectFrom + CRYPT_WALL_LENGTH; x++) {
 		for (int y = yToConnectFrom; y < yToConnectFrom + CRYPT_WALL_LENGTH; y++) {
 			Tile *tile = [dungeon tileAtX: x Y: y Z: coord.Z];
