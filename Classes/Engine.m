@@ -54,6 +54,7 @@
 - (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
 - (int) manhattanDistanceFromPlayer: (Creature *) m;
 - (BOOL) isACreatureAtLocation:(Coord*)loc;
+- (void) putPlayerAndUpstairs;
 
 @end
 
@@ -170,21 +171,7 @@ extern NSMutableDictionary *items; // from Dungeon
 		[self setupSpellMenus];
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
 
-		// put the player on the top leftmost square that can take him
-		for (int delta = 0;; delta++) {
-			for (int x = delta; x >= 0; x--) {
-				if (![currentDungeon tileAtX: x Y: delta - x Z: 0].blockMove) {
-					player.creatureLocation.X = x;
-					player.creatureLocation.Y = delta - x;
-					player.creatureLocation.Z = 0;
-					goto OUTSIDE;
-				}			
-			}
-		}
-		OUTSIDE:;
-
-		DLog(@"%@",[player.creatureLocation description]);
-
+		[self putPlayerAndUpstairs];
 		return self;
 	}
 	return nil;
@@ -233,6 +220,21 @@ extern NSMutableDictionary *items; // from Dungeon
 
 #pragma mark -
 #pragma mark Control
+
+- (void) putPlayerAndUpstairs {
+	// put the player on the top leftmost square that can take him
+	for (int delta = 0;; delta++) {
+		for (int x = delta; x >= 0; x--) {
+			if (![currentDungeon tileAtX: x Y: delta - x Z: 0].blockMove) {
+				player.creatureLocation.X = x;
+				player.creatureLocation.Y = delta - x;
+				player.creatureLocation.Z = 0;
+				[[currentDungeon tileAt: player.creatureLocation] initWithTileType: tileStairsToTown];
+				return;
+			}			
+		}
+	}
+}
 
 - (void) addMenusToWorldView:(WorldView*)wView
 {
@@ -898,15 +900,17 @@ extern NSMutableDictionary *items; // from Dungeon
 					break;
 				case slopeToOrc:
 					[currentDungeon initWithType:orcMines];
-					c.creatureLocation = currentDungeon.playerLocation;
+					[self putPlayerAndUpstairs];
 					break;
 				case slopeToCrypt:
 					[currentDungeon initWithType:crypts];
-					c.creatureLocation = currentDungeon.playerLocation;
+					[self putPlayerAndUpstairs];
 					break;					
 				case slopeToTown:
 					[currentDungeon initWithType:town];
-					c.creatureLocation = currentDungeon.playerLocation;
+					[liveEnemies removeAllObjects];
+					[deadEnemies removeAllObjects];
+					[self putPlayerAndUpstairs];
 					break;
 				default:
 					break;
