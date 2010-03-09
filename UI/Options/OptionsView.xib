@@ -115,16 +115,15 @@
 										<int key="NSfFlags">16</int>
 									</object>
 									<int key="IBUIButtonType">1</int>
-									<string key="IBUINormalTitle">Skill Upgrades</string>
 									<reference key="IBUIHighlightedTitleColor" ref="400691596"/>
 									<object class="NSColor" key="IBUINormalTitleColor">
 										<int key="NSColorSpace">1</int>
 										<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="810783401"/>
-									<object class="NSCustomResource" key="IBUINormalBackgroundImage" id="464112701">
+									<object class="NSCustomResource" key="IBUINormalBackgroundImage">
 										<string key="NSClassName">NSImage</string>
-										<string key="NSResourceName">ui-button-empty.png</string>
+										<string key="NSResourceName">ui-button-skillupgrades.png</string>
 									</object>
 								</object>
 								<object class="IBUIButton" id="905614983">
@@ -165,14 +164,16 @@
 										<int key="NSfFlags">16</int>
 									</object>
 									<int key="IBUIButtonType">1</int>
-									<string key="IBUINormalTitle">Save and Logout</string>
 									<reference key="IBUIHighlightedTitleColor" ref="400691596"/>
 									<object class="NSColor" key="IBUINormalTitleColor">
 										<int key="NSColorSpace">1</int>
 										<bytes key="NSRGB">MC4xOTYwNzg0MyAwLjMwOTgwMzkzIDAuNTIxNTY4NjYAA</bytes>
 									</object>
 									<reference key="IBUINormalTitleShadowColor" ref="810783401"/>
-									<reference key="IBUINormalBackgroundImage" ref="464112701"/>
+									<object class="NSCustomResource" key="IBUINormalBackgroundImage">
+										<string key="NSClassName">NSImage</string>
+										<string key="NSResourceName">ui-button-save.png</string>
+									</object>
 								</object>
 							</object>
 							<string key="NSFrameSize">{320, 436}</string>

@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NewGameFlowControl.h"
 
+@class Creature;
 @class HomeTabViewController;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
@@ -31,5 +32,7 @@
 - (IBAction) viewScores;
 
 - (void) applicationWillTerminate:(UIApplication *)application;
+
+- (Creature*) playerObject;
 
 @end

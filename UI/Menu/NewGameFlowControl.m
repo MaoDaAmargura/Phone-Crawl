@@ -8,7 +8,7 @@
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
 
-#define TOP_LEFT_ICON		@""
+#define TOP_LEFT_ICON		@"knight.gif"
 #define TOP_RIGHT_ICON		@""
 #define BOTTOM_LEFT_ICON	@""
 #define BOTTOM_RIGHT_ICON	@""
