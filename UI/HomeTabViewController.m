@@ -199,7 +199,7 @@
 
 - (UIViewController*) initCharacterView
 {
-	cView = [[[CharacterView alloc] init] autorelease];
+	cView = [[[CharacterView alloc] initWithIcon:[player iconName] autorelease];
 	//
 	cView.title = @"Character";
 	cView.tabBarItem.image = [UIImage imageNamed:@"icon-character.png"];

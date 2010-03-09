@@ -6,27 +6,23 @@
 
 @implementation CharacterView
 
-- (id) init 
+- (id) initWithIcon:(NSString*)imgNm
 {
 	if(self = [super initWithNibName:@"CharacterView"])
 	{
+		imgName = imgNm;
 		return self;
 	}
 	return nil;
 }
-/*
+
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	[delegate needUpdateForCharView:self];
+	[characterImageView setImage:[UIImage imageNamed:imgName]];
 }
 
-- (void) viewWillAppear:(BOOL)animated
-{
-	[super viewWillAppear:animated];
-	[delegate needUpdateForCharView:self];
-}
-*/
+
 - (void)didReceiveMemoryWarning {
 	// Releases the view if it doesn't have a superview.
     [super didReceiveMemoryWarning];

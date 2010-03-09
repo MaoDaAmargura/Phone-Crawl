@@ -9,9 +9,9 @@
 #define CHAR_SELECTION 5
 
 #define TOP_LEFT_ICON		@"knight.png"
-#define TOP_RIGHT_ICON		@""
-#define BOTTOM_LEFT_ICON	@""
-#define BOTTOM_RIGHT_ICON	@""
+#define TOP_RIGHT_ICON		@"female1.png"
+#define BOTTOM_LEFT_ICON	@"male2.png"
+#define BOTTOM_RIGHT_ICON	@"mage.png"
 
 @interface NewGameFlowControl (Private)
 
