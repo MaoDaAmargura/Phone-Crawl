@@ -183,7 +183,7 @@ typedef enum {
 @property (nonatomic,retain) Points *max;
 @property (nonatomic) int turnPoints;
 @property (nonatomic) BOOL inBattle;
-@property (nonatomic, readonly, retain) NSString *name;
+@property (nonatomic, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
 @property (readonly) int level;

@@ -3,7 +3,9 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START YES
+#import "Dungeon.h" // simply for the "town" enum
+
+#define QUICK_START NO
 
 @implementation Phone_CrawlAppDelegate
 
@@ -74,8 +76,10 @@
 - (IBAction) loadSaveGame
 {
 	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
-	
+	[homeTabController.gameEngine.currentDungeon initWithType:town];
 	[window bringSubviewToFront:homeTabController.view];
+	
+	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 }
 
 - (IBAction) viewScores
