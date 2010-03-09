@@ -15,6 +15,8 @@
 	NSString *imgName;
 }
 
+- (id) initWithIcon:(NSString *)imgNm;
+
 - (void) updateWithEquippedItems:(EquipSlots*) items;
 
 @end
