@@ -27,18 +27,22 @@
 	flow = nil;
 
 	//return;
-	if(QUICK_START || LVL_GEN_ENV)
+	if(QUICK_START || LVL_GEN_ENV) {
 		[window addSubview:homeTabController.view];
-	else 
+		gameStarted = YES;
+	} else {
 		[window insertSubview:homeTabController.view atIndex:0];
-
+		gameStarted = NO;
+	}
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	printf("saving game\n");
-	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+	if (gameStarted) {
+		printf("saving game\n");
+		[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+	}
 }
 
 
@@ -71,6 +75,7 @@
 	}
 	[window bringSubviewToFront:flow.view];
 	[flow begin];
+	gameStarted = YES;
 }
 
 - (IBAction) loadSaveGame

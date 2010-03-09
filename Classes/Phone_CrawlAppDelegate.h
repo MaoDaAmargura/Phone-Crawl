@@ -17,11 +17,14 @@
 
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
+	BOOL gameStarted;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) HomeTabViewController *homeTabController;
+
+@property BOOL gameStarted;
 
 - (IBAction) startNewGame;
 - (IBAction) loadSaveGame;
