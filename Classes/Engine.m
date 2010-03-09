@@ -531,19 +531,68 @@
 	NSString *playerName = [self getArrayString:data];
 	int money = [[self getArrayString:data] intValue];
 	int playerLevel = [[self getArrayString:data] intValue];
-	int expPoints = [[self getArrayString:data] intValue];
+	if (player == nil) {
+		player = [[Creature alloc] initPlayerWithInfo:playerName level:playerLevel];
+	} else {
+		[player initPlayerWithInfo:playerName level:playerLevel];
+	}
+	player.money = money;
+	player.experiencePoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
     int chest = [[self getArrayString:data] intValue];
 	int rhand = [[self getArrayString:data] intValue];
 	int lhand = [[self getArrayString:data] intValue];
 	int health = [[self getArrayString:data] intValue];
+	player.current.health = health;
+	player.max.health = health;
 	int shield = [[self getArrayString:data] intValue];
+	player.current.shield = shield;
+	player.max.shield = shield;
 	int mana = [[self getArrayString:data] intValue];
+	player.current.mana = mana;
+	player.max.mana = mana;
 	int turnSpeed = [[self getArrayString:data] intValue];
+	player.current.turnSpeed = turnSpeed;
+	player.max.turnSpeed = turnSpeed;
+	NSString *sentinel = [self getArrayString:data];
+	if ([sentinel isEqualToString:@"[abilitiesbegin]"]) {
+		NSString *line = [self getArrayString:data];
+		while (![line isEqualToString:@""] && ![line isEqualToString:@"[spellsbegin]"]) {
+			NSArray *linearr = [line componentsSeparatedByString:@"||"];
+			int cid = [[linearr objectAtIndex:0] intValue];
+			int level = [[linearr objectAtIndex:1] intValue];
+			player.abilities.combatAbility[cid] = level;
+			line = [self getArrayString:data];
+		}
+		sentinel = line;
+	}
+	if ([sentinel isEqualToString:@"[spellsbegin]"]) {
+		NSString *line = [self getArrayString:data];
+		while (![line isEqualToString:@""] && ![line isEqualToString:@"[inventorybegin]"]) {
+			NSArray *linearr = [line componentsSeparatedByString:@"||"];
+			int sid = [[linearr objectAtIndex:0] intValue];
+			int level = [[linearr objectAtIndex:1] intValue];
+			player.abilities.spellBook[sid] = level;
+			line = [self getArrayString:data];
+		}
+		sentinel = line;
+	}
+	if ([sentinel isEqualToString:@"[inventorybegin]"]) {
+		NSString *line = [self getArrayString:data];
+		while (![line isEqualToString:@""]) {
+			Item *i = [self loadItemFromFile:line];
+			[player.inventory addObject:i];
+		}
+		sentinel = line;
+	}
+	player.equipment.head = [player.inventory objectAtIndex:head];
+	player.equipment.chest = [player.inventory objectAtIndex:chest];
+	player.equipment.rHand = [player.inventory objectAtIndex:rhand];
+	player.equipment.lHand = [player.inventory objectAtIndex:lhand];
 }
 
-- (Item *) loadItemFromFile:(NSMutableArray *)array {
-	NSString *datastring = [self getArrayString:array];
+- (Item *) loadItemFromFile:(NSString *)datastring {
+	//NSString *datastring = [self getArrayString:array];
 	Item *ret = nil;
 	if (![datastring isEqualToString:@"null"]) {
 		NSArray *data = [datastring componentsSeparatedByString:@"||"];

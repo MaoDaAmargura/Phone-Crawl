@@ -96,7 +96,7 @@
 
 - (void) writeItemToFile:(Item *)item file:(FILE *)file;
 
-- (Item *) loadItemFromFile:(NSMutableArray *)array;
+- (Item *) loadItemFromFile:(NSString *)datastring;
 
 - (NSString *) getArrayString:(NSMutableArray *)array;
 
