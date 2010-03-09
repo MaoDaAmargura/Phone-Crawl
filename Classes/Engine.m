@@ -506,15 +506,19 @@
 		NSLog(filename);
 		return;
 	}
-	char line[100];
+	char line[150];
 	NSMutableArray *data = [NSMutableArray arrayWithCapacity:10];
-	while (fgets(line,100,file) != NULL) {
+	while (fgets(line,150,file) != NULL) {
 		// cut off trailing newline
 		if (line[strlen(line)-1] == '\n') {
 			line[strlen(line)-1] = '\0';
 		}
 		[data addObject:[NSString stringWithFormat:@"%s",line]];
 		printf("%s\n",line);
+	}
+	if ([data count] == 0) {
+		NSLog(@"Save file is empty");
+		return;
 	}
 	// maxhealth
 	// maxshield
@@ -685,7 +689,8 @@
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"w"))) {
-		NSLog([@"Unable to open file for writing: " stringByAppendingString:filename]);
+		NSLog(@"Unable to open file for writing: ");
+		NSLog(filename);
 		return;
 	}
 	// name
@@ -1514,10 +1519,6 @@
 {
 	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
 	self.player = newPlayer;
-	
-	// TODO: Take this line out, it is only to test save/load
-	//[self saveGame:@"test.gam"];
-	//[self loadGame:@"test.gam"];
 	
 	[currentDungeon initWithType:town];
 	
