@@ -14,6 +14,8 @@
 
 @synthesize homeTabController;
 
+@synthesize gameStarted;
+
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
 	// this is an incredibly hackish workaround to GET PEOPLE TO QUIT STEPPING ON MY TELEPORT.
