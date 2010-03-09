@@ -86,12 +86,12 @@
 		D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */; };
 		D918C17111470023002D4575 /* ui-button-highscores.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C16F11470023002D4575 /* ui-button-highscores.png */; };
 		D918C17211470023002D4575 /* ui-button-skillupgrades.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C17011470023002D4575 /* ui-button-skillupgrades.png */; };
-		D918C18E1147011A002D4575 /* female1.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C1881147011A002D4575 /* female1.gif */; };
-		D918C18F1147011A002D4575 /* female2.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C1891147011A002D4575 /* female2.gif */; };
-		D918C1901147011A002D4575 /* knight.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C18A1147011A002D4575 /* knight.gif */; };
-		D918C1911147011A002D4575 /* mage.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C18B1147011A002D4575 /* mage.gif */; };
-		D918C1921147011A002D4575 /* male1.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C18C1147011A002D4575 /* male1.gif */; };
-		D918C1931147011A002D4575 /* male2.gif in Resources */ = {isa = PBXBuildFile; fileRef = D918C18D1147011A002D4575 /* male2.gif */; };
+		D918C1B31147049C002D4575 /* female1.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1AD1147049C002D4575 /* female1.png */; };
+		D918C1B41147049C002D4575 /* female2.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1AE1147049C002D4575 /* female2.png */; };
+		D918C1B51147049C002D4575 /* knight.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1AF1147049C002D4575 /* knight.png */; };
+		D918C1B61147049C002D4575 /* mage.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B01147049C002D4575 /* mage.png */; };
+		D918C1B71147049C002D4575 /* male1.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B11147049C002D4575 /* male1.png */; };
+		D918C1B81147049C002D4575 /* male2.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B21147049C002D4575 /* male2.png */; };
 		D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E7D8E112D1B49008D8C78 /* swordsingle.png */; };
 		D925B811113715C0004C2A18 /* ui-button-display.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B803113715C0004C2A18 /* ui-button-display.png */; };
 		D925B812113715C0004C2A18 /* ui-button-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B804113715C0004C2A18 /* ui-button-empty.png */; };
@@ -295,12 +295,12 @@
 		D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Overlay.m"; sourceTree = "<group>"; };
 		D918C16F11470023002D4575 /* ui-button-highscores.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-highscores.png"; sourceTree = "<group>"; };
 		D918C17011470023002D4575 /* ui-button-skillupgrades.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-skillupgrades.png"; sourceTree = "<group>"; };
-		D918C1881147011A002D4575 /* female1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = female1.gif; sourceTree = "<group>"; };
-		D918C1891147011A002D4575 /* female2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = female2.gif; sourceTree = "<group>"; };
-		D918C18A1147011A002D4575 /* knight.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = knight.gif; sourceTree = "<group>"; };
-		D918C18B1147011A002D4575 /* mage.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = mage.gif; sourceTree = "<group>"; };
-		D918C18C1147011A002D4575 /* male1.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = male1.gif; sourceTree = "<group>"; };
-		D918C18D1147011A002D4575 /* male2.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = male2.gif; sourceTree = "<group>"; };
+		D918C1AD1147049C002D4575 /* female1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = female1.png; sourceTree = "<group>"; };
+		D918C1AE1147049C002D4575 /* female2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = female2.png; sourceTree = "<group>"; };
+		D918C1AF1147049C002D4575 /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
+		D918C1B01147049C002D4575 /* mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mage.png; sourceTree = "<group>"; };
+		D918C1B11147049C002D4575 /* male1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male1.png; sourceTree = "<group>"; };
+		D918C1B21147049C002D4575 /* male2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male2.png; sourceTree = "<group>"; };
 		D91E7D8E112D1B49008D8C78 /* swordsingle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swordsingle.png; sourceTree = "<group>"; };
 		D925B803113715C0004C2A18 /* ui-button-display.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-display.png"; sourceTree = "<group>"; };
 		D925B804113715C0004C2A18 /* ui-button-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-empty.png"; sourceTree = "<group>"; };
@@ -567,15 +567,15 @@
 			name = Categories;
 			sourceTree = "<group>";
 		};
-		D918C1871147011A002D4575 /* players */ = {
+		D918C1AC1147049C002D4575 /* players */ = {
 			isa = PBXGroup;
 			children = (
-				D918C1881147011A002D4575 /* female1.gif */,
-				D918C1891147011A002D4575 /* female2.gif */,
-				D918C18A1147011A002D4575 /* knight.gif */,
-				D918C18B1147011A002D4575 /* mage.gif */,
-				D918C18C1147011A002D4575 /* male1.gif */,
-				D918C18D1147011A002D4575 /* male2.gif */,
+				D918C1AD1147049C002D4575 /* female1.png */,
+				D918C1AE1147049C002D4575 /* female2.png */,
+				D918C1AF1147049C002D4575 /* knight.png */,
+				D918C1B01147049C002D4575 /* mage.png */,
+				D918C1B11147049C002D4575 /* male1.png */,
+				D918C1B21147049C002D4575 /* male2.png */,
 			);
 			path = players;
 			sourceTree = "<group>";
@@ -850,7 +850,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
-				D918C1871147011A002D4575 /* players */,
+				D918C1AC1147049C002D4575 /* players */,
 				D9F2B2D31138AB000031058B /* MiniMapDots */,
 				D9F2B2D91138AB000031058B /* SkillBkGrds */,
 				D925B802113715C0004C2A18 /* Buttons */,
@@ -1219,12 +1219,12 @@
 				D7B636561144874E00955293 /* pink-dot.png in Resources */,
 				D918C17111470023002D4575 /* ui-button-highscores.png in Resources */,
 				D918C17211470023002D4575 /* ui-button-skillupgrades.png in Resources */,
-				D918C18E1147011A002D4575 /* female1.gif in Resources */,
-				D918C18F1147011A002D4575 /* female2.gif in Resources */,
-				D918C1901147011A002D4575 /* knight.gif in Resources */,
-				D918C1911147011A002D4575 /* mage.gif in Resources */,
-				D918C1921147011A002D4575 /* male1.gif in Resources */,
-				D918C1931147011A002D4575 /* male2.gif in Resources */,
+				D918C1B31147049C002D4575 /* female1.png in Resources */,
+				D918C1B41147049C002D4575 /* female2.png in Resources */,
+				D918C1B51147049C002D4575 /* knight.png in Resources */,
+				D918C1B61147049C002D4575 /* mage.png in Resources */,
+				D918C1B71147049C002D4575 /* male1.png in Resources */,
+				D918C1B81147049C002D4575 /* male2.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
