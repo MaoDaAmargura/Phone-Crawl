@@ -27,4 +27,6 @@
 - (IBAction) loadSaveGame;
 - (IBAction) viewScores;
 
+- (void) applicationWillTerminate:(UIApplication *)application;
+
 @end
