@@ -503,7 +503,7 @@
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
 		NSLog(@"Unable to open file for reading: ");
-		NSLog(filename);
+		NSLog(@"%@", filename);
 		return;
 	}
 	char line[150];
@@ -690,7 +690,7 @@
 	FILE *file;
 	if (!(file = fopen(fname,"w"))) {
 		NSLog(@"Unable to open file for writing: ");
-		NSLog(filename);
+		NSLog(@"%@", filename);
 		return;
 	}
 	// name

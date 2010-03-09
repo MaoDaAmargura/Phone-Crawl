@@ -1,4 +1,15 @@
+
+
 #import "SkillUpgradeViewController.h"
+
+#import "Phone_CrawlAppDelegate.h"
+#import "UIImage+Overlay.h"
+
+@interface SkillUpgradeViewController (Private)
+
+- (void) updateUI;
+
+@end
 
 
 @implementation SkillUpgradeViewController
@@ -12,7 +23,8 @@
     if (self = [super initWithNibName:@"SkillUpgradeViewController"]) 
 	{
         // Custom initialization
-		
+		Phone_CrawlAppDelegate *appdlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+		player = [appdlgt playerObject];
     }
     return self;
 }
@@ -45,6 +57,16 @@
 - (void)dealloc 
 {
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Control
+
+- (void) updateUI
+{
+	Abilities *playerAbils = [player abilities];
+	UIImage *flameIcon = [[UIImage imageNamed:@"bg-fire.png"] overlayedWithImage:[UIImage imageNamed:[NSString stringWithFormat:@"Numeral%d-Normal", playerAbils.spellBook[0]]]];
+	[flameSkillButton setImage:flameIcon forState:UIControlStateNormal];
 }
 
 #pragma mark -

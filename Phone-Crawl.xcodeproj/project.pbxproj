@@ -83,6 +83,7 @@
 		D7D42F0A1119FA2700A8D7FF /* saloon-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F071119FA2700A8D7FF /* saloon-door.png */; };
 		D7D42F0B1119FA2700A8D7FF /* wood-door-broken.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F081119FA2700A8D7FF /* wood-door-broken.png */; };
 		D7D42F0C1119FA2700A8D7FF /* wood-door-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D7D42F091119FA2700A8D7FF /* wood-door-open.png */; };
+		D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */; };
 		D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E7D8E112D1B49008D8C78 /* swordsingle.png */; };
 		D925B811113715C0004C2A18 /* ui-button-display.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B803113715C0004C2A18 /* ui-button-display.png */; };
 		D925B812113715C0004C2A18 /* ui-button-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B804113715C0004C2A18 /* ui-button-empty.png */; };
@@ -282,6 +283,8 @@
 		D7D42F071119FA2700A8D7FF /* saloon-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "saloon-door.png"; sourceTree = "<group>"; };
 		D7D42F081119FA2700A8D7FF /* wood-door-broken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-broken.png"; sourceTree = "<group>"; };
 		D7D42F091119FA2700A8D7FF /* wood-door-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-open.png"; sourceTree = "<group>"; };
+		D918C0EB1146F46A002D4575 /* UIImage+Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Overlay.h"; sourceTree = "<group>"; };
+		D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Overlay.m"; sourceTree = "<group>"; };
 		D91E7D8E112D1B49008D8C78 /* swordsingle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swordsingle.png; sourceTree = "<group>"; };
 		D925B803113715C0004C2A18 /* ui-button-display.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-display.png"; sourceTree = "<group>"; };
 		D925B804113715C0004C2A18 /* ui-button-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-empty.png"; sourceTree = "<group>"; };
@@ -539,6 +542,15 @@
 			name = Monsters;
 			sourceTree = "<group>";
 		};
+		D918C0E91146F44D002D4575 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				D918C0EB1146F46A002D4575 /* UIImage+Overlay.h */,
+				D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
 		D925B802113715C0004C2A18 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -596,6 +608,7 @@
 		D931C40511063B4D0032A3DD /* Framework */ = {
 			isa = PBXGroup;
 			children = (
+				D918C0E91146F44D002D4575 /* Categories */,
 				D931C40911063B790032A3DD /* PCBaseViewController.h */,
 				D931C40A11063B790032A3DD /* PCBaseViewController.m */,
 				D9A134D11129261800127C55 /* PCPopupMenu.h */,
@@ -1228,6 +1241,7 @@
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
 				D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */,
+				D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -4,6 +4,7 @@
 #import "NewGameFlowControl.h"
 
 #import "Dungeon.h" // simply for the "town" enum
+#import "Creature.h"
 
 #define QUICK_START NO
 
@@ -85,6 +86,11 @@
 - (IBAction) viewScores
 {
 	
+}
+
+- (Creature*) playerObject
+{
+	return [homeTabController.gameEngine player];
 }
 
 @end
