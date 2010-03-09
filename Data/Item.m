@@ -176,7 +176,8 @@ static const int baseItemStats[10][9] = {
         if(desiredType < POTION) isEquipable = TRUE;
         else isEquipable = FALSE;
         
-        name = [Item itemNameForItemType:desiredType element:dungeonElement];
+        self.name = [Item itemNameForItemType:desiredType element:dungeonElement];
+        //printf("item name: %s\n",[name cStringUsingEncoding:NSASCIIStringEncoding]);
             
         hp = dungeonLevel * baseItemStats[desiredType][0];
         shield = dungeonLevel * baseItemStats[desiredType][1];

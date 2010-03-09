@@ -3,7 +3,7 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START NO
+#define QUICK_START YES
 
 @implementation Phone_CrawlAppDelegate
 
@@ -35,7 +35,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	//Save here.
+	printf("saving game\n");
+	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 }
 
 
@@ -72,6 +73,8 @@
 
 - (IBAction) loadSaveGame
 {
+	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
+	
 	[window bringSubviewToFront:homeTabController.view];
 }
 

@@ -502,7 +502,8 @@
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
-		NSLog([@"Unable to open file for reading: " stringbyAppendingString:filename]);
+		NSLog(@"Unable to open file for reading: ");
+		NSLog(filename);
 		return;
 	}
 	char line[100];
@@ -581,14 +582,35 @@
 		NSString *line = [self getArrayString:data];
 		while (![line isEqualToString:@""]) {
 			Item *i = [self loadItemFromFile:line];
-			[player.inventory addObject:i];
+			if (i != nil) {
+				[player.inventory addObject:i];
+			}
+			line = [self getArrayString:data];
 		}
 		sentinel = line;
 	}
-	player.equipment.head = [player.inventory objectAtIndex:head];
-	player.equipment.chest = [player.inventory objectAtIndex:chest];
-	player.equipment.rHand = [player.inventory objectAtIndex:rhand];
-	player.equipment.lHand = [player.inventory objectAtIndex:lhand];
+	if (head >= 0) {
+		player.equipment.head = [player.inventory objectAtIndex:head];
+	} else {
+		player.equipment.head = nil;
+	}
+	if (chest >= 0) {
+		player.equipment.chest = [player.inventory objectAtIndex:chest];
+	} else {
+		player.equipment.head = nil;
+	}
+	if (rhand >= 0) {
+		player.equipment.rHand = [player.inventory objectAtIndex:rhand];
+	} else {
+		player.equipment.head = nil;
+	}
+	if (lhand >= 0) {
+		player.equipment.lHand = [player.inventory objectAtIndex:lhand];
+	} else {
+		player.equipment.head = nil;
+	}	
+	
+	fclose(file);
 }
 
 - (Item *) loadItemFromFile:(NSString *)datastring {
@@ -596,6 +618,10 @@
 	Item *ret = nil;
 	if (![datastring isEqualToString:@"null"]) {
 		NSArray *data = [datastring componentsSeparatedByString:@"||"];
+		if ([data count] < 22) {
+			NSLog(@"Error: item parsed improperly");
+			return nil;
+		}
 		NSString *name = [data objectAtIndex:0];
 		NSString *icon = [data objectAtIndex:1];
 		//BOOL equippable = [data objectAtIndex:2] == @"YES" ? YES : NO;
@@ -1490,8 +1516,8 @@
 	self.player = newPlayer;
 	
 	// TODO: Take this line out, it is only to test save/load
-	[self saveGame:@"test.gam"];
-	[self loadGame:@"test.gam"];
+	//[self saveGame:@"test.gam"];
+	//[self loadGame:@"test.gam"];
 	
 	[currentDungeon initWithType:town];
 	
