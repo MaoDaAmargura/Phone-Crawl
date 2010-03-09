@@ -92,6 +92,11 @@
 		D918C1B61147049C002D4575 /* mage.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B01147049C002D4575 /* mage.png */; };
 		D918C1B71147049C002D4575 /* male1.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B11147049C002D4575 /* male1.png */; };
 		D918C1B81147049C002D4575 /* male2.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1B21147049C002D4575 /* male2.png */; };
+		D918C1C6114705C1002D4575 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1C5114705C1002D4575 /* Icon.png */; };
+		D918C1CD11470642002D4575 /* icon-character.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1C911470642002D4575 /* icon-character.png */; };
+		D918C1CE11470642002D4575 /* icon-inventory.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1CA11470642002D4575 /* icon-inventory.png */; };
+		D918C1CF11470642002D4575 /* icon-options.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1CB11470642002D4575 /* icon-options.png */; };
+		D918C1D011470642002D4575 /* icon-world.png in Resources */ = {isa = PBXBuildFile; fileRef = D918C1CC11470642002D4575 /* icon-world.png */; };
 		D91E7D8F112D1B49008D8C78 /* swordsingle.png in Resources */ = {isa = PBXBuildFile; fileRef = D91E7D8E112D1B49008D8C78 /* swordsingle.png */; };
 		D925B811113715C0004C2A18 /* ui-button-display.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B803113715C0004C2A18 /* ui-button-display.png */; };
 		D925B812113715C0004C2A18 /* ui-button-empty.png in Resources */ = {isa = PBXBuildFile; fileRef = D925B804113715C0004C2A18 /* ui-button-empty.png */; };
@@ -301,6 +306,11 @@
 		D918C1B01147049C002D4575 /* mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mage.png; sourceTree = "<group>"; };
 		D918C1B11147049C002D4575 /* male1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male1.png; sourceTree = "<group>"; };
 		D918C1B21147049C002D4575 /* male2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male2.png; sourceTree = "<group>"; };
+		D918C1C5114705C1002D4575 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Icon.png; path = UI/icons/Icon.png; sourceTree = "<group>"; };
+		D918C1C911470642002D4575 /* icon-character.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-character.png"; path = "UI/icons/icon-character.png"; sourceTree = "<group>"; };
+		D918C1CA11470642002D4575 /* icon-inventory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-inventory.png"; path = "UI/icons/icon-inventory.png"; sourceTree = "<group>"; };
+		D918C1CB11470642002D4575 /* icon-options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-options.png"; path = "UI/icons/icon-options.png"; sourceTree = "<group>"; };
+		D918C1CC11470642002D4575 /* icon-world.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-world.png"; path = "UI/icons/icon-world.png"; sourceTree = "<group>"; };
 		D91E7D8E112D1B49008D8C78 /* swordsingle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swordsingle.png; sourceTree = "<group>"; };
 		D925B803113715C0004C2A18 /* ui-button-display.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-display.png"; sourceTree = "<group>"; };
 		D925B804113715C0004C2A18 /* ui-button-empty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-button-empty.png"; sourceTree = "<group>"; };
@@ -580,6 +590,18 @@
 			path = players;
 			sourceTree = "<group>";
 		};
+		D918C1D111470656002D4575 /* Icons */ = {
+			isa = PBXGroup;
+			children = (
+				D918C1C911470642002D4575 /* icon-character.png */,
+				D918C1CA11470642002D4575 /* icon-inventory.png */,
+				D918C1CB11470642002D4575 /* icon-options.png */,
+				D918C1CC11470642002D4575 /* icon-world.png */,
+				D918C1C5114705C1002D4575 /* Icon.png */,
+			);
+			name = Icons;
+			sourceTree = "<group>";
+		};
 		D925B802113715C0004C2A18 /* Buttons */ = {
 			isa = PBXGroup;
 			children = (
@@ -850,6 +872,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D918C1D111470656002D4575 /* Icons */,
 				D918C1AC1147049C002D4575 /* players */,
 				D9F2B2D31138AB000031058B /* MiniMapDots */,
 				D9F2B2D91138AB000031058B /* SkillBkGrds */,
@@ -1225,6 +1248,11 @@
 				D918C1B61147049C002D4575 /* mage.png in Resources */,
 				D918C1B71147049C002D4575 /* male1.png in Resources */,
 				D918C1B81147049C002D4575 /* male2.png in Resources */,
+				D918C1C6114705C1002D4575 /* Icon.png in Resources */,
+				D918C1CD11470642002D4575 /* icon-character.png in Resources */,
+				D918C1CE11470642002D4575 /* icon-inventory.png in Resources */,
+				D918C1CF11470642002D4575 /* icon-options.png in Resources */,
+				D918C1D011470642002D4575 /* icon-world.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

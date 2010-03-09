@@ -193,6 +193,7 @@
 	//wView.tabBarItem.image = 
 	[wView setDelegate: self];
 	wView.title = @"World";
+	wView.tabBarItem.image = [UIImage imageNamed:@"icon-world.png"];
 	return wView;
 }
 
@@ -201,6 +202,7 @@
 	cView = [[[CharacterView alloc] init] autorelease];
 	//
 	cView.title = @"Character";
+	cView.tabBarItem.image = [UIImage imageNamed:@"icon-character.png"];
 	return cView;
 }
 
@@ -209,6 +211,7 @@
 	iView = [[[InventoryView alloc] init] autorelease];
 	//
 	iView.title = @"Inventory";
+	iView.tabBarItem.image = [UIImage imageNamed:@"icon-inventory.png"];
 	return iView;
 }
 
@@ -218,6 +221,7 @@
 	UINavigationController *navCont = [[[UINavigationController alloc] initWithRootViewController:oView] autorelease];
 	//
 	navCont.title = @"Options";
+	navCont.tabBarItem.image = [UIImage imageNamed:@"icon-options.png"];
 	return navCont;
 }
 
