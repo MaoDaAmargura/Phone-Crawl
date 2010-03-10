@@ -1,5 +1,5 @@
 #import "PCParticle.h"
-
+#import "Util.h"
 #import <Foundation/Foundation.h>
 
 static NSMutableArray *liveParticles = nil;
@@ -84,8 +84,23 @@ static NSMutableArray *deadEmitters = nil;
 	return retval;
 }
 
+float calcBias (float delta, float velocity) {	
+	if (delta < 0) return -fabs(velocity * delta);
+	if (delta > 0) return fabs(velocity * delta);
+	return delta;
+}
+
+float randomer (float input) {
+	float rand = [Rand min: 0 max: 200] / 100.0;
+	input += [Rand min: -100 max: 100] / 10.0;
+	return rand * input;
+}
+
 - (void) updateEmitter: (NSTimer*) timer {
 	// FIXME randomize
+	self.center = CGPointMake(self.center.x + velocity.x / life, self.center.y + velocity.y / life);
+//	self.center.x += velocity.x / life;
+//	self.center.y += velocity.y / life;
 
 	PCParticle *particle = [[PCParticle getParticle] initWithX: self.center.x Y: self.center.y
 													 velocityX: velocity.x * 1.5 velocityY: velocity.y * 1.5
@@ -97,13 +112,16 @@ static NSMutableArray *deadEmitters = nil;
 	[UIView setAnimationDidStopSelector:@selector(stopAnimation:finished:context:)];
 	[UIView setAnimationDuration: particle.life];
 	[UIView setAnimationCurve: UIViewAnimationCurveLinear];
-//	float dx = velocity.x;
-//	float dy = velocity.y;
-	particle.center = CGPointMake (self.center.x, self.center.y - 50);
+	
+	float dx = randomer(calcBias(bias.x, velocity.x));
+	float dy = randomer(calcBias(bias.y, velocity.y));
+
+	particle.center = CGPointMake (self.center.x + dx, self.center.y + dy);
 	[UIView commitAnimations];
 
 	life--;
-	if (life <= 0) {
+//	DLog(@"%f", life);	FIXME: why does life <= 0 cause these to stay forever?
+	if (life <= 30) {
 		[deadEmitters addObject: self];
 		[liveEmitters removeObject: self];
 		[self removeFromSuperview];
@@ -116,16 +134,7 @@ static NSMutableArray *deadEmitters = nil;
 	PCEmitter *retval = [PCEmitter get];
 	[retval initWithX: x Y: y velocityX: vx velocityY: vy imagePath: path lifeSpan: _life freq: _frequency bias: _bias];
 
-	[UIView beginAnimations: nil context: nil];
-	[UIView setAnimationBeginsFromCurrentState:YES];
-//	[UIView setAnimationDelegate: retval];
-//	[UIView setAnimationDidStopSelector:@selector(stopAnimation:finished:context:)];
-	[UIView setAnimationDuration: _life];
-	[UIView setAnimationCurve: UIViewAnimationCurveLinear];
-	float dx = retval.velocity.x;
-	float dy = retval.velocity.y;
-	retval.center = CGPointMake(retval.center.x + dx , retval.center.y + dy);
-	[UIView commitAnimations];
+	DLog(@"%d %d %d %d",[deadEmitters count],[liveEmitters count], [deadParticles count], [liveParticles count]);
 
 	[NSTimer scheduledTimerWithTimeInterval: 1.0 / _frequency target: retval selector:@selector(updateEmitter:) userInfo:nil repeats: true];
 	return retval;

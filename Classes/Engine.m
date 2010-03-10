@@ -286,6 +286,7 @@
 			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= [creature getRange]) {
 			//todo: use the combat ability on the target
 				actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
+				[self bloodSprayWithAttacker:creature];
 				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
 				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
 			} else {
@@ -341,17 +342,6 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	if (wView.mapImageView) {
-		PCEmitter *emitter = [PCEmitter startWithX:120 Y:120 velocityX:60 velocityY:60 imagePath:@"blood.png" lifeSpan:1 freq:60 bias:CGPointMake(0,0)];
-		
-		//	PCEmitter *emitter = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
-		//	emitter.image = [UIImage imageNamed: @"blood.png"];
-		[wView.mapImageView addSubview: emitter];
-		assert (emitter.superview == wView.mapImageView);
-		DLog(@"%@",[emitter.superview description]);
-		return;
-	}
-
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if (!worldViewSingleton) worldViewSingleton = wView;
 
@@ -1189,6 +1179,32 @@
 	[wView setDisplay:displayStatHealth withAmount:player.current.health ofMax:player.max.health];
 	[wView setDisplay:displayStatShield withAmount:player.current.shield ofMax:player.max.shield];
 	[wView setDisplay:displayStatMana withAmount:player.current.mana ofMax:player.max.mana];
+}
+
+- (void) bloodSprayWithAttacker: (Creature*) attacker {
+	if (!worldViewSingleton.mapImageView) return;
+
+	Coord *origin = attacker.selectedCreatureForAction.creatureLocation;
+	CGPoint screenCoord = [self originOfTile: origin inWorldView: worldViewSingleton];
+	CGSize tileSize = [self tileSizeForWorldView: worldViewSingleton];
+	screenCoord = CGPointMake(screenCoord.x + tileSize.width / 2, screenCoord.y + tileSize.height / 2);
+
+	// normalized vectors for the bloody arterial deathspray
+	float sprayDeltaX = (float) origin.X - (float) attacker.creatureLocation.X;
+	float sprayDeltaY = (float) origin.Y - (float) attacker.creatureLocation.Y;
+	float totalDelta = fabs (sprayDeltaY) + fabs (sprayDeltaX);
+	float sprayDirectionX = sprayDeltaX / totalDelta;
+	float sprayDirectionY = sprayDeltaY / totalDelta;
+
+	CGPoint sprayDirection = CGPointMake (sprayDirectionX, sprayDirectionY);
+
+	PCEmitter *emitter = [PCEmitter startWithX: screenCoord.x Y: screenCoord.y
+									 velocityX: 60 velocityY: 60
+									 imagePath: @"blood.png"
+									  lifeSpan: 1
+										  freq: 60
+										  bias: sprayDirection];
+	[worldViewSingleton.mapImageView addSubview: emitter];
 }
 
 
