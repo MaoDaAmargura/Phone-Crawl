@@ -15,6 +15,8 @@
 #import "Item.h"
 #import "Creature.h"
 
+#import "EndGame.h"
+
 #define NUMBER_OF_TABS 4
 
 #define HIGHLIGHT_RED		[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]
@@ -63,6 +65,9 @@
 	
 	gameEngine = [[Engine alloc] init];
 	
+	endView = [[[EndGame alloc] init] autorelease];
+	[endView setDelegate:self];
+	endView.engine = gameEngine;
 }
 
 
@@ -101,6 +106,11 @@
 - (void) fireGameLoop
 {
 	[gameEngine gameLoopWithWorldView:wView];
+	// check to see if player is dead
+	if (gameEngine.player.current.health <= 0) {
+		//endView.engine = gameEngine;
+		//self.view = endView.view;
+	}
 }
 
 #pragma mark -
