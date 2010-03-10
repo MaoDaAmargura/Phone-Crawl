@@ -18,7 +18,6 @@
 	
 	EndGame *endView;
 	
-	
 	BOOL tutorialMode;
 	
 	BOOL doneMerchant;

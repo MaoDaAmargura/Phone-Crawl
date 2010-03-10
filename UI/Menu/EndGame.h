@@ -23,6 +23,8 @@
 - (IBAction) clickContinue;
 - (IBAction) clickEnd;
 
+- (void) update;
+
 @property (retain, nonatomic) Engine *engine;
 
 @end

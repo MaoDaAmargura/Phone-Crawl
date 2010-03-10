@@ -110,6 +110,8 @@
 	if (gameEngine.player.current.health <= 0) {
 		//endView.engine = gameEngine;
 		//self.view = endView.view;
+		// TODO: get view to change to endgame properly
+		//self.navigationController.pushViewController(endView);
 	}
 }
 

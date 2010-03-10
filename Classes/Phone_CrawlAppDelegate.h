@@ -11,6 +11,7 @@
 
 @class Creature;
 @class HomeTabViewController;
+@class EndGame;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
