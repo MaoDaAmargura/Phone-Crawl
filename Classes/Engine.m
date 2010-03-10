@@ -693,7 +693,7 @@
 	FILE *file;
 	if (!(file = fopen(fname,"w"))) {
 		NSLog(@"Unable to open file for writing: ");
-		NSLog(@"%@", filename);
+		NSLog(@"%s", filename);
 		return;
 	}
 	// name
