@@ -9,7 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "NewGameFlowControl.h"
 
+@class Creature;
 @class HomeTabViewController;
+@class EndGame;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -17,16 +19,21 @@
 
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
+	BOOL gameStarted;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
 @property (nonatomic, retain) HomeTabViewController *homeTabController;
 
+@property BOOL gameStarted;
+
 - (IBAction) startNewGame;
 - (IBAction) loadSaveGame;
 - (IBAction) viewScores;
 
 - (void) applicationWillTerminate:(UIApplication *)application;
+
+- (Creature*) playerObject;
 
 @end

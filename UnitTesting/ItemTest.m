@@ -79,7 +79,7 @@
 													 dark:expectedDark
 													armor:expectedArmor
 											effectSpellId:expectedEffectSpellId] autorelease];
-
+	
 	STAssertTrue(testItem.name == expectedItemName, @"Item name was different from expected");
 	STAssertTrue(testItem.icon == expectedIconFileName, @"Icon name was different from expected");
 	STAssertTrue(testItem.damage == expectedDamage, @"Item damage was different from expected");
@@ -159,7 +159,7 @@
 	expectedPointVal = item.damage + item.elementalDamage + item.range * 20 + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
 	value = [Item getItemValue:item];
 	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to bow formula.");
-
+	
 	//Test scroll handling
 	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
 	expectedPointVal = 2000;

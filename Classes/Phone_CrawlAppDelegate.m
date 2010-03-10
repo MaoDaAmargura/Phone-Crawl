@@ -3,13 +3,20 @@
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
 
-#define QUICK_START YES
+#import "Dungeon.h" // simply for the "town" enum
+#import "Creature.h"
+
+#import "EndGame.h"
+
+#define QUICK_START NO
 
 @implementation Phone_CrawlAppDelegate
 
 @synthesize window;
 
 @synthesize homeTabController;
+
+@synthesize gameStarted;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
@@ -23,20 +30,24 @@
 
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	flow = nil;
-
+	
 	//return;
-	if(QUICK_START || LVL_GEN_ENV)
+	if(QUICK_START || LVL_GEN_ENV) {
 		[window addSubview:homeTabController.view];
-	else 
+		gameStarted = YES;
+	} else {
 		[window insertSubview:homeTabController.view atIndex:0];
-
+		gameStarted = NO;
+	}
 }
 
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	printf("saving game\n");
-	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+	if (gameStarted) {
+		printf("saving game\n");
+		[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+	}
 }
 
 
@@ -69,18 +80,26 @@
 	}
 	[window bringSubviewToFront:flow.view];
 	[flow begin];
+	gameStarted = YES;
 }
 
 - (IBAction) loadSaveGame
 {
 	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
-	
+	[homeTabController.gameEngine.currentDungeon initWithType:town];
 	[window bringSubviewToFront:homeTabController.view];
+	
+	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 }
 
 - (IBAction) viewScores
 {
 	
+}
+
+- (Creature*) playerObject
+{
+	return [homeTabController.gameEngine player];
 }
 
 @end

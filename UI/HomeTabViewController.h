@@ -5,6 +5,8 @@
 #import "OptionsView.h"
 #import "Engine.h"
 
+@class EndGame;
+
 @interface HomeTabViewController : UIViewController <WorldViewDelegate, UITabBarControllerDelegate>
 {
 	UITabBarController *mainTabController;
@@ -13,6 +15,8 @@
 	InventoryView *iView;
 	OptionsView *oView;
 	Engine *gameEngine;
+	
+	EndGame *endView;
 	
 	BOOL tutorialMode;
 	

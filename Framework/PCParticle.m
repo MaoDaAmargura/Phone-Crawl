@@ -16,7 +16,7 @@ static NSMutableArray *deadEmitters = nil;
 	UIImage *img = [UIImage imageNamed: path];
 	CGSize size = img.size;
 
-	self = [super initWithFrame: CGRectMake(0, 0, size.x, size.y)];
+	self = [super initWithFrame: CGRectMake(0, 0, size.width, size.height)];
 	self.center = CGPointMake(x, y);
 	life = _life;
 	velocity = CGPointMake(vx, vy);

@@ -358,7 +358,8 @@
 	{
 		if(player.current.health <= 0)
 		{
-			//TODO: die
+			// hometabview takes care of death.
+			return;
 		}
 		if(!player.inBattle)
 			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
@@ -512,18 +513,22 @@
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
 		NSLog(@"Unable to open file for reading: ");
-		NSLog(filename);
+		NSLog(@"%@", filename);
 		return;
 	}
-	char line[100];
+	char line[150];
 	NSMutableArray *data = [NSMutableArray arrayWithCapacity:10];
-	while (fgets(line,100,file) != NULL) {
+	while (fgets(line,150,file) != NULL) {
 		// cut off trailing newline
 		if (line[strlen(line)-1] == '\n') {
 			line[strlen(line)-1] = '\0';
 		}
 		[data addObject:[NSString stringWithFormat:@"%s",line]];
 		printf("%s\n",line);
+	}
+	if ([data count] == 0) {
+		NSLog(@"Save file is empty");
+		return;
 	}
 	// maxhealth
 	// maxshield
@@ -539,6 +544,7 @@
 	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 	NSString *playerName = [self getArrayString:data];
+	NSString *playerIcon = [self getArrayString:data];
 	int money = [[self getArrayString:data] intValue];
 	int playerLevel = [[self getArrayString:data] intValue];
 	if (player == nil) {
@@ -546,6 +552,7 @@
 	} else {
 		[player initPlayerWithInfo:playerName level:playerLevel];
 	}
+	player.iconName = playerIcon;
 	player.money = money;
 	player.experiencePoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
@@ -694,7 +701,8 @@
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"w"))) {
-		NSLog([@"Unable to open file for writing: " stringByAppendingString:filename]);
+		NSLog(@"Unable to open file for writing: ");
+		NSLog(@"%@", filename);
 		return;
 	}
 	// name
@@ -721,6 +729,8 @@
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 	fputs([player.name cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
+	fputs([player.iconName cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs("\n", file);
 	fputs([[NSString stringWithFormat:@"%d",player.money] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.level] cStringUsingEncoding:NSASCIIStringEncoding],file);
@@ -1187,7 +1197,7 @@
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
 	if (LVL_GEN_ENV) {
-		NSLog([coord description]);
+		NSLog(@"%@",[coord description]);
 		return false;
 	}
 
@@ -1536,10 +1546,6 @@
 {
 	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
 	self.player = newPlayer;
-	
-	// TODO: Take this line out, it is only to test save/load
-	//[self saveGame:@"test.gam"];
-	//[self loadGame:@"test.gam"];
 	
 	[currentDungeon initWithType:town];
 	

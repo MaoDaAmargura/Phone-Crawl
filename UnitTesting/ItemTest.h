@@ -13,7 +13,7 @@
 
 @interface ItemTest : GTMTestCase
 {
-
+	
 }
 
 - (void) testInitWithBaseStats;

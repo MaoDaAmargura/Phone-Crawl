@@ -11,7 +11,11 @@
 	IBOutlet UIImageView *rightHandEquipImg;
 	IBOutlet UIImageView *headArmorEquipImg;
 	IBOutlet UIImageView *chestArmorEquipImg;
+	
+	NSString *imgName;
 }
+
+- (id) initWithIcon:(NSString *)imgNm;
 
 - (void) updateWithEquippedItems:(EquipSlots*) items;
 

@@ -15,6 +15,8 @@
 #import "Item.h"
 #import "Creature.h"
 
+#import "EndGame.h"
+
 #define NUMBER_OF_TABS 4
 
 #define HIGHLIGHT_RED		[UIColor colorWithRed:1 green:0 blue:0 alpha:0.5]
@@ -63,6 +65,9 @@
 	
 	gameEngine = [[Engine alloc] init];
 	
+	endView = [[[EndGame alloc] init] autorelease];
+	[endView setDelegate:self];
+	endView.engine = gameEngine;
 }
 
 
@@ -101,6 +106,13 @@
 - (void) fireGameLoop
 {
 	[gameEngine gameLoopWithWorldView:wView];
+	// check to see if player is dead
+	if (gameEngine.player.current.health <= 0) {
+		//endView.engine = gameEngine;
+		//self.view = endView.view;
+		// TODO: get view to change to endgame properly
+		//self.navigationController.pushViewController(endView);
+	}
 }
 
 #pragma mark -
@@ -193,14 +205,16 @@
 	//wView.tabBarItem.image = 
 	[wView setDelegate: self];
 	wView.title = @"World";
+	wView.tabBarItem.image = [UIImage imageNamed:@"icon-world.png"];
 	return wView;
 }
 
 - (UIViewController*) initCharacterView
 {
-	cView = [[[CharacterView alloc] init] autorelease];
+	cView = [[[CharacterView alloc] initWithIcon:[gameEngine.player iconName]] autorelease];
 	//
 	cView.title = @"Character";
+	cView.tabBarItem.image = [UIImage imageNamed:@"icon-character.png"];
 	return cView;
 }
 
@@ -209,6 +223,7 @@
 	iView = [[[InventoryView alloc] init] autorelease];
 	//
 	iView.title = @"Inventory";
+	iView.tabBarItem.image = [UIImage imageNamed:@"icon-inventory.png"];
 	return iView;
 }
 
@@ -218,6 +233,7 @@
 	UINavigationController *navCont = [[[UINavigationController alloc] initWithRootViewController:oView] autorelease];
 	//
 	navCont.title = @"Options";
+	navCont.tabBarItem.image = [UIImage imageNamed:@"icon-options.png"];
 	return navCont;
 }
 

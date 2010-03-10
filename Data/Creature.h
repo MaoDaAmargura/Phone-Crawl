@@ -136,6 +136,7 @@ typedef enum {
 - (id) initPlayerWithInfo: (NSString *) inName level: (int) lvl;
 - (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z;
 
+- (int) getHighScore;
 
 //Reset stats modified by conditions during combat
 - (void) resetStats;
@@ -183,7 +184,7 @@ typedef enum {
 @property (nonatomic,retain) Points *max;
 @property (nonatomic) int turnPoints;
 @property (nonatomic) BOOL inBattle;
-@property (nonatomic, readonly, retain) NSString *name;
+@property (nonatomic, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
 @property (readonly) int level;
