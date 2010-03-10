@@ -349,7 +349,8 @@
 	{
 		if(player.current.health <= 0)
 		{
-			//TODO: die
+			// hometabview takes care of death.
+			return;
 		}
 		if(!player.inBattle)
 			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
