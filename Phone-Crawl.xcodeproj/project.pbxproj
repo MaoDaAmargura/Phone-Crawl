@@ -41,6 +41,7 @@
 		B058D3C61147392800AEBDF1 /* EndGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B058D3C51147392800AEBDF1 /* EndGame.m */; };
 		D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70FA6EE11480B44001F1C56 /* PCParticle.m */; };
 		D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70FA7CD11481E1A001F1C56 /* PCParticle.xib */; };
+		D70FA83811483E7E001F1C56 /* blood.png in Resources */ = {isa = PBXBuildFile; fileRef = D70FA83711483E7E001F1C56 /* blood.png */; };
 		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
@@ -260,6 +261,7 @@
 		D70FA6ED11480B44001F1C56 /* PCParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCParticle.h; sourceTree = "<group>"; };
 		D70FA6EE11480B44001F1C56 /* PCParticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCParticle.m; sourceTree = "<group>"; };
 		D70FA7CD11481E1A001F1C56 /* PCParticle.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PCParticle.xib; sourceTree = "<group>"; };
+		D70FA83711483E7E001F1C56 /* blood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blood.png; path = Particles/blood.png; sourceTree = "<group>"; };
 		D76B4F8E110D2A6500BBF5C0 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
@@ -551,6 +553,14 @@
 				65E8F37C110BFC06000BF581 /* Spell.m */,
 			);
 			name = Spell;
+			sourceTree = "<group>";
+		};
+		D70FA83611483E71001F1C56 /* Particles */ = {
+			isa = PBXGroup;
+			children = (
+				D70FA83711483E7E001F1C56 /* blood.png */,
+			);
+			name = Particles;
 			sourceTree = "<group>";
 		};
 		D7C3334F1136E43000798D3D /* Monsters */ = {
@@ -888,6 +898,7 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				D70FA83611483E71001F1C56 /* Particles */,
 				D918C1D111470656002D4575 /* Icons */,
 				D918C1AC1147049C002D4575 /* players */,
 				D9F2B2D31138AB000031058B /* MiniMapDots */,
@@ -1271,6 +1282,7 @@
 				650F0165114722A600BFF2D8 /* male1.png in Resources */,
 				650F0166114722A600BFF2D8 /* male2.png in Resources */,
 				B058D3C21147391E00AEBDF1 /* EndGame.xib in Resources */,
+				D70FA83811483E7E001F1C56 /* blood.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

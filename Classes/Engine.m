@@ -147,7 +147,7 @@
 	{
 		tutorialMode = NO;
 		[PCParticle initialize];
-		
+
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
@@ -341,15 +341,20 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-//	PCEmitter *IAMRIGHTTHEFUCKHERE = [PCEmitter alloc];//[PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"skullwall.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
-	
-	PCEmitter *IAMRIGHTTHEFUCKHERE = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
-	IAMRIGHTTHEFUCKHERE.image = [UIImage imageNamed: @"skullwall.png"];
-	[wView.mapImageView addSubview: IAMRIGHTTHEFUCKHERE];
-	NSLog([IAMRIGHTTHEFUCKHERE description]);
+	if (wView.mapImageView) {
+		PCEmitter *emitter = [PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"blood.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+		
+		//	PCEmitter *emitter = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
+		//	emitter.image = [UIImage imageNamed: @"blood.png"];
+		[wView.mapImageView addSubview: emitter];
+		assert (emitter.superview == wView.mapImageView);
+		DLog(@"%@",[emitter.superview description]);
+		return;
+	}
+
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if (!worldViewSingleton) worldViewSingleton = wView;
-	
+
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
 	Creature *creature = [self nextCreatureToTakeTurn];

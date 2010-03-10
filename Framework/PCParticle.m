@@ -78,6 +78,8 @@ static NSMutableArray *deadEmitters = nil;
 - (void) updateEmitter: (NSString*) animationID finished: (BOOL) finished context: (void*) context {
 	// FIXME randomize
 	NSLog([self description]);
+//	[self removeFromSuperview];
+//	self.alpha = 0;
 	if (!self.superview) exit(1);
 }
 
@@ -91,8 +93,8 @@ static NSMutableArray *deadEmitters = nil;
 	[UIView setAnimationDelegate: retval];
 	[UIView setAnimationRepeatCount: retval.life * 60];
 	[UIView setAnimationDidStopSelector:@selector(updateEmitter:finished:context:)];
-	[UIView setAnimationDuration: 0.01];
-	float dx = retval.velocity.x / 60;
+	[UIView setAnimationDuration: 1];// 0.01];
+	float dx = 60;//retval.velocity.x / 60;
 	float dy = retval.velocity.y / 60;
 	retval.center = CGPointMake(retval.center.x + dx , retval.center.y + dy);
 	[UIView commitAnimations];

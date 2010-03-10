@@ -8,7 +8,7 @@
 
 #import "EndGame.h"
 
-#define QUICK_START NO
+#define QUICK_START true
 
 @implementation Phone_CrawlAppDelegate
 
