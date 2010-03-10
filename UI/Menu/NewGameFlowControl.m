@@ -8,10 +8,10 @@
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
 
-#define TOP_LEFT_ICON		@"knight.gif"
-#define TOP_RIGHT_ICON		@""
-#define BOTTOM_LEFT_ICON	@""
-#define BOTTOM_RIGHT_ICON	@""
+#define TOP_LEFT_ICON		@"knight.png"
+#define TOP_RIGHT_ICON		@"female1.png"
+#define BOTTOM_LEFT_ICON	@"male2.png"
+#define BOTTOM_RIGHT_ICON	@"mage.png"
 
 @interface NewGameFlowControl (Private)
 
@@ -42,10 +42,10 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	topLeft.imageView.image		= [UIImage imageNamed:TOP_LEFT_ICON];
-	topRight.imageView.image	= [UIImage imageNamed:TOP_RIGHT_ICON];
-	bottomLeft.imageView.image	= [UIImage imageNamed:BOTTOM_LEFT_ICON];
-	bottomRight.imageView.image = [UIImage imageNamed:BOTTOM_RIGHT_ICON];
+	[topLeft setImage:[UIImage imageNamed:TOP_LEFT_ICON] forState:UIControlStateNormal];
+	[topRight setImage:[UIImage imageNamed:TOP_RIGHT_ICON] forState:UIControlStateNormal];
+	[bottomLeft setImage:[UIImage imageNamed:BOTTOM_LEFT_ICON] forState:UIControlStateNormal];
+	[bottomRight setImage:[UIImage imageNamed:BOTTOM_RIGHT_ICON] forState:UIControlStateNormal];
 }
 
 - (void)didReceiveMemoryWarning 

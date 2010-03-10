@@ -534,6 +534,7 @@
 	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 	NSString *playerName = [self getArrayString:data];
+	NSString *playerIcon = [self getArrayString:data];
 	int money = [[self getArrayString:data] intValue];
 	int playerLevel = [[self getArrayString:data] intValue];
 	if (player == nil) {
@@ -541,6 +542,7 @@
 	} else {
 		[player initPlayerWithInfo:playerName level:playerLevel];
 	}
+	player.iconName = playerIcon;
 	player.money = money;
 	player.experiencePoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
@@ -717,6 +719,8 @@
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 	fputs([player.name cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
+	fputs([player.iconName cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs("\n", file);
 	fputs([[NSString stringWithFormat:@"%d",player.money] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.level] cStringUsingEncoding:NSASCIIStringEncoding],file);
