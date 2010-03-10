@@ -72,7 +72,7 @@
 
 @synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
-@synthesize tutorialMode;
+@synthesize tutorialMode, worldViewSingleton;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -287,6 +287,7 @@
 				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
 				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
 			} else {
+				DLog(@"%d > %d",[Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation], [creature getRange]);
 				actionResult = @"Out of range!";
 			}
 			creature.selectedCreatureForAction = nil;
@@ -339,7 +340,7 @@
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-
+	if (!worldViewSingleton) worldViewSingleton = wView;
 	
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -886,7 +887,8 @@
 				continue;
 			
 			discovering.pathing_distance = closest.pathing_distance + 1;
-			// FIXME: consult other people and determine if it's ok to crap out when the path is too long
+			// FIXME: adjust this algorithm so that it builds a path TO the end, not FROM the end, so that we can
+			// return a partial path immediately below instead of nothing.
 			if(discovering.pathing_distance > LARGEST_ALLOWED_PATH)
 			{
 				[discovered removeAllObjects];
@@ -1292,6 +1294,18 @@
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
+
+		#define BATTLEMENU_SHOVE_PX 40
+		if (worldViewSingleton) {
+			CGPoint point =  [self originOfTile: tileCoord inWorldView: worldViewSingleton];
+			if (point.x + battleMenu.frame.size.width + BATTLEMENU_SHOVE_PX < WORLD_VIEW_SIZE_PX) {
+				point.x += BATTLEMENU_SHOVE_PX;
+			}
+			else {
+				point.y += BATTLEMENU_SHOVE_PX;
+			}
+			[battleMenu moveTo: point];
+		}
 		[self showBattleMenu];
 	}
 	else 

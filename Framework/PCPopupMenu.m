@@ -1,12 +1,4 @@
-//
-//  PCPopupMenu.m
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/14/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
-
-#pragma mark DO NOT MODIFY THIS CLASS WITHOUT ASKING ME
+#pragma mark DO NOT MODIFY THIS CLASS WITHOUT ASKING AUSTIN
 
 #import "PCPopupMenu.h"
 
@@ -186,6 +178,10 @@
 - (void) hide
 {
 	self.hidden = YES;
+}
+
+- (void) moveTo: (CGPoint) point {
+	self.frame = CGRectMake(point.x, point.y, self.frame.size.width, self.frame.size.height);
 }
 
 #pragma mark -

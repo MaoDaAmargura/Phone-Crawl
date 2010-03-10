@@ -18,7 +18,7 @@
 	return NO;
 }
 
-- (BOOL) isEqual: (id)anObject {
+- (BOOL) isEqual: (id) anObject {
 	return [self equals:(Coord*) anObject];
 }
 

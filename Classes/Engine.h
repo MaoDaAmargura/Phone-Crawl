@@ -42,6 +42,11 @@
 	PCPopupMenu *itemMenu;
 	PCPopupMenu *damageSpellMenu;
 	PCPopupMenu *conditionSpellMenu;
+
+	// ugly, hackish workaround used only in moving the battleMenu to the correct spot
+	// when attacking a monster.
+	// - Nate
+	WorldView *worldViewSingleton;
 }
 
 @property (nonatomic, retain) Creature *player;
@@ -53,6 +58,8 @@
 @property (nonatomic, retain) PCPopupMenu *itemMenu;
 @property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
 @property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
+
+@property (nonatomic, retain) WorldView *worldViewSingleton;
 
 @property (nonatomic) BOOL tutorialMode;
 
