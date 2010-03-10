@@ -14,6 +14,12 @@
 	return self;
 }
 
+- (void) viewDidLoad
+{
+	[super viewDidLoad];
+	[self update];
+}
+
 - (IBAction) clickContinue {
 	engine.player.money -= engine.player.level * 100;
 	//self.navigationController.popViewController(endView);
