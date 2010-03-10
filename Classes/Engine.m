@@ -34,6 +34,7 @@
 - (void) determineActionForCreature:(Creature*)c;
 - (void) performMoveActionForCreature:(Creature *)c;
 - (void) checkIfCreatureIsDead: (Creature *) c;
+- (void) bloodSprayWithAttacker: (Creature*) attacker;
 
 @end
 
