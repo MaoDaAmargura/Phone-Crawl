@@ -342,7 +342,7 @@
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if (wView.mapImageView) {
-		PCEmitter *emitter = [PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"blood.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+		PCEmitter *emitter = [PCEmitter startWithX:120 Y:120 velocityX:60 velocityY:60 imagePath:@"blood.png" lifeSpan:1 freq:60 bias:CGPointMake(0,0)];
 		
 		//	PCEmitter *emitter = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
 		//	emitter.image = [UIImage imageNamed: @"blood.png"];

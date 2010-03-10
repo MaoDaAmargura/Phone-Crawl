@@ -12,7 +12,7 @@ static NSMutableArray *deadEmitters = nil;
 @implementation PCParticle
 @synthesize velocity, life;
 
-- (PCParticle*) initWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy imagePath: (NSString*) path lifeSpan: (int) _life {
+- (PCParticle*) initWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy imagePath: (NSString*) path lifeSpan: (float) _life {
 	UIImage *img = [UIImage imageNamed: path];
 	CGSize size = img.size;
 
@@ -51,10 +51,12 @@ static NSMutableArray *deadEmitters = nil;
 @synthesize frequency, bias;
 
 - (PCEmitter*) initWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy
-			   imagePath: (NSString*) path lifeSpan: (int) _life freq: (float) _frequency bias: (CGPoint) _bias {
+			   imagePath: (NSString*) path lifeSpan: (float) _life freq: (float) _frequency bias: (CGPoint) _bias {
 	[super initWithX: x Y: y velocityX: vx velocityY: vy imagePath: path lifeSpan: _life];
 	frequency = _frequency;
 	bias = _bias;
+	life *= frequency;
+	DLog(@"life after init: %f %f %f",life, _life, _frequency);
 
 	return self;
 }
@@ -75,30 +77,48 @@ static NSMutableArray *deadEmitters = nil;
 	return retval;
 }
 
-- (void) updateEmitter: (NSString*) animationID finished: (BOOL) finished context: (void*) context {
+- (void) updateEmitter: (NSTimer*) timer {
 	// FIXME randomize
-	NSLog([self description]);
-//	[self removeFromSuperview];
-//	self.alpha = 0;
-	if (!self.superview) exit(1);
+	DLog(@"%f",life);
+	life--;
+	if (life <= 0) {
+		[deadEmitters addObject: self];
+		[liveEmitters removeObject: self];
+		[self removeFromSuperview];
+		[timer invalidate];
+	}
+	
+//	[UIView beginAnimations: nil context: nil];
+//	[UIView setAnimationBeginsFromCurrentState:YES];
+//	[UIView setAnimationDelegate: retval];
+//	[UIView setAnimationRepeatCount: retval.life * 60];
+//	[UIView setAnimationDidStopSelector:@selector(updateEmitter:finished:context:)];
+//	[UIView setAnimationDuration: 0.01];
+//	float dx = retval.velocity.x / 60;
+//	float dy = retval.velocity.y / 60;
+//	retval.center = CGPointMake(retval.center.x + dx , retval.center.y + dy);
+//	[UIView commitAnimations];
 }
 
 + (PCEmitter*) startWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy
-			  imagePath: (NSString*) path lifeSpan: (int) _life freq: (float) _frequency bias: (CGPoint) _bias {
+			  imagePath: (NSString*) path lifeSpan: (float) _life freq: (float) _frequency bias: (CGPoint) _bias {
 	PCEmitter *retval = [PCEmitter get];
+	DLog(@"life before init: %f freq: %f", _life, _frequency);
 	[retval initWithX: x Y: y velocityX: vx velocityY: vy imagePath: path lifeSpan: _life freq: _frequency bias: _bias];
+//	exit(0);
 
 	[UIView beginAnimations: nil context: nil];
 	[UIView setAnimationBeginsFromCurrentState:YES];
 	[UIView setAnimationDelegate: retval];
-	[UIView setAnimationRepeatCount: retval.life * 60];
-	[UIView setAnimationDidStopSelector:@selector(updateEmitter:finished:context:)];
-	[UIView setAnimationDuration: 1];// 0.01];
-	float dx = 60;//retval.velocity.x / 60;
-	float dy = retval.velocity.y / 60;
+	[UIView setAnimationDidStopSelector:@selector(stopEmitter:finished:context:)];
+	[UIView setAnimationDuration: _life];
+	[UIView setAnimationCurve: UIViewAnimationCurveLinear];
+	float dx = retval.velocity.x;
+	float dy = retval.velocity.y;
 	retval.center = CGPointMake(retval.center.x + dx , retval.center.y + dy);
 	[UIView commitAnimations];
 
+	[NSTimer scheduledTimerWithTimeInterval: 1.0 / _frequency target: retval selector:@selector(updateEmitter:) userInfo:nil repeats: true];
 	return retval;
 }
 

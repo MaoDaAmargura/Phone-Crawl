@@ -25,6 +25,6 @@
 
 
 + (PCEmitter*) startWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy
-				imagePath: (NSString*) path lifeSpan: (int) _life freq: (float) _frequency bias: (CGPoint) _bias;
+				imagePath: (NSString*) path lifeSpan: (float) _life freq: (float) _frequency bias: (CGPoint) _bias;
 
 @end
