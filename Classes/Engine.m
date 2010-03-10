@@ -1334,14 +1334,14 @@
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
 
-		#define BATTLEMENU_SHOVE_PX 40
+		#define POPUP_SHOVE_PX 40
 		if (worldViewSingleton) {
 			CGPoint point =  [self originOfTile: tileCoord inWorldView: worldViewSingleton];
-			if (point.x + battleMenu.frame.size.width + BATTLEMENU_SHOVE_PX < WORLD_VIEW_SIZE_PX) {
-				point.x += BATTLEMENU_SHOVE_PX;
+			if (point.x + battleMenu.frame.size.width + POPUP_SHOVE_PX < WORLD_VIEW_SIZE_PX) {
+				point.x += POPUP_SHOVE_PX;
 			}
 			else {
-				point.y += BATTLEMENU_SHOVE_PX;
+				point.y += POPUP_SHOVE_PX;
 			}
 			[battleMenu moveTo: point];
 		}
