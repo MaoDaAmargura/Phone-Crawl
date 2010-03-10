@@ -7,6 +7,7 @@
 #import "Util.h"
 #import "WorldView.h"
 #import "PCPopupMenu.h"
+#import "PCParticle.h"
 #import "CombatAbility.h"
 
 #import "Phone_CrawlAppDelegate.h"
@@ -339,6 +340,8 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	PCEmitter *IAMRIGHTTHEFUCKHERE = [PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"skullwall.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+	[wView.mapImageView addSubview: IAMRIGHTTHEFUCKHERE];
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if (!worldViewSingleton) worldViewSingleton = wView;
 	
@@ -1147,8 +1150,8 @@
 	[self drawTilesForWorldView:wView];
 	[self drawItemsInWorld:wView];
 	[self drawEnemiesInWorld:wView];
-	[self drawPlayerInWorld:wView];	
-	
+	[self drawPlayerInWorld:wView];
+
 	UIGraphicsPopContext();
 
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
