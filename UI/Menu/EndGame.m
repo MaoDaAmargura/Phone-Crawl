@@ -16,7 +16,7 @@
 }
 
 - (IBAction) clickContinue {
-	//engine.player.money -= engine.player.level * 100;
+	engine.player.money -= engine.player.level * 100;
 	//self.navigationController.popViewController(endView);
 }
 
@@ -26,7 +26,7 @@
 
 - (void) update {
 	[score setText:[NSString stringWithFormat:@"%d",[engine.player getHighScore]]];
-	//[cost setText:[NSString stringWithFormat:@"%d",engine.player.level * 100]];
+	[cost setText:[NSString stringWithFormat:@"%d",engine.player.level * 100]];
 }
 
 @end
