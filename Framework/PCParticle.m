@@ -13,19 +13,18 @@ static NSMutableArray *deadEmitters = nil;
 @synthesize velocity, life;
 
 - (PCParticle*) initWithX: (int) x Y: (int) y velocityX: (int) vx velocityY: (int) vy imagePath: (NSString*) path lifeSpan: (int) _life {
+	UIImage *img = [UIImage imageNamed: path];
+	CGSize size = img.size;
+
+	self = [super initWithFrame: CGRectMake(0, 0, size.x, size.y)];
 	self.center = CGPointMake(x, y);
 	life = _life;
 	velocity = CGPointMake(vx, vy);
-	self.image = [UIImage imageNamed: path];
+	self.image = img;
 	return self;
 }
 
-
 + (PCParticle*) getParticle {
-	if (!deadParticles) {
-		deadParticles = [[NSMutableArray alloc] initWithCapacity: 36];
-		liveParticles = [[NSMutableArray alloc] initWithCapacity: 36];
-	}
 	if (![deadParticles count]) {
 		for (int LCV = 0; LCV < 18; LCV++) {
 			[deadParticles addObject: [PCParticle alloc]];
@@ -35,6 +34,14 @@ static NSMutableArray *deadEmitters = nil;
 	[liveParticles addObject: retval];
 	[deadParticles removeLastObject];
 	return retval;
+}
+
++ (void) initialize {
+	deadParticles = [[NSMutableArray alloc] initWithCapacity: 36];
+	liveParticles = [[NSMutableArray alloc] initWithCapacity: 36];
+	for (int LCV = 0; LCV < 18; LCV++) {
+		[deadParticles addObject: [PCParticle alloc]];
+	}
 }
 
 @end
@@ -78,10 +85,6 @@ static NSMutableArray *deadEmitters = nil;
 			  imagePath: (NSString*) path lifeSpan: (int) _life freq: (float) _frequency bias: (CGPoint) _bias {
 	PCEmitter *retval = [PCEmitter get];
 	[retval initWithX: x Y: y velocityX: vx velocityY: vy imagePath: path lifeSpan: _life freq: _frequency bias: _bias];
-	retval.frame = CGRectMake(120, 120, 120, 120);
-	retval.opaque = true;
-	retval.alpha = 1.0;
-	NSLog([retval description]);
 
 	[UIView beginAnimations: nil context: nil];
 	[UIView setAnimationBeginsFromCurrentState:YES];

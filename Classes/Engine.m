@@ -146,6 +146,7 @@
 	if(self = [super init])
 	{
 		tutorialMode = NO;
+		[PCParticle initialize];
 		
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
@@ -340,8 +341,12 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	PCEmitter *IAMRIGHTTHEFUCKHERE = [PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"skullwall.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+//	PCEmitter *IAMRIGHTTHEFUCKHERE = [PCEmitter alloc];//[PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"skullwall.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+	
+	PCEmitter *IAMRIGHTTHEFUCKHERE = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
+	IAMRIGHTTHEFUCKHERE.image = [UIImage imageNamed: @"skullwall.png"];
 	[wView.mapImageView addSubview: IAMRIGHTTHEFUCKHERE];
+	NSLog([IAMRIGHTTHEFUCKHERE description]);
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if (!worldViewSingleton) worldViewSingleton = wView;
 	
