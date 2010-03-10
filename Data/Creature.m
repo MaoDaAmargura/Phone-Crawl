@@ -34,6 +34,13 @@
 @synthesize cachedPath;
 @synthesize experiencePoints;
 
+#pragma mark -
+
+- (NSString*) description {
+	return [NSString stringWithFormat:
+			@"%@ at %@:\nmax: %@\nnow:%@", name, creatureLocation, max, current];
+}
+
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -460,6 +467,9 @@
 @synthesize shield;
 @synthesize mana;
 @synthesize turnSpeed;
+- (NSString*) description {
+	return [NSString stringWithFormat: @"HP %d SH %d MP %d TS %d", health, shield, mana, turnSpeed];
+}
 @end
 
 @implementation Abilities

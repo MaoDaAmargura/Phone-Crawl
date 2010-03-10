@@ -39,6 +39,8 @@
 		65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA015112F76E0000D4AC7 /* potion-blue.png */; };
 		B058D3C21147391E00AEBDF1 /* EndGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = B058D3C11147391E00AEBDF1 /* EndGame.xib */; };
 		B058D3C61147392800AEBDF1 /* EndGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B058D3C51147392800AEBDF1 /* EndGame.m */; };
+		D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70FA6EE11480B44001F1C56 /* PCParticle.m */; };
+		D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70FA7CD11481E1A001F1C56 /* PCParticle.xib */; };
 		D76B4F8F110D2A6500BBF5C0 /* highlight.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F8E110D2A6500BBF5C0 /* highlight.png */; };
 		D76B4F91110D2A6E00BBF5C0 /* blank.png in Resources */ = {isa = PBXBuildFile; fileRef = D76B4F90110D2A6E00BBF5C0 /* blank.png */; };
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
@@ -255,6 +257,9 @@
 		B058D3C11147391E00AEBDF1 /* EndGame.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndGame.xib; sourceTree = "<group>"; };
 		B058D3C41147392800AEBDF1 /* EndGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndGame.h; sourceTree = "<group>"; };
 		B058D3C51147392800AEBDF1 /* EndGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGame.m; sourceTree = "<group>"; };
+		D70FA6ED11480B44001F1C56 /* PCParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCParticle.h; sourceTree = "<group>"; };
+		D70FA6EE11480B44001F1C56 /* PCParticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCParticle.m; sourceTree = "<group>"; };
+		D70FA7CD11481E1A001F1C56 /* PCParticle.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PCParticle.xib; sourceTree = "<group>"; };
 		D76B4F8E110D2A6500BBF5C0 /* highlight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = highlight.png; sourceTree = "<group>"; };
 		D76B4F90110D2A6E00BBF5C0 /* blank.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blank.png; sourceTree = "<group>"; };
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
@@ -671,6 +676,9 @@
 				D931C40A11063B790032A3DD /* PCBaseViewController.m */,
 				D9A134D11129261800127C55 /* PCPopupMenu.h */,
 				D9A134D21129261800127C55 /* PCPopupMenu.m */,
+				D70FA6ED11480B44001F1C56 /* PCParticle.h */,
+				D70FA6EE11480B44001F1C56 /* PCParticle.m */,
+				D70FA7CD11481E1A001F1C56 /* PCParticle.xib */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -1248,6 +1256,7 @@
 				D7B63648114485DF00955293 /* brick-wall-bloody.PNG in Resources */,
 				D7B63649114485DF00955293 /* gate-with-skull-broken.png in Resources */,
 				D7B636561144874E00955293 /* pink-dot.png in Resources */,
+				D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */,
 				D918C17111470023002D4575 /* ui-button-highscores.png in Resources */,
 				D918C17211470023002D4575 /* ui-button-skillupgrades.png in Resources */,
 				D918C1C6114705C1002D4575 /* Icon.png in Resources */,
@@ -1318,6 +1327,7 @@
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
 				D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */,
+				D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */,
 				D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */,
 				B058D3C61147392800AEBDF1 /* EndGame.m in Sources */,
 			);

@@ -7,6 +7,7 @@
 #import "Util.h"
 #import "WorldView.h"
 #import "PCPopupMenu.h"
+#import "PCParticle.h"
 #import "CombatAbility.h"
 
 #import "Phone_CrawlAppDelegate.h"
@@ -72,7 +73,7 @@
 
 @synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
-@synthesize tutorialMode;
+@synthesize tutorialMode, worldViewSingleton;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -145,6 +146,7 @@
 	if(self = [super init])
 	{
 		tutorialMode = NO;
+		[PCParticle initialize];
 		
 		[Spell fillSpellList];
 		[CombatAbility fillAbilityList];
@@ -287,6 +289,7 @@
 				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
 				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
 			} else {
+				DLog(@"%d > %d",[Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation], [creature getRange]);
 				actionResult = @"Out of range!";
 			}
 			creature.selectedCreatureForAction = nil;
@@ -338,8 +341,14 @@
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+//	PCEmitter *IAMRIGHTTHEFUCKHERE = [PCEmitter alloc];//[PCEmitter startWithX:120 Y:120 velocityX:12 velocityY:12 imagePath:@"skullwall.png" lifeSpan:60 freq:60 bias:CGPointMake(0,0)];
+	
+	PCEmitter *IAMRIGHTTHEFUCKHERE = [[PCEmitter alloc] initWithFrame: CGRectMake(0,0, 64, 64)];
+	IAMRIGHTTHEFUCKHERE.image = [UIImage imageNamed: @"skullwall.png"];
+	[wView.mapImageView addSubview: IAMRIGHTTHEFUCKHERE];
+	NSLog([IAMRIGHTTHEFUCKHERE description]);
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-
+	if (!worldViewSingleton) worldViewSingleton = wView;
 	
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -896,7 +905,8 @@
 				continue;
 			
 			discovering.pathing_distance = closest.pathing_distance + 1;
-			// FIXME: consult other people and determine if it's ok to crap out when the path is too long
+			// FIXME: adjust this algorithm so that it builds a path TO the end, not FROM the end, so that we can
+			// return a partial path immediately below instead of nothing.
 			if(discovering.pathing_distance > LARGEST_ALLOWED_PATH)
 			{
 				[discovered removeAllObjects];
@@ -1155,8 +1165,8 @@
 	[self drawTilesForWorldView:wView];
 	[self drawItemsInWorld:wView];
 	[self drawEnemiesInWorld:wView];
-	[self drawPlayerInWorld:wView];	
-	
+	[self drawPlayerInWorld:wView];
+
 	UIGraphicsPopContext();
 
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
@@ -1302,6 +1312,18 @@
 		//     -the menu should be triggered here.
 		// After the player has selected the additional input, other code will be called
 		// which will allow the character to take its turn.
+
+		#define BATTLEMENU_SHOVE_PX 40
+		if (worldViewSingleton) {
+			CGPoint point =  [self originOfTile: tileCoord inWorldView: worldViewSingleton];
+			if (point.x + battleMenu.frame.size.width + BATTLEMENU_SHOVE_PX < WORLD_VIEW_SIZE_PX) {
+				point.x += BATTLEMENU_SHOVE_PX;
+			}
+			else {
+				point.y += BATTLEMENU_SHOVE_PX;
+			}
+			[battleMenu moveTo: point];
+		}
 		[self showBattleMenu];
 	}
 	else 

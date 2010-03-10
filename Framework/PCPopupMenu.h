@@ -1,10 +1,3 @@
-//
-//  PCPopupMenu.h
-//  Phone-Crawl
-//
-//  Created by Austin Kelley on 2/14/10.
-//  Copyright 2010 __MyCompanyName__. All rights reserved.
-//
 //  Customizable pop up menu class.
 //  Takes objects and functions to call and lists them by the given name.
 
@@ -19,7 +12,7 @@
 	NSMutableArray *menuItems;
 	UIImageView *backGroundImageView;
 	NSMutableArray *drawnItems;
-	
+
 	BOOL hideOnFire;
 	BOOL dieOnFire;
 }
@@ -41,5 +34,8 @@
 // Helpers for turning display on and off.
 - (void) show;
 - (void) hide;
+
+// Resets the origin to the given point.
+- (void) moveTo: (CGPoint) point;
 
 @end

@@ -26,7 +26,7 @@
 	// almost killed bucky, just to see him bleed -Nate
 	NSError *error = nil;
 	[NSString stringWithContentsOfFile: @"/Users/nathanking/classes/cs115/Phone-Crawl/YES" encoding: NSUTF8StringEncoding error: &error];
-	LVL_GEN_ENV = !error;
+//	LVL_GEN_ENV = !error;
 
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	flow = nil;
