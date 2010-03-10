@@ -424,6 +424,16 @@
 	return ret;
 }
 
+- (int) getHighScore
+{
+	int score = 0;
+	score += money;
+	for (Item *it in self.inventory)
+		score += (it.pointValue * 0.60);
+	score += (experiencePoints / 10);
+	return score;
+}
+
 @end
 
 @implementation EquipSlots
