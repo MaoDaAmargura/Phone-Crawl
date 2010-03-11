@@ -60,8 +60,7 @@
 		int dungeonLevel = level %4;
 		[self setBaseStats];
 
-		max.health = max.shield = max.mana = 50;
-		current.health = current.shield = current.mana = max.health;
+
 
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
@@ -76,6 +75,59 @@
 		 
 		 Exceptions for this will have to be: shopkeeper and bosses. Can get them done later.
 		 */
+		switch ([Rand min: 0 max: 8]) {
+			case 0:
+				iconName = @"monster-ogre.png";
+				dungeonLevel = 2;
+				level = 6;
+				break;
+			case 1:
+				iconName = @"monster-bug.png";
+				dungeonLevel = 0;
+				level = 1;
+				break;
+			case 2:
+				iconName = @"monster-demon.png";
+				dungeonLevel = 1;
+				level = 4;
+				break;
+			case 3:
+				iconName = @"monster-dragon-green.png";
+				dungeonLevel = 4;
+				level = 8;
+				break;
+			case 4:
+				iconName = @"monster-fierydemon.png";
+				dungeonLevel = 3;
+				level = 2;
+				break;
+			case 5:
+				iconName = @"monster-ghost.png";
+				dungeonLevel = 1;
+				level = 2;
+				break;
+			case 6:
+				iconName = @"monster-guard.png";
+				dungeonLevel = 2;
+				level = 3;
+				break;
+			case 7:
+				iconName = @"monster-hornman.png";
+				dungeonLevel = 0;
+				level = 3;
+				break;
+			case 8:
+				iconName = @"monster-iceman.png";
+				dungeonLevel = 3;
+				level = 1;
+				break;
+			default:
+				iconName = @"monster-ogre.png";
+				dungeonLevel = 2;
+				level = 6;
+				break;
+		}
+
 		self.inventory = [NSMutableArray arrayWithObjects:
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
@@ -84,21 +136,9 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
-						  [[[Item alloc] initWithBaseStats:0 elemType:elem itemType:HEAVY_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
-						  [[[Item alloc] initWithBaseStats:0 elemType:elem itemType:LIGHT_CHEST] autorelease],
-
-
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:BOW] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:DAGGER] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
-//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
 						  
 						  nil];
 		
@@ -117,45 +157,10 @@
 			default:
 				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 		}
+		max.health = max.shield = max.mana = level * 25;
+		current.health = current.shield = current.mana = max.health;
+
 		[self ClearTurnActions];
-
-
-		switch ([Rand min: 0 max: 8]) {
-			case 0:
-				iconName = @"monster-ogre.png";
-				break;
-			case 1:
-				iconName = @"monster-bug.png";
-				break;
-			case 2:
-				iconName = @"monster-demon.png";
-				break;
-			case 3:
-				iconName = @"monster-dragon-green.png";
-				break;
-			case 4:
-				iconName = @"monster-fierydemon.png";
-				break;
-			case 5:
-				iconName = @"monster-ghost.png";
-				break;
-			case 6:
-				iconName = @"monster-guard.png";
-				break;
-			case 7:
-				iconName = @"monster-hornman.png";
-				break;
-			case 8:
-				iconName = @"monster-iceman.png";
-				break;
-			default:
-				iconName = @"monster-ogre.png";
-				break;
-		}
-
-		
-		
-		
 		return self;
 	}
 	return nil;
