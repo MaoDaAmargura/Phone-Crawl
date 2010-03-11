@@ -34,6 +34,8 @@
 
 - (void) refreshInventoryView;
 
+- (void) updateCharacterView;
+
 @end
 
 @interface HomeTabViewController (Tutorial)

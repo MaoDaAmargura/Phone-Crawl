@@ -6,11 +6,10 @@
 
 @implementation CharacterView
 
-- (id) initWithIcon:(NSString*)imgNm
+- (id) init
 {
 	if(self = [super initWithNibName:@"CharacterView"])
 	{
-		imgName = imgNm;
 		return self;
 	}
 	return nil;
@@ -51,5 +50,10 @@
 	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.icon]];
 }
 
+- (void) setIcon:(NSString*) iconName
+{
+	imgName = iconName;
+	characterImageView.image = [UIImage imageNamed:iconName];
+}
 
 @end

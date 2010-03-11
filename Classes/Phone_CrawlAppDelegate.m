@@ -101,6 +101,7 @@
 	if(!isAllowedToLoadGame) return;
 	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
 	[homeTabController.gameEngine.currentDungeon initWithType:town];
+	[homeTabController updateCharacterView];
 	[window bringSubviewToFront:homeTabController.view];
 	
 	//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];

@@ -211,7 +211,7 @@
 
 - (UIViewController*) initCharacterView
 {
-	cView = [[[CharacterView alloc] initWithIcon:[gameEngine.player iconName]] autorelease];
+	cView = [[[CharacterView alloc] init] autorelease];
 	//
 	cView.title = @"Character";
 	cView.tabBarItem.image = [UIImage imageNamed:@"icon-character.png"];
@@ -239,6 +239,12 @@
 
 #pragma mark -
 #pragma mark Delegates
+
+- (void) updateCharacterView
+{
+	[cView setIcon:gameEngine.player.iconName];
+}
+
 /*!
  @method		newCharacterWithName
  @abstract		a horrendous hack to write a tutorial over our game engine by limiting player options in this view controller
@@ -268,6 +274,8 @@
 	wView.highlight.hidden = NO;
 	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 	[self.view bringSubviewToFront:mainTabController.view];
+	
+	[cView setIcon:icon];
 	
 }
 
