@@ -97,7 +97,7 @@
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
 
-- (void) loadGame:(NSString *)filename;
+- (BOOL) loadGame:(NSString *)filename;
 
 - (void) saveGame:(NSString *)filename;
 

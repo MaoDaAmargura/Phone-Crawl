@@ -171,7 +171,7 @@
 		//currentDungeon = [[Dungeon alloc] initWithType: town];
 		currentDungeon = [Dungeon alloc];
 		currentDungeon.liveEnemies = liveEnemies;
-		[currentDungeon initWithType: crypts];
+		[currentDungeon initWithType: town];
 		DLog(@"%@",[currentDungeon.playerLocation description]);
 		
 		player.inBattle = NO;
@@ -504,13 +504,13 @@
 	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
-- (void) loadGame:(NSString *)filename {
+- (BOOL) loadGame:(NSString *)filename {
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
 		NSLog(@"Unable to open file for reading: ");
 		NSLog(@"%@", filename);
-		return;
+		return NO;
 	}
 	char line[150];
 	NSMutableArray *data = [NSMutableArray arrayWithCapacity:10];
@@ -524,7 +524,7 @@
 	}
 	if ([data count] == 0) {
 		NSLog(@"Save file is empty");
-		return;
+		return NO;
 	}
 	// maxhealth
 	// maxshield
@@ -577,6 +577,7 @@
 	}
 	else {
 		[[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Problem Loading Save Game - 001" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+		return NO;
 	}
 	sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[spellsbegin]"]) {
@@ -586,20 +587,31 @@
 	}
 	else {
 		[[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Problem Loading Save Game - 002" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+		return NO;
 	}
 
 	sentinel = [self getArrayString:data];
-	if ([sentinel isEqualToString:@"[inventorybegin]"]) {
+	if ([sentinel isEqualToString:@"[inventorybegin]"]) 
+	{
 		NSString *line = [self getArrayString:data];
-		while (![line isEqualToString:@""]) {
-			Item *i = [self loadItemFromFile:line];
-			if (i != nil) {
-				[player.inventory addObject:i];
-			}
+		int numItems = [line intValue];
+		NSLog(@"%d", numItems);
+		
+		for (int i=0; i<numItems; ++i)
+		{
 			line = [self getArrayString:data];
+			Item *it = [self loadItemFromFile:line];
+			if (it) {
+				[player.inventory addObject:it];
+			}
 		}
-		sentinel = line;
 	}
+	else {
+		[[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Problem Loading Save Game - 003" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+		return NO;
+	}
+
+	sentinel = [self getArrayString:data];
 	if (head >= 0) {
 		player.equipment.head = [player.inventory objectAtIndex:head];
 	} else {
@@ -622,7 +634,17 @@
 	}	
 	
 	fclose(file);
+	return YES;
 }
+
+/*Item *i = [self loadItemFromFile:line];
+ if (i != nil) {
+ [player.inventory addObject:i];
+ }
+ line = [self getArrayString:data];
+}
+sentinel = line;
+*/
 
 - (Item *) loadItemFromFile:(NSString *)datastring {
 	//NSString *datastring = [self getArrayString:array];
@@ -783,9 +805,13 @@
 			fputs("\n", file);
 		}
 	}
-	fputs([@"[inventorybegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs("[inventorybegin]",file);
 	fputs("\n",file);
-	for (int i=0;i<[player.inventory count];i++) {
+	int numItems = [player.inventory count];
+	fputs([[NSString stringWithFormat:@"%d", numItems] cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs("\n", file);
+	
+	for (int i=0;i<numItems;++i) {
 		Item *item = [player.inventory objectAtIndex:i];
 		[self writeItemToFile:item file:file];
 	}

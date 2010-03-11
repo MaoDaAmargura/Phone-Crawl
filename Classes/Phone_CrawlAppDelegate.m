@@ -99,11 +99,13 @@
 - (IBAction) loadSaveGame
 {
 	if(!isAllowedToLoadGame) return;
-	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
-	[homeTabController.gameEngine.currentDungeon initWithType:town];
-	[homeTabController updateCharacterView];
-	[window bringSubviewToFront:homeTabController.view];
-	
+	if([homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"])
+	{
+		[homeTabController.gameEngine.currentDungeon initWithType:town];
+		[homeTabController updateCharacterView];
+		[window bringSubviewToFront:homeTabController.view];
+		gameStarted = YES;
+	}
 	//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 }
 
