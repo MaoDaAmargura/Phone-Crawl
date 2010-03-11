@@ -6,9 +6,13 @@
 #import "Dungeon.h" // simply for the "town" enum
 #import "Creature.h"
 
+#import "HighScoreViewController.h"
+
 #import "EndGame.h"
 
-#define QUICK_START true
+#define QUICK_START NO
+
+#define HIGH_SCORES_DICT_USER_DEFAULTS_KEY	@"ab23682c99f204e57ac73c7500b9f"
 
 @implementation Phone_CrawlAppDelegate
 
@@ -31,6 +35,19 @@
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	flow = nil;
 	
+	NSMutableDictionary *scores = [[NSUserDefaults standardUserDefaults] objectForKey:HIGH_SCORES_DICT_USER_DEFAULTS_KEY];
+	if(!scores)
+	{
+		scores = [[NSMutableDictionary alloc] initWithCapacity:6];
+		[scores setObject:[NSNumber numberWithInt: 5000] forKey:@"Albeiro Invictus"];
+		[scores setObject:[NSNumber numberWithInt: 4000] forKey:@"Warmaster Wijtman"];
+		[scores setObject:[NSNumber numberWithInt: 3500] forKey:@"Gangster Forgeman"];
+		[scores setObject:[NSNumber numberWithInt: 3000] forKey:@"Mapmaker King"];
+		[scores setObject:[NSNumber numberWithInt: 2500] forKey:@"Beastmaster Fultz"];
+		[scores setObject:[NSNumber numberWithInt: 2000] forKey:@"Curator Tan"];
+		
+		[[NSUserDefaults standardUserDefaults] setObject:scores forKey:HIGH_SCORES_DICT_USER_DEFAULTS_KEY];
+	}
 	//return;
 	if(QUICK_START || LVL_GEN_ENV) {
 		[window addSubview:homeTabController.view];
@@ -94,7 +111,9 @@
 
 - (IBAction) viewScores
 {
-	
+	NSDictionary *scores = [[NSUserDefaults standardUserDefaults] objectForKey:HIGH_SCORES_DICT_USER_DEFAULTS_KEY];
+	HighScoreViewController *hView = [[HighScoreViewController alloc] initWithScores:scores];
+	[window addSubview:hView.view];
 }
 
 - (Creature*) playerObject

@@ -146,6 +146,8 @@
 		D9888096110D56C300AFFB2E /* BB Watershed 8-03 003.jpg in Resources */ = {isa = PBXBuildFile; fileRef = D9888095110D56C300AFFB2E /* BB Watershed 8-03 003.jpg */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
 		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
+		D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A46F46114890FD00AAC433 /* HighScoreViewController.m */; };
+		D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */; };
 		D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */; };
 		D9AFEE891130C577001EC0B5 /* NewGameFlowControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
@@ -391,6 +393,9 @@
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
 		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
 		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
+		D9A46F45114890FD00AAC433 /* HighScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreViewController.h; sourceTree = "<group>"; };
+		D9A46F46114890FD00AAC433 /* HighScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreViewController.m; sourceTree = "<group>"; };
+		D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HighScoreViewController.xib; sourceTree = "<group>"; };
 		D9AC6A2D11409C480073801E /* Item+TestingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Item+TestingAdditions.h"; sourceTree = "<group>"; };
 		D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameFlowControl.h; sourceTree = "<group>"; };
 		D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameFlowControl.m; sourceTree = "<group>"; };
@@ -789,6 +794,7 @@
 		D988806B110D272C00AFFB2E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
+				D9A46F44114890E800AAC433 /* HighScores */,
 				D9A46F0011486FAE00AAC433 /* GameOver */,
 				D9A46EFF11486FA400AAC433 /* SkillUpgrade */,
 				D9A46EFD11486F9C00AAC433 /* NewGame */,
@@ -848,6 +854,16 @@
 				B058D3C11147391E00AEBDF1 /* EndGame.xib */,
 			);
 			name = GameOver;
+			sourceTree = "<group>";
+		};
+		D9A46F44114890E800AAC433 /* HighScores */ = {
+			isa = PBXGroup;
+			children = (
+				D9A46F45114890FD00AAC433 /* HighScoreViewController.h */,
+				D9A46F46114890FD00AAC433 /* HighScoreViewController.m */,
+				D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */,
+			);
+			name = HighScores;
 			sourceTree = "<group>";
 		};
 		D9B55D1911015878007173A3 /* Data */ = {
@@ -1327,6 +1343,7 @@
 				D7AC90EE11487F44002EDB64 /* eye.png in Resources */,
 				D7AC90EF11487F44002EDB64 /* skull.png in Resources */,
 				D7AC90F011487F44002EDB64 /* star.png in Resources */,
+				D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1386,6 +1403,7 @@
 				D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */,
 				D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */,
 				B058D3C61147392800AEBDF1 /* EndGame.m in Sources */,
+				D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
