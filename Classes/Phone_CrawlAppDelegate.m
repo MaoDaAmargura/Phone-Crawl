@@ -89,7 +89,7 @@
 	[homeTabController.gameEngine.currentDungeon initWithType:town];
 	[window bringSubviewToFront:homeTabController.view];
 	
-	[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+	//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 }
 
 - (IBAction) viewScores
