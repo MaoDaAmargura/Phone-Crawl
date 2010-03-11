@@ -177,8 +177,8 @@
 		self.name = [NSString stringWithString:inName];
 		self.iconName = @"human.png";
 		self.creatureLocation = [Coord withX:0 Y:0 Z:0];
-		int sb[] = {5,5,5,5,5,5,5,5,5,5};
-		int c[] = {1,1,1,1};
+		int sb[] = {1,1,1,1,1,1,1,1,1,1};
+		int c[] = {1,1,1,1,1};
 		self.abilities = [[[Abilities alloc] init] autorelease];
 		[self.abilities setSpellBookArray: sb];
 		[self.abilities setCombatAbilityArray: c];		

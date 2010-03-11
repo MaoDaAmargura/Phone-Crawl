@@ -551,6 +551,7 @@
 	player.iconName = playerIcon;
 	player.money = money;
 	player.experiencePoints = [[self getArrayString:data] intValue];
+	player.abilityPoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
     int chest = [[self getArrayString:data] intValue];
 	int rhand = [[self getArrayString:data] intValue];
@@ -569,27 +570,25 @@
 	player.max.turnSpeed = turnSpeed;
 	NSString *sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[abilitiesbegin]"]) {
-		NSString *line = [self getArrayString:data];
-		while (![line isEqualToString:@""] && ![line isEqualToString:@"[spellsbegin]"]) {
-			NSArray *linearr = [line componentsSeparatedByString:@"||"];
-			int cid = [[linearr objectAtIndex:0] intValue];
-			int level = [[linearr objectAtIndex:1] intValue];
-			player.abilities.combatAbility[cid] = level;
-			line = [self getArrayString:data];
+		for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; ++i) 
+		{
+			player.abilities.combatAbility[i] = [[self getArrayString:data] intValue];
 		}
-		sentinel = line;
 	}
+	else {
+		[[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Problem Loading Save Game - 001" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+	}
+	sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[spellsbegin]"]) {
-		NSString *line = [self getArrayString:data];
-		while (![line isEqualToString:@""] && ![line isEqualToString:@"[inventorybegin]"]) {
-			NSArray *linearr = [line componentsSeparatedByString:@"||"];
-			int sid = [[linearr objectAtIndex:0] intValue];
-			int level = [[linearr objectAtIndex:1] intValue];
-			player.abilities.spellBook[sid] = level;
-			line = [self getArrayString:data];
+		for (int i =0; i<NUM_PC_SPELL_TYPES; ++i) {
+			player.abilities.spellBook[i] = [[self getArrayString:data] intValue];
 		}
-		sentinel = line;
 	}
+	else {
+		[[[[UIAlertView alloc] initWithTitle:@"Error" message:@"Problem Loading Save Game - 002" delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
+	}
+
+	sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[inventorybegin]"]) {
 		NSString *line = [self getArrayString:data];
 		while (![line isEqualToString:@""]) {
@@ -733,6 +732,8 @@
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.experiencePoints] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d", player.abilityPoints] cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs("\n", file);
 	
 	int hindex = [player.inventory indexOfObject:player.equipment.head];
 	if (hindex == NSNotFound) hindex = -1;
@@ -770,23 +771,16 @@
 	fputs("\n",file);
 	for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; i++) {
 		int ability = player.abilities.combatAbility[i];
-		if (ability != 0) {
-			//CombatAbility *ca = [abilityList objectAtIndex:i];
-			fputs([[NSString stringWithFormat:@"%d",i] cStringUsingEncoding:NSASCIIStringEncoding],file);
-			fputs("||",file);
-			fputs([[NSString stringWithFormat:@"%d",ability] cStringUsingEncoding:NSASCIIStringEncoding],file);
-			fputs("\n",file);
-		}
+		fputs([[NSString stringWithFormat:@"%d", ability]cStringUsingEncoding:NSASCIIStringEncoding], file);
+		fputs("\n", file);
 	}
 	fputs([@"[spellsbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	for (int i=0; i<NUM_PC_SPELL_TYPES; i++) {
 		int ability = player.abilities.spellBook[i];
 		if (ability != 0) {
-			fputs([[NSString stringWithFormat:@"%d",i] cStringUsingEncoding:NSASCIIStringEncoding],file);
-			fputs("||",file);
-			fputs([[NSString stringWithFormat:@"%d",ability] cStringUsingEncoding:NSASCIIStringEncoding],file);
-			fputs("\n",file);
+			fputs([[NSString stringWithFormat:@"%d", ability]cStringUsingEncoding:NSASCIIStringEncoding], file);
+			fputs("\n", file);
 		}
 	}
 	fputs([@"[inventorybegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
