@@ -1338,11 +1338,13 @@
 		#define POPUP_SHOVE_PX 40
 		if (worldViewSingleton) {
 			CGPoint point =  [self originOfTile: tileCoord inWorldView: worldViewSingleton];
-			if (point.x + battleMenu.frame.size.width + POPUP_SHOVE_PX < WORLD_VIEW_SIZE_PX) {
-				point.x += POPUP_SHOVE_PX;
+			float overlap = point.x + battleMenu.frame.size.width + POPUP_SHOVE_PX - WORLD_VIEW_SIZE_PX;
+			if (overlap > 0) {
+				point.y += POPUP_SHOVE_PX;
+				point.x -= overlap;
 			}
 			else {
-				point.y += POPUP_SHOVE_PX;
+				point.x += POPUP_SHOVE_PX;
 			}
 			[battleMenu moveTo: point];
 		}
@@ -1528,6 +1530,15 @@
 	[self hideMenus];
 	[attackMenu show];
 	[battleMenu show];
+
+	CGRect rect = battleMenu.frame;
+	float x = rect.origin.x - attackMenu.frame.size.width;
+	float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	if (y + attackMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+		y -= battleMenu.frame.size.height / 2;
+	}
+	CGPoint origin = CGPointMake(x, y);
+	[attackMenu moveTo: origin];
 }
 
 - (void) showSpellMenu 
@@ -1535,6 +1546,15 @@
 	[self hideMenus];
 	[spellMenu show];
 	[battleMenu show];
+
+	CGRect rect = battleMenu.frame;
+	float x = rect.origin.x - spellMenu.frame.size.width;
+	float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+		y -= battleMenu.frame.size.height / 2;
+	}
+	CGPoint origin = CGPointMake(x, y);
+	[spellMenu moveTo: origin];	
 }
 
 - (void) showItemMenu
@@ -1542,13 +1562,33 @@
 	[self hideMenus];
 	[itemMenu show];
 	[battleMenu show];
+
+	CGRect rect = battleMenu.frame;
+	float x = rect.origin.x - itemMenu.frame.size.width;
+	float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	if (y + itemMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+		y -= battleMenu.frame.size.height / 2;
+	}
+	CGPoint origin = CGPointMake(x, y);
+	[itemMenu moveTo: origin];	
 }
 
 - (void) showDamageSpellMenu 
 {
+	
 	[self hideMenus];
 	[damageSpellMenu show];
 	[spellMenu show];
+
+	CGRect rect = battleMenu.frame;
+	float x = rect.origin.x - spellMenu.frame.size.width;
+	float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+		y -= battleMenu.frame.size.height / 2;
+	}
+	CGPoint origin = CGPointMake(x, y);
+	[spellMenu moveTo: origin];
+
 	[battleMenu show];
 }
 

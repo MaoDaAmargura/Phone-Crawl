@@ -19,6 +19,7 @@
 
 @property (nonatomic, getter = shouldHideOnFire) BOOL hideOnFire;
 @property (nonatomic, getter = shouldDieOnFire) BOOL dieOnFire;
+@property (readonly) CGPoint origin;
 
 // Custom initializer. Always use this. The frame should be given with respect to the view this
 // menu will be displayed in. The height is determined by the number of menu items.

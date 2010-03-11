@@ -120,7 +120,7 @@ typedef enum {
 	int poison;
 	int dark;
 	int armor;
-	
+
     //currently 4 (Head, Chest, Right Hand, Left Hand)
 	EquipSlots *equipment;
 	NSMutableArray *inventory;
