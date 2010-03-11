@@ -42,6 +42,9 @@
 	PCPopupMenu *itemMenu;
 	PCPopupMenu *damageSpellMenu;
 	PCPopupMenu *conditionSpellMenu;
+	PCPopupMenu *merchantMenu;
+	PCPopupMenu *merchantBuyMenu;
+	PCPopupMenu *merchantSellMenu;
 
 	// ugly, hackish workaround used only in moving the battleMenu to the correct spot
 	// when attacking a monster.
@@ -68,9 +71,11 @@
 
 - (void) updateWorldView:(WorldView*) wView;
 
+- (void) setupMerchantMenu;
+
 - (void) fillSpellMenuForCreature: (Creature *) c;
 - (void) fillAttackMenuForCreature: (Creature *) c;
-
+- (void) fillMerchantMenu: (Creature *) c;
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
 - (BOOL) canEnterTileAtCoord:(Coord*) coord;
@@ -85,6 +90,11 @@
 - (void) playerEquipItem:(Item*)i;
 - (void) playerUseItem:(Item*)i;
 - (void) playerDropItem:(Item*)i;
+
+- (void) sellItem:(Item *)it;
+- (void) buyItem:(Item *)it;
+
+- (void) showMerchantMenu;
 
 - (NSArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;

@@ -12,6 +12,8 @@
 	NSString *title;
 }
 
+@property (nonatomic, retain) id context;
+
 - (id) initWithName:(NSString*)name del:(id) del sel:(SEL)sel con:(id)con;
 - (NSString*) title;
 - (void) fire;
@@ -20,14 +22,16 @@
 
 @implementation PopupMenuItem
 
+@synthesize context;
+
 - (id) initWithName:(NSString*)name del:(id)del sel:(SEL)sel con:(id)con
 {
 	if(self = [super init])
 	{
 		target = del;
 		method = sel;
-		context = con;
-		title = name;
+		self.context = con;
+		title = [name retain];
 		return self;
 	}
 	return nil;
@@ -36,6 +40,7 @@
 - (void) dealloc
 {
 	[title release];
+	self.context = nil;
 	[super dealloc];
 }
 
@@ -141,6 +146,24 @@
 	[self renderMenuItems];
 }
 
+- (void) removeItemWithContext:(id) con
+{
+	for (PopupMenuItem *it in menuItems)
+	{
+		if (it.context == con)
+		{
+			[menuItems removeObject:it];
+			break;
+		}
+	}
+}
+
+- (void) removeAllMenuItems
+{
+	[menuItems removeAllObjects];
+	[self addMenuItem:@"Cancel" delegate:self selector:@selector(hide) context:nil];
+}
+
 - (void) renderMenuItems
 {
 	[self resize];
@@ -182,11 +205,7 @@
 	self.hidden = YES;
 }
 
-- (void) moveTo: (CGPoint) point {
-	DLog(@"nate king's head is tired, kids.");
-	return;
-	self.frame = CGRectMake(point.x, point.y, self.frame.size.width, self.frame.size.height);
-}
+
 
 - (CGPoint) origin {
 	return backGroundImageView.frame.origin;

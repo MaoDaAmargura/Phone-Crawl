@@ -38,7 +38,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		case tileSkullDoor:
 			return [self initWithTileType: tileSkullDoorBroken];
 		default:
-			DLog(@"[tile smash] unimplemented for that type");
+			//DLog(@"[tile smash] unimplemented for that type");
 			break;
 	}
 	return self;
@@ -46,7 +46,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 
 - (Tile*) initWithTileType: (tileType) newType {
 	if (newType == tileRubble && (blockMove || slope)) {
-		DLog(@"can't overwrite that with rubble.");
+		//DLog(@"can't overwrite that with rubble.");
 		return self;
 	}
 
@@ -169,7 +169,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 + (UIImage*) imageForType:(tileType)type
 {
 	if (type >= [tileImageArray count]) {
-		DLog (@"check your arguments: %d", type);
+		//DLog (@"check your arguments: %d", type);
 		return nil;
 	}
 	return [tileImageArray objectAtIndex:type];

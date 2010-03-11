@@ -210,6 +210,7 @@ static const int baseItemStats[10][9] = {
         type = desiredType;
         effectSpellId = ITEM_NO_SPELL;
         pointValue = [Item getItemValue:self];
+        if (pointValue < 10) pointValue = 10;
         return self;
     }
     return nil;

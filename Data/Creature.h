@@ -111,6 +111,7 @@ typedef enum {
 	Points *max;
 
 	int money;
+	int deathPenalty;
 	int abilityPoints;
 
 	//Resists
@@ -187,6 +188,7 @@ typedef enum {
 @property (nonatomic, retain) NSString *name;
 @property int money;
 @property int abilityPoints;
+@property int deathPenalty;
 @property (readonly) int level;
 @property (nonatomic) int fire;
 @property (nonatomic) int cold;

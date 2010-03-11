@@ -46,7 +46,7 @@ static NSMutableArray *tiles = nil;
 		y < 0 || y >= MAP_DIMENSION ||
 		z < 0 || z >= MAP_DEPTH) {
 
-		DLog (@"check your arguments: x %d, y%d, z%d", x,y,z);
+		//DLog (@"check your arguments: x %d, y%d, z%d", x,y,z);
 		return false;
 	}
 

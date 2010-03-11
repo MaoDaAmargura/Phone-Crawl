@@ -155,11 +155,11 @@ BOOL have_set_abilities = FALSE;
 	SEL ele = @selector(elementalStrike:target:);
 	SEL def = @selector(defaultStrike:target:);
 
-	ADD_ABILITY(@"Strike",2.0,def,50);
-	ADD_ABILITY(@"Brute",4.0,def,100);
-	ADD_ABILITY(@"EStrike",2.0,ele,50);
-	ADD_ABILITY(@"MStrike",2.0,mix,50);
+	ADD_ABILITY(@"Elem",2.0,ele,50);
+	ADD_ABILITY(@"Power",4.0,def,100);
+	ADD_ABILITY(@"Combo",2.0,mix,50);
 	ADD_ABILITY(@"Quick",1.0,def,25);
+	ADD_ABILITY(@"Basic",2.0,def,50);
 	ADD_ABILITY(@"Shitty",0.8,def,50);
 }
 

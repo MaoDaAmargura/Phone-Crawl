@@ -28,6 +28,7 @@
 // Add an item to this menu.
 - (void) addMenuItem:(NSString*)name delegate:(id) delegate selector:(SEL) selector context:(id)context;
 - (void) removeMenuItemNamed:(NSString*)name;
+- (void) removeItemWithContext:(id) con;
 
 // Called once, when ready to display. This renders the menu. 
 - (void) showInView:(UIView*)view;
@@ -36,7 +37,6 @@
 - (void) show;
 - (void) hide;
 
-// Resets the origin to the given point.
-- (void) moveTo: (CGPoint) point;
+- (void) removeAllMenuItems;
 
 @end

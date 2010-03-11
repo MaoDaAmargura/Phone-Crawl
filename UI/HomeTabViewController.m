@@ -175,7 +175,8 @@
 			}
 			else
 			{
-				
+				[gameEngine fillMerchantMenu:gameEngine.player];
+				[gameEngine showMerchantMenu];
 			}
 		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])
 		{

@@ -26,12 +26,12 @@
 }
 
 - (IBAction) clickContinue {
-	engine.player.money -= engine.player.level * 100;
 	//self.navigationController.popViewController(endView);
 	// return player to town
 	engine.player.current.health = engine.player.max.health;
 	engine.player.current.shield = engine.player.max.shield;
 	engine.player.current.mana = engine.player.max.mana;
+	engine.player.deathPenalty += engine.player.level * 100;
 	engine.player.creatureLocation = [Coord withX:0 Y:0 Z:0];
 	[engine.currentDungeon initWithType:town];
 	[self.view removeFromSuperview];

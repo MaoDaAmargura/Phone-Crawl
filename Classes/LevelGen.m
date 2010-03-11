@@ -226,8 +226,8 @@ typedef enum {
 		}
 	}
 
-	DLog(@"%d",[tilesToKill count]);
-	DLog(@"%d",[tilesToBirth count]);
+	//DLog(@"%d",[tilesToKill count]);
+	//DLog(@"%d",[tilesToBirth count]);
 
 	for (Tile *tile in tilesToKill) {
 		[tile initWithTileType: deadTile[type]];

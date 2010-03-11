@@ -81,7 +81,7 @@
 
 - (void) createDevPlayer
 {
-	player = [[Creature alloc] initPlayerWithLevel:0];
+
 	//[player Take_Damage:150];
 	player.inventory = [NSMutableArray arrayWithObjects:[Item generateRandomItem:1 elemType:FIRE],
 														[Item generateRandomItem:2 elemType:COLD],
@@ -119,8 +119,10 @@
 	CGPoint origin = CGPointMake(60, 300);
 	itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
 	for (Item* it in player.inventory) 
-		if (it.type == WAND || it.type == POTION)
+		if (it.type == WAND || it.type == POTION) {
+			NSLog(@"Adding item: <%@> to list",it.name);
 			[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+		}
 	[itemMenu hide];
 }
 
@@ -140,6 +142,21 @@
 	[conditionSpellMenu hide];	
 	
 	[self fillSpellMenuForCreature: player];
+}
+
+- (void) setupMerchantMenu
+{
+	CGPoint origin = CGPointMake(0, 300);
+	merchantMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[merchantMenu addMenuItem:@"Buy" delegate:self selector:@selector(showMerchantBuyMenu) context:nil];
+	[merchantMenu addMenuItem:@"Sell" delegate:self selector:@selector(showMerchantSellMenu) context:nil];
+	merchantMenu.hideOnFire = NO;
+	origin = CGPointMake(60, 300);
+	merchantBuyMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	merchantSellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[merchantBuyMenu hide];
+	[merchantSellMenu hide];
+	[merchantMenu hide];
 }
 
 - (id) init
@@ -165,7 +182,8 @@
 		
 		tilesPerSide = 11;
 		
-		[self createDevPlayer];
+		player = [[Creature alloc] initPlayerWithLevel:0];
+		//[self createDevPlayer];
 		[player ClearTurnActions];
 		
 		//currentDungeon = [[Dungeon alloc] initWithType: town];
@@ -181,6 +199,7 @@
 		[self setupAttackMenu];
 		[self setupItemMenu];
 		[self setupSpellMenus];
+		[self setupMerchantMenu];
 		[self hideMenus];
 		
 		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
@@ -191,7 +210,36 @@
 	return nil;
 }
 
+- (void) fillMerchantMenu:(Creature *)c {
+	Item *it = [[[Item alloc] initExactItemWithName : @"HPot1"
+							 iconFileName: @"potion-red-I.png"
+							  itemQuality: REGULAR itemSlot: BAG 
+								 elemType: DARK    itemType: POTION
+								   damage: 1 elementalDamage:0
+								  charges:1 range:1 hp:0  shield:0 
+									 mana:0 fire:0 cold:0 lightning:0
+								   poison:0 dark:0 armor: 0
+							effectSpellId: ITEM_HEAL_SPELL_ID] autorelease];
+	[merchantBuyMenu addMenuItem:@"HPot1" delegate:self selector:@selector(buyItem:) context:it];
+	it = [[[Item alloc] initExactItemWithName : @"MPot1"
+								  iconFileName: @"potion-blue-I.png"
+								   itemQuality: REGULAR itemSlot: BAG 
+									  elemType: DARK    itemType: POTION
+										damage: 1 elementalDamage:0
+									   charges:1 range:1 hp:0  shield:0 
+										  mana:0 fire:0 cold:0 lightning:0
+										poison:0 dark:0 armor: 0
+								 effectSpellId: ITEM_MANA_SPELL_ID] autorelease];
+	[merchantBuyMenu addMenuItem:@"MPot1" delegate:self selector:@selector(buyItem:) context:it];
+	for (Item *i in player.inventory) {
+		[merchantSellMenu addMenuItem:i.name delegate:self selector:@selector(sellItem:) context:i];
+	}
+	
+}
+
 - (void) fillSpellMenuForCreature: (Creature *) c {
+	[damageSpellMenu removeAllMenuItems];
+	[conditionSpellMenu removeAllMenuItems];
 	for (int i = 0 ; i < NUM_PC_SPELL_TYPES ; ++i) {
 		if(c.abilities.spellBook[i] == 0) // No points trained in that spell
 			continue;
@@ -258,6 +306,9 @@
 	[damageSpellMenu showInView:wView.view];
 	[attackMenu showInView:wView.view];
 	[itemMenu showInView:wView.view];
+	[merchantMenu showInView:wView.view];
+	[merchantSellMenu showInView:wView.view];
+	[merchantBuyMenu showInView:wView.view];
 	hasAddedMenusToWorldView = YES;
 	[self hideMenus];
 	
@@ -273,6 +324,7 @@
 		int levelDifference = player.level - c.level;
 		experienceGained *= pow(1.2, levelDifference);
 		[player gainExperience:experienceGained];
+		[currentDungeon.items setObject:[Item generateRandomItem:c.level/5 elemType:FIRE] forKey:c.creatureLocation];
 	}
 }
 
@@ -550,6 +602,7 @@
 	}
 	player.iconName = playerIcon;
 	player.money = money;
+	player.deathPenalty = [[self getArrayString:data] intValue];
 	player.experiencePoints = [[self getArrayString:data] intValue];
 	player.abilityPoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
@@ -752,6 +805,8 @@ sentinel = line;
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.level] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
+	fputs([[NSString stringWithFormat:@"%d", player.deathPenalty] cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs("\n", file);
 	fputs([[NSString stringWithFormat:@"%d",player.experiencePoints] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d", player.abilityPoints] cStringUsingEncoding:NSASCIIStringEncoding], file);
@@ -1366,7 +1421,7 @@ sentinel = line;
 			else {
 				point.x += POPUP_SHOVE_PX;
 			}
-			[battleMenu moveTo: point];
+			//[battleMenu moveTo: point];
 		}
 		[self showBattleMenu];
 	}
@@ -1500,7 +1555,8 @@ sentinel = line;
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
-	if([i cast:player target:player.selectedCreatureForAction] == 0)
+	[i cast:player target:player.selectedCreatureForAction];
+	if(i.charges <= 0)
 		[player.inventory removeObject:i];
 	[self refreshInventoryScreen];
 }
@@ -1511,6 +1567,28 @@ sentinel = line;
 	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
 	[player.inventory removeObject:i];
 	[self refreshInventoryScreen];
+}
+
+- (void) buyItem: (Item*) it
+{
+	int itemVal = [Item getItemValue:it];
+	if (player.money >= itemVal)
+	{
+		[player.inventory addObject:it];
+		player.money -= itemVal;
+		[merchantBuyMenu removeItemWithContext:it];
+		[self refreshInventoryScreen];
+		[self hideMenus];
+	}
+}
+
+- (void) sellItem: (Item*) it
+{
+	[player.inventory removeObject: it];
+	int val = [Item getItemValue:it];
+	player.money += val >= 10 ? val : 10;
+	[self refreshInventoryScreen];
+	[self hideMenus];
 }
 
 #pragma mark -
@@ -1531,6 +1609,9 @@ sentinel = line;
 
 - (void) hideMenus
 {
+	[merchantMenu hide];
+	[merchantSellMenu hide];
+	[merchantBuyMenu hide];
 	[battleMenu hide];
 	[attackMenu hide];
 	[itemMenu hide];
@@ -1552,29 +1633,30 @@ sentinel = line;
 	[battleMenu show];
 
 	CGRect rect = battleMenu.frame;
-	float x = rect.origin.x - attackMenu.frame.size.width;
+	//float x = rect.origin.x - attackMenu.frame.size.width;
 	float y = rect.origin.y + battleMenu.frame.size.height / 2;
 	if (y + attackMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
 		y -= battleMenu.frame.size.height / 2;
 	}
-	CGPoint origin = CGPointMake(x, y);
-	[attackMenu moveTo: origin];
+	//CGPoint origin = CGPointMake(x, y);
+	//[attackMenu moveTo: origin];
 }
 
 - (void) showSpellMenu 
 {
 	[self hideMenus];
+	[self fillSpellMenuForCreature:player];
 	[spellMenu show];
 	[battleMenu show];
 
 	CGRect rect = battleMenu.frame;
-	float x = rect.origin.x - spellMenu.frame.size.width;
+	//float x = rect.origin.x - spellMenu.frame.size.width;
 	float y = rect.origin.y + battleMenu.frame.size.height / 2;
 	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
 		y -= battleMenu.frame.size.height / 2;
 	}
-	CGPoint origin = CGPointMake(x, y);
-	[spellMenu moveTo: origin];	
+	//CGPoint origin = CGPointMake(x, y);
+	//[spellMenu moveTo: origin];	
 }
 
 - (void) showItemMenu
@@ -1584,13 +1666,13 @@ sentinel = line;
 	[battleMenu show];
 
 	CGRect rect = battleMenu.frame;
-	float x = rect.origin.x - itemMenu.frame.size.width;
+	//float x = rect.origin.x - itemMenu.frame.size.width;
 	float y = rect.origin.y + battleMenu.frame.size.height / 2;
 	if (y + itemMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
 		y -= battleMenu.frame.size.height / 2;
 	}
-	CGPoint origin = CGPointMake(x, y);
-	[itemMenu moveTo: origin];	
+	//CGPoint origin = CGPointMake(x, y);
+	//[itemMenu moveTo: origin];	
 }
 
 - (void) showDamageSpellMenu 
@@ -1601,13 +1683,13 @@ sentinel = line;
 	[spellMenu show];
 
 	CGRect rect = battleMenu.frame;
-	float x = rect.origin.x - spellMenu.frame.size.width;
+	//float x = rect.origin.x - spellMenu.frame.size.width;
 	float y = rect.origin.y + battleMenu.frame.size.height / 2;
 	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
 		y -= battleMenu.frame.size.height / 2;
 	}
-	CGPoint origin = CGPointMake(x, y);
-	[spellMenu moveTo: origin];
+	//CGPoint origin = CGPointMake(x, y);
+	//[spellMenu moveTo: origin];
 
 	[battleMenu show];
 }
@@ -1619,6 +1701,29 @@ sentinel = line;
 	[spellMenu show];
 	[battleMenu show];
 }
+
+- (void) showMerchantMenu
+{
+	[self hideMenus];
+	[merchantMenu show];
+}
+
+- (void) showMerchantBuyMenu
+{
+	[self hideMenus];
+	[merchantMenu show];
+	[merchantBuyMenu show];
+	[merchantSellMenu hide];
+}
+
+- (void) showMerchantSellMenu
+{
+	[self hideMenus];
+	[merchantMenu show];
+	[merchantSellMenu show];
+	[merchantBuyMenu hide];
+}
+
 
 
 #pragma mark -

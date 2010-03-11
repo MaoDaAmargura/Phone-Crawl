@@ -33,6 +33,7 @@
 @synthesize iconName;
 @synthesize cachedPath;
 @synthesize experiencePoints;
+@synthesize deathPenalty;
 
 #pragma mark -
 
@@ -59,7 +60,7 @@
 		level = inLevel;
 		int dungeonLevel = level %4;
 		[self setBaseStats];
-
+		
 
 
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
@@ -190,6 +191,7 @@
 		experiencePoints = 0;
 		level = lvl;
 		type = PLAYER;
+		deathPenalty = 0;
 		
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
@@ -496,6 +498,7 @@
 	for (Item *it in self.inventory)
 		score += (it.pointValue * 0.60);
 	score += (experiencePoints / 10);
+	score -= deathPenalty;
 	return score;
 }
 
