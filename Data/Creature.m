@@ -59,15 +59,17 @@
 		level = inLevel;
 		int dungeonLevel = level %4;
 		[self setBaseStats];
+
+		max.health = max.shield = max.mana = 50;
+		current.health = current.shield = current.mana = max.health;
+
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
 		turnPoints = 0;
 		inBattle = NO;
 		condition = NO_CONDITION;
-		
-		iconName = @"monster-ogre.png";
-		
+
 		/*
 		 All monsters will have a default inventory of items specific to their element.
 		 AI for each creature can choose to equip whichever of the items they wish. 
@@ -82,9 +84,22 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
-						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:0 elemType:elem itemType:HEAVY_CHEST] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
-						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  [[[Item alloc] initWithBaseStats:0 elemType:elem itemType:LIGHT_CHEST] autorelease],
+
+
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:BOW] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:DAGGER] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
+//						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  
 						  nil];
 		
 		switch (monsterType) {
@@ -103,6 +118,44 @@
 				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 		}
 		[self ClearTurnActions];
+
+
+		switch ([Rand min: 0 max: 8]) {
+			case 0:
+				iconName = @"monster-ogre.png";
+				break;
+			case 1:
+				iconName = @"monster-bug.png";
+				break;
+			case 2:
+				iconName = @"monster-demon.png";
+				break;
+			case 3:
+				iconName = @"monster-dragon-green.png";
+				break;
+			case 4:
+				iconName = @"monster-fierydemon.png";
+				break;
+			case 5:
+				iconName = @"monster-ghost.png";
+				break;
+			case 6:
+				iconName = @"monster-guard.png";
+				break;
+			case 7:
+				iconName = @"monster-hornman.png";
+				break;
+			case 8:
+				iconName = @"monster-iceman.png";
+				break;
+			default:
+				iconName = @"monster-ogre.png";
+				break;
+		}
+
+		
+		
+		
 		return self;
 	}
 	return nil;

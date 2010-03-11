@@ -33,11 +33,11 @@ static const NSString *manaPotionIcon[] = {
 
 static const int baseItemStats[10][9] = {
   //{hp,shield,mana,resist,armor,damage,elemental damage,elemental stat adjustment}
-    {8 , 5 , 0 , 5 , 0 , 40, 15, 7 , -2 }, //One handed Sword
-    {10, 12, 0 , 5 , 5 , 50, 20, 15, -7 }, //Two handed Sword
-    {5 , 10, 0 , 5 , -5, 35, 5 , 12, -2 }, //Bow
-    {5 , 0 , 10, 3 , 0 , 25, 10, 3 , 0  }, //Dagger
-    {8 , 10, 25, 7 , 5 , 15, 20, 15, -8 }, //Staff
+    {8 , 5 , 0 , 5 , 0 , 10, 15, 7 , -2 }, //One handed Sword
+    {10, 12, 0 , 5 , 5 , 12, 20, 15, -7 }, //Two handed Sword
+    {5 , 10, 0 , 5 , -5, 8, 5 , 12, -2 }, //Bow
+    {5 , 0 , 10, 3 , 0 , 7, 10, 3 , 0  }, //Dagger
+    {8 , 10, 25, 7 , 5 , 4, 20, 15, -8 }, //Staff
     {6 , 6 , 0 , 5 , 6 , 0 , 0 , 2 , 3  }, //Shield
     {5 , 10, 0 , 5 , 7 , 0 , 0 , 10, -5 }, //Heavy Helm
     {20, 20, 10, 10, 12, 0 , 0 , 15, -5 }, //Heavy Chest
