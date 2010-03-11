@@ -267,6 +267,7 @@
 	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
 	wView.highlight.hidden = NO;
 	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
+	[self.view bringSubviewToFront:mainTabController.view];
 	
 }
 

@@ -5,6 +5,8 @@
 // for the "town" enum
 #import "Dungeon.h"
 
+#import "Phone_CrawlAppDelegate.h"
+
 
 @implementation EndGame
 
@@ -35,8 +37,10 @@
 	[self.view removeFromSuperview];
 }
 
-- (IBAction) clickEnd {
-	// TODO: return to main menu?
+- (IBAction) clickEnd 
+{
+	Phone_CrawlAppDelegate *appdel = (Phone_CrawlAppDelegate*)[[UIApplication sharedApplication] delegate];
+	[appdel endOfPlayersLife];
 }
 
 - (void) update {

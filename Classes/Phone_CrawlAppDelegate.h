@@ -22,6 +22,7 @@
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
 	BOOL gameStarted;
+	BOOL isAllowedToLoadGame;
 	
 	HighScoreController *scoreController;
 }

@@ -11,6 +11,8 @@
 
 #import "EndGame.h"
 
+#define ALLOWED_TO_LOAD_GAME_KEY	@"ac871013842be92b2b53c294d1c1d48efa51"
+
 #define QUICK_START NO
 
 @implementation Phone_CrawlAppDelegate
@@ -36,6 +38,8 @@
 	
 	scoreController = [[HighScoreController alloc] init];
 
+	isAllowedToLoadGame = [[NSUserDefaults standardUserDefaults] boolForKey:ALLOWED_TO_LOAD_GAME_KEY];
+	
 	//return;
 	if(QUICK_START || LVL_GEN_ENV) {
 		[window addSubview:homeTabController.view];
@@ -52,7 +56,9 @@
 	if (gameStarted) {
 		printf("saving game\n");
 		[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+		isAllowedToLoadGame = YES;
 	}
+	[[NSUserDefaults standardUserDefaults] setBool:isAllowedToLoadGame forKey:ALLOWED_TO_LOAD_GAME_KEY];
 }
 
 
@@ -87,10 +93,12 @@
 	[window bringSubviewToFront:flow.view];
 	[flow begin];
 	gameStarted = YES;
+	isAllowedToLoadGame = YES;
 }
 
 - (IBAction) loadSaveGame
 {
+	if(!isAllowedToLoadGame) return;
 	[homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"];
 	[homeTabController.gameEngine.currentDungeon initWithType:town];
 	[window bringSubviewToFront:homeTabController.view];
@@ -106,7 +114,11 @@
 
 - (void) endOfPlayersLife
 {
-
+	isAllowedToLoadGame = NO;
+	gameStarted = NO;
+	Creature *player = [homeTabController.gameEngine player];
+	[scoreController insertPossibleNewScore:[player getHighScore] name:[player name]];
+	[window bringSubviewToFront:mainMenuView];
 }
 
 - (Creature*) playerObject
