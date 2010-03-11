@@ -31,4 +31,21 @@
 	return result;
 }
 
+- (UIImage*) resize:(CGSize)newSize
+{	
+	UIGraphicsBeginImageContext(newSize);
+	CGContextRef context = UIGraphicsGetCurrentContext();
+	
+	UIGraphicsPushContext(context);
+	
+	[self drawInRect:CGRectMake(0, 0, newSize.width, newSize.height)];
+	
+	UIGraphicsPopContext();
+	
+	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
+	UIGraphicsEndImageContext();
+	
+	return result;
+}
+
 @end

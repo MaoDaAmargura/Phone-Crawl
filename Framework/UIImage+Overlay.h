@@ -13,4 +13,6 @@
 
 - (UIImage*) overlayedWithImage:(UIImage*)img;
 
+- (UIImage*) resize:(CGSize)newSize;
+
 @end

@@ -17,6 +17,7 @@
 {
     UIWindow *window;
 
+	IBOutlet UIView *mainMenuView;
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
 	BOOL gameStarted;
@@ -31,6 +32,9 @@
 - (IBAction) startNewGame;
 - (IBAction) loadSaveGame;
 - (IBAction) viewScores;
+
+- (void) showMainMenu;
+- (void) hideMainMenu;
 
 - (void) applicationWillTerminate:(UIApplication *)application;
 

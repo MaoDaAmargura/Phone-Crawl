@@ -14,6 +14,15 @@
 #define DARK_ICON	@"bg-dark.png"
 #define POISON_ICON	@"bg-poison.png"
 
+#define BASIC_ICON	@"swordsingle.png"
+#define QUICK_ICON	@"dagger.png"
+#define POWER_ICON	@"claymore.png"
+#define ELEM_ICON	@"bg-fire.png"
+#define COMBO_ICON	@"sworddual.png"
+
+#define COST_OF_SKILL 2
+#define COST_OF_SPELL 1
+
 @interface SkillUpgradeViewController (Private)
 
 - (void) updateUI;
@@ -75,6 +84,7 @@
 - (void) updateButton:(UIButton*)button withBackground:(NSString*)bkg number:(int)num
 {
 	UIImage *bkgrnd = [UIImage imageNamed:bkg];
+	bkgrnd = [bkgrnd resize:button.frame.size];
 	UIImage *lvlImg = [UIImage imageNamed:[NSString stringWithFormat:@"Numeral%d-Normal.png", num]];
 	UIImage *icon = [bkgrnd overlayedWithImage:lvlImg];
 	[button setImage:icon forState:UIControlStateNormal];
@@ -99,6 +109,13 @@
 	[self updateButton:poisonSkillButton withBackground:POISON_ICON number:playerAbils.spellBook[POISONCONDITION]];
 	[self updateButton:confuseSkillButton withBackground:DARK_ICON number:playerAbils.spellBook[DARKCONDITION]];
 	
+	[self updateButton:basicAttackButton withBackground:BASIC_ICON number:playerAbils.combatAbility[REG_STRIKE]];
+	[self updateButton:quickAttackButton withBackground:QUICK_ICON number:playerAbils.combatAbility[QUICK_STRIKE]];
+	[self updateButton:powerAttackButton withBackground:POWER_ICON number:playerAbils.combatAbility[BRUTE_STRIKE]];
+	[self updateButton:eleAttackButton withBackground:ELEM_ICON number:playerAbils.combatAbility[ELE_STRIKE]];
+	[self updateButton:comboAttackButton withBackground:COMBO_ICON number:playerAbils.combatAbility[MIX_STRIKE]];
+	
+	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
 }
 
 #pragma mark -
@@ -124,11 +141,27 @@
 
 - (void) upgradeSpell:(PC_SPELL_TYPE)spell andUpdateButton:(UIButton*)button withIconNamed:(NSString*)name 
 {
+	if (player.abilities.spellBook[spell] >= 5 || player.abilityPoints < COST_OF_SPELL)
+	{
+		return;
+	}
 	player.abilities.spellBook[spell]++;
-	player.abilityPoints -= 2;
+	player.abilityPoints -= COST_OF_SPELL;
 	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
 	[self updateButton:button withBackground:name number:player.abilities.spellBook[spell]];
-}	
+}
+
+- (void) upgradeSkill:(PC_COMBAT_ABILITY_TYPE)skill andUpdateButton:(UIButton*)button withIconNamed:(NSString*) name
+{
+	if (player.abilities.combatAbility[skill] >= 5 || player.abilityPoints < COST_OF_SKILL)
+	{
+		return;
+	}
+	player.abilities.combatAbility[skill]++;
+	player.abilityPoints -= COST_OF_SKILL;
+	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
+	[self updateButton:button withBackground:name number:player.abilities.combatAbility[skill]];
+}
 
 - (IBAction) upgradeFlame
 {
@@ -178,6 +211,31 @@
 - (IBAction) upgradePoison
 {
 	[self upgradeSpell:POISONCONDITION andUpdateButton:poisonSkillButton withIconNamed:POISON_ICON];
+}
+
+- (IBAction) upgradeBasic
+{
+	[self upgradeSkill:REG_STRIKE andUpdateButton:basicAttackButton withIconNamed:BASIC_ICON];
+}
+
+- (IBAction) upgradeQuick
+{
+	[self upgradeSkill:QUICK_STRIKE andUpdateButton:quickAttackButton withIconNamed:QUICK_ICON];
+}
+
+- (IBAction) upgradePower
+{
+	[self upgradeSkill:BRUTE_STRIKE andUpdateButton:powerAttackButton withIconNamed:POWER_ICON];
+}
+
+- (IBAction) upgradeElem
+{
+	[self upgradeSkill:ELE_STRIKE andUpdateButton:eleAttackButton withIconNamed:ELEM_ICON];
+}
+
+- (IBAction) upgradeCombo
+{
+	[self upgradeSkill:MIX_STRIKE andUpdateButton:comboAttackButton withIconNamed:COMBO_ICON];
 }
 
 @end

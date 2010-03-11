@@ -27,6 +27,12 @@
 	IBOutlet UIButton *purgeSkillButton;
 	IBOutlet UIButton *confuseSkillButton;
 	IBOutlet UIButton *poisonSkillButton;
+	
+	IBOutlet UIButton *basicAttackButton;
+	IBOutlet UIButton *quickAttackButton;
+	IBOutlet UIButton *powerAttackButton;
+	IBOutlet UIButton *eleAttackButton;
+	IBOutlet UIButton *comboAttackButton;
 }
 
 - (IBAction) valueChangedForSegmentedControl:(UISegmentedControl*) segCont;
@@ -42,5 +48,11 @@
 - (IBAction) upgradePurge;
 - (IBAction) upgradeConfuse;
 - (IBAction) upgradePoison;
+
+- (IBAction) upgradeBasic;
+- (IBAction) upgradeQuick;
+- (IBAction) upgradePower;
+- (IBAction) upgradeElem;
+- (IBAction) upgradeCombo;
 
 @end

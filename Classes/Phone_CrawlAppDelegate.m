@@ -102,5 +102,15 @@
 	return [homeTabController.gameEngine player];
 }
 
+- (void) showMainMenu
+{
+	mainMenuView.hidden = NO;
+}
+
+- (void) hideMainMenu
+{
+	mainMenuView.hidden = YES;
+}
+
 @end
 
