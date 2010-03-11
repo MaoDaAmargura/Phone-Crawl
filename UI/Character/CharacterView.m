@@ -42,12 +42,14 @@
 #pragma mark -
 #pragma mark Control
 
-- (void) updateWithEquippedItems:(EquipSlots*) items
+- (void) updateWithEquippedItems:(EquipSlots*) items money:(int)money
 {
 	[leftHandEquipImg setImage:[UIImage imageNamed:items.lHand.icon]];
 	[rightHandEquipImg setImage:[UIImage imageNamed:items.rHand.icon]];
 	[headArmorEquipImg setImage:[UIImage imageNamed:items.head.icon]];
 	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.icon]];
+	
+	moneyDisplay.text = [NSString stringWithFormat:@"%d", money];
 }
 
 - (void) setIcon:(NSString*) iconName

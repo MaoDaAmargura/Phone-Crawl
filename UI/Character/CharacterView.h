@@ -12,12 +12,14 @@
 	IBOutlet UIImageView *headArmorEquipImg;
 	IBOutlet UIImageView *chestArmorEquipImg;
 	
+	IBOutlet UILabel *moneyDisplay;
+	
 	NSString *imgName;
 }
 
 - (void) setIcon:(NSString*) iconName;
 
-- (void) updateWithEquippedItems:(EquipSlots*) items;
+- (void) updateWithEquippedItems:(EquipSlots*) items money:(int)money;
 
 @end
 

@@ -27,12 +27,12 @@
 		if(!scores)
 		{
 			scores = [[NSMutableDictionary alloc] initWithCapacity:6];
-			[scores setObject:[NSNumber numberWithInt: 250000] forKey:@"Albeiro Invictus"];
-			[scores setObject:[NSNumber numberWithInt: 200000] forKey:@"Warmaster Wijtman"];
-			[scores setObject:[NSNumber numberWithInt: 175000] forKey:@"Gangster Forgeman"];
-			[scores setObject:[NSNumber numberWithInt: 150000] forKey:@"Mapmaker King"];
-			[scores setObject:[NSNumber numberWithInt: 125000] forKey:@"Beastmaster Fultz"];
-			[scores setObject:[NSNumber numberWithInt: 100] forKey:@"Curator Tan"];
+			[scores setObject:[NSNumber numberWithInt: 2500] forKey:@"Albeiro Invictus"];
+			[scores setObject:[NSNumber numberWithInt: 2000] forKey:@"Warmaster Wijtman"];
+			[scores setObject:[NSNumber numberWithInt: 1750] forKey:@"Gangster Forgeman"];
+			[scores setObject:[NSNumber numberWithInt: 1500] forKey:@"Mapmaker King"];
+			[scores setObject:[NSNumber numberWithInt: 1250] forKey:@"Beastmaster Fultz"];
+			[scores setObject:[NSNumber numberWithInt: 10] forKey:@"Curator Tan"];
 			
 			[[NSUserDefaults standardUserDefaults] setObject:scores forKey:HIGH_SCORES_DICT_USER_DEFAULTS_KEY];
 		}

@@ -338,7 +338,7 @@
 	if(viewController == iView)
 		[self refreshInventoryView];
 	if(viewController == cView)
-		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems]];
+		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems] money:gameEngine.player.money];
 }
 
 @end

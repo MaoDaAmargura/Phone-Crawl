@@ -3,7 +3,7 @@
 #define FIRST_DIALOGUE	@"Welcome, Adventurer, to the land of Tin'Foyel. A realm of dire monsters, dark dungeons and legendary weapons."
 #define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a shilling to tie up your boat in the dock. And I shall need to know your name."
 #define THIRD_DIALOGUE	@"Welcome to Port Royal. Tell me a bit more about yourself. What do you look like?"
-#define FOURTH_DIALOGUE	@"Alright, brave Adventurer. Step forth and take your place in history!"
+#define FOURTH_DIALOGUE	@"Alright, brave Adventurer. Journey north from here. Save the village of Andor and take your place in history!"
 
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
@@ -42,10 +42,17 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
-	[topLeft setImage:[UIImage imageNamed:TOP_LEFT_ICON] forState:UIControlStateNormal];
-	[topRight setImage:[UIImage imageNamed:TOP_RIGHT_ICON] forState:UIControlStateNormal];
-	[bottomLeft setImage:[UIImage imageNamed:BOTTOM_LEFT_ICON] forState:UIControlStateNormal];
-	[bottomRight setImage:[UIImage imageNamed:BOTTOM_RIGHT_ICON] forState:UIControlStateNormal];
+	topLeft.contentMode = UIViewContentModeScaleToFill;
+	topRight.contentMode = UIViewContentModeScaleToFill;
+	bottomLeft.contentMode = UIViewContentModeScaleToFill;
+	bottomRight.contentMode = UIViewContentModeScaleToFill;
+	[topLeft setBackgroundImage:[UIImage imageNamed:TOP_LEFT_ICON] forState:UIControlStateNormal];
+	[topRight setBackgroundImage:[UIImage imageNamed:TOP_RIGHT_ICON] forState:UIControlStateNormal];
+	[bottomLeft setBackgroundImage:[UIImage imageNamed:BOTTOM_LEFT_ICON] forState:UIControlStateNormal];
+	[bottomRight setBackgroundImage:[UIImage imageNamed:BOTTOM_RIGHT_ICON] forState:UIControlStateNormal];
+	
+
+
 }
 
 - (void)didReceiveMemoryWarning 

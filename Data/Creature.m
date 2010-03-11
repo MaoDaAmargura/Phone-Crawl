@@ -194,7 +194,7 @@
 		[self setBaseStats];
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		self.inventory = [[[NSMutableArray alloc] init] autorelease];
-		money = 10000;
+		money = 0;
 		abilityPoints = 10;
 		turnPoints = 0;
 		inBattle = NO;
