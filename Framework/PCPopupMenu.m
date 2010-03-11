@@ -56,6 +56,7 @@
 	}
 }
 
+
 @end
 
 @interface PCPopupMenu (Private)
@@ -119,6 +120,7 @@
 	return -1;
 }
 
+
 #pragma mark -
 #pragma mark Menu Creation
 
@@ -181,7 +183,13 @@
 }
 
 - (void) moveTo: (CGPoint) point {
+	DLog(@"nate king's head is tired, kids.");
+	return;
 	self.frame = CGRectMake(point.x, point.y, self.frame.size.width, self.frame.size.height);
+}
+
+- (CGPoint) origin {
+	return backGroundImageView.frame.origin;
 }
 
 #pragma mark -

@@ -59,21 +59,75 @@
 		level = inLevel;
 		int dungeonLevel = level %4;
 		[self setBaseStats];
+
+
+
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
 		turnPoints = 0;
 		inBattle = NO;
 		condition = NO_CONDITION;
-		
-		iconName = @"monster-ogre.png";
-		
+
 		/*
 		 All monsters will have a default inventory of items specific to their element.
 		 AI for each creature can choose to equip whichever of the items they wish. 
 		 
 		 Exceptions for this will have to be: shopkeeper and bosses. Can get them done later.
 		 */
+		switch ([Rand min: 0 max: 8]) {
+			case 0:
+				iconName = @"monster-ogre.png";
+				dungeonLevel = 2;
+				level = 6;
+				break;
+			case 1:
+				iconName = @"monster-bug.png";
+				dungeonLevel = 0;
+				level = 1;
+				break;
+			case 2:
+				iconName = @"monster-demon.png";
+				dungeonLevel = 1;
+				level = 4;
+				break;
+			case 3:
+				iconName = @"monster-dragon-green.png";
+				dungeonLevel = 4;
+				level = 8;
+				break;
+			case 4:
+				iconName = @"monster-fierydemon.png";
+				dungeonLevel = 3;
+				level = 2;
+				break;
+			case 5:
+				iconName = @"monster-ghost.png";
+				dungeonLevel = 1;
+				level = 2;
+				break;
+			case 6:
+				iconName = @"monster-guard.png";
+				dungeonLevel = 2;
+				level = 3;
+				break;
+			case 7:
+				iconName = @"monster-hornman.png";
+				dungeonLevel = 0;
+				level = 3;
+				break;
+			case 8:
+				iconName = @"monster-iceman.png";
+				dungeonLevel = 3;
+				level = 1;
+				break;
+			default:
+				iconName = @"monster-ogre.png";
+				dungeonLevel = 2;
+				level = 6;
+				break;
+		}
+
 		self.inventory = [NSMutableArray arrayWithObjects:
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease],
@@ -85,6 +139,7 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease],
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
+						  
 						  nil];
 		
 		switch (monsterType) {
@@ -102,6 +157,9 @@
 			default:
 				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 		}
+		max.health = max.shield = max.mana = level * 25;
+		current.health = current.shield = current.mana = max.health;
+
 		[self ClearTurnActions];
 		return self;
 	}

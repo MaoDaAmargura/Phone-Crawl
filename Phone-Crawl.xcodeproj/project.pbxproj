@@ -47,6 +47,11 @@
 		D7812EEC111A75A9004B201F /* staircase-down.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEA111A75A9004B201F /* staircase-down.png */; };
 		D7812EED111A75A9004B201F /* staircase-up.png in Resources */ = {isa = PBXBuildFile; fileRef = D7812EEB111A75A9004B201F /* staircase-up.png */; };
 		D7812FCD111B6A1A004B201F /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D7812FCC111B6A1A004B201F /* wall-rock.gif */; };
+		D7AC90EB11487F44002EDB64 /* blood2.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC90E511487F44002EDB64 /* blood2.png */; };
+		D7AC90EC11487F44002EDB64 /* blood3.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC90E611487F44002EDB64 /* blood3.png */; };
+		D7AC90EE11487F44002EDB64 /* eye.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC90E811487F44002EDB64 /* eye.png */; };
+		D7AC90EF11487F44002EDB64 /* skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC90E911487F44002EDB64 /* skull.png */; };
+		D7AC90F011487F44002EDB64 /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = D7AC90EA11487F44002EDB64 /* star.png */; };
 		D7B634AA1144478600955293 /* brick-wall-bloody.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A41144478600955293 /* brick-wall-bloody.png */; };
 		D7B634AB1144478600955293 /* brick-wall-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A51144478600955293 /* brick-wall-gray.png */; };
 		D7B634AC1144478600955293 /* gate-with-skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D7B634A61144478600955293 /* gate-with-skull.png */; };
@@ -267,6 +272,11 @@
 		D7812EEA111A75A9004B201F /* staircase-down.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-down.png"; sourceTree = "<group>"; };
 		D7812EEB111A75A9004B201F /* staircase-up.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "staircase-up.png"; sourceTree = "<group>"; };
 		D7812FCC111B6A1A004B201F /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
+		D7AC90E511487F44002EDB64 /* blood2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blood2.png; path = Particles/blood2.png; sourceTree = "<group>"; };
+		D7AC90E611487F44002EDB64 /* blood3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blood3.png; path = Particles/blood3.png; sourceTree = "<group>"; };
+		D7AC90E811487F44002EDB64 /* eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = eye.png; path = Particles/eye.png; sourceTree = "<group>"; };
+		D7AC90E911487F44002EDB64 /* skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = skull.png; path = Particles/skull.png; sourceTree = "<group>"; };
+		D7AC90EA11487F44002EDB64 /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = star.png; path = Particles/star.png; sourceTree = "<group>"; };
 		D7B634A41144478600955293 /* brick-wall-bloody.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-bloody.png"; sourceTree = "<group>"; };
 		D7B634A51144478600955293 /* brick-wall-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-gray.png"; sourceTree = "<group>"; };
 		D7B634A61144478600955293 /* gate-with-skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "gate-with-skull.png"; sourceTree = "<group>"; };
@@ -558,6 +568,11 @@
 		D70FA83611483E71001F1C56 /* Particles */ = {
 			isa = PBXGroup;
 			children = (
+				D7AC90E511487F44002EDB64 /* blood2.png */,
+				D7AC90E611487F44002EDB64 /* blood3.png */,
+				D7AC90E811487F44002EDB64 /* eye.png */,
+				D7AC90E911487F44002EDB64 /* skull.png */,
+				D7AC90EA11487F44002EDB64 /* star.png */,
 				D70FA83711483E7E001F1C56 /* blood.png */,
 			);
 			name = Particles;
@@ -1307,6 +1322,11 @@
 				650F0166114722A600BFF2D8 /* male2.png in Resources */,
 				B058D3C21147391E00AEBDF1 /* EndGame.xib in Resources */,
 				D70FA83811483E7E001F1C56 /* blood.png in Resources */,
+				D7AC90EB11487F44002EDB64 /* blood2.png in Resources */,
+				D7AC90EC11487F44002EDB64 /* blood3.png in Resources */,
+				D7AC90EE11487F44002EDB64 /* eye.png in Resources */,
+				D7AC90EF11487F44002EDB64 /* skull.png in Resources */,
+				D7AC90F011487F44002EDB64 /* star.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
