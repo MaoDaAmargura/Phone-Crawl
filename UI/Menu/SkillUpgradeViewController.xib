@@ -511,12 +511,26 @@
 							<object class="IBUILabel" id="700331020">
 								<reference key="NSNextResponder" ref="86904120"/>
 								<int key="NSvFlags">292</int>
-								<string key="NSFrame">{{14, 8}, {182, 29}}</string>
+								<string key="NSFrame">{{14, 8}, {149, 29}}</string>
 								<reference key="NSSuperview" ref="86904120"/>
 								<bool key="IBUIOpaque">NO</bool>
 								<bool key="IBUIClipsSubviews">YES</bool>
 								<bool key="IBUIUserInteractionEnabled">NO</bool>
-								<string key="IBUIText">Points Remaining: 1</string>
+								<string key="IBUIText">Points Remaining: </string>
+								<reference key="IBUITextColor" ref="771587326"/>
+								<nil key="IBUIHighlightedColor"/>
+								<int key="IBUIBaselineAdjustment">1</int>
+								<float key="IBUIMinimumFontSize">10</float>
+							</object>
+							<object class="IBUILabel" id="798539746">
+								<reference key="NSNextResponder" ref="86904120"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrame">{{160, 12}, {42, 21}}</string>
+								<reference key="NSSuperview" ref="86904120"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClipsSubviews">YES</bool>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<string key="IBUIText"/>
 								<reference key="IBUITextColor" ref="771587326"/>
 								<nil key="IBUIHighlightedColor"/>
 								<int key="IBUIBaselineAdjustment">1</int>
@@ -675,6 +689,14 @@
 					</object>
 					<int key="connectionID">65</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">numPoints</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="798539746"/>
+					</object>
+					<int key="connectionID">67</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -778,6 +800,7 @@
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<reference ref="700331020"/>
+							<reference ref="798539746"/>
 						</object>
 						<reference key="parent" ref="567268687"/>
 						<string key="objectName">SubSpace View</string>
@@ -882,6 +905,11 @@
 						<reference key="object" ref="290782771"/>
 						<reference key="parent" ref="427803265"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">66</int>
+						<reference key="object" ref="798539746"/>
+						<reference key="parent" ref="86904120"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -921,6 +949,7 @@
 					<string>53.IBPluginDependency</string>
 					<string>54.IBPluginDependency</string>
 					<string>55.IBPluginDependency</string>
+					<string>66.IBPluginDependency</string>
 					<string>8.IBPluginDependency</string>
 				</object>
 				<object class="NSMutableArray" key="dict.values">
@@ -959,6 +988,7 @@
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="unlocalizedProperties">
@@ -977,7 +1007,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">65</int>
+			<int key="maxID">67</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -1014,6 +1044,7 @@
 							<string>freezeSkillButton</string>
 							<string>frostSkillButton</string>
 							<string>mainSegmentControl</string>
+							<string>numPoints</string>
 							<string>poisonSkillButton</string>
 							<string>purgeSkillButton</string>
 							<string>shockSkillButton</string>
@@ -1031,6 +1062,7 @@
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UISegmentedControl</string>
+							<string>UILabel</string>
 							<string>UIButton</string>
 							<string>UIButton</string>
 							<string>UIButton</string>

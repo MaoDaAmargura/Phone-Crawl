@@ -774,15 +774,9 @@
 		D988806B110D272C00AFFB2E /* Misc */ = {
 			isa = PBXGroup;
 			children = (
-				D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */,
-				D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */,
-				D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */,
-				D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */,
-				D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */,
-				D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */,
-				B058D3C41147392800AEBDF1 /* EndGame.h */,
-				B058D3C51147392800AEBDF1 /* EndGame.m */,
-				B058D3C11147391E00AEBDF1 /* EndGame.xib */,
+				D9A46F0011486FAE00AAC433 /* GameOver */,
+				D9A46EFF11486FA400AAC433 /* SkillUpgrade */,
+				D9A46EFD11486F9C00AAC433 /* NewGame */,
 			);
 			name = Misc;
 			path = Menu;
@@ -809,6 +803,36 @@
 				D9FFB116110BA8E000536EA7 /* human1.png */,
 			);
 			name = TempFiles;
+			sourceTree = "<group>";
+		};
+		D9A46EFD11486F9C00AAC433 /* NewGame */ = {
+			isa = PBXGroup;
+			children = (
+				D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */,
+				D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */,
+				D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */,
+			);
+			name = NewGame;
+			sourceTree = "<group>";
+		};
+		D9A46EFF11486FA400AAC433 /* SkillUpgrade */ = {
+			isa = PBXGroup;
+			children = (
+				D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */,
+				D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */,
+				D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */,
+			);
+			name = SkillUpgrade;
+			sourceTree = "<group>";
+		};
+		D9A46F0011486FAE00AAC433 /* GameOver */ = {
+			isa = PBXGroup;
+			children = (
+				B058D3C41147392800AEBDF1 /* EndGame.h */,
+				B058D3C51147392800AEBDF1 /* EndGame.m */,
+				B058D3C11147391E00AEBDF1 /* EndGame.xib */,
+			);
+			name = GameOver;
 			sourceTree = "<group>";
 		};
 		D9B55D1911015878007173A3 /* Data */ = {

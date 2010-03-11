@@ -65,7 +65,7 @@
 	
 	gameEngine = [[Engine alloc] init];
 	
-	endView = [[[EndGame alloc] init] autorelease];
+	endView = [[EndGame alloc] init];
 	[endView setDelegate:self];
 	endView.engine = gameEngine;
 }
@@ -96,6 +96,7 @@
 
 - (void)dealloc {
     [super dealloc];
+	[endView release];
 }
 
 #pragma mark -
@@ -108,8 +109,7 @@
 	[gameEngine gameLoopWithWorldView:wView];
 	// check to see if player is dead
 	if (gameEngine.player.current.health <= 0) {
-		//endView.engine = gameEngine;
-		//self.view = endView.view;
+		[wView.view addSubview:endView.view];
 		// TODO: get view to change to endgame properly
 		//self.navigationController.pushViewController(endView);
 	}

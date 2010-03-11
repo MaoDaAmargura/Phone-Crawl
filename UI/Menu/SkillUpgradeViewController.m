@@ -8,6 +8,12 @@
 
 #import "Util.h"
 
+#define FIRE_ICON	@"bg-fire.png"
+#define COLD_ICON	@"bg-cold.png"
+#define SHOCK_ICON	@"bg-lightning.png"
+#define DARK_ICON	@"bg-dark.png"
+#define POISON_ICON	@"bg-poison.png"
+
 @interface SkillUpgradeViewController (Private)
 
 - (void) updateUI;
@@ -81,17 +87,17 @@
 {
 	Abilities *playerAbils = [player abilities];
 	
-	[self updateButton:flameSkillButton withBackground:@"bg-fire.png" number:playerAbils.spellBook[FIREDAMAGE]];
-	[self updateButton:frostSkillButton withBackground:@"bg-cold.png" number:playerAbils.spellBook[COLDDAMAGE]];
-	[self updateButton:shockSkillButton withBackground:@"bg-lightning.png" number:playerAbils.spellBook[LIGHTNINGDAMAGE]];
-	[self updateButton:erodeSkillButton withBackground:@"bg-poison.png" number:playerAbils.spellBook[POISONDAMAGE]];
-	[self updateButton:drainSkillButton withBackground:@"bg-dark.png" number:playerAbils.spellBook[DARKDAMAGE]];
+	[self updateButton:flameSkillButton withBackground:FIRE_ICON number:playerAbils.spellBook[FIREDAMAGE]];
+	[self updateButton:frostSkillButton withBackground:COLD_ICON number:playerAbils.spellBook[COLDDAMAGE]];
+	[self updateButton:shockSkillButton withBackground:SHOCK_ICON number:playerAbils.spellBook[LIGHTNINGDAMAGE]];
+	[self updateButton:erodeSkillButton withBackground:POISON_ICON number:playerAbils.spellBook[POISONDAMAGE]];
+	[self updateButton:drainSkillButton withBackground:DARK_ICON number:playerAbils.spellBook[DARKDAMAGE]];
 	
-	[self updateButton:burnSkillButton withBackground:@"bg-fire.png" number:playerAbils.spellBook[FIRECONDITION]];
-	[self updateButton:freezeSkillButton withBackground:@"bg-cold.png" number:playerAbils.spellBook[COLDCONDITION]];
-	[self updateButton:purgeSkillButton withBackground:@"bg-lightning.png" number:playerAbils.spellBook[LIGHTNINGCONDITION]];
-	[self updateButton:poisonSkillButton withBackground:@"bg-poison.png" number:playerAbils.spellBook[POISONCONDITION]];
-	[self updateButton:confuseSkillButton withBackground:@"bg-dark.png" number:playerAbils.spellBook[DARKCONDITION]];
+	[self updateButton:burnSkillButton withBackground:FIRE_ICON number:playerAbils.spellBook[FIRECONDITION]];
+	[self updateButton:freezeSkillButton withBackground:COLD_ICON number:playerAbils.spellBook[COLDCONDITION]];
+	[self updateButton:purgeSkillButton withBackground:SHOCK_ICON number:playerAbils.spellBook[LIGHTNINGCONDITION]];
+	[self updateButton:poisonSkillButton withBackground:POISON_ICON number:playerAbils.spellBook[POISONCONDITION]];
+	[self updateButton:confuseSkillButton withBackground:DARK_ICON number:playerAbils.spellBook[DARKCONDITION]];
 	
 }
 
@@ -114,6 +120,64 @@
 			//TODO: Error
 			break;
 	}
+}
+
+- (void) upgradeSpell:(PC_SPELL_TYPE)spell andUpdateButton:(UIButton*)button withIconNamed:(NSString*)name 
+{
+	player.abilities.spellBook[spell]++;
+	player.abilityPoints -= 2;
+	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
+	[self updateButton:button withBackground:name number:player.abilities.spellBook[spell]];
+}	
+
+- (IBAction) upgradeFlame
+{
+	[self upgradeSpell:FIREDAMAGE andUpdateButton:flameSkillButton withIconNamed:FIRE_ICON];
+}
+
+- (IBAction) upgradeFrost
+{
+	[self upgradeSpell:COLDDAMAGE andUpdateButton:frostSkillButton withIconNamed:COLD_ICON];
+}
+
+- (IBAction) upgradeShock
+{
+	[self upgradeSpell:LIGHTNINGDAMAGE andUpdateButton:shockSkillButton withIconNamed:SHOCK_ICON];
+}
+
+- (IBAction) upgradeDrain
+{
+	[self upgradeSpell:DARKDAMAGE andUpdateButton:drainSkillButton withIconNamed:DARK_ICON];
+}
+
+- (IBAction) upgradeErode
+{
+	[self upgradeSpell:POISONDAMAGE andUpdateButton:erodeSkillButton withIconNamed:POISON_ICON];
+}
+
+- (IBAction) upgradeBurn
+{
+	[self upgradeSpell:FIRECONDITION andUpdateButton:burnSkillButton withIconNamed:FIRE_ICON];
+}
+
+- (IBAction) upgradeFreeze
+{
+	[self upgradeSpell:COLDCONDITION andUpdateButton:freezeSkillButton withIconNamed:COLD_ICON];
+}
+
+- (IBAction) upgradePurge
+{
+	[self upgradeSpell:LIGHTNINGCONDITION andUpdateButton:purgeSkillButton withIconNamed:SHOCK_ICON];
+}
+
+- (IBAction) upgradeConfuse
+{
+	[self upgradeSpell:DARKCONDITION andUpdateButton:confuseSkillButton withIconNamed:DARK_ICON];
+}
+
+- (IBAction) upgradePoison
+{
+	[self upgradeSpell:POISONCONDITION andUpdateButton:poisonSkillButton withIconNamed:POISON_ICON];
 }
 
 @end

@@ -12,6 +12,7 @@
 	IBOutlet UIView *abilityView;
 	
 	Creature *player;
+	IBOutlet UILabel *numPoints;
 	
 	IBOutlet UISegmentedControl *mainSegmentControl;
 	
@@ -29,5 +30,17 @@
 }
 
 - (IBAction) valueChangedForSegmentedControl:(UISegmentedControl*) segCont;
+
+- (IBAction) upgradeFlame;
+- (IBAction) upgradeFrost;
+- (IBAction) upgradeShock;
+- (IBAction) upgradeDrain;
+- (IBAction) upgradeErode;
+
+- (IBAction) upgradeBurn;
+- (IBAction) upgradeFreeze;
+- (IBAction) upgradePurge;
+- (IBAction) upgradeConfuse;
+- (IBAction) upgradePoison;
 
 @end
