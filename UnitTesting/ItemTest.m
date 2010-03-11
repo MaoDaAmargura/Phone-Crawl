@@ -8,9 +8,34 @@
 
 #import "ItemTest.h"
 
+static const NSString *itemName[5][4] = {
+	{@"Fiery Sword",@"Sword of Fire",@"Scimitar of Fire",@"Fiery Scimitar"},
+	{@"Icy Sword",@"Sword of Ice",@"Scimitar of Ice",@"Icy Scimitar"},
+	{@"Shocking Sword",@"Sword of Lightning",@"Shocking Scimitar",@"Scimitar of Lightning"},
+	{@"Venomous Sword",@"Sword of Poison",@"Venomous Scimitar",@"Scimitar of Poison"},
+	{@"Dark Sword",@"Sword of Darkness",@"Dark Scimitar",@"Scimitar of Darkness"}
+};
 
 @implementation ItemTest
 
+/*!
+ @method		testItemNameForItemType
+ @abstract		Simple unit test for Item's itemNameForItemType method
+ @discussion	Tests to make sure that items with type = SWORD_ONE_HAND
+				have the correct names for all elements
+ */
+- (void) testItemNameForItemType
+{
+	for(int i = FIRE; i <= DARK ; ++i) {
+		Item *it = [[[Item alloc] initWithBaseStats:0 elemType:i 
+										   itemType:SWORD_ONE_HAND] autorelease];
+		STAssertTrue([it.name isEqualToString:itemName[i][0]] || 
+					 [it.name isEqualToString:itemName[i][1]] ||
+					 [it.name isEqualToString:itemName[i][2]] || 
+					 [it.name isEqualToString:itemName[i][3]],
+					 @"Item name: <%@> did not fit necessary pattern.");
+	}
+}
 /*!
  @method		testInitWithBaseStats
  @abstract		Simple unit test for Item's initWithBaseStats constructor
@@ -159,13 +184,14 @@
 	expectedPointVal = item.damage + item.elementalDamage + item.range * 20 + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
 	value = [Item getItemValue:item];
 	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to bow formula.");
-	
+
+	/*
 	//Test scroll handling
 	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
 	expectedPointVal = 2000;
 	value = [Item getItemValue:item];
 	STAssertTrue(value == expectedPointVal, @"Item's value was not properly decided as a scroll.");
-	
+	*/
 	//No need to test invalid Item objects because they cannot be created.
 }
 

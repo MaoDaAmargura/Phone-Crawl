@@ -49,7 +49,7 @@ BOOL haveSetSpells = FALSE;
 	int spellResult = 0;
 	if(target.current.mana < manaCost)
 		return @"Not enough mana!";
-	//caster.current.mana -= manaCost;
+	caster.current.mana -= manaCost;
 	BOOL didSpellLand = [self resistCheck:caster target:target];
 	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
 	else {
