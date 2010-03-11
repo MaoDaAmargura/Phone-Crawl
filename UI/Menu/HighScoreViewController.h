@@ -9,13 +9,17 @@
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
+@class HighScoreController;
+
 @interface HighScoreViewController : PCBaseViewController <UITableViewDelegate, UITableViewDataSource>
 {
-	NSDictionary *scores;
-	NSMutableArray *sortedNames;
+	HighScoreController *highScoreController;
+	
 	IBOutlet UITableView *scoresTable;
 }
 
-- (id)initWithScores:(NSDictionary*)dict;
+- (id)initWithScoreController:(HighScoreController*)scoreController;
+
+- (IBAction) doneViewing;
 
 @end

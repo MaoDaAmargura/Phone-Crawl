@@ -7,49 +7,24 @@
 //
 
 #import "HighScoreViewController.h"
+#import "HighScoreController.h"
 
 #define HIGH_SCORE_CELL_ID	@"HighScoreCellId"
 
 
 @implementation HighScoreViewController
 
-- (void) sortNames
-{
-	NSMutableArray *temp = [NSMutableArray arrayWithArray: sortedNames];
-	[sortedNames removeAllObjects];
-	while ([temp count] > 0)
-	{
-		int highest = 0;
-		NSString *highName;
-		for (NSString *name in temp)
-		{
-			NSNumber *num = [scores objectForKey:name];
-			int val = [num intValue];
-			if (val > highest)
-			{
-				highest = val;
-				highName = name;
-			}
-		}
-		[sortedNames addObject:highName];
-		int nameindex = [temp indexOfObject:highName];
-		[temp removeObjectAtIndex: nameindex];
-		
-	}
-}
 
 /*!
  @method		initWithScores
  @abstract		The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
  @param			dict: expected to be a dictionary of (NSString => NSInteger)
  */
-- (id)initWithScores:(NSDictionary*)dict
+- (id)initWithScoreController:(HighScoreController*)scoreController
 {
     if (self = [super initWithNibName:@"HighScoreViewController"])
 	{
-		scores = [dict copy];
-		sortedNames = [[NSMutableArray arrayWithArray: [scores allKeys]] retain];
-		[self sortNames];
+		highScoreController = [scoreController retain];
     }
     return self;
 }
@@ -80,7 +55,7 @@
 - (void)dealloc 
 {
     [super dealloc];
-	[scores release];
+	[highScoreController release];
 }
 
 #pragma mark -
@@ -88,7 +63,7 @@
 
 - (NSInteger)tableView:(UITableView *)table numberOfRowsInSection:(NSInteger)section
 {
-	return [scores count];
+	return [highScoreController numHighScores];
 }
 
 // Row display. Implementers should *always* try to reuse cells by setting each cell's reuseIdentifier and querying for available reusable cells with dequeueReusableCellWithIdentifier:
@@ -100,13 +75,15 @@
 	if(!cell)
 	{
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:HIGH_SCORE_CELL_ID] autorelease];
+		
+		cell.textLabel.opaque = NO;
+		cell.textLabel.backgroundColor = [UIColor clearColor];
+		cell.detailTextLabel.opaque = NO;
+		cell.detailTextLabel.backgroundColor = [UIColor clearColor];
 	}
 	
-	NSString *charName = [sortedNames objectAtIndex:[indexPath row]];
-	
-	cell.textLabel.text = charName;
-	NSNumber *score = [scores objectForKey:charName];
-	cell.detailTextLabel.text = [score stringValue];
+	cell.textLabel.text = [highScoreController nameForIndex:indexPath.row];
+	cell.detailTextLabel.text = [NSString stringWithFormat:@"%d", [highScoreController scoreForIndex:indexPath.row]];
 	cell.backgroundView = [[[UIImageView alloc] initWithImage:[UIImage imageNamed:@"ui-inventorybg.png"]] autorelease];
 	
 	return cell;
@@ -135,6 +112,17 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
 	return 50;
+}
+
+- (NSIndexPath *)tableView:(UITableView *)tv willSelectRowAtIndexPath:(NSIndexPath *)path
+{
+	return nil;
+}
+
+- (IBAction) doneViewing
+{
+	[self.view removeFromSuperview];
+	[self autorelease];
 }
 
 @end

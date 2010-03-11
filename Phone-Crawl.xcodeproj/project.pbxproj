@@ -136,6 +136,7 @@
 		D95F3AE310FFCE5C00323446 /* WorldView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ADA10FFCE5C00323446 /* WorldView.m */; };
 		D95F3AE410FFCE5C00323446 /* WorldView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ADB10FFCE5C00323446 /* WorldView.xib */; };
 		D95F3AF410FFCECF00323446 /* Phone_CrawlAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */; };
+		D95FB24A1148A3AF003DAB25 /* HighScoreController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95FB2491148A3AF003DAB25 /* HighScoreController.m */; };
 		D965EE78113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE73113F28BB00455192 /* GTMIPhoneUnitTestDelegate.m */; };
 		D965EE79113F28BB00455192 /* GTMIPhoneUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE74113F28BB00455192 /* GTMIPhoneUnitTestMain.m */; };
 		D965EE7A113F28BB00455192 /* GTMSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = D965EE76113F28BB00455192 /* GTMSenTestCase.m */; };
@@ -375,6 +376,8 @@
 		D95F3ADB10FFCE5C00323446 /* WorldView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WorldView.xib; sourceTree = "<group>"; };
 		D95F3AF110FFCECF00323446 /* Phone_CrawlAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_CrawlAppDelegate.h; sourceTree = "<group>"; };
 		D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Phone_CrawlAppDelegate.m; sourceTree = "<group>"; };
+		D95FB2481148A3AF003DAB25 /* HighScoreController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreController.h; sourceTree = "<group>"; };
+		D95FB2491148A3AF003DAB25 /* HighScoreController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreController.m; sourceTree = "<group>"; };
 		D965EE5A113F281300455192 /* Testing.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Testing.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D965EE5C113F281300455192 /* Testing-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Testing-Info.plist"; sourceTree = "<group>"; };
 		D965EE71113F28BB00455192 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
@@ -771,6 +774,7 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D95FB24B1148A3B9003DAB25 /* Score */,
 				D931C3E4110632430032A3DD /* Engine */,
 				D931C3E3110632350032A3DD /* Generation */,
 				D931C3E21106322D0032A3DD /* Util */,
@@ -778,6 +782,15 @@
 				D95F3AF210FFCECF00323446 /* Phone_CrawlAppDelegate.m */,
 			);
 			path = Classes;
+			sourceTree = "<group>";
+		};
+		D95FB24B1148A3B9003DAB25 /* Score */ = {
+			isa = PBXGroup;
+			children = (
+				D95FB2481148A3AF003DAB25 /* HighScoreController.h */,
+				D95FB2491148A3AF003DAB25 /* HighScoreController.m */,
+			);
+			name = Score;
 			sourceTree = "<group>";
 		};
 		D965EE70113F28BB00455192 /* UnitTesting */ = {
@@ -1404,6 +1417,7 @@
 				D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */,
 				B058D3C61147392800AEBDF1 /* EndGame.m in Sources */,
 				D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */,
+				D95FB24A1148A3AF003DAB25 /* HighScoreController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

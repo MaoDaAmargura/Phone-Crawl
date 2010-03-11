@@ -12,6 +12,7 @@
 @class Creature;
 @class HomeTabViewController;
 @class EndGame;
+@class HighScoreController;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -21,6 +22,8 @@
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
 	BOOL gameStarted;
+	
+	HighScoreController *scoreController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -33,8 +36,8 @@
 - (IBAction) loadSaveGame;
 - (IBAction) viewScores;
 
-- (void) showMainMenu;
-- (void) hideMainMenu;
+- (void) endOfPlayersLife;
+
 
 - (void) applicationWillTerminate:(UIApplication *)application;
 
