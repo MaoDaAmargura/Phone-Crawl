@@ -7,6 +7,9 @@
 //
 
 #import "ItemTest.h"
+#import "Item.h"
+#import "Item+TestingAdditions.h"
+#import "Spell.h"
 
 static const NSString *itemName[5][4] = {
 	{@"Fiery Sword",@"Sword of Fire",@"Scimitar of Fire",@"Fiery Scimitar"},
@@ -119,10 +122,18 @@ static const NSString *itemName[5][4] = {
 
 
 	//Test scroll handling
-	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
+	item = [[[Item alloc] initExactItemWithName: @"Tome of Knowledge"
+								   iconFileName: @"scroll-book.png"
+									itemQuality: REGULAR itemSlot: BAG 
+									   elemType: DARK    itemType: SCROLL
+										 damage:0 elementalDamage:0
+										charges:1 range:1 hp:0  shield:0 
+										   mana:0 fire:0 cold:0 lightning:0
+										 poison:0 dark:0 armor: 0
+								  effectSpellId: ITEM_BOOK_SPELL_ID] autorelease];
 	expectedPointVal = 2000;
 	value = [Item getItemValue:item];
-	STAssertTrue(value == expectedPointVal, @"Item's value was not properly decided as a scroll.");
+	STAssertTrue(value == expectedPointVal, @"Item (%d)'s value (%d) was not properly decided as a scroll.", item, value);
 
 	//No need to test invalid Item objects because they cannot be created.
 }

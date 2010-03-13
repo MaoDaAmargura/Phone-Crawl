@@ -398,7 +398,7 @@ static const int baseItemStats[10][9] = {
 			return 2000;
             break;
         default:
-            return -1;
+            return -2;
     };
 
     pointVal += (item.hp + item.shield + item.mana) * 2;
