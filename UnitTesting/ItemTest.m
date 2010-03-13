@@ -23,6 +23,7 @@ static const NSString *itemName[5][4] = {
  @abstract		Simple unit test for Item's itemNameForItemType method
  @discussion	Tests to make sure that items with type = SWORD_ONE_HAND
 				have the correct names for all elements
+ @owner			Colin?
  */
 - (void) testItemNameForItemType
 {
@@ -40,6 +41,7 @@ static const NSString *itemName[5][4] = {
  @method		testInitWithBaseStats
  @abstract		Simple unit test for Item's initWithBaseStats constructor
  @discussion	tests that attributes of item explicitly set by call are true for the returned Item
+ @owner			Austin
  */
 - (void) testInitWithBaseStats
 {
@@ -55,11 +57,83 @@ static const NSString *itemName[5][4] = {
 	STAssertTrue(testItem.type == expectedItemType, @"Item weapon type was different than expected.");
 }
 
+/*!
+ @method		testIconNameForItemType
+ @abstract		Unit test for static method that determines the display icon of an item by its type
+ @discussion	Tests that all items this method handles are returned the proper icon name
+ @owner			Austin
+ */
+- (void) testIconNameForItemType
+{
+	itemType itemIndex = SWORD_ONE_HAND;
+	itemType itemBoundary = LIGHT_CHEST;
+	for (; itemIndex <= itemBoundary; ++itemIndex) 
+	{
+		//Test each item type
+		NSString *outcome = [Item iconNameForItemType:itemIndex];
+		NSString *expected;
+		switch (itemIndex) 
+		{
+			case SWORD_ONE_HAND: expected = ICON_SWORD_SINGLE; break;
+			case SWORD_TWO_HAND: expected = ICON_SWORD_DOUBLE; break;
+			case BOW:            expected = ICON_BOW; break;
+			case DAGGER:         expected = ICON_DAGGER; break;
+			case STAFF:          expected = ICON_STAFF; break;
+			case SHIELD:         expected = ICON_SHIELD; break;
+			case HEAVY_HELM:     expected = ICON_HELM_HEAVY; break;
+			case HEAVY_CHEST:    expected = ICON_CHEST_HEAVY; break;
+			case LIGHT_HELM:     expected = ICON_HELM_LIGHT; break;
+			case LIGHT_CHEST:    expected = ICON_CHEST_LIGHT; break;
+			default:			 expected = nil; break;
+		}
+		STAssertTrue([outcome isEqualToString:expected], [NSString stringWithFormat:@"Expected icon name: %@ for Item type: %d but received icon name: %@", expected, itemIndex, outcome]);
+	}
+}
+
+/*!
+ @method		testScoreItem
+ @abstract		tests a couple cases in score item
+ @discussion	covers all boundary cases
+ @owner			Austin
+ */
+- (void) testGetItemValue
+{
+	Item *item = nil;
+	int value, expectedPointVal;
+	
+	//Test function when no item is given
+	value = [Item getItemValue:item];
+	STAssertTrue(value == -1, @"(nil) item should have invalid score of -1.");
+	
+	//Test sword value
+	item = [[[Item alloc] initWithBaseStats:2 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
+	expectedPointVal = item.damage + item.elementalDamage + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
+	value = [Item getItemValue:item];
+	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to sword formula.");
+	
+	//Test Bow formula
+	item = [[[Item alloc] initWithBaseStats:5 elemType:COLD itemType:BOW] autorelease];
+	expectedPointVal = item.damage + item.elementalDamage + item.range * 20 + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
+	value = [Item getItemValue:item];
+	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to bow formula.");
+
+
+	//Test scroll handling
+	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
+	expectedPointVal = 2000;
+	value = [Item getItemValue:item];
+	STAssertTrue(value == expectedPointVal, @"Item's value was not properly decided as a scroll.");
+
+	//No need to test invalid Item objects because they cannot be created.
+}
+
+
 
 /*!
  @method		testInitExactItemWithName
  @abstract		Unit test for Item's initExactItemWithName constructor
  @discussion	tests that all attributes of returned item line up with the stats that were specified in the call
+ @owner			Robbert
  */
 - (void) testInitExactItemWithName 
 {
@@ -127,72 +201,5 @@ static const NSString *itemName[5][4] = {
 	STAssertTrue(testItem.armor == expectedArmor, @"Item armor was different from expected");
 }
 
-/*!
- @method		testIconNameForItemType
- @abstract		Unit test for static method that determines the display icon of an item by its type
- @discussion	Tests that all items this method handles are returned the proper icon name
- */
-- (void) testIconNameForItemType
-{
-	itemType itemIndex = SWORD_ONE_HAND;
-	itemType itemBoundary = LIGHT_CHEST;
-	for (; itemIndex <= itemBoundary; ++itemIndex) 
-	{
-		//Test each item type
-		NSString *outcome = [Item iconNameForItemType:itemIndex];
-		NSString *expected;
-		switch (itemIndex) 
-		{
-			case SWORD_ONE_HAND: expected = ICON_SWORD_SINGLE; break;
-			case SWORD_TWO_HAND: expected = ICON_SWORD_DOUBLE; break;
-			case BOW:            expected = ICON_BOW; break;
-			case DAGGER:         expected = ICON_DAGGER; break;
-			case STAFF:          expected = ICON_STAFF; break;
-			case SHIELD:         expected = ICON_SHIELD; break;
-			case HEAVY_HELM:     expected = ICON_HELM_HEAVY; break;
-			case HEAVY_CHEST:    expected = ICON_CHEST_HEAVY; break;
-			case LIGHT_HELM:     expected = ICON_HELM_LIGHT; break;
-			case LIGHT_CHEST:    expected = ICON_CHEST_LIGHT; break;
-			default:			 expected = nil; break;
-		}
-		STAssertTrue([outcome isEqualToString:expected], [NSString stringWithFormat:@"Expected icon name: %@ for Item type: %d but received icon name: %@", expected, itemIndex, outcome]);
-	}
-}
-
-/*!
- @method		testScoreItem
- @abstract		tests a couple cases in score item
- @discussion	covers all boundary cases
- */
-- (void) testGetItemValue
-{
-	Item *item = nil;
-	int value, expectedPointVal;
-	
-	//Test function when no item is given
-	value = [Item getItemValue:item];
-	STAssertTrue(value == -1, @"(nil) item should have invalid score of -1.");
-	
-	//Test sword value
-	item = [[[Item alloc] initWithBaseStats:2 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
-	expectedPointVal = item.damage + item.elementalDamage + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
-	value = [Item getItemValue:item];
-	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to sword formula.");
-	
-	//Test Bow formula
-	item = [[[Item alloc] initWithBaseStats:5 elemType:COLD itemType:BOW] autorelease];
-	expectedPointVal = item.damage + item.elementalDamage + item.range * 20 + (item.hp + item.shield + item.mana) * 2 + (item.fire + item.cold + item.lightning + item.poison + item.dark) * 1.5 + item.armor;
-	value = [Item getItemValue:item];
-	STAssertTrue(value == expectedPointVal, @"Item's value was not calculated according to bow formula.");
-
-	/*
-	//Test scroll handling
-	item = [[[Item alloc] initWithBaseStats:3 elemType:DARK itemType:SCROLL] autorelease];
-	expectedPointVal = 2000;
-	value = [Item getItemValue:item];
-	STAssertTrue(value == expectedPointVal, @"Item's value was not properly decided as a scroll.");
-	*/
-	//No need to test invalid Item objects because they cannot be created.
-}
 
 @end
