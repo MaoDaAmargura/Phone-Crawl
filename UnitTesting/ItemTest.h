@@ -14,11 +14,14 @@
 	
 }
 
+- (void) testItemNameForItemType;
 
 - (void) testInitWithBaseStats;
 
 - (void) testInitExactItemWithName;
 
 - (void) testIconNameForItemType;
+
+- (void) testItemCast;
 
 @end

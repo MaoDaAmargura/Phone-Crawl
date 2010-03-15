@@ -26,7 +26,7 @@ static const NSString *itemName[5][4] = {
  @abstract		Simple unit test for Item's itemNameForItemType method
  @discussion	Tests to make sure that items with type = SWORD_ONE_HAND
 				have the correct names for all elements
- @owner			Colin?
+ @owner			Colin Tan
  */
 - (void) testItemNameForItemType
 {
@@ -44,7 +44,7 @@ static const NSString *itemName[5][4] = {
  @method		testInitWithBaseStats
  @abstract		Simple unit test for Item's initWithBaseStats constructor
  @discussion	tests that attributes of item explicitly set by call are true for the returned Item
- @owner			Austin
+ @owner			Austin Kelley
  */
 - (void) testInitWithBaseStats
 {
@@ -64,7 +64,7 @@ static const NSString *itemName[5][4] = {
  @method		testIconNameForItemType
  @abstract		Unit test for static method that determines the display icon of an item by its type
  @discussion	Tests that all items this method handles are returned the proper icon name
- @owner			Austin
+ @owner			Austin Kelley
  */
 - (void) testIconNameForItemType
 {
@@ -97,7 +97,7 @@ static const NSString *itemName[5][4] = {
  @method		testScoreItem
  @abstract		tests a couple cases in score item
  @discussion	covers all boundary cases
- @owner			Austin
+ @owner			Austin Kelley
  */
 - (void) testGetItemValue
 {
@@ -144,7 +144,7 @@ static const NSString *itemName[5][4] = {
  @method		testInitExactItemWithName
  @abstract		Unit test for Item's initExactItemWithName constructor
  @discussion	tests that all attributes of returned item line up with the stats that were specified in the call
- @owner			Robbert
+ @owner			Robbert Wijtman
  */
 - (void) testInitExactItemWithName 
 {
@@ -212,5 +212,27 @@ static const NSString *itemName[5][4] = {
 	STAssertTrue(testItem.armor == expectedArmor, @"Item armor was different from expected");
 }
 
+/*!
+ @method		testItemCast
+ @abstract		Simple unit test for item's cast method
+ @discussion	creates a castable item and an item which should not be castable,
+ @owner			Ben Sangster
+*/
+- (void) testItemCast
+{
+	Item *potion = [[[Item alloc] initExactItemWithName:@"hpot" iconFileName:@"" 
+											itemQuality:REGULAR itemSlot:BAG 
+											   elemType:DARK itemType:POTION 
+												 damage:1 elementalDamage:0 
+												charges:1 range:1 
+													 hp:0 shield:0 mana:0 
+												   fire:0 cold:0 lightning:0 
+												 poison:0 dark:0 armor:0 
+										  effectSpellId:2] autorelease];
+	STAssertTrue([[potion cast:nil target:nil] isEqualToString:@"Spell: Caster/Target nil"], @"Able to cast potion when shouldn't be able to.");
+	
+	Item *sword = [[[Item alloc] initWithBaseStats:1 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
+	STAssertTrue([[sword cast:nil target:nil] isEqualToString:@"Item spell cast err!"], @"Non castable sword was cast anyway.");
+}
 
 @end
