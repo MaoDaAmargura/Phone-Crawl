@@ -49,20 +49,11 @@
 - (id) initMonsterOfType: (creatureType) monsterType withElement:(elemType)elem level: (int) inLevel atX:(int)x Y:(int)y Z:(int)z {
 	if (self = [super init])
 	{
-		name = [NSString stringWithString:@"Monster"];
 		self.creatureLocation = [Coord withX:x Y:y Z:z];
-		int sb[] = {1,1,1,1,1,1,1,1,1,1};
-		int c[]= {1,0,1,1};
-		self.abilities = [[[Abilities alloc] init] autorelease];
-		[self.abilities setSpellBookArray:sb];
-		[self.abilities setCombatAbilityArray:c];
 		type = monsterType;
 		level = inLevel;
 		int dungeonLevel = level %4;
 		[self setBaseStats];
-		
-
-
 		self.equipment = [[[EquipSlots alloc] init] autorelease];
 		money = [Rand min:dungeonLevel * 25 max:dungeonLevel * 50];
 		abilityPoints = 10;
@@ -76,58 +67,6 @@
 		 
 		 Exceptions for this will have to be: shopkeeper and bosses. Can get them done later.
 		 */
-		switch ([Rand min: 0 max: 8]) {
-			case 0:
-				iconName = @"monster-ogre.png";
-				dungeonLevel = 2;
-				level = 6;
-				break;
-			case 1:
-				iconName = @"monster-bug.png";
-				dungeonLevel = 0;
-				level = 1;
-				break;
-			case 2:
-				iconName = @"monster-demon.png";
-				dungeonLevel = 1;
-				level = 4;
-				break;
-			case 3:
-				iconName = @"monster-dragon-green.png";
-				dungeonLevel = 4;
-				level = 8;
-				break;
-			case 4:
-				iconName = @"monster-fierydemon.png";
-				dungeonLevel = 3;
-				level = 2;
-				break;
-			case 5:
-				iconName = @"monster-ghost.png";
-				dungeonLevel = 1;
-				level = 2;
-				break;
-			case 6:
-				iconName = @"monster-guard.png";
-				dungeonLevel = 2;
-				level = 3;
-				break;
-			case 7:
-				iconName = @"monster-hornman.png";
-				dungeonLevel = 0;
-				level = 3;
-				break;
-			case 8:
-				iconName = @"monster-iceman.png";
-				dungeonLevel = 3;
-				level = 1;
-				break;
-			default:
-				iconName = @"monster-ogre.png";
-				dungeonLevel = 2;
-				level = 6;
-				break;
-		}
 
 		self.inventory = [NSMutableArray arrayWithObjects:
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease],
@@ -142,22 +81,90 @@
 						  [[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease],
 						  
 						  nil];
-		
+		self.abilities = [[[Abilities alloc] init] autorelease];
+		int sb[NUM_PC_SPELL_TYPES] = {0,0,0,0,0,0,0,0,0,0};
+		int c[NUM_COMBAT_ABILITY_TYPES] = {0,0,0,0,0,0};
 		switch (monsterType) {
+			case BERSERKER:
+				iconName = @"monster-ogre.png";
+				name = @"Berserker";
+				for (int i = 0; i < NUM_PC_SPELL_TYPES; ++i)
+					sb[i] = 0;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
+				[self.abilities setSpellBookArray:sb];
+				[self.abilities setCombatAbilityArray:c];	
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_TWO_HAND] slot:RIGHT];
+				break;
 			case WARRIOR:
+				iconName = @"monster-warrior.png";
+				name = @"Warrior";
+				for (int i = 0; i < NUM_PC_SPELL_TYPES; ++i)
+					sb[i] = 0;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;	
 				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 				[self addEquipment:[self.inventory objectAtIndex:SHIELD] slot:LEFT];
 				[self addEquipment:[self.inventory objectAtIndex:HEAVY_HELM] slot:HEAD];
 				[self addEquipment:[self.inventory objectAtIndex:HEAVY_CHEST] slot: CHEST];
 				break;
-			case ARCHER:
-				[self addEquipment:[self.inventory objectAtIndex:BOW] slot:RIGHT];
+			case PALADIN:
+				iconName = @"monster-paladin.bmp";
+				name = @"Paladin";
+				for (int i = FIRECONDITION; i < NUM_PC_SPELL_TYPES; ++i)
+					sb[i] = dungeonLevel;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_CHEST] slot:CHEST];
+				break;
+			case SHADOWKNIGHT:
+				iconName = @"monster-shadowknight.bmp";
+				name = @"Shadowknight";
+				for (int i = 0; i < FIRECONDITION; ++i)
+					sb[i] = dungeonLevel;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
+				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:HEAVY_CHEST] slot:CHEST];
+				break;
+			case ROGUE:
+				iconName = @"monster-rogue.bmp";
+				name = @"Rogue";
+				sb[POISONDAMAGE] = dungeonLevel+1;
+				sb[COLDCONDITION] = dungeonLevel+1;
+				sb[POISONCONDITION] = dungeonLevel+1;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
+				[self addEquipment:[self.inventory objectAtIndex:DAGGER] slot:RIGHT];
+				[self addEquipment:[self.inventory objectAtIndex:DAGGER] slot:LEFT];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
+				[self addEquipment:[self.inventory objectAtIndex:LIGHT_CHEST] slot:CHEST];
+				break;
+			case MAGE:
+				iconName = @"monster-wizard.bmp";
+				name = @"Mage";
+				for (int i = 0; i < NUM_PC_SPELL_TYPES; ++i)
+					sb[i] = dungeonLevel+1;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
+				[self addEquipment:[self.inventory objectAtIndex:STAFF] slot:RIGHT];
 				[self addEquipment:[self.inventory objectAtIndex:LIGHT_HELM] slot:HEAD];
 				[self addEquipment:[self.inventory objectAtIndex:LIGHT_CHEST] slot:CHEST];
 				break;
 			default:
+				iconName = @"monster-dragon-green.png";
+				name = @"Default";
+				for (int i = 0; i < NUM_PC_SPELL_TYPES; ++i)
+					sb[i] = 5;
+				for (int i = 0; i < NUM_COMBAT_ABILITY_TYPES; ++i)
+					c[i] = 1;
 				[self addEquipment:[self.inventory objectAtIndex:SWORD_ONE_HAND] slot:RIGHT];
 		}
+		[self.abilities setSpellBookArray:sb];
+		[self.abilities setCombatAbilityArray:c];
 		max.health = max.shield = max.mana = level * 25;
 		current.health = current.shield = current.mana = max.health;
 

@@ -12,19 +12,25 @@
 #define STAT_MIN 0
 #define FIRST_AVAIL_INV_SLOT -1
 
+#define NUM_MONSTER_TYPES 11
+
 //Examples -- we'll need a couple more, in all likelihood.
 //I can add a new method to Creature like -initMonsterOfType: (creatureType) type level: (int) in_level
 //which creates a default creature of a type with a specific set of equipment and inventory.
 //That will likely be useful, as the two "create" functions that we use now will only be useful for
 //creating NEW characters -- we'll need a new init that loads saved data.
 typedef enum {
+	BERSERKER,
 	WARRIOR,
-	ARCHER,
-	FIREBOSS,
-	COLDBOSS,
-	SHOCKBOSS,
-	POISONBOSS,
-	DARKBOSS,
+	PALADIN,
+	SHADOWKNIGHT,
+	ROGUE,
+	MAGE,
+	BOSS1, //Boss[1-5] == temp names until we figure out something more specific
+	BOSS2, //Used to be elemental names, but that no longer applies since dungeons
+	BOSS3, //aren't elemental specific.
+	BOSS4,
+	BOSS5,
 	MERCHANT,
 	PLAYER
 } creatureType;

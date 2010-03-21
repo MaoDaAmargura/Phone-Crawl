@@ -47,7 +47,8 @@ BOOL have_set_abilities = FALSE;
 		[target takeDamage:abilityResult];
 		return [NSString stringWithFormat:@"Target dealt %d damage!",abilityResult];
 	} else {
-		return @"Ability result text err!";
+		DLog(@"Ability error: %@",self.name);
+		return @"";
 	}
 
 }
