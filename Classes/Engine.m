@@ -1176,11 +1176,15 @@ sentinel = line;
 	
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
-	UIImage *img = [UIImage imageNamed:@"healthred"];
-	//[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
-	img = [UIImage imageNamed:@"healthred"];
+	UIImage *img = [UIImage imageNamed:@"healthred.png"];
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height-4, tileSize.width, 4)];
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
+	img = [UIImage imageNamed:@"healthgreen.png"];
 	float div = tileSize.width/m.max.health;
-	//[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.health, 4)];
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height-4, div*m.current.health, 4)];
+	img = [UIImage imageNamed:@"healthgreen.png"];
+	div = tileSize.width/m.max.shield;
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.shield, 4)];
 }
 
 - (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
