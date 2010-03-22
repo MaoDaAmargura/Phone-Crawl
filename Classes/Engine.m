@@ -1165,6 +1165,21 @@ sentinel = line;
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
 }
 
+- (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView
+{
+	Coord *loc = m.creatureLocation;
+	if(![self coordIsVisible:loc]) return;
+	
+	CGSize tileSize = [self tileSizeForWorldView:wView];
+	int halfTile = (tilesPerSide-1)/2;
+	Coord *center = [player creatureLocation];
+	
+	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
+	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
+	UIImage *img = [UIImage imageNamed:@"healthred"];
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
+}
+
 - (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
 {
 	UIImage *img = [UIImage imageNamed:imgName];
@@ -1205,8 +1220,10 @@ sentinel = line;
 
 - (void) drawEnemiesInWorld:(WorldView*) wView
 {
-	for (Creature *m in liveEnemies)
+	for (Creature *m in liveEnemies) {
 		[self drawImageNamed:[m iconName] atTile:[m creatureLocation] inWorld:wView];
+		[self drawHealthBar:m inWorld:wView];
+	}
 }
 
 - (void) drawItemsInWorld:(WorldView*) wView

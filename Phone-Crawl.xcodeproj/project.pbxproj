@@ -23,7 +23,6 @@
 		652AB8B71130A4E90083BD1C /* potion-red-IV.png in Resources */ = {isa = PBXBuildFile; fileRef = 652AB8B31130A4E90083BD1C /* potion-red-IV.png */; };
 		652AB8B81130A4E90083BD1C /* potion-red-V.png in Resources */ = {isa = PBXBuildFile; fileRef = 652AB8B41130A4E90083BD1C /* potion-red-V.png */; };
 		65A2889D1155AEDF001CA45F /* monster-paladin.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A2889C1155AEDF001CA45F /* monster-paladin.bmp */; };
-		65A2889F1155AEE9001CA45F /* monster-wizard.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A2889E1155AEE9001CA45F /* monster-wizard.bmp */; };
 		65A288A31155AF2C001CA45F /* monster-shadowknight.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */; };
 		65A288A61155B0C8001CA45F /* monster-rogue.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A288A51155B0C8001CA45F /* monster-rogue.bmp */; };
 		65A337F8112F4C79001BB370 /* potion-red-I.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F5112F4C79001BB370 /* potion-red-I.png */; };
@@ -44,6 +43,10 @@
 		65EFA019112F76E0000D4AC7 /* potion-blue.png in Resources */ = {isa = PBXBuildFile; fileRef = 65EFA015112F76E0000D4AC7 /* potion-blue.png */; };
 		B058D3C21147391E00AEBDF1 /* EndGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = B058D3C11147391E00AEBDF1 /* EndGame.xib */; };
 		B058D3C61147392800AEBDF1 /* EndGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B058D3C51147392800AEBDF1 /* EndGame.m */; };
+		B0C3700F115709AA00C6D855 /* healthgreen.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C3700D115709AA00C6D855 /* healthgreen.png */; };
+		B0C37010115709AA00C6D855 /* healthred.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C3700E115709AA00C6D855 /* healthred.png */; };
+		B0C37011115709AA00C6D855 /* healthgreen.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C3700D115709AA00C6D855 /* healthgreen.png */; };
+		B0C37012115709AA00C6D855 /* healthred.png in Resources */ = {isa = PBXBuildFile; fileRef = B0C3700E115709AA00C6D855 /* healthred.png */; };
 		D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70FA6EE11480B44001F1C56 /* PCParticle.m */; };
 		D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70FA7CD11481E1A001F1C56 /* PCParticle.xib */; };
 		D70FA83811483E7E001F1C56 /* blood.png in Resources */ = {isa = PBXBuildFile; fileRef = D70FA83711483E7E001F1C56 /* blood.png */; };
@@ -77,7 +80,6 @@
 		D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333591136E45C00798D3D /* monster-ghost-dead.png */; };
 		D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335A1136E45C00798D3D /* monster-ghost.png */; };
 		D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335B1136E45C00798D3D /* monster-guard-dead.png */; };
-		D7C3336E1136E45C00798D3D /* monster-warrior.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335C1136E45C00798D3D /* monster-warrior.png */; };
 		D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */; };
 		D7C333701136E45C00798D3D /* monster-hornman.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335E1136E45C00798D3D /* monster-hornman.png */; };
 		D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */; };
@@ -252,7 +254,6 @@
 		652AB8B31130A4E90083BD1C /* potion-red-IV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-IV.png"; sourceTree = "<group>"; };
 		652AB8B41130A4E90083BD1C /* potion-red-V.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-V.png"; sourceTree = "<group>"; };
 		65A2889C1155AEDF001CA45F /* monster-paladin.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-paladin.bmp"; sourceTree = "<group>"; };
-		65A2889E1155AEE9001CA45F /* monster-wizard.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = "monster-wizard.bmp"; path = "../rltiles/dc-mon0/0man/monster-wizard.bmp"; sourceTree = SOURCE_ROOT; };
 		65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-shadowknight.bmp"; sourceTree = "<group>"; };
 		65A288A51155B0C8001CA45F /* monster-rogue.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-rogue.bmp"; sourceTree = "<group>"; };
 		65A337F5112F4C79001BB370 /* potion-red-I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-I.png"; sourceTree = "<group>"; };
@@ -277,6 +278,8 @@
 		B058D3C11147391E00AEBDF1 /* EndGame.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = EndGame.xib; sourceTree = "<group>"; };
 		B058D3C41147392800AEBDF1 /* EndGame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EndGame.h; sourceTree = "<group>"; };
 		B058D3C51147392800AEBDF1 /* EndGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGame.m; sourceTree = "<group>"; };
+		B0C3700D115709AA00C6D855 /* healthgreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = healthgreen.png; sourceTree = "<group>"; };
+		B0C3700E115709AA00C6D855 /* healthred.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = healthred.png; sourceTree = "<group>"; };
 		D70FA6ED11480B44001F1C56 /* PCParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCParticle.h; sourceTree = "<group>"; };
 		D70FA6EE11480B44001F1C56 /* PCParticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCParticle.m; sourceTree = "<group>"; };
 		D70FA7CD11481E1A001F1C56 /* PCParticle.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PCParticle.xib; sourceTree = "<group>"; };
@@ -311,7 +314,6 @@
 		D7C333591136E45C00798D3D /* monster-ghost-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost-dead.png"; path = "monsters/monster-ghost-dead.png"; sourceTree = "<group>"; };
 		D7C3335A1136E45C00798D3D /* monster-ghost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost.png"; path = "monsters/monster-ghost.png"; sourceTree = "<group>"; };
 		D7C3335B1136E45C00798D3D /* monster-guard-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-guard-dead.png"; path = "monsters/monster-guard-dead.png"; sourceTree = "<group>"; };
-		D7C3335C1136E45C00798D3D /* monster-warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-warrior.png"; path = "monsters/monster-warrior.png"; sourceTree = "<group>"; };
 		D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman-dead.png"; path = "monsters/monster-hornman-dead.png"; sourceTree = "<group>"; };
 		D7C3335E1136E45C00798D3D /* monster-hornman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman.png"; path = "monsters/monster-hornman.png"; sourceTree = "<group>"; };
 		D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-iceman-dead.png"; path = "monsters/monster-iceman-dead.png"; sourceTree = "<group>"; };
@@ -608,7 +610,6 @@
 				D7C333541136E45C00798D3D /* monster-demon.png */,
 				D7C333551136E45C00798D3D /* monster-dragon-green-dead.png */,
 				65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */,
-				65A2889E1155AEE9001CA45F /* monster-wizard.bmp */,
 				D7C333561136E45C00798D3D /* monster-dragon-green.png */,
 				65A288A51155B0C8001CA45F /* monster-rogue.bmp */,
 				D7C333571136E45C00798D3D /* monster-fierydemon-dead.png */,
@@ -617,7 +618,6 @@
 				D7C333591136E45C00798D3D /* monster-ghost-dead.png */,
 				D7C3335A1136E45C00798D3D /* monster-ghost.png */,
 				D7C3335B1136E45C00798D3D /* monster-guard-dead.png */,
-				D7C3335C1136E45C00798D3D /* monster-warrior.png */,
 				D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */,
 				D7C3335E1136E45C00798D3D /* monster-hornman.png */,
 				D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */,
@@ -983,6 +983,8 @@
 		D9FFB0E3110BA8E000536EA7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B0C3700D115709AA00C6D855 /* healthgreen.png */,
+				B0C3700E115709AA00C6D855 /* healthred.png */,
 				D95FB38C1148DEBA003DAB25 /* PileofGold.png */,
 				D70FA83611483E71001F1C56 /* Particles */,
 				D918C1D111470656002D4575 /* Icons */,
@@ -1312,7 +1314,6 @@
 				D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */,
 				D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */,
 				D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */,
-				D7C3336E1136E45C00798D3D /* monster-warrior.png in Resources */,
 				D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */,
 				D7C333701136E45C00798D3D /* monster-hornman.png in Resources */,
 				D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */,
@@ -1377,10 +1378,11 @@
 				D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */,
 				D95FB38D1148DEBA003DAB25 /* PileofGold.png in Resources */,
 				65A2889D1155AEDF001CA45F /* monster-paladin.bmp in Resources */,
-				65A2889F1155AEE9001CA45F /* monster-wizard.bmp in Resources */,
 				65A288A31155AF2C001CA45F /* monster-shadowknight.bmp in Resources */,
 				65A288A61155B0C8001CA45F /* monster-rogue.bmp in Resources */,
 				65A5E76F1155C2F30092E114 /* monster-wizard.bmp in Resources */,
+				B0C3700F115709AA00C6D855 /* healthgreen.png in Resources */,
+				B0C37010115709AA00C6D855 /* healthred.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1389,6 +1391,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				D965EE7B113F28BB00455192 /* RunIPhoneUnitTest.sh in Resources */,
+				B0C37011115709AA00C6D855 /* healthgreen.png in Resources */,
+				B0C37012115709AA00C6D855 /* healthred.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
