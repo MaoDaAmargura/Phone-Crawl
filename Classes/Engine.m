@@ -1177,7 +1177,10 @@ sentinel = line;
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
 	UIImage *img = [UIImage imageNamed:@"healthred"];
-	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
+	//[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
+	img = [UIImage imageNamed:@"healthred"];
+	float div = tileSize.width/m.max.health;
+	//[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.health, 4)];
 }
 
 - (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
