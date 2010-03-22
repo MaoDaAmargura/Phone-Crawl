@@ -23,7 +23,6 @@
 		652AB8B71130A4E90083BD1C /* potion-red-IV.png in Resources */ = {isa = PBXBuildFile; fileRef = 652AB8B31130A4E90083BD1C /* potion-red-IV.png */; };
 		652AB8B81130A4E90083BD1C /* potion-red-V.png in Resources */ = {isa = PBXBuildFile; fileRef = 652AB8B41130A4E90083BD1C /* potion-red-V.png */; };
 		65A2889D1155AEDF001CA45F /* monster-paladin.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A2889C1155AEDF001CA45F /* monster-paladin.bmp */; };
-		65A2889F1155AEE9001CA45F /* monster-wizard.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A2889E1155AEE9001CA45F /* monster-wizard.bmp */; };
 		65A288A31155AF2C001CA45F /* monster-shadowknight.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */; };
 		65A288A61155B0C8001CA45F /* monster-rogue.bmp in Resources */ = {isa = PBXBuildFile; fileRef = 65A288A51155B0C8001CA45F /* monster-rogue.bmp */; };
 		65A337F8112F4C79001BB370 /* potion-red-I.png in Resources */ = {isa = PBXBuildFile; fileRef = 65A337F5112F4C79001BB370 /* potion-red-I.png */; };
@@ -77,7 +76,6 @@
 		D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C333591136E45C00798D3D /* monster-ghost-dead.png */; };
 		D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335A1136E45C00798D3D /* monster-ghost.png */; };
 		D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335B1136E45C00798D3D /* monster-guard-dead.png */; };
-		D7C3336E1136E45C00798D3D /* monster-warrior.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335C1136E45C00798D3D /* monster-warrior.png */; };
 		D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */; };
 		D7C333701136E45C00798D3D /* monster-hornman.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335E1136E45C00798D3D /* monster-hornman.png */; };
 		D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */; };
@@ -160,6 +158,7 @@
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
+		D9C4F1B51156C69D006B3A78 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F1B41156C69D006B3A78 /* LoadingView.m */; };
 		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
 		D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */; };
 		D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */; };
@@ -252,7 +251,6 @@
 		652AB8B31130A4E90083BD1C /* potion-red-IV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-IV.png"; sourceTree = "<group>"; };
 		652AB8B41130A4E90083BD1C /* potion-red-V.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-V.png"; sourceTree = "<group>"; };
 		65A2889C1155AEDF001CA45F /* monster-paladin.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-paladin.bmp"; sourceTree = "<group>"; };
-		65A2889E1155AEE9001CA45F /* monster-wizard.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; name = "monster-wizard.bmp"; path = "../rltiles/dc-mon0/0man/monster-wizard.bmp"; sourceTree = SOURCE_ROOT; };
 		65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-shadowknight.bmp"; sourceTree = "<group>"; };
 		65A288A51155B0C8001CA45F /* monster-rogue.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-rogue.bmp"; sourceTree = "<group>"; };
 		65A337F5112F4C79001BB370 /* potion-red-I.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "potion-red-I.png"; sourceTree = "<group>"; };
@@ -311,7 +309,6 @@
 		D7C333591136E45C00798D3D /* monster-ghost-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost-dead.png"; path = "monsters/monster-ghost-dead.png"; sourceTree = "<group>"; };
 		D7C3335A1136E45C00798D3D /* monster-ghost.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-ghost.png"; path = "monsters/monster-ghost.png"; sourceTree = "<group>"; };
 		D7C3335B1136E45C00798D3D /* monster-guard-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-guard-dead.png"; path = "monsters/monster-guard-dead.png"; sourceTree = "<group>"; };
-		D7C3335C1136E45C00798D3D /* monster-warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-warrior.png"; path = "monsters/monster-warrior.png"; sourceTree = "<group>"; };
 		D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman-dead.png"; path = "monsters/monster-hornman-dead.png"; sourceTree = "<group>"; };
 		D7C3335E1136E45C00798D3D /* monster-hornman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-hornman.png"; path = "monsters/monster-hornman.png"; sourceTree = "<group>"; };
 		D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "monster-iceman-dead.png"; path = "monsters/monster-iceman-dead.png"; sourceTree = "<group>"; };
@@ -421,6 +418,8 @@
 		D9B55D1E11015886007173A3 /* LevelGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelGen.m; sourceTree = "<group>"; };
 		D9B55D1F11015886007173A3 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		D9B55D2011015886007173A3 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
+		D9C4F1B31156C69D006B3A78 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
+		D9C4F1B41156C69D006B3A78 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
 		D9EBB8ED110688A800C34836 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		D9EBB8EE110688A800C34836 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillUpgradeViewController.h; sourceTree = "<group>"; };
@@ -608,7 +607,6 @@
 				D7C333541136E45C00798D3D /* monster-demon.png */,
 				D7C333551136E45C00798D3D /* monster-dragon-green-dead.png */,
 				65A288A21155AF2C001CA45F /* monster-shadowknight.bmp */,
-				65A2889E1155AEE9001CA45F /* monster-wizard.bmp */,
 				D7C333561136E45C00798D3D /* monster-dragon-green.png */,
 				65A288A51155B0C8001CA45F /* monster-rogue.bmp */,
 				D7C333571136E45C00798D3D /* monster-fierydemon-dead.png */,
@@ -617,7 +615,6 @@
 				D7C333591136E45C00798D3D /* monster-ghost-dead.png */,
 				D7C3335A1136E45C00798D3D /* monster-ghost.png */,
 				D7C3335B1136E45C00798D3D /* monster-guard-dead.png */,
-				D7C3335C1136E45C00798D3D /* monster-warrior.png */,
 				D7C3335D1136E45C00798D3D /* monster-hornman-dead.png */,
 				D7C3335E1136E45C00798D3D /* monster-hornman.png */,
 				D7C3335F1136E45C00798D3D /* monster-iceman-dead.png */,
@@ -729,6 +726,8 @@
 				D70FA6ED11480B44001F1C56 /* PCParticle.h */,
 				D70FA6EE11480B44001F1C56 /* PCParticle.m */,
 				D70FA7CD11481E1A001F1C56 /* PCParticle.xib */,
+				D9C4F1B31156C69D006B3A78 /* LoadingView.h */,
+				D9C4F1B41156C69D006B3A78 /* LoadingView.m */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -1312,7 +1311,6 @@
 				D7C3336B1136E45C00798D3D /* monster-ghost-dead.png in Resources */,
 				D7C3336C1136E45C00798D3D /* monster-ghost.png in Resources */,
 				D7C3336D1136E45C00798D3D /* monster-guard-dead.png in Resources */,
-				D7C3336E1136E45C00798D3D /* monster-warrior.png in Resources */,
 				D7C3336F1136E45C00798D3D /* monster-hornman-dead.png in Resources */,
 				D7C333701136E45C00798D3D /* monster-hornman.png in Resources */,
 				D7C333711136E45C00798D3D /* monster-iceman-dead.png in Resources */,
@@ -1377,7 +1375,6 @@
 				D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */,
 				D95FB38D1148DEBA003DAB25 /* PileofGold.png in Resources */,
 				65A2889D1155AEDF001CA45F /* monster-paladin.bmp in Resources */,
-				65A2889F1155AEE9001CA45F /* monster-wizard.bmp in Resources */,
 				65A288A31155AF2C001CA45F /* monster-shadowknight.bmp in Resources */,
 				65A288A61155B0C8001CA45F /* monster-rogue.bmp in Resources */,
 				65A5E76F1155C2F30092E114 /* monster-wizard.bmp in Resources */,
@@ -1442,6 +1439,7 @@
 				B058D3C61147392800AEBDF1 /* EndGame.m in Sources */,
 				D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */,
 				D95FB24A1148A3AF003DAB25 /* HighScoreController.m in Sources */,
+				D9C4F1B51156C69D006B3A78 /* LoadingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
