@@ -115,6 +115,8 @@
 
 - (Item *) loadItemFromFile:(NSString *)datastring;
 
+- (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView;
+
 - (NSString *) getArrayString:(NSMutableArray *)array;
 
 @end
