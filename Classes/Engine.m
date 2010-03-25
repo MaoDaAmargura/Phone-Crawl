@@ -17,6 +17,8 @@
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define LARGEST_ALLOWED_PATH 80
 
+#define TELEPORT_ENABLED YES
+
 @interface Engine (UIUpdates)
 
 - (void) updateBackgroundImageForWorldView:(WorldView*)wView;
@@ -1088,7 +1090,7 @@
 		}
 		else 
 		{
-			if (LVL_GEN_ENV) 
+			if (TELEPORT_ENABLED) 
 			{
 				[self moveCreature: player ToTileAtCoord: tileCoord];
 			}
