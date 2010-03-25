@@ -651,18 +651,21 @@ typedef enum {
 //		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
 	}
 
-	for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
-		int x = [Rand min:0 max:MAP_DIMENSION - 1];
-		int y = [Rand min:0 max:MAP_DIMENSION - 1];
-		if ([dungeon tileAt: coord].blockMove) {
-			--LCV;
-			continue;
+	for (int level=1; level <= 5;level ++) {
+		Coord *coord = [Coord withX: 0 Y: 0 Z: level-1];
+		for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
+			coord.X = [Rand min:0 max:MAP_DIMENSION - 1];
+			coord.Y = [Rand min:0 max:MAP_DIMENSION - 1];
+			if ([dungeon tileAt: coord].blockMove) {
+				--LCV;
+				continue;
+			}
+			//Are we only adding enemies to the first level?
+			//Enemies were supposed to have level ranges that went with their floor.
+			//Can't have level 20 monsters popping up on the first level.
+			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:[Rand min:1+((level-1)*4) max:4+((level-1)*4)] atX: coord.X Y: coord.Y Z:coord.Z];
+			[dungeon.liveEnemies addObject:creature];
 		}
-		//Are we only adding enemies to the first level?
-		//Enemies were supposed to have level ranges that went with their floor.
-		//Can't have level 20 monsters popping up on the first level.
-		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:[Rand min:1 max:4] atX: x Y: y Z:0];
-		[dungeon.liveEnemies addObject:creature];		
 	}
 
 
@@ -850,8 +853,8 @@ typedef enum {
 #pragma mark -
 
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
-	bool lvlGen = LVL_GEN_ENV;
-	LVL_GEN_ENV = false;
+	//bool lvlGen = LVL_GEN_ENV;
+	//LVL_GEN_ENV = false;
 	switch (lvlType) {
 		case orcMines:
 			dungeon = [self makeOrcMines: dungeon];
@@ -866,7 +869,7 @@ typedef enum {
 			DLog(@"invalid dungeon type");
 			break;
 	}
-	LVL_GEN_ENV = lvlGen;
+	//LVL_GEN_ENV = lvlGen;
 	return dungeon;
 }
 
