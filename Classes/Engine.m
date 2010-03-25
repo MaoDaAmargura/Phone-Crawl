@@ -948,10 +948,10 @@
  */
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
-	if (LVL_GEN_ENV) {
-		NSLog(@"%@",[coord description]);
-		return false;
-	}
+	//if (LVL_GEN_ENV) {
+	//	NSLog(@"%@",[coord description]);
+	//	return false;
+	//}
 
 	Tile *t = [currentDungeon tileAt:coord];
 	if(t) {

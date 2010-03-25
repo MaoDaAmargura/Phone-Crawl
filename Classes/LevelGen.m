@@ -850,8 +850,8 @@ typedef enum {
 #pragma mark -
 
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType {
-	bool lvlGen = LVL_GEN_ENV;
-	LVL_GEN_ENV = false;
+	//bool lvlGen = LVL_GEN_ENV;
+	//LVL_GEN_ENV = false;
 	switch (lvlType) {
 		case orcMines:
 			dungeon = [self makeOrcMines: dungeon];
@@ -866,7 +866,7 @@ typedef enum {
 			DLog(@"invalid dungeon type");
 			break;
 	}
-	LVL_GEN_ENV = lvlGen;
+	//LVL_GEN_ENV = lvlGen;
 	return dungeon;
 }
 
