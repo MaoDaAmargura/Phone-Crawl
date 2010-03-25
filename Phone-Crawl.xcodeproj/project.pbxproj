@@ -163,7 +163,7 @@
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2111015886007173A3 /* LevelGen.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1E11015886007173A3 /* LevelGen.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
-		D9C4F1B51156C69D006B3A78 /* LoadingView.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F1B41156C69D006B3A78 /* LoadingView.m */; };
+		D9C4F2E7115C1F35006B3A78 /* GameFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F2E6115C1F35006B3A78 /* GameFileManager.m */; };
 		D9EBB8EF110688A800C34836 /* Tile.m in Sources */ = {isa = PBXBuildFile; fileRef = D9EBB8EE110688A800C34836 /* Tile.m */; };
 		D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9F2B2B011389E360031058B /* SkillUpgradeViewController.m */; };
 		D9F2B2B311389E360031058B /* SkillUpgradeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9F2B2B111389E360031058B /* SkillUpgradeViewController.xib */; };
@@ -426,8 +426,8 @@
 		D9B55D1E11015886007173A3 /* LevelGen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LevelGen.m; sourceTree = "<group>"; };
 		D9B55D1F11015886007173A3 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
 		D9B55D2011015886007173A3 /* Util.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Util.m; sourceTree = "<group>"; };
-		D9C4F1B31156C69D006B3A78 /* LoadingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingView.h; sourceTree = "<group>"; };
-		D9C4F1B41156C69D006B3A78 /* LoadingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadingView.m; sourceTree = "<group>"; };
+		D9C4F2E5115C1F35006B3A78 /* GameFileManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameFileManager.h; sourceTree = "<group>"; };
+		D9C4F2E6115C1F35006B3A78 /* GameFileManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameFileManager.m; sourceTree = "<group>"; };
 		D9EBB8ED110688A800C34836 /* Tile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Tile.h; sourceTree = "<group>"; };
 		D9EBB8EE110688A800C34836 /* Tile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Tile.m; sourceTree = "<group>"; };
 		D9F2B2AF11389E360031058B /* SkillUpgradeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SkillUpgradeViewController.h; sourceTree = "<group>"; };
@@ -735,8 +735,6 @@
 				D70FA6ED11480B44001F1C56 /* PCParticle.h */,
 				D70FA6EE11480B44001F1C56 /* PCParticle.m */,
 				D70FA7CD11481E1A001F1C56 /* PCParticle.xib */,
-				D9C4F1B31156C69D006B3A78 /* LoadingView.h */,
-				D9C4F1B41156C69D006B3A78 /* LoadingView.m */,
 			);
 			path = Framework;
 			sourceTree = "<group>";
@@ -799,7 +797,7 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D9C4F2E4115C1D16006B3A78 /* Games */,
+				D9C4F2E4115C1D16006B3A78 /* Save */,
 				D95FB24B1148A3B9003DAB25 /* Score */,
 				D931C3E4110632430032A3DD /* Engine */,
 				D931C3E3110632350032A3DD /* Generation */,
@@ -917,11 +915,13 @@
 			path = Data;
 			sourceTree = "<group>";
 		};
-		D9C4F2E4115C1D16006B3A78 /* Games */ = {
+		D9C4F2E4115C1D16006B3A78 /* Save */ = {
 			isa = PBXGroup;
 			children = (
+				D9C4F2E5115C1F35006B3A78 /* GameFileManager.h */,
+				D9C4F2E6115C1F35006B3A78 /* GameFileManager.m */,
 			);
-			name = Games;
+			name = Save;
 			sourceTree = "<group>";
 		};
 		D9EBB8EA1106887700C34836 /* Level */ = {
@@ -1463,7 +1463,7 @@
 				B058D3C61147392800AEBDF1 /* EndGame.m in Sources */,
 				D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */,
 				D95FB24A1148A3AF003DAB25 /* HighScoreManager.m in Sources */,
-				D9C4F1B51156C69D006B3A78 /* LoadingView.m in Sources */,
+				D9C4F2E7115C1F35006B3A78 /* GameFileManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,7 +13,7 @@
 @class HomeTabViewController;
 @class EndGame;
 @class HighScoreManager;
-@class LoadingView;
+@class GameFileManager;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -25,9 +25,8 @@
 	BOOL gameStarted;
 	BOOL isAllowedToLoadGame;
 	
-	LoadingView *dungeonLoadingView;
-	
 	HighScoreManager *scoreController;
+	GameFileManager *gameManager;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

@@ -107,16 +107,9 @@
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
 
-- (BOOL) loadGame:(NSString *)filename;
-
-- (void) saveGame:(NSString *)filename;
-
-- (void) writeItemToFile:(Item *)item file:(FILE *)file;
-
-- (Item *) loadItemFromFile:(NSString *)datastring;
 
 - (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView;
 
-- (NSString *) getArrayString:(NSMutableArray *)array;
+
 
 @end

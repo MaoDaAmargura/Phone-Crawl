@@ -9,10 +9,13 @@
 #import "HighScoreViewController.h"
 #import "HighScoreManager.h"
 
+#import "GameFileManager.h"
+
 #import "EndGame.h"
-#import "LoadingView.h"
 
 #define ALLOWED_TO_LOAD_GAME_KEY	@"ac871013842be92b2b53c294d1c1d48efa51"
+
+#define SAVED_GAME_FILE_NAME	@"phonecrawlsave.gam"
 
 #define QUICK_START NO
 
@@ -30,10 +33,9 @@
 	flow = nil;
 	
 	scoreController = [[HighScoreManager alloc] init];
+	gameManager = [[GameFileManager alloc] init];
 
 	isAllowedToLoadGame = [[NSUserDefaults standardUserDefaults] boolForKey:ALLOWED_TO_LOAD_GAME_KEY];
-	
-	dungeonLoadingView = [[LoadingView alloc] init];
 	
 	//return;
 	if(QUICK_START) {
@@ -48,9 +50,11 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application
 {
-	if (gameStarted) {
+	if (gameStarted) 
+	{
 		printf("saving game\n");
-		[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+		//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+		[gameManager saveCharacter:[self playerObject] toFile:SAVED_GAME_FILE_NAME];
 		isAllowedToLoadGame = YES;
 	}
 	[[NSUserDefaults standardUserDefaults] setBool:isAllowedToLoadGame forKey:ALLOWED_TO_LOAD_GAME_KEY];
@@ -60,7 +64,6 @@
 - (void)dealloc 
 {
 	[scoreController release];
-	[dungeonLoadingView release];
 	[flow release];
     [super dealloc];
 }
@@ -95,7 +98,8 @@
 - (IBAction) loadSaveGame
 {
 	if(!isAllowedToLoadGame) return;
-	if([homeTabController.gameEngine loadGame:@"phonecrawlsave.gam"])
+	homeTabController.gameEngine.player = [gameManager loadCharacterFromFile:SAVED_GAME_FILE_NAME];
+	if(homeTabController.gameEngine.player)
 	{
 		[homeTabController.gameEngine.currentDungeon initWithType:town];
 		[homeTabController updateCharacterView];
