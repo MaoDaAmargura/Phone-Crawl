@@ -9,16 +9,16 @@
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
-@class HighScoreController;
+@class HighScoreManager;
 
 @interface HighScoreViewController : PCBaseViewController <UITableViewDelegate, UITableViewDataSource>
 {
-	HighScoreController *highScoreController;
+	HighScoreManager *highScoreController;
 	
 	IBOutlet UITableView *scoresTable;
 }
 
-- (id)initWithScoreController:(HighScoreController*)scoreController;
+- (id)initWithScoreController:(HighScoreManager*)scoreController;
 
 - (IBAction) doneViewing;
 

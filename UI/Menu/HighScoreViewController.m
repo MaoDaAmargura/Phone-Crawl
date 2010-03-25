@@ -7,7 +7,7 @@
 //
 
 #import "HighScoreViewController.h"
-#import "HighScoreController.h"
+#import "HighScoreManager.h"
 
 #define HIGH_SCORE_CELL_ID	@"HighScoreCellId"
 
@@ -20,7 +20,7 @@
  @abstract		The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
  @param			dict: expected to be a dictionary of (NSString => NSInteger)
  */
-- (id)initWithScoreController:(HighScoreController*)scoreController
+- (id)initWithScoreController:(HighScoreManager*)scoreController
 {
     if (self = [super initWithNibName:@"HighScoreViewController"])
 	{

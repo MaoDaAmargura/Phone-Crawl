@@ -7,7 +7,7 @@
 #import "Creature.h"
 
 #import "HighScoreViewController.h"
-#import "HighScoreController.h"
+#import "HighScoreManager.h"
 
 #import "EndGame.h"
 #import "LoadingView.h"
@@ -29,7 +29,7 @@
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	flow = nil;
 	
-	scoreController = [[HighScoreController alloc] init];
+	scoreController = [[HighScoreManager alloc] init];
 
 	isAllowedToLoadGame = [[NSUserDefaults standardUserDefaults] boolForKey:ALLOWED_TO_LOAD_GAME_KEY];
 	

@@ -12,7 +12,7 @@
 @class Creature;
 @class HomeTabViewController;
 @class EndGame;
-@class HighScoreController;
+@class HighScoreManager;
 @class LoadingView;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
@@ -27,7 +27,7 @@
 	
 	LoadingView *dungeonLoadingView;
 	
-	HighScoreController *scoreController;
+	HighScoreManager *scoreController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
