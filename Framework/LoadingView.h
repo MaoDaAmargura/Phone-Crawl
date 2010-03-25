@@ -17,7 +17,8 @@
 - (void) startSpinner;
 - (void) stopSpinner;
 
-- (void) showInView:(UIView*)view;
+- (void) addToView:(UIView*)view;
+- (void) show;
 - (void) hide;
 
 

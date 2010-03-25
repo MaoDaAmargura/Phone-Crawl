@@ -10,6 +10,7 @@
 #import "HighScoreController.h"
 
 #import "EndGame.h"
+#import "LoadingView.h"
 
 #define ALLOWED_TO_LOAD_GAME_KEY	@"ac871013842be92b2b53c294d1c1d48efa51"
 
@@ -25,14 +26,6 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application 
 {
-	// this is an incredibly hackish workaround to GET PEOPLE TO QUIT STEPPING ON MY TELEPORT.
-	// so DON'T TOUCH IT.
-	// almost commented this out, just to see Nathan bust a vein -Bucky
-	// almost killed bucky, just to see him bleed -Nate
-	NSError *error = nil;
-	[NSString stringWithContentsOfFile: @"/Users/nathanking/classes/cs115/Phone-Crawl/YES" encoding: NSUTF8StringEncoding error: &error];
-//	LVL_GEN_ENV = !error;
-
     homeTabController = [[[HomeTabViewController alloc] init] autorelease];
 	flow = nil;
 	
@@ -40,8 +33,10 @@
 
 	isAllowedToLoadGame = [[NSUserDefaults standardUserDefaults] boolForKey:ALLOWED_TO_LOAD_GAME_KEY];
 	
+	dungeonLoadingView = [[LoadingView alloc] init];
+	
 	//return;
-	if(QUICK_START || LVL_GEN_ENV) {
+	if(QUICK_START) {
 		[window addSubview:homeTabController.view];
 		gameStarted = YES;
 	} else {
@@ -65,6 +60,7 @@
 - (void)dealloc 
 {
 	[scoreController release];
+	[dungeonLoadingView release];
 	[flow release];
     [super dealloc];
 }
@@ -129,6 +125,15 @@
 	return [homeTabController.gameEngine player];
 }
 
+- (void) showDungeonLoadingScreen
+{
+	[homeTabController.wView showDungeonLoading];
+}
+
+- (void) hideDungeonLoadingScreen
+{
+	[homeTabController.wView hideDungeonLoading];
+}
 
 @end
 

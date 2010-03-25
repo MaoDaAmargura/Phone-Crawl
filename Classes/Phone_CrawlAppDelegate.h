@@ -13,6 +13,7 @@
 @class HomeTabViewController;
 @class EndGame;
 @class HighScoreController;
+@class LoadingView;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -23,6 +24,8 @@
 	NewGameFlowControl *flow;
 	BOOL gameStarted;
 	BOOL isAllowedToLoadGame;
+	
+	LoadingView *dungeonLoadingView;
 	
 	HighScoreController *scoreController;
 }
@@ -43,5 +46,8 @@
 - (void) applicationWillTerminate:(UIApplication *)application;
 
 - (Creature*) playerObject;
+
+- (void) showDungeonLoadingScreen;
+- (void) hideDungeonLoadingScreen;
 
 @end

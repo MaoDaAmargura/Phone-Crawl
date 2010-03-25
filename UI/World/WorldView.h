@@ -28,6 +28,9 @@ typedef enum {
 
 	IBOutlet UILabel *actionResult;
 	
+	IBOutlet UIView *loadingDungeonView;
+	IBOutlet UIActivityIndicatorView *spinner;
+	
 	UIImageView *highlight;
 }
 
@@ -42,6 +45,9 @@ typedef enum {
 @property (nonatomic, retain) UIImageView *highlight;
 
 - (void) setDisplay:(displayStatType) display withAmount:(float) amount ofMax:(float) max;
+
+- (void) showDungeonLoading;
+- (void) hideDungeonLoading;
 
 @end
 

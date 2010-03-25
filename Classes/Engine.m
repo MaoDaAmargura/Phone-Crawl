@@ -69,6 +69,15 @@
 
 @end
 
+@interface Engine (DungeonLoading)
+
+- (void) changeToDungeon:(levelType)type;
+- (void) successfullyLoadedDungeon;
+- (void) asynchronouslyLoadDungeon:(NSNumber*)type;
+
+@end
+
+
 
 @implementation Engine
 
@@ -1365,6 +1374,7 @@ sentinel = line;
 	return ![self tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
 }
 
+
 /*!
  @method		movePlayerToTileAtCoord:
  @abstract	Public function to move any creature. don't call it lightly.  
@@ -1394,20 +1404,13 @@ sentinel = line;
 					c.creatureLocation.Z--;
 					break;
 				case slopeToOrc:
-					[currentDungeon initWithType:orcMines];
-					c.creatureLocation = currentDungeon.playerLocation;
-					if(tutorialMode) [self finishTutorial];
-					[self putPlayerAndUpstairs];
+					[self changeToDungeon:orcMines];
 					break;
 				case slopeToCrypt:
-					[currentDungeon initWithType:crypts];
-					[self putPlayerAndUpstairs];
+					[self changeToDungeon:crypts];
 					break;					
 				case slopeToTown:
-					[currentDungeon initWithType:town];
-					[liveEnemies removeAllObjects];
-					[deadEnemies removeAllObjects];
-					player.creatureLocation.X = player.creatureLocation.Y = player.creatureLocation.Z = 0;
+					[self changeToDungeon:town];
 					break;
 				default:
 					break;
@@ -1524,6 +1527,46 @@ sentinel = line;
 	
 }
 
+#pragma mark -
+#pragma mark Dungeon Loading 
+
+
+- (void) changeToDungeon:(levelType)type
+{
+	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[liveEnemies removeAllObjects];
+	[deadEnemies removeAllObjects];
+	[appDelg showDungeonLoadingScreen];
+	[NSThread detachNewThreadSelector:@selector(asynchronouslyLoadDungeon:)
+							 toTarget:self
+						   withObject:[NSNumber numberWithInt: type]];
+	//[currentDungeon initWithType:type];
+	
+}
+
+- (void) successfullyLoadedDungeon
+{
+	if(tutorialMode) [self finishTutorial];
+	[self putPlayerAndUpstairs];
+	
+	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDelg hideDungeonLoadingScreen];
+}
+
+- (void) asynchronouslyLoadDungeon:(NSNumber*)type
+{
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
+	levelType lvlType = [type intValue];
+	[currentDungeon initWithType:lvlType];
+	
+	[self performSelectorOnMainThread:@selector(successfullyLoadedDungeon) withObject:nil waitUntilDone:NO];
+	
+	[pool release];
+}
+
+#pragma mark -
+#pragma mark Action Handlers
 - (void) ability_handler:(CombatAbility *)action 
 {
 	player.selectedCombatAbilityToUse = action;
@@ -1540,8 +1583,7 @@ sentinel = line;
 }
 
 #pragma mark -
-#pragma mark Player Commands
-
+#pragma mark UI Refresh
 /*!
  These are a hack. Don't do this unless you know what you're doing and you're me. -Austin
  This is terrible practice. Once I have time, I'm going to do this in a better way. 
@@ -1551,6 +1593,9 @@ sentinel = line;
 	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDlgt.homeTabController refreshInventoryView];
 }
+
+#pragma mark -
+#pragma mark Tutorial
 
 - (void) tutorialModeEquippedItem
 {
@@ -1563,6 +1608,11 @@ sentinel = line;
 	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDlgt.homeTabController finishTutorial];
 }
+
+
+#pragma mark -
+#pragma mark Player Commands
+
 
 - (void) playerEquipItem:(Item*)i
 {

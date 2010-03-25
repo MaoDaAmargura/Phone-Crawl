@@ -30,6 +30,8 @@
 @property (nonatomic, retain) UITabBarController *mainTabController;
 @property (nonatomic, retain) Engine *gameEngine;
 
+@property (nonatomic, retain) WorldView *wView;
+
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon;
 
 - (void) refreshInventoryView;

@@ -37,6 +37,7 @@
 	actionResult.text = @"";
 	[delegate worldViewDidLoad:self];
 	[self.view addSubview:highlight];
+	loadingDungeonView.hidden = YES;
 }
 
 - (void)didReceiveMemoryWarning 
@@ -142,7 +143,22 @@
 	highlight.hidden = YES;
 }
 
+#pragma mark -
+#pragma mark Show Dungeon Loading 
 
+- (void) showDungeonLoading
+{
+	loadingDungeonView.hidden = NO;
+	//[self.view bringSubviewToFront:loadingDungeonView];
+	[self.view bringSubviewToFront:spinner];
+	[spinner startAnimating];
+	//[self.view setNeedsDisplay];
+}
 
+- (void) hideDungeonLoading
+{
+	loadingDungeonView.hidden = YES;
+	[spinner stopAnimating];
+}
 
 @end

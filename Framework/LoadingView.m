@@ -15,7 +15,10 @@
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) 
 	{
+		self.backgroundColor = [UIColor colorWithRed:0.5 green:0.5 blue:0.5 alpha:0.5];
+		self.opaque = NO;
 		spinner = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(frame.origin.x/2-30, frame.origin.y/2-30, 60, 60)];
+		[self addSubview: spinner];
     }
     return self;
 }
@@ -41,9 +44,10 @@
 	[spinner stopAnimating];
 }
 
-- (void) showInView:(UIView*)view
+- (void) addToView:(UIView*)view
 {
 	[view addSubview:self];
+	[view bringSubviewToFront:self];
 }
 
 - (void) hide

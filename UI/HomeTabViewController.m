@@ -40,6 +40,7 @@
 
 @synthesize mainTabController, gameEngine;
 
+@synthesize wView;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -95,8 +96,8 @@
 }
 
 - (void)dealloc {
-    [super dealloc];
 	[endView release];
+    [super dealloc];
 }
 
 #pragma mark -
@@ -202,7 +203,7 @@
 
 - (UIViewController*) initWorldView
 {
-	wView = [[[WorldView alloc] init] autorelease];
+	wView = [[WorldView alloc] init];
 	//wView.tabBarItem.image = 
 	[wView setDelegate: self];
 	wView.title = @"World";
@@ -325,6 +326,7 @@
 	tutorialMode = NO;
 	gameEngine.tutorialMode = NO;
 }
+
 
 #pragma mark -
 #pragma mark UITabBarControllerDelegate
