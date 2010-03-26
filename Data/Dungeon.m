@@ -23,7 +23,7 @@ static NSMutableArray *tiles = nil;
 
 @implementation Dungeon
 
-@synthesize playerLocation, liveEnemies, items, dungeonType;
+@synthesize playerStartLocation, liveEnemies, items, dungeonType;
 
 #pragma mark --private
 
@@ -78,7 +78,7 @@ static NSMutableArray *tiles = nil;
 
 	dungeonType = lvlType;
 
-	if (!playerLocation) playerLocation = [Coord alloc];
+	//if (!playerLocation) playerLocation = [Coord alloc];
 
 	if (!tiles) {
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
@@ -94,7 +94,7 @@ static NSMutableArray *tiles = nil;
 	}
 
 	[LevelGen make: self intoType: lvlType];
-	playerLocation = [Coord withX: 0 Y: 0 Z: 0];
+	//playerLocation = [Coord withX: 0 Y: 0 Z: 0];
 	return self;
 }
 

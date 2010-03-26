@@ -195,7 +195,6 @@
 		currentDungeon = [[Dungeon alloc] init];
 		currentDungeon.liveEnemies = liveEnemies;
 		[self changeToDungeon:town];
-		DLog(@"%@",[currentDungeon.playerLocation description]);
 		
 		player.inBattle = NO;
 		selectedMoveTarget = nil;
