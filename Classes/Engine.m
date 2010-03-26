@@ -116,6 +116,8 @@
 		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
+
+		loadDungeonLock = [NSLock new];
 		
 		showBattleMenu = NO;
 		hasAddedMenusToWorldView = NO;
@@ -386,7 +388,7 @@
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
 	
-	[loadDungeonLock lock];
+	//[loadDungeonLock lock];
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
 	if (creature == player)
@@ -408,7 +410,7 @@
 		}
 	}
 	
-	[loadDungeonLock unlock];
+	//[loadDungeonLock unlock];
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
@@ -492,9 +494,11 @@
 {
 	assert(c.inBattle);
 	
-	if( [self manhattanDistanceFromPlayer: c] > 1)
+	int mnhtnDist = [self manhattanDistanceFromPlayer: c];
+	
+	if( mnhtnDist > 1 && mnhtnDist < 10)
 		c.selectedMoveTarget = player.creatureLocation;
-	else
+	else if (mnhtnDist == 1)
 	{
 		c.selectedCreatureForAction = player;
 		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:SHITTY_STRIKE]; 
@@ -735,9 +739,13 @@
 	if (!currentDungeon || currentDungeon.dungeonType == NOT_INITIALIZED)
 		return;
 	
-	[self updateBackgroundImageForWorldView:wView];
-	[self updateStatDisplayForWorldView:wView];
-	[self drawMiniMapForWorldView: wView];
+	if ([loadDungeonLock tryLock])
+	{
+		[self updateBackgroundImageForWorldView:wView];
+		[self updateStatDisplayForWorldView:wView];
+		[self drawMiniMapForWorldView: wView];
+		[loadDungeonLock unlock];
+	}
 }
 
 
