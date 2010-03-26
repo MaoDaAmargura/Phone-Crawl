@@ -107,12 +107,15 @@
 
 - (void) fireGameLoop
 {
-	[gameEngine gameLoopWithWorldView:wView];
-	// check to see if player is dead
-	if (gameEngine.player.current.health <= 0) {
-		[wView.view addSubview:endView.view];
-		// TODO: get view to change to endgame properly
-		//self.navigationController.pushViewController(endView);
+	if ([gameEngine hasActiveDungeon]) 
+	{
+		[gameEngine gameLoopWithWorldView:wView];
+		// check to see if player is dead
+		if (gameEngine.player.current.health <= 0) {
+			[wView.view addSubview:endView.view];
+			// TODO: get view to change to endgame properly
+			//self.navigationController.pushViewController(endView);
+		}
 	}
 }
 

@@ -118,7 +118,7 @@
 		D97B075F115C4B2B00FDF2CA /* sworddual.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0638115C4B2B00FDF2CA /* sworddual.png */; };
 		D97B0760115C4B2B00FDF2CA /* swordsingle.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0639115C4B2B00FDF2CA /* swordsingle.png */; };
 		D97B0761115C4B2B00FDF2CA /* BlackSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B063B115C4B2B00FDF2CA /* BlackSquare.png */; };
-		D97B0762115C4B2B00FDF2CA /* brick-wall-bloody.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.PNG */; };
+		D97B0762115C4B2B00FDF2CA /* brick-wall-bloody.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.png */; };
 		D97B0763115C4B2B00FDF2CA /* brick-wall-gray.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B063D115C4B2B00FDF2CA /* brick-wall-gray.png */; };
 		D97B0764115C4B2B00FDF2CA /* concrete.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B063E115C4B2B00FDF2CA /* concrete.png */; };
 		D97B0765115C4B2B00FDF2CA /* dg_extra132.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B063F115C4B2B00FDF2CA /* dg_extra132.png */; };
@@ -170,17 +170,6 @@
 		D97B0793115C4B2B00FDF2CA /* wall-door.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B066E115C4B2B00FDF2CA /* wall-door.png */; };
 		D97B0794115C4B2B00FDF2CA /* wall-rock.gif in Resources */ = {isa = PBXBuildFile; fileRef = D97B066F115C4B2B00FDF2CA /* wall-rock.gif */; };
 		D97B0795115C4B2B00FDF2CA /* wall-wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0670115C4B2B00FDF2CA /* wall-wood.png */; };
-		D97B0796115C4B2B00FDF2CA /* wallv2-300.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0671115C4B2B00FDF2CA /* wallv2-300.png */; };
-		D97B0797115C4B2B00FDF2CA /* wallv2-330.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0672115C4B2B00FDF2CA /* wallv2-330.png */; };
-		D97B0798115C4B2B00FDF2CA /* wallv2-900.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0673115C4B2B00FDF2CA /* wallv2-900.png */; };
-		D97B0799115C4B2B00FDF2CA /* wallv2-930.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0674115C4B2B00FDF2CA /* wallv2-930.png */; };
-		D97B079A115C4B2B00FDF2CA /* wallv2-cross.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0675115C4B2B00FDF2CA /* wallv2-cross.png */; };
-		D97B079B115C4B2B00FDF2CA /* wallv2-E.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0676115C4B2B00FDF2CA /* wallv2-E.png */; };
-		D97B079C115C4B2B00FDF2CA /* wallv2-H.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0677115C4B2B00FDF2CA /* wallv2-H.png */; };
-		D97B079D115C4B2B00FDF2CA /* wallv2-horizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0678115C4B2B00FDF2CA /* wallv2-horizontal.png */; };
-		D97B079E115C4B2B00FDF2CA /* wallv2-T.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0679115C4B2B00FDF2CA /* wallv2-T.png */; };
-		D97B079F115C4B2B00FDF2CA /* wallv2-Tinverted.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B067A115C4B2B00FDF2CA /* wallv2-Tinverted.png */; };
-		D97B07A0115C4B2B00FDF2CA /* wallv2-vertical.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B067B115C4B2B00FDF2CA /* wallv2-vertical.png */; };
 		D97B07A1115C4B2B00FDF2CA /* wood-door-broken.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B067C115C4B2B00FDF2CA /* wood-door-broken.png */; };
 		D97B07A2115C4B2B00FDF2CA /* wood-door-open.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B067D115C4B2B00FDF2CA /* wood-door-open.png */; };
 		D97B07A3115C4B2B00FDF2CA /* wood.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B067E115C4B2B00FDF2CA /* wood.png */; };
@@ -210,7 +199,6 @@
 		D97B07BB115C4B2B00FDF2CA /* blood.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0699115C4B2B00FDF2CA /* blood.png */; };
 		D97B07BC115C4B2B00FDF2CA /* blood2.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069A115C4B2B00FDF2CA /* blood2.png */; };
 		D97B07BD115C4B2B00FDF2CA /* blood3.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069B115C4B2B00FDF2CA /* blood3.png */; };
-		D97B07BE115C4B2B00FDF2CA /* dirt.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069C115C4B2B00FDF2CA /* dirt.png */; };
 		D97B07BF115C4B2B00FDF2CA /* eye.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069D115C4B2B00FDF2CA /* eye.png */; };
 		D97B07C0115C4B2B00FDF2CA /* skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069E115C4B2B00FDF2CA /* skull.png */; };
 		D97B07C1115C4B2B00FDF2CA /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069F115C4B2B00FDF2CA /* star.png */; };
@@ -477,7 +465,7 @@
 		D97B0638115C4B2B00FDF2CA /* sworddual.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sworddual.png; sourceTree = "<group>"; };
 		D97B0639115C4B2B00FDF2CA /* swordsingle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = swordsingle.png; sourceTree = "<group>"; };
 		D97B063B115C4B2B00FDF2CA /* BlackSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlackSquare.png; sourceTree = "<group>"; };
-		D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-bloody.PNG"; sourceTree = "<group>"; };
+		D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-bloody.png"; sourceTree = "<group>"; };
 		D97B063D115C4B2B00FDF2CA /* brick-wall-gray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "brick-wall-gray.png"; sourceTree = "<group>"; };
 		D97B063E115C4B2B00FDF2CA /* concrete.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = concrete.png; sourceTree = "<group>"; };
 		D97B063F115C4B2B00FDF2CA /* dg_extra132.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dg_extra132.png; sourceTree = "<group>"; };
@@ -529,17 +517,6 @@
 		D97B066E115C4B2B00FDF2CA /* wall-door.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-door.png"; sourceTree = "<group>"; };
 		D97B066F115C4B2B00FDF2CA /* wall-rock.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "wall-rock.gif"; sourceTree = "<group>"; };
 		D97B0670115C4B2B00FDF2CA /* wall-wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wall-wood.png"; sourceTree = "<group>"; };
-		D97B0671115C4B2B00FDF2CA /* wallv2-300.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-300.png"; sourceTree = "<group>"; };
-		D97B0672115C4B2B00FDF2CA /* wallv2-330.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-330.png"; sourceTree = "<group>"; };
-		D97B0673115C4B2B00FDF2CA /* wallv2-900.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-900.png"; sourceTree = "<group>"; };
-		D97B0674115C4B2B00FDF2CA /* wallv2-930.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-930.png"; sourceTree = "<group>"; };
-		D97B0675115C4B2B00FDF2CA /* wallv2-cross.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-cross.png"; sourceTree = "<group>"; };
-		D97B0676115C4B2B00FDF2CA /* wallv2-E.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-E.png"; sourceTree = "<group>"; };
-		D97B0677115C4B2B00FDF2CA /* wallv2-H.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-H.png"; sourceTree = "<group>"; };
-		D97B0678115C4B2B00FDF2CA /* wallv2-horizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-horizontal.png"; sourceTree = "<group>"; };
-		D97B0679115C4B2B00FDF2CA /* wallv2-T.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-T.png"; sourceTree = "<group>"; };
-		D97B067A115C4B2B00FDF2CA /* wallv2-Tinverted.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-Tinverted.png"; sourceTree = "<group>"; };
-		D97B067B115C4B2B00FDF2CA /* wallv2-vertical.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wallv2-vertical.png"; sourceTree = "<group>"; };
 		D97B067C115C4B2B00FDF2CA /* wood-door-broken.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-broken.png"; sourceTree = "<group>"; };
 		D97B067D115C4B2B00FDF2CA /* wood-door-open.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "wood-door-open.png"; sourceTree = "<group>"; };
 		D97B067E115C4B2B00FDF2CA /* wood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wood.png; sourceTree = "<group>"; };
@@ -569,7 +546,6 @@
 		D97B0699115C4B2B00FDF2CA /* blood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blood.png; sourceTree = "<group>"; };
 		D97B069A115C4B2B00FDF2CA /* blood2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blood2.png; sourceTree = "<group>"; };
 		D97B069B115C4B2B00FDF2CA /* blood3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blood3.png; sourceTree = "<group>"; };
-		D97B069C115C4B2B00FDF2CA /* dirt.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = dirt.png; sourceTree = "<group>"; };
 		D97B069D115C4B2B00FDF2CA /* eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eye.png; sourceTree = "<group>"; };
 		D97B069E115C4B2B00FDF2CA /* skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skull.png; sourceTree = "<group>"; };
 		D97B069F115C4B2B00FDF2CA /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
@@ -1067,7 +1043,7 @@
 			isa = PBXGroup;
 			children = (
 				D97B063B115C4B2B00FDF2CA /* BlackSquare.png */,
-				D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.PNG */,
+				D97B063C115C4B2B00FDF2CA /* brick-wall-bloody.png */,
 				D97B063D115C4B2B00FDF2CA /* brick-wall-gray.png */,
 				D97B063E115C4B2B00FDF2CA /* concrete.png */,
 				D97B063F115C4B2B00FDF2CA /* dg_extra132.png */,
@@ -1101,17 +1077,6 @@
 				D97B066E115C4B2B00FDF2CA /* wall-door.png */,
 				D97B066F115C4B2B00FDF2CA /* wall-rock.gif */,
 				D97B0670115C4B2B00FDF2CA /* wall-wood.png */,
-				D97B0671115C4B2B00FDF2CA /* wallv2-300.png */,
-				D97B0672115C4B2B00FDF2CA /* wallv2-330.png */,
-				D97B0673115C4B2B00FDF2CA /* wallv2-900.png */,
-				D97B0674115C4B2B00FDF2CA /* wallv2-930.png */,
-				D97B0675115C4B2B00FDF2CA /* wallv2-cross.png */,
-				D97B0676115C4B2B00FDF2CA /* wallv2-E.png */,
-				D97B0677115C4B2B00FDF2CA /* wallv2-H.png */,
-				D97B0678115C4B2B00FDF2CA /* wallv2-horizontal.png */,
-				D97B0679115C4B2B00FDF2CA /* wallv2-T.png */,
-				D97B067A115C4B2B00FDF2CA /* wallv2-Tinverted.png */,
-				D97B067B115C4B2B00FDF2CA /* wallv2-vertical.png */,
 				D97B067C115C4B2B00FDF2CA /* wood-door-broken.png */,
 				D97B067D115C4B2B00FDF2CA /* wood-door-open.png */,
 				D97B067E115C4B2B00FDF2CA /* wood.png */,
@@ -1188,7 +1153,6 @@
 				D97B0699115C4B2B00FDF2CA /* blood.png */,
 				D97B069A115C4B2B00FDF2CA /* blood2.png */,
 				D97B069B115C4B2B00FDF2CA /* blood3.png */,
-				D97B069C115C4B2B00FDF2CA /* dirt.png */,
 				D97B069D115C4B2B00FDF2CA /* eye.png */,
 				D97B069E115C4B2B00FDF2CA /* skull.png */,
 				D97B069F115C4B2B00FDF2CA /* star.png */,
@@ -1650,7 +1614,7 @@
 				D97B075F115C4B2B00FDF2CA /* sworddual.png in Resources */,
 				D97B0760115C4B2B00FDF2CA /* swordsingle.png in Resources */,
 				D97B0761115C4B2B00FDF2CA /* BlackSquare.png in Resources */,
-				D97B0762115C4B2B00FDF2CA /* brick-wall-bloody.PNG in Resources */,
+				D97B0762115C4B2B00FDF2CA /* brick-wall-bloody.png in Resources */,
 				D97B0763115C4B2B00FDF2CA /* brick-wall-gray.png in Resources */,
 				D97B0764115C4B2B00FDF2CA /* concrete.png in Resources */,
 				D97B0765115C4B2B00FDF2CA /* dg_extra132.png in Resources */,
@@ -1702,17 +1666,6 @@
 				D97B0793115C4B2B00FDF2CA /* wall-door.png in Resources */,
 				D97B0794115C4B2B00FDF2CA /* wall-rock.gif in Resources */,
 				D97B0795115C4B2B00FDF2CA /* wall-wood.png in Resources */,
-				D97B0796115C4B2B00FDF2CA /* wallv2-300.png in Resources */,
-				D97B0797115C4B2B00FDF2CA /* wallv2-330.png in Resources */,
-				D97B0798115C4B2B00FDF2CA /* wallv2-900.png in Resources */,
-				D97B0799115C4B2B00FDF2CA /* wallv2-930.png in Resources */,
-				D97B079A115C4B2B00FDF2CA /* wallv2-cross.png in Resources */,
-				D97B079B115C4B2B00FDF2CA /* wallv2-E.png in Resources */,
-				D97B079C115C4B2B00FDF2CA /* wallv2-H.png in Resources */,
-				D97B079D115C4B2B00FDF2CA /* wallv2-horizontal.png in Resources */,
-				D97B079E115C4B2B00FDF2CA /* wallv2-T.png in Resources */,
-				D97B079F115C4B2B00FDF2CA /* wallv2-Tinverted.png in Resources */,
-				D97B07A0115C4B2B00FDF2CA /* wallv2-vertical.png in Resources */,
 				D97B07A1115C4B2B00FDF2CA /* wood-door-broken.png in Resources */,
 				D97B07A2115C4B2B00FDF2CA /* wood-door-open.png in Resources */,
 				D97B07A3115C4B2B00FDF2CA /* wood.png in Resources */,
@@ -1742,7 +1695,6 @@
 				D97B07BB115C4B2B00FDF2CA /* blood.png in Resources */,
 				D97B07BC115C4B2B00FDF2CA /* blood2.png in Resources */,
 				D97B07BD115C4B2B00FDF2CA /* blood3.png in Resources */,
-				D97B07BE115C4B2B00FDF2CA /* dirt.png in Resources */,
 				D97B07BF115C4B2B00FDF2CA /* eye.png in Resources */,
 				D97B07C0115C4B2B00FDF2CA /* skull.png in Resources */,
 				D97B07C1115C4B2B00FDF2CA /* star.png in Resources */,

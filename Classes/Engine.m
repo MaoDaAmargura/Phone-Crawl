@@ -17,7 +17,7 @@
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define LARGEST_ALLOWED_PATH 80
 
-#define TELEPORT_ENABLED YES
+#define TELEPORT_ENABLED NO
 
 @interface Engine (UIUpdates)
 
@@ -87,6 +87,8 @@
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
 @synthesize tutorialMode, worldViewSingleton;
 
+@synthesize activeDungeon;
+
 #pragma mark -
 #pragma mark Life Cycle
 
@@ -128,7 +130,7 @@
 {
 	DLog(@"Filling item menu");
 	CGPoint origin = CGPointMake(60, 300);
-	itemMenu = [[[PCPopupMenu alloc] initWithOrigin:origin] autorelease];
+	itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
 	for (Item* it in player.inventory) 
 		if (it.type == WAND || it.type == POTION) {
 			NSLog(@"Adding item: <%@> to list",it.name);
@@ -184,23 +186,15 @@
 		
 		showBattleMenu = NO;
 		hasAddedMenusToWorldView = NO;
-		// create enemy for battle testing
-		//for (int i = 0; i < 3; ++i) {
-//			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:20 atX:4 Y:0 Z:0];
-//			[creature ClearTurnActions];
-//			[liveEnemies addObject:creature];
-		//}
 		
 		tilesPerSide = 11;
 		
 		player = [[Creature alloc] initPlayerWithLevel:0];
-		//[self createDevPlayer];
 		[player ClearTurnActions];
 		
-		//currentDungeon = [[Dungeon alloc] initWithType: town];
-		currentDungeon = [Dungeon alloc];
+		currentDungeon = [[Dungeon alloc] init];
 		currentDungeon.liveEnemies = liveEnemies;
-		[currentDungeon initWithType: town];
+		[self changeToDungeon:town];
 		DLog(@"%@",[currentDungeon.playerLocation description]);
 		
 		player.inBattle = NO;
@@ -212,13 +206,8 @@
 		[self setupSpellMenus];
 		[self setupMerchantMenu];
 		[self hideMenus];
-		
-		//Both menus will eventually need to be converted to using methods that go through Creature in order to get spell and ability lists from there
-
-		[self putPlayerAndUpstairs];
-		return self;
 	}
-	return nil;
+	return self;
 }
 
 - (void) fillMerchantMenu:(Creature *)c {
@@ -1159,6 +1148,7 @@
 	[liveEnemies removeAllObjects];
 	[deadEnemies removeAllObjects];
 	[appDelg showDungeonLoadingScreen];
+	activeDungeon = NO;
 	[NSThread detachNewThreadSelector:@selector(asynchronouslyLoadDungeon:)
 							 toTarget:self
 						   withObject:[NSNumber numberWithInt: type]];
@@ -1173,6 +1163,8 @@
 	
 	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDelg hideDungeonLoadingScreen];
+	
+	activeDungeon = YES;
 }
 
 - (void) asynchronouslyLoadDungeon:(NSNumber*)type

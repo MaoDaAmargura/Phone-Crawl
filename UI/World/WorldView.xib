@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="8"/>
+			<integer value="52"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -218,6 +218,20 @@
 						<int key="NSvFlags">292</int>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBUIImageView" id="364107288">
+								<reference key="NSNextResponder" ref="638176470"/>
+								<int key="NSvFlags">292</int>
+								<string key="NSFrameSize">{322, 460}</string>
+								<reference key="NSSuperview" ref="638176470"/>
+								<bool key="IBUIOpaque">NO</bool>
+								<bool key="IBUIClearsContextBeforeDrawing">NO</bool>
+								<int key="IBUIContentMode">2</int>
+								<bool key="IBUIUserInteractionEnabled">NO</bool>
+								<object class="NSCustomResource" key="IBUIImage">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">Gate.png</string>
+								</object>
+							</object>
 							<object class="IBUIActivityIndicatorView" id="1035611669">
 								<reference key="NSNextResponder" ref="638176470"/>
 								<int key="NSvFlags">-2147483356</int>
@@ -471,6 +485,7 @@
 						<reference key="object" ref="638176470"/>
 						<object class="NSMutableArray" key="children">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="364107288"/>
 							<reference ref="1035611669"/>
 						</object>
 						<reference key="parent" ref="1005989924"/>
@@ -478,6 +493,11 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">48</int>
 						<reference key="object" ref="1035611669"/>
+						<reference key="parent" ref="638176470"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">54</int>
+						<reference key="object" ref="364107288"/>
 						<reference key="parent" ref="638176470"/>
 					</object>
 				</object>
@@ -502,6 +522,7 @@
 					<string>45.IBPluginDependency</string>
 					<string>48.IBPluginDependency</string>
 					<string>52.IBPluginDependency</string>
+					<string>54.IBPluginDependency</string>
 					<string>8.IBEditorWindowLastContentRect</string>
 					<string>8.IBPluginDependency</string>
 					<string>9.IBPluginDependency</string>
@@ -510,6 +531,7 @@
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>WorldView</string>
 					<string>UIResponder</string>
+					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -545,7 +567,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">53</int>
+			<int key="maxID">54</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">

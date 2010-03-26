@@ -36,6 +36,8 @@
 	
 	BOOL hasAddedMenusToWorldView;
 	
+	BOOL activeDungeon;
+	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
 	PCPopupMenu *spellMenu;
@@ -63,6 +65,8 @@
 @property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
 
 @property (nonatomic, retain) WorldView *worldViewSingleton;
+
+@property (nonatomic, getter = hasActiveDungeon) BOOL activeDungeon;
 
 @property (nonatomic) BOOL tutorialMode;
 
@@ -109,7 +113,5 @@
 
 
 - (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView;
-
-
 
 @end
