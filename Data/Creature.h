@@ -174,8 +174,6 @@ typedef enum {
 
 - (int) getRange;
 
-+ (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon;
-
 @property (nonatomic, retain) Coord *creatureLocation;
 @property (nonatomic, retain) NSMutableArray *inventory;
 @property (nonatomic, retain) Abilities *abilities;

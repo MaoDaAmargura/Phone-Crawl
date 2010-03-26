@@ -1,7 +1,7 @@
 
 
 typedef enum {
-	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss
+	town, orcMines, morlockTunnels, crypts, undergroundForest, abyss, NOT_INITIALIZED,
 } levelType;
 
 
@@ -17,9 +17,12 @@ typedef enum {
 	Coord *playerStartLocation;
 	NSMutableArray *liveEnemies;
 	NSMutableDictionary *items;
+	
+	@private
+	NSMutableArray *tiles;
 }
 
-- (Dungeon*) initWithType: (levelType) lvlType;
+- (void) convertToType: (levelType) lvlType;
 
 // note: returns nil in case of out of bounds
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z;

@@ -89,7 +89,7 @@ BOOL haveSetSpells = FALSE;
 		return FALSE;
 	}
 	if (caster == target) return TRUE;
-	int resist;
+	int resist = 0;
 	switch (element) {
 		case FIRE:
 			resist = target.fire;

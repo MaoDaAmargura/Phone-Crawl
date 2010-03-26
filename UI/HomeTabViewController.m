@@ -51,7 +51,7 @@
 	doneMerchant = NO;
 	gotSword = NO;
 	
-	mainTabController = [[UITabBarController alloc] init];
+	self.mainTabController = [[[UITabBarController alloc] init] autorelease];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
 	[tabs addObject:[self initWorldView]];
@@ -64,7 +64,7 @@
 	self.view = mainTabController.view;
 	mainTabController.delegate = self;
 	
-	gameEngine = [[Engine alloc] init];
+	self.gameEngine = [[[Engine alloc] init] autorelease]; 
 	
 	endView = [[EndGame alloc] init];
 	[endView setDelegate:self];
@@ -107,16 +107,14 @@
 
 - (void) fireGameLoop
 {
-	if ([gameEngine hasActiveDungeon]) 
-	{
-		[gameEngine gameLoopWithWorldView:wView];
-		// check to see if player is dead
-		if (gameEngine.player.current.health <= 0) {
-			[wView.view addSubview:endView.view];
-			// TODO: get view to change to endgame properly
-			//self.navigationController.pushViewController(endView);
-		}
+	// check to see if player is dead
+	if (gameEngine.player.current.health <= 0) {
+		[wView.view addSubview:endView.view];
+		// TODO: get view to change to endgame properly
+		//self.navigationController.pushViewController(endView);
 	}
+	
+	[gameEngine gameLoopWithWorldView:wView];
 }
 
 #pragma mark -
@@ -179,7 +177,6 @@
 			}
 			else
 			{
-				[gameEngine fillMerchantMenu:gameEngine.player];
 				[gameEngine showMerchantMenu];
 			}
 		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])

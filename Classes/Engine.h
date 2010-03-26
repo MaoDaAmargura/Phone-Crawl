@@ -36,7 +36,7 @@
 	
 	BOOL hasAddedMenusToWorldView;
 	
-	BOOL activeDungeon;
+	NSLock *loadDungeonLock;
 	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
@@ -66,20 +66,12 @@
 
 @property (nonatomic, retain) WorldView *worldViewSingleton;
 
-@property (nonatomic, getter = hasActiveDungeon) BOOL activeDungeon;
-
 @property (nonatomic) BOOL tutorialMode;
 
 
 - (id) init;
 
 - (void) updateWorldView:(WorldView*) wView;
-
-- (void) setupMerchantMenu;
-
-- (void) fillSpellMenuForCreature: (Creature *) c;
-- (void) fillAttackMenuForCreature: (Creature *) c;
-- (void) fillMerchantMenu: (Creature *) c;
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
 - (BOOL) canEnterTileAtCoord:(Coord*) coord;

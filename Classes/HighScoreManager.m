@@ -52,7 +52,7 @@
 	while ([temp count] > 0 && i < 6)
 	{
 		int highest = 0;
-		NSString *highName;
+		NSString *highName = @"";
 		for (NSString *name in temp)
 		{
 			NSNumber *num = [scores objectForKey:name];

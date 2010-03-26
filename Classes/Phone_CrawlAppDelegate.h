@@ -14,6 +14,7 @@
 @class EndGame;
 @class HighScoreManager;
 @class GameFileManager;
+@class HighScoreViewController;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -27,6 +28,8 @@
 	
 	HighScoreManager *scoreController;
 	GameFileManager *gameManager;
+	
+	HighScoreViewController *hView;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;

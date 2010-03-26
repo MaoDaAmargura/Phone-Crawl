@@ -14,11 +14,11 @@
 + (Dungeon*) make: (Dungeon*) dungeon intoType: (levelType) lvlType;
 @end
 
-#pragma mark -
-#pragma mark Dungeon
 
-@interface Dungeon () 
-static NSMutableArray *tiles = nil;
+@interface Dungeon (Recreation) 
+
+- (void) resetPlayerStartLocation;
+
 @end
 
 @implementation Dungeon
@@ -61,41 +61,52 @@ static NSMutableArray *tiles = nil;
 
 #pragma mark --public
 
-- (Dungeon*) initWithType: (levelType) lvlType {
-	if (!items) {
-		self.items = [[[NSMutableDictionary alloc] init] autorelease];
-	}
-	else {
-		[items removeAllObjects];
-	}
-	if(!liveEnemies)
+- (id) init 
+{
+	if (self = [super init])
 	{
+		dungeonType = NOT_INITIALIZED;
+		self.items = [[[NSMutableDictionary alloc] init] autorelease];
 		self.liveEnemies = [[[NSMutableArray alloc] init] autorelease];
-	}
-	else {
-		[liveEnemies removeAllObjects];
-	}
-
-	dungeonType = lvlType;
-
-	//if (!playerLocation) playerLocation = [Coord alloc];
-
-	if (!tiles) {
+		
 		tiles = [[NSMutableArray alloc] initWithCapacity: MAP_DIMENSION * MAP_DIMENSION * MAP_DEPTH];
-		for (int z = 0; z < MAP_DEPTH; z++) {
-			for (int y = 0; y < MAP_DIMENSION; y++) {
-				for (int x = 0; x < MAP_DIMENSION; x++) {
-					Tile *tile = [Tile alloc];
+		for (int z = 0; z < MAP_DEPTH; ++z) {
+			for (int y = 0; y < MAP_DIMENSION; ++y) {
+				for (int x = 0; x < MAP_DIMENSION; ++x) {
+					Tile *tile = [[[Tile alloc] init] autorelease];
 					tile.x = x, tile.y = y, tile.z = z;
 					[tiles addObject: tile];
 				}
 			}
 		}
 	}
+	return self;
+}
+
+- (void) convertToType: (levelType) lvlType 
+{
+	[items removeAllObjects];	
+	[liveEnemies removeAllObjects];
+	
+	dungeonType = lvlType;
 
 	[LevelGen make: self intoType: lvlType];
-	//playerLocation = [Coord withX: 0 Y: 0 Z: 0];
-	return self;
+	[self resetPlayerStartLocation];
+}
+
+- (void) resetPlayerStartLocation
+{
+	// put the player on the top leftmost square that can take him
+	for (int delta = 0;; delta++) {
+		for (int x = delta; x >= 0; x--) {
+			if (![self tileAtX: x Y: delta - x Z: 0].blockMove) {
+				self.playerStartLocation = [Coord withX:x Y:delta-x Z:0];
+				if (self.dungeonType != town)
+					[[self tileAt: playerStartLocation] convertToType: tileStairsToTown];
+				return;
+			}			
+		}
+	}
 }
 
 - (Tile*) tileAtX: (int) x Y: (int) y Z: (int) z {
@@ -113,10 +124,11 @@ static NSMutableArray *tiles = nil;
 	return [tiles objectAtIndex: index];
 }
 
-- (Tile*) tileAt: (Coord*) coord {
-	NSString *tmp = [coord description];
+- (Tile*) tileAt: (Coord*) coord 
+{
+	//NSString *tmp = [coord description];
 	assert (tiles);
-	tmp = [NSString stringWithFormat:@"%d",[tiles count]];
+	//tmp = [NSString stringWithFormat:@"%d",[tiles count]];
 	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 

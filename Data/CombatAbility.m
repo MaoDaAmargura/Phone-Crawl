@@ -88,7 +88,7 @@ BOOL have_set_abilities = FALSE;
 	// this assumes weapon is held in right hand
 	float elementDamage = [attacker elementalWeaponDamage];
 	elemType type1 = attacker.equipment.rHand.element;
-	conditionType condtype1;
+	conditionType condtype1 = NO_CONDITION;
 	switch (type1) {
 		case FIRE:
 			resist1 = defender.fire;

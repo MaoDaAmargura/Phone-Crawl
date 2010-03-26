@@ -129,7 +129,7 @@ static tileType deadTile [] = {
 	for (int x = xBegin - BOMB_SIZE; x <= xBegin + BOMB_SIZE; x++) {
 		for (int y = yBegin - BOMB_SIZE; y <= yBegin + BOMB_SIZE; y++) {
 			Tile *curr = [dungeon tileAtX: x Y: y Z: target.z];
-			if (curr) [curr initWithTileType: tileConcrete];
+			if (curr) [curr convertToType: tileConcrete];
 		}
 	}
 }
@@ -230,10 +230,10 @@ typedef enum {
 	//DLog(@"%d",[tilesToBirth count]);
 
 	for (Tile *tile in tilesToKill) {
-		[tile initWithTileType: deadTile[type]];
+		[tile convertToType: deadTile[type]];
 	}
 	for (Tile *tile in tilesToBirth) {
-		[tile initWithTileType: type];
+		[tile convertToType: type];
 	}
 	
 }
@@ -266,7 +266,7 @@ typedef enum {
 				}
 
 				Tile *tile = [dungeon tileAtX: x Y: y Z: z];
-				[tile initWithTileType: type];
+				[tile convertToType: type];
 			}
 		}
 
@@ -281,7 +281,7 @@ typedef enum {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
 			Tile *up = [dungeon tileAtX:x Y:y Z:z];
 			if (up.type == tileSlopeDown) {
-				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileSlopeUp];
+				[[dungeon tileAtX:x Y:y Z:z+1] convertToType: tileSlopeUp];
 			}
 		}
 	}	
@@ -294,10 +294,10 @@ typedef enum {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
 			Tile *up = [dungeon tileAtX:x Y:y Z:z];
 			if (up.type == tilePit || up.type == tileGroundCrumbling) {
-				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileConcrete];
+				[[dungeon tileAtX:x Y:y Z:z+1] convertToType: tileConcrete];
 			}
 			if (up.type == tileSlopeDown) {
-				[[dungeon tileAtX:x Y:y Z:z+1] initWithTileType: tileSlopeUp];
+				[[dungeon tileAtX:x Y:y Z:z+1] convertToType: tileSlopeUp];
 			}
 		}
 	}
@@ -339,7 +339,7 @@ typedef enum {
 				type = tileWoodFloor;
 			}
 
-			[tile initWithTileType: type];
+			[tile convertToType: type];
 
 			bool corner = (inRoomOnXAxis || inRoomOnYAxis)? false : true;
 			tile.cornerWall = corner;
@@ -384,16 +384,16 @@ typedef enum {
 
 			switch ([Rand min:1 max:12]) {
 				case 1:
-					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
+					[tile convertToType: (tile.type == tileWoodWall)? tileWoodDoorOpen : tileRubble];
 					break;
 				case 2:
-					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorBroken : tileRubble];
+					[tile convertToType: (tile.type == tileWoodWall)? tileWoodDoorBroken : tileRubble];
 					break;
 				case 3:
-					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileRubble];
+					[tile convertToType: (tile.type == tileWoodWall)? tileWoodDoorSaloon : tileRubble];
 					break;
 				case 4:
-					[tile initWithTileType: (tile.type == tileWoodWall)? tileWoodDoor : tileRubble];
+					[tile convertToType: (tile.type == tileWoodWall)? tileWoodDoor : tileRubble];
 					break;
 				default:
 					break;
@@ -433,7 +433,7 @@ typedef enum {
 			int yDelta = abs(yCenter - y);
 			if (xDelta + yDelta > CRYPT_WALL_LENGTH / 4) continue; 
 
-			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
+			[[dungeon tileAtX: x Y: y Z: coord.Z] convertToType: type];
 		}
 	}
 	return dungeon;
@@ -452,7 +452,7 @@ typedef enum {
 
 	for (int x = xStart; x < xEnd; x++) {
 		for (int y = yStart; y < yEnd; y++) {
-			[[dungeon tileAtX: x Y: y Z: coord.Z] initWithTileType: type];
+			[[dungeon tileAtX: x Y: y Z: coord.Z] convertToType: type];
 		}
 	}
 	return dungeon;
@@ -481,20 +481,20 @@ typedef enum {
 
 		if ([dungeon tileAt: curr].type == tileStoneGround) {
 			if (prev && prev.type == tileBoneWall) {
-				[prev initWithTileType: tileSkullDoor];
+				[prev convertToType: tileSkullDoor];
 			}
 		}
 //		if (!prev) {
-//			[[dungeon tileAt: curr] initWithTileType: tileSkullDoor];
+//			[[dungeon tileAt: curr] convertToType: tileSkullDoor];
 //		}
 
 		if ([dungeon tileAt: curr].blockMove) {
 			if (!placedInitialDoor) {
-				[[dungeon tileAt: curr] initWithTileType: tileSkullDoor];
+				[[dungeon tileAt: curr] convertToType: tileSkullDoor];
 				placedInitialDoor = true;
 			}
 			else {
-				[[dungeon tileAt: curr] initWithTileType: tileBoneWall];
+				[[dungeon tileAt: curr] convertToType: tileBoneWall];
 			}
 		}
 		prev = [dungeon tileAt: curr];
@@ -590,7 +590,7 @@ typedef enum {
 		if (!tight) [self putPatchOf: type into: dungeon at: curr tightly: true];
 
 		if (![dungeon tileAt: curr].blockMove) {
-			[[dungeon tileAt: curr] initWithTileType: type];
+			[[dungeon tileAt: curr] convertToType: type];
 		}
 	}
 }
@@ -617,7 +617,7 @@ typedef enum {
 + (void) setFloorOf: (Dungeon*) dungeon to: (tileType) type onZLevel: (int) z {
 	for (int x = 0; x < MAP_DIMENSION; x++) {
 		for (int y = 0; y < MAP_DIMENSION; y++) {
-			[[dungeon tileAtX:x Y:y Z:z] initWithTileType: type];
+			[[dungeon tileAtX:x Y:y Z:z] convertToType: type];
 		}
 	}
 }
@@ -633,7 +633,7 @@ typedef enum {
 		[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: average];
 	}
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
-	[[dungeon tileAtX: 2 Y: 0 Z: 0] initWithTileType: tileStairsToTown];
+	[[dungeon tileAtX: 2 Y: 0 Z: 0] convertToType: tileStairsToTown];
 
 	[dungeon.items removeAllObjects];
 	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
@@ -748,28 +748,28 @@ typedef enum {
 			Tile *tile = [dungeon tileAtX:x Y:y Z:0];
 			switch (TOWN [y][x]) {
 				case 'g':
-					[tile initWithTileType: tileGrass];
+					[tile convertToType: tileGrass];
 					break;
 				case 'w':
-					[tile initWithTileType: tileWoodWall];
+					[tile convertToType: tileWoodWall];
 					break;
 				case 'f':
-					[tile initWithTileType: tileWoodFloor];
+					[tile convertToType: tileWoodFloor];
 					break;
 				case 'd':
-					[tile initWithTileType: tileWoodDoorOpen];
+					[tile convertToType: tileWoodDoorOpen];
 					break;
 				case 'i':
-					[tile initWithTileType: tileShopKeeper];
+					[tile convertToType: tileShopKeeper];
 					break;
 				case 'c':
-					[tile initWithTileType: tileStairsToCrypt];
+					[tile convertToType: tileStairsToCrypt];
 					break;
 				case 'o':
-					[tile initWithTileType: tileStairsToOrcMines];
+					[tile convertToType: tileStairsToOrcMines];
 					break;
 				default:
-					[tile initWithTileType: tileGroundCrumbling];
+					[tile convertToType: tileGroundCrumbling];
 					// FIXME need more graphics
 			}
 		}

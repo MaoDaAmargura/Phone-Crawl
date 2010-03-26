@@ -33,7 +33,7 @@
 	engine.player.current.mana = engine.player.max.mana;
 	engine.player.deathPenalty += engine.player.level * 100;
 	engine.player.creatureLocation = [Coord withX:0 Y:0 Z:0];
-	[engine.currentDungeon initWithType:town];
+	[engine.currentDungeon convertToType:town];
 	[self.view removeFromSuperview];
 }
 

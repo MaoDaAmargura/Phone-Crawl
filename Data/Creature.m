@@ -490,14 +490,6 @@
 	return equipment.rHand.range;
 }
 
-+ (Creature*) newPlayerWithName:(NSString*) name andIcon:(NSString*)icon
-{
-	Creature *ret = [[[Creature alloc] initPlayerWithInfo:name level:1] autorelease];
-	ret.iconName = icon;
-	
-	return ret;
-}
-
 - (int) getHighScore
 {
 	int score = 0;

@@ -30,24 +30,27 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 	return self;
 }
 
-- (Tile*) smash {
-	if (!smashable) return self;
+- (void) smash {
+	if (!smashable) return;
 	switch (type) {
 		case tileWoodDoor:
-			return [self initWithTileType: tileWoodDoorBroken];
+			[self convertToType: tileWoodDoorBroken];
+			break;
 		case tileSkullDoor:
-			return [self initWithTileType: tileSkullDoorBroken];
+			[self convertToType: tileSkullDoorBroken];
+			break;
 		default:
 			//DLog(@"[tile smash] unimplemented for that type");
 			break;
 	}
-	return self;
+	return;
 }
 
-- (Tile*) initWithTileType: (tileType) newType {
+- (void) convertToType: (tileType) newType 
+{
 	if (newType == tileRubble && (blockMove || slope)) {
 		//DLog(@"can't overwrite that with rubble.");
-		return self;
+		return;
 	}
 
 	placementOrder = 0;	// dummy value, never occurs in a wall
@@ -107,7 +110,7 @@ int placementOrderCountTotalForEntireClassOkayGuysNowThisIsHowYouProgramInObject
 		default:
 			break;
 	}
-	return self;
+	return;
 }
 
 #pragma mark -

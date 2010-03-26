@@ -13,7 +13,6 @@
 
 @interface GameFileManager (Helper)
 
-
 - (void) writeItemToFile:(Item *)item file:(FILE *)file;
 
 - (Item *) loadItemFromFile:(NSString *)datastring;
@@ -30,8 +29,7 @@
 {
 	//NSMutableArray *ret = [[[NSMutableArray alloc] initWithCapacity:3] autorelease];
 	Creature *player = [[[Creature alloc] init] autorelease];
-	
-	
+
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
@@ -50,7 +48,7 @@
 		printf("%s\n",line);
 	}
 	if ([data count] == 0) {
-		NSLog(@"Save file is empty");
+		[[[[UIAlertView alloc] initWithTitle:@"No Save Games" message:@"You don't have a saved character." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
 		return nil;
 	}
 	// maxhealth
@@ -71,7 +69,7 @@
 	int money = [[self getArrayString:data] intValue];
 	int playerLevel = [[self getArrayString:data] intValue];
 	if (player == nil) {
-		player = [[Creature alloc] initPlayerWithInfo:playerName level:playerLevel];
+		player = [[[Creature alloc] initPlayerWithInfo:playerName level:playerLevel] autorelease];
 	} else {
 		[player initPlayerWithInfo:playerName level:playerLevel];
 	}
@@ -206,7 +204,7 @@
 		int dark = [[data objectAtIndex:20] intValue];
 		int armor = [[data objectAtIndex:21] intValue];
 		
-		ret = [[Item alloc] initExactItemWithName:name
+		ret = [[[Item alloc] initExactItemWithName:name
 									 iconFileName: icon
 									  itemQuality: quality
 										 itemSlot: slot 
@@ -225,7 +223,7 @@
 										   poison: poison 
 											 dark: dark 
 											armor: armor
-									effectSpellId: spellId];
+									effectSpellId: spellId] autorelease];
 		ret.pointValue = pointValue;
 	}
 	return ret;

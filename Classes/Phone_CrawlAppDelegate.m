@@ -101,17 +101,18 @@
 	homeTabController.gameEngine.player = [gameManager loadCharacterFromFile:SAVED_GAME_FILE_NAME];
 	if(homeTabController.gameEngine.player)
 	{
-		[homeTabController.gameEngine.currentDungeon initWithType:town];
+		[homeTabController.gameEngine.currentDungeon convertToType:town];
 		[homeTabController updateCharacterView];
 		[window bringSubviewToFront:homeTabController.view];
 		gameStarted = YES;
 	}
-	//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
+
 }
 
 - (IBAction) viewScores
 {
-	HighScoreViewController *hView = [[HighScoreViewController alloc] initWithScoreController:scoreController];
+	[hView release];
+	hView = [[HighScoreViewController alloc] initWithScoreController:scoreController];
 	[window addSubview:hView.view];
 }
 

@@ -40,7 +40,7 @@
 
 @end
 
-@interface Engine (MenuControl)
+@interface Engine (MenuVisibility)
 
 - (void) hideMenus;
 - (void) showBattleMenu;
@@ -52,6 +52,22 @@
 
 @end
 
+@interface Engine (MenuCreation)
+
+- (void) addMenusToWorldView:(WorldView*)wView;
+- (void) setupBattleMenu;
+- (void) setupAttackMenu;
+- (void) setupItemMenu;
+- (void) setupSpellMenus;
+- (void) setupMerchantMenu;
+
+- (void) fillSpellMenuForCreature: (Creature *) c;
+- (void) fillAttackMenuForCreature: (Creature *) c;
+- (void) fillMerchantMenu: (Creature *) c;
+
+@end
+
+
 @interface Engine (Movement)
 
 - (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC;
@@ -61,7 +77,6 @@
 - (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
 - (int) manhattanDistanceFromPlayer: (Creature *) m;
 - (BOOL) isACreatureAtLocation:(Coord*)loc;
-- (void) putPlayerAndUpstairs;
 
 @end
 
@@ -79,31 +94,85 @@
 
 @end
 
-
-
 @implementation Engine
 
 @synthesize player, currentDungeon;
 @synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
-@synthesize tutorialMode, worldViewSingleton;
+@synthesize tutorialMode;
 
-@synthesize activeDungeon;
+@synthesize worldViewSingleton;
 
 #pragma mark -
 #pragma mark Life Cycle
 
-- (void) createDevPlayer
+- (id) init
 {
+	if(self = [super init])
+	{
+		tutorialMode = NO;
+		[PCParticle initialize];
 
-	//[player Take_Damage:150];
-	player.inventory = [NSMutableArray arrayWithObjects:[Item generateRandomItem:1 elemType:FIRE],
-														[Item generateRandomItem:2 elemType:COLD],
-														[Item generateRandomItem:1 elemType:LIGHTNING],
-														[Item generateRandomItem:3 elemType:POISON],
-														[Item generateRandomItem:2 elemType:DARK], 
-														[Item generateRandomItem:4 elemType:FIRE], nil];
-	player.iconName = @"human1.png";
-	DLog(@"Created player successfully");
+		[Spell fillSpellList];
+		[CombatAbility fillAbilityList];
+		liveEnemies = [[NSMutableArray alloc] init];
+		deadEnemies = [[NSMutableArray alloc] init];
+		
+		showBattleMenu = NO;
+		hasAddedMenusToWorldView = NO;
+		
+		tilesPerSide = 11;
+		
+		self.player = [[[Creature alloc] initPlayerWithLevel:0] autorelease];
+		[player ClearTurnActions];
+		
+		self.currentDungeon = [[[Dungeon alloc] init] autorelease];
+		[self changeToDungeon:town];
+		currentDungeon.liveEnemies = liveEnemies;
+		
+		player.inBattle = NO;
+		selectedMoveTarget = nil;
+
+		[self setupBattleMenu];
+		[self setupAttackMenu];
+		[self setupItemMenu];
+		[self setupSpellMenus];
+		[self setupMerchantMenu];
+		[self hideMenus];
+	}
+	return self;
+}
+
+- (void) releaseResources
+{
+	[liveEnemies release];
+	[deadEnemies release];
+	[player release];
+	[currentDungeon release];
+}
+
+- (void) dealloc
+{
+	[self releaseResources];
+	[super dealloc];
+	
+}
+
+#pragma mark -
+#pragma mark Menu Creation
+- (void) addMenusToWorldView:(WorldView*)wView
+{
+	[battleMenu showInView:wView.view];
+	[spellMenu showInView:wView.view];
+	[conditionSpellMenu showInView:wView.view];
+	[damageSpellMenu showInView:wView.view];
+	[attackMenu showInView:wView.view];
+	[itemMenu showInView:wView.view];
+	[merchantMenu showInView:wView.view];
+	[merchantSellMenu showInView:wView.view];
+	[merchantBuyMenu showInView:wView.view];
+	hasAddedMenusToWorldView = YES;
+	[self hideMenus];
+	
 }
 
 - (void) setupBattleMenu
@@ -172,53 +241,16 @@
 	[merchantMenu hide];
 }
 
-- (id) init
-{
-	if(self = [super init])
-	{
-		tutorialMode = NO;
-		[PCParticle initialize];
-
-		[Spell fillSpellList];
-		[CombatAbility fillAbilityList];
-		liveEnemies = [[NSMutableArray alloc] init];
-		deadEnemies = [[NSMutableArray alloc] init];
-		
-		showBattleMenu = NO;
-		hasAddedMenusToWorldView = NO;
-		
-		tilesPerSide = 11;
-		
-		player = [[Creature alloc] initPlayerWithLevel:0];
-		[player ClearTurnActions];
-		
-		currentDungeon = [[Dungeon alloc] init];
-		currentDungeon.liveEnemies = liveEnemies;
-		[self changeToDungeon:town];
-		
-		player.inBattle = NO;
-		selectedMoveTarget = nil;
-
-		[self setupBattleMenu];
-		[self setupAttackMenu];
-		[self setupItemMenu];
-		[self setupSpellMenus];
-		[self setupMerchantMenu];
-		[self hideMenus];
-	}
-	return self;
-}
-
 - (void) fillMerchantMenu:(Creature *)c {
 	Item *it = [[[Item alloc] initExactItemWithName : @"HPot1"
-							 iconFileName: @"potion-red-I.png"
-							  itemQuality: REGULAR itemSlot: BAG 
-								 elemType: DARK    itemType: POTION
-								   damage: 1 elementalDamage:0
-								  charges:1 range:1 hp:0  shield:0 
-									 mana:0 fire:0 cold:0 lightning:0
-								   poison:0 dark:0 armor: 0
-							effectSpellId: ITEM_HEAL_SPELL_ID] autorelease];
+										iconFileName: @"potion-red-I.png"
+										 itemQuality: REGULAR itemSlot: BAG 
+											elemType: DARK    itemType: POTION
+											  damage: 1 elementalDamage:0
+											 charges:1 range:1 hp:0  shield:0 
+												mana:0 fire:0 cold:0 lightning:0
+											  poison:0 dark:0 armor: 0
+									   effectSpellId: ITEM_HEAL_SPELL_ID] autorelease];
 	[merchantBuyMenu addMenuItem:@"HPot1" delegate:self selector:@selector(buyItem:) context:it];
 	it = [[[Item alloc] initExactItemWithName : @"MPot1"
 								  iconFileName: @"potion-blue-I.png"
@@ -264,54 +296,8 @@
 	}
 }
 
-- (void) releaseResources
-{
-	[liveEnemies release];
-	[deadEnemies release];
-	[player release];
-	[currentDungeon release];
-}
-
-- (void) dealloc
-{
-	[self releaseResources];
-	[super dealloc];
-	
-}
-
 #pragma mark -
-#pragma mark Control
-
-- (void) putPlayerAndUpstairs {
-	// put the player on the top leftmost square that can take him
-	for (int delta = 0;; delta++) {
-		for (int x = delta; x >= 0; x--) {
-			if (![currentDungeon tileAtX: x Y: delta - x Z: 0].blockMove) {
-				player.creatureLocation.X = x;
-				player.creatureLocation.Y = delta - x;
-				player.creatureLocation.Z = 0;
-				[[currentDungeon tileAt: player.creatureLocation] initWithTileType: tileStairsToTown];
-				return;
-			}			
-		}
-	}
-}
-
-- (void) addMenusToWorldView:(WorldView*)wView
-{
-	[battleMenu showInView:wView.view];
-	[spellMenu showInView:wView.view];
-	[conditionSpellMenu showInView:wView.view];
-	[damageSpellMenu showInView:wView.view];
-	[attackMenu showInView:wView.view];
-	[itemMenu showInView:wView.view];
-	[merchantMenu showInView:wView.view];
-	[merchantSellMenu showInView:wView.view];
-	[merchantBuyMenu showInView:wView.view];
-	hasAddedMenusToWorldView = YES;
-	[self hideMenus];
-	
-}
+#pragma mark Turn Actions
 
 - (void) checkIfCreatureIsDead: (Creature *) c
 {
@@ -395,29 +381,23 @@
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
-	if (!worldViewSingleton) worldViewSingleton = wView;
+	if(!worldViewSingleton) worldViewSingleton = wView;
 
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
+	
+	[loadDungeonLock lock];
 	Creature *creature = [self nextCreatureToTakeTurn];
 	
 	if (creature == player)
 	{
-		if(player.current.health <= 0)
-		{
-			// hometabview takes care of death.
-			return;
-		}
 		if(!player.inBattle)
 			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
 		
 		if([player hasActionToTake])
 			actionResult = [self performActionForCreature:player]; 
-		// Why do we want this? If the player hasn't given any input yet, shouldnt the game freeze until they do?
-		//else
-		// It was so that idling monsters would take turns whether or not the player did. Gives the world a sense of 
-		// real time. - Austin
-			//player.turnPoints -= 5;
+			// For monsters to take turns when player is idling
+			//player.turnPoints -= 1;
 	}
 	else
 	{
@@ -427,6 +407,8 @@
 			actionResult = [self performActionForCreature:creature];
 		}
 	}
+	
+	[loadDungeonLock unlock];
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
@@ -750,6 +732,9 @@
  */
 - (void) updateWorldView:(WorldView*) wView 
 {
+	if (!currentDungeon || currentDungeon.dungeonType == NOT_INITIALIZED)
+		return;
+	
 	[self updateBackgroundImageForWorldView:wView];
 	[self updateStatDisplayForWorldView:wView];
 	[self drawMiniMapForWorldView: wView];
@@ -1147,23 +1132,22 @@
 	[liveEnemies removeAllObjects];
 	[deadEnemies removeAllObjects];
 	[appDelg showDungeonLoadingScreen];
-	activeDungeon = NO;
+	[loadDungeonLock lock];
 	[NSThread detachNewThreadSelector:@selector(asynchronouslyLoadDungeon:)
 							 toTarget:self
 						   withObject:[NSNumber numberWithInt: type]];
-	//[currentDungeon initWithType:type];
 	
 }
 
 - (void) successfullyLoadedDungeon
 {
 	if(tutorialMode) [self finishTutorial];
-	[self putPlayerAndUpstairs];
+	player.creatureLocation = [currentDungeon.playerStartLocation copy];
 	
 	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDelg hideDungeonLoadingScreen];
 	
-	activeDungeon = YES;
+	[loadDungeonLock unlock];
 }
 
 - (void) asynchronouslyLoadDungeon:(NSNumber*)type
@@ -1171,7 +1155,7 @@
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	
 	levelType lvlType = [type intValue];
-	[currentDungeon initWithType:lvlType];
+	[currentDungeon convertToType:lvlType];
 	
 	[self performSelectorOnMainThread:@selector(successfullyLoadedDungeon) withObject:nil waitUntilDone:NO];
 	
@@ -1292,7 +1276,7 @@
 }
 
 #pragma mark -
-#pragma mark Menu functions
+#pragma mark Menu Visibility
 
 - (void) hideMenus
 {
@@ -1319,12 +1303,12 @@
 	[attackMenu show];
 	[battleMenu show];
 
-	CGRect rect = battleMenu.frame;
+	//CGRect rect = battleMenu.frame;
 	//float x = rect.origin.x - attackMenu.frame.size.width;
-	float y = rect.origin.y + battleMenu.frame.size.height / 2;
-	if (y + attackMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
-		y -= battleMenu.frame.size.height / 2;
-	}
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + attackMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
 	//CGPoint origin = CGPointMake(x, y);
 	//[attackMenu moveTo: origin];
 }
@@ -1336,12 +1320,12 @@
 	[spellMenu show];
 	[battleMenu show];
 
-	CGRect rect = battleMenu.frame;
+	//CGRect rect = battleMenu.frame;
 	//float x = rect.origin.x - spellMenu.frame.size.width;
-	float y = rect.origin.y + battleMenu.frame.size.height / 2;
-	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
-		y -= battleMenu.frame.size.height / 2;
-	}
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
 	//CGPoint origin = CGPointMake(x, y);
 	//[spellMenu moveTo: origin];	
 }
@@ -1352,12 +1336,12 @@
 	[itemMenu show];
 	[battleMenu show];
 
-	CGRect rect = battleMenu.frame;
+	//CGRect rect = battleMenu.frame;
 	//float x = rect.origin.x - itemMenu.frame.size.width;
-	float y = rect.origin.y + battleMenu.frame.size.height / 2;
-	if (y + itemMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
-		y -= battleMenu.frame.size.height / 2;
-	}
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + itemMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
 	//CGPoint origin = CGPointMake(x, y);
 	//[itemMenu moveTo: origin];	
 }
@@ -1369,12 +1353,12 @@
 	[damageSpellMenu show];
 	[spellMenu show];
 
-	CGRect rect = battleMenu.frame;
+	//CGRect rect = battleMenu.frame;
 	//float x = rect.origin.x - spellMenu.frame.size.width;
-	float y = rect.origin.y + battleMenu.frame.size.height / 2;
-	if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
-		y -= battleMenu.frame.size.height / 2;
-	}
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
 	//CGPoint origin = CGPointMake(x, y);
 	//[spellMenu moveTo: origin];
 
@@ -1392,6 +1376,7 @@
 - (void) showMerchantMenu
 {
 	[self hideMenus];
+	[self fillMerchantMenu:player];
 	[merchantMenu show];
 }
 
@@ -1418,12 +1403,11 @@
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon
 {
-	Creature *newPlayer = [Creature newPlayerWithName:name andIcon:icon];
-	self.player = newPlayer;
+	self.player = [[[Creature alloc] init] autorelease];
+	player.name = name;
+	player.iconName = icon;
 	
-	[currentDungeon initWithType:town];
-	
-
+	[currentDungeon convertToType:town];
 }
 
 @end
