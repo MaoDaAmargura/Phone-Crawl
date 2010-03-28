@@ -15,6 +15,7 @@
 @class HighScoreManager;
 @class GameFileManager;
 @class HighScoreViewController;
+@class Engine;
 
 @interface Phone_CrawlAppDelegate : NSObject <UIApplicationDelegate, UITabBarControllerDelegate, NewGameFlowDelegate> 
 {
@@ -51,5 +52,7 @@
 
 - (void) showDungeonLoadingScreen;
 - (void) hideDungeonLoadingScreen;
+
+- (Engine*) gameEngineObject;
 
 @end

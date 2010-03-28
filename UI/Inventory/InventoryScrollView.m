@@ -9,6 +9,10 @@
 
 #define PAGE_WIDTH 320
 
+#define EQUIP_BUTTON_TITLE	@"Equip"
+#define USE_BUTTON_TITLE	@"Use"
+#define DROP_BUTTON_TITLE	@"Drop"
+
 @interface InventoryScrollView (Private)
 
 + (void) clearCurrentItem;
@@ -30,6 +34,9 @@
 		[imgView setImage:[UIImage imageNamed:@"ui-inventorybg.png"]];
 		[self addSubview:imgView];
 		self.bounces = YES;
+		
+		acceptsButtonTouchEvents = YES;
+		lastPressed = nil;
 		return self;
 	}
 	return nil;
@@ -109,9 +116,9 @@
  */
 - (void) pressedInvButton:(InventoryItemButton*)button
 {
-	
+	/*
 	Engine *gEngine = [[(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) homeTabController] gameEngine];
-	
+
 	int xoffset = ITEM_BUTTON_SIZE/2, yoffset = ITEM_BUTTON_SIZE/2;
 	if(button.frame.origin.x > 160)
 		xoffset = -xoffset;
@@ -128,7 +135,46 @@
 		[menu addMenuItem:@"Use" delegate:gEngine selector:@selector(playerUseItem:) context:button.item];
 	
 	[menu showInView:self];
+	*/
+	lastPressed = button;
+	UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:button.item.name 
+															  delegate:self 
+													 cancelButtonTitle:nil
+												destructiveButtonTitle:nil
+													 otherButtonTitles:nil] autorelease];
+	if ([button.item isEquipable]) 
+		[actionSheet addButtonWithTitle:EQUIP_BUTTON_TITLE];
+	else 
+		[actionSheet addButtonWithTitle:USE_BUTTON_TITLE];
+	[actionSheet addButtonWithTitle:DROP_BUTTON_TITLE];
+	[actionSheet addButtonWithTitle:@"Cancel"];
+	
+	[actionSheet showInView:self];
 }
+								   
+// Called when a button is clicked. The view will be automatically dismissed after this call returns
+- (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+	Engine *gEngine = [(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) gameEngineObject];
+	
+	NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
+	
+	if ([buttonTitle isEqualToString:EQUIP_BUTTON_TITLE])
+	{
+		[gEngine playerEquipItem:lastPressed.item];
+	}
+	else if ([buttonTitle isEqualToString:USE_BUTTON_TITLE])
+	{
+		[gEngine playerUseItem:lastPressed.item];
+	}
+	else if ([buttonTitle isEqualToString:DROP_BUTTON_TITLE])
+	{
+		[gEngine playerDropItem:lastPressed.item];
+	}
+
+
+}
+
 
 #pragma mark -
 #pragma mark UIResponder

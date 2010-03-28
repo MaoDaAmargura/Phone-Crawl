@@ -6,6 +6,8 @@
 #import "Dungeon.h" // simply for the "town" enum
 #import "Creature.h"
 
+#import "Engine.h"
+
 #import "HighScoreViewController.h"
 #import "HighScoreManager.h"
 
@@ -138,6 +140,11 @@
 - (void) hideDungeonLoadingScreen
 {
 	[homeTabController.wView hideDungeonLoading];
+}
+
+- (Engine*) gameEngineObject
+{
+	return [homeTabController gameEngine];
 }
 
 @end
