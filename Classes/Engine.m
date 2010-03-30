@@ -13,6 +13,8 @@
 #import "Phone_CrawlAppDelegate.h"
 #import "HomeTabViewController.h"
 
+#import "BattleMenuManager.h"
+
 #define GREATEST_ALLOWED_TURN_POINTS 100
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define LARGEST_ALLOWED_PATH 80
@@ -133,6 +135,7 @@
 		
 		player.inBattle = NO;
 		selectedMoveTarget = nil;
+		
 
 		[self setupBattleMenu];
 		[self setupAttackMenu];
@@ -384,6 +387,10 @@
 {
 	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if(!worldViewSingleton) worldViewSingleton = wView;
+	if (!battleMenuMngr) 
+		battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:wView.view andDelegate:self];
+	
+	battleMenuMngr.playerRef = player;
 
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
@@ -1053,7 +1060,8 @@
 			}
 			//[battleMenu moveTo: point];
 		}
-		[self showBattleMenu];
+		//[self showBattleMenu];
+		[battleMenuMngr showBattleMenu];
 	}
 	else 
 	{

@@ -1,7 +1,7 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class BattleMenuManager;
 @class WorldView;
 @class Creature;
 @class Dungeon;
@@ -37,6 +37,8 @@
 	BOOL hasAddedMenusToWorldView;
 	
 	NSLock *loadDungeonLock;
+	
+	BattleMenuManager *battleMenuMngr;
 	
 	PCPopupMenu *battleMenu;
 	PCPopupMenu *attackMenu;
