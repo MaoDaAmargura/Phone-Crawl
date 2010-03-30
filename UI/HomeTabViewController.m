@@ -69,6 +69,8 @@
 	endView = [[EndGame alloc] init];
 	[endView setDelegate:self];
 	endView.engine = gameEngine;
+	
+	merchManager = [[MerchantDialogueManager alloc] initWithView:wView.view andDelegate:gameEngine];
 }
 
 
@@ -177,7 +179,8 @@
 			}
 			else
 			{
-				[gameEngine showMerchantMenu];
+				//[gameEngine showMerchantMenu];
+				[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
 			}
 		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])
 		{

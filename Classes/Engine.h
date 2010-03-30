@@ -92,7 +92,7 @@
 
 - (void) showMerchantMenu;
 
-- (NSArray*) getPlayerInventory;
+- (NSMutableArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;
 
 - (void) processTouch:(Coord *) coord;

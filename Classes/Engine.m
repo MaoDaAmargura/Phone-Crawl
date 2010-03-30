@@ -1273,7 +1273,7 @@
 #pragma mark -
 #pragma mark Custom Accessors
 
-- (NSArray*) getPlayerInventory
+- (NSMutableArray*) getPlayerInventory
 {
 	return player.inventory;
 }

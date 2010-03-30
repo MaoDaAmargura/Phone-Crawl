@@ -24,6 +24,8 @@
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
 		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
 		D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D957F44E112BAEE000809C1B /* InventoryScrollView.m */; };
+		D95D75F7115F295200CD00C6 /* Critter.m in Sources */ = {isa = PBXBuildFile; fileRef = D95D75F6115F295200CD00C6 /* Critter.m */; };
+		D95D763B1161810200CD00C6 /* MerchantDialogueManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D95D763A1161810200CD00C6 /* MerchantDialogueManager.m */; };
 		D95F3ADC10FFCE5C00323446 /* CharacterView.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACC10FFCE5C00323446 /* CharacterView.m */; };
 		D95F3ADD10FFCE5C00323446 /* CharacterView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D95F3ACD10FFCE5C00323446 /* CharacterView.xib */; };
 		D95F3ADE10FFCE5C00323446 /* HomeTabViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D95F3ACF10FFCE5C00323446 /* HomeTabViewController.m */; };
@@ -358,6 +360,10 @@
 		D931C40A11063B790032A3DD /* PCBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCBaseViewController.m; sourceTree = "<group>"; };
 		D957F44D112BAEE000809C1B /* InventoryScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryScrollView.h; sourceTree = "<group>"; };
 		D957F44E112BAEE000809C1B /* InventoryScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryScrollView.m; sourceTree = "<group>"; };
+		D95D75F5115F295200CD00C6 /* Critter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Critter.h; sourceTree = "<group>"; };
+		D95D75F6115F295200CD00C6 /* Critter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Critter.m; sourceTree = "<group>"; };
+		D95D76391161810200CD00C6 /* MerchantDialogueManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MerchantDialogueManager.h; sourceTree = "<group>"; };
+		D95D763A1161810200CD00C6 /* MerchantDialogueManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MerchantDialogueManager.m; sourceTree = "<group>"; };
 		D95F3ACB10FFCE5C00323446 /* CharacterView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CharacterView.h; sourceTree = "<group>"; };
 		D95F3ACC10FFCE5C00323446 /* CharacterView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CharacterView.m; sourceTree = "<group>"; };
 		D95F3ACD10FFCE5C00323446 /* CharacterView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CharacterView.xib; sourceTree = "<group>"; };
@@ -825,6 +831,15 @@
 			path = Framework;
 			sourceTree = "<group>";
 		};
+		D95D7638116180F100CD00C6 /* Merchant */ = {
+			isa = PBXGroup;
+			children = (
+				D95D76391161810200CD00C6 /* MerchantDialogueManager.h */,
+				D95D763A1161810200CD00C6 /* MerchantDialogueManager.m */,
+			);
+			name = Merchant;
+			sourceTree = "<group>";
+		};
 		D95F3AC910FFCE5C00323446 /* UI */ = {
 			isa = PBXGroup;
 			children = (
@@ -883,6 +898,7 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D95D7638116180F100CD00C6 /* Merchant */,
 				D9C4F2E4115C1D16006B3A78 /* Save */,
 				D95FB24B1148A3B9003DAB25 /* Score */,
 				D931C3E4110632430032A3DD /* Engine */,
@@ -1434,6 +1450,8 @@
 			children = (
 				D931C3E5110632A00032A3DD /* Creature.h */,
 				D931C3E6110632A00032A3DD /* Creature.m */,
+				D95D75F5115F295200CD00C6 /* Critter.h */,
+				D95D75F6115F295200CD00C6 /* Critter.m */,
 			);
 			name = Creature;
 			sourceTree = "<group>";
@@ -1866,6 +1884,8 @@
 				D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */,
 				D95FB24A1148A3AF003DAB25 /* HighScoreManager.m in Sources */,
 				D9C4F2E7115C1F35006B3A78 /* GameFileManager.m in Sources */,
+				D95D75F7115F295200CD00C6 /* Critter.m in Sources */,
+				D95D763B1161810200CD00C6 /* MerchantDialogueManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

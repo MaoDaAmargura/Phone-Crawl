@@ -5,6 +5,8 @@
 #import "OptionsView.h"
 #import "Engine.h"
 
+#import "MerchantDialogueManager.h"
+
 @class EndGame;
 
 @interface HomeTabViewController : UIViewController <WorldViewDelegate, UITabBarControllerDelegate>
@@ -25,6 +27,8 @@
 	BOOL equippedSword;
 	
 	UILabel *tutorialDialogueBox;
+	
+	MerchantDialogueManager *merchManager;
 }
 
 @property (nonatomic, retain) UITabBarController *mainTabController;
