@@ -47,8 +47,10 @@ BOOL haveSetSpells = FALSE;
 		return @"Spell: Caster/Target nil";
 	}
 	int spellResult = 0;
+	//if(target.current.mp < manaCost) //Critter
 	if(target.current.mana < manaCost)
 		return @"Not enough mana!";
+	//caster.current.mp -= manaCost; //Critter
 	caster.current.mana -= manaCost;
 	BOOL didSpellLand = [self resistCheck:caster target:target];
 	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
@@ -68,14 +70,18 @@ BOOL haveSetSpells = FALSE;
 		case SPELL_RESIST: return @"Target resisted your spell!";
 		case SPELL_NO_DAMAGE: return @""; 
 		case SPELL_CAST_ERR: return @"Spell casting error!";
-		default: return @"Spell result error!";
+		default:
+			//DLog(@"Spell result error: Caster: <%@> Target: <%@> Spell: <%@>",caster.stringName, target.stringName); //Critter
+			return @"";
 	}
-	return @"Spell result switch error!";
+	//DLog(@"Spell result switch error: Caster: <%@> Target: <%@> Spell: <%@>",caster.stringName, target.stringName); //Critter
+	return @"";
 }
 
 + (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
 	if (!haveSetSpells) [Spell fillSpellList];
 	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
+	//NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.stringName); //Critter
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
 	NSLog(@"Casting spell: %@",spell.name);
 	return [spell cast:caster target:target];
@@ -93,18 +99,23 @@ BOOL haveSetSpells = FALSE;
 	switch (element) {
 		case FIRE:
 			resist = target.fire;
+			//resist = target.defense.fire; //Critter
 			break;
 		case COLD:
 			resist = target.cold;
+			//resist = target.defense.cold; //Critter
 			break;
 		case LIGHTNING:
 			resist = target.lightning;
+			//resist = target.defense.lightning; //Critter
 			break;
 		case POISON:
 			resist = target.poison;
+			//resist = target.defense.poison; //Critter
 			break;
 		case DARK:
 			resist = target.dark;
+			//resist = target.defense.dark; //Critter
 			break;
 	}
 	if (resist > STAT_MAX) {
@@ -117,7 +128,7 @@ BOOL haveSetSpells = FALSE;
 		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
 	else if(level_diff > 0)
 		resist = resist * LEVEL_DIFF_MULT / level_diff;
-	if([Rand min:0 max:STAT_MAX + 1] <= resist / 2)
+	if([Rand min:0 max:STAT_MAX + 1] <= resist / 8)
 		return FALSE;
 	return TRUE;
 }
@@ -125,7 +136,7 @@ BOOL haveSetSpells = FALSE;
 //Return amount of damage to deal to combat system
 - (int) damageSpell: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
-	//[target Take_Damage:damage];
+	[target Take_Damage:damage];
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
 			case FIRE:
@@ -174,6 +185,7 @@ BOOL haveSetSpells = FALSE;
 	if (caster == nil) return SPELL_CAST_ERR;
 	[caster addCondition:HASTENED];
 	caster.current.turnSpeed += caster.current.turnSpeed * (damage/100.0); // Increase turn speed by percentage
+	//caster.current.ts += caster.current.ts * (damage/100.0); //Critter
 	return SPELL_HASTENED;
 }
 
@@ -181,6 +193,7 @@ BOOL haveSetSpells = FALSE;
 	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CHILLED];
 	target.current.turnSpeed -= target.current.turnSpeed * (damage / 100.0); // Decrease turn speed by percentage
+	//caster.current.ts -= target.current.ts * (damage / 100.0); //Critter
 	return SPELL_FROZEN;
 }
 
@@ -196,13 +209,14 @@ BOOL haveSetSpells = FALSE;
 	[target addCondition:WEAKENED];
 	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
 	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
+	//target.total.hp -= target.total.hp * (damage / 100.0); //Critter
+	//target.total.sp -= target.total.sp * (damage / 100.0); //Critter
 	return SPELL_TAINTED;
 }
 
 - (int) confusion: (Creature *) caster target: (Creature *) target {
 	if (target == nil) return SPELL_CAST_ERR;
 	[target addCondition:CONFUSION];
-	//What is confusion supposed to do?
 	return SPELL_CONFUSED;
 }
 
