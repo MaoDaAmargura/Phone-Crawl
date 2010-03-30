@@ -62,6 +62,7 @@ BOOL have_set_abilities = FALSE;
 
 - (int) mitigateDamage:(Creature *)caster target:(Creature *)target damage: (int) amountDamage {
 	int resist = target.armor;
+	//int resist = target.defense.armor; //Critter
 	if (resist > STAT_MAX) {
 		resist = STAT_MAX;
 	} else if (resist < STAT_MIN) {
@@ -77,47 +78,53 @@ BOOL have_set_abilities = FALSE;
 
 - (int) basicAttack:(Creature *)attacker def:(Creature *)defender {
 	float basedamage = [attacker regularWeaponDamage];
+	//float basedamage = [attacker getPhysDamage]; //Critter
 	basedamage *= damageMultiplier;
 	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
-	//[defender takeDamage:finaldamage];
+	//return basedamage*((120-defender.defense.armor)/54+0.1); //Critter
 	return finaldamage;
 }
 
 - (int) elementalAttack:(Creature *)attacker def:(Creature *)defender {
-	float resist1;
-	// this assumes weapon is held in right hand
+	float resist;
 	float elementDamage = [attacker elementalWeaponDamage];
-	elemType type1 = attacker.equipment.rHand.element;
-	conditionType condtype1 = NO_CONDITION;
-	switch (type1) {
+	//float elementDamage = [attacker getElemDamage]; //Critter
+	elemType type = attacker.equipment.rHand.element;
+	conditionType condtype = NO_CONDITION;
+	switch (type) {
 		case FIRE:
-			resist1 = defender.fire;
-			condtype1 = BURNED;
+			resist = defender.fire;
+			//resist = defender.defense.fire; //Critter
+			condtype = BURNED;
 			break;
 		case COLD:
-			resist1 = defender.cold;
-			condtype1 = CHILLED;
+			resist = defender.cold;
+			//resist = defender.defense.cold; //Critter
+			condtype = CHILLED;
 			break;
 		case LIGHTNING:
-			resist1 = defender.lightning;
-			condtype1 = HASTENED;
+			resist = defender.lightning;
+			//resist = defender.defense.lightning; //Critter
+			condtype = HASTENED;
 			break;
 		case POISON:
-			resist1 = defender.poison;
-			condtype1 = POISONED;
+			resist = defender.poison;
+			//resist = defender.defense.poison; //Critter
+			condtype = POISONED;
 			break;
 		case DARK:
-			resist1 = defender.dark;
-			condtype1 = CURSED;
+			resist = defender.dark;
+			//resist = defender.defense.dark; //Critter
+			condtype = CURSED;
 			break;
 		default:
-			resist1 = 0;
+			resist = 0;
 			break;
 	}
 
-	int finaldamage = (elementDamage * (100-resist1) / 100);
+	int finaldamage = (elementDamage * (100-resist) / 100);
 	if ([Rand min:0 max:100] > 20 * abilityLevel)
-		[defender addCondition:condtype1];
+		[defender addCondition:condtype];
 	//[defender takeDamage:finaldamage];
 	return finaldamage;
 }
@@ -143,6 +150,7 @@ BOOL have_set_abilities = FALSE;
 	}
 	int dmg = [self basicAttack: attacker def: defender];
 	DLog(@"%@ hits %@ for %d",attacker.iconName, defender.name, dmg);
+	//DLog(@"%@ hits %@ for %d",attacker.stringName, defender.stringName, dmg); //Critter
 	return dmg;
 }
 
