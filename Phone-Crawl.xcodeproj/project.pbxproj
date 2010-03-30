@@ -310,6 +310,7 @@
 		D97B0829115C4B2B00FDF2CA /* ui-tab-inventory.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0710115C4B2B00FDF2CA /* ui-tab-inventory.png */; };
 		D97B082A115C4B2B00FDF2CA /* ui-tab-options.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0711115C4B2B00FDF2CA /* ui-tab-options.png */; };
 		D97B082B115C4B2B00FDF2CA /* ui-tab-world.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0712115C4B2B00FDF2CA /* ui-tab-world.png */; };
+		D9894B8E116280DA0034C3C8 /* BattleMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
 		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
 		D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A46F46114890FD00AAC433 /* HighScoreViewController.m */; };
@@ -661,6 +662,8 @@
 		D97B0710115C4B2B00FDF2CA /* ui-tab-inventory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-inventory.png"; sourceTree = "<group>"; };
 		D97B0711115C4B2B00FDF2CA /* ui-tab-options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-options.png"; sourceTree = "<group>"; };
 		D97B0712115C4B2B00FDF2CA /* ui-tab-world.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-world.png"; sourceTree = "<group>"; };
+		D9894B8C116280DA0034C3C8 /* BattleMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleMenuManager.h; sourceTree = "<group>"; };
+		D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleMenuManager.m; sourceTree = "<group>"; };
 		D98D744A111E3EA200EC62CF /* InventoryItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItemButton.h; sourceTree = "<group>"; };
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
 		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
@@ -898,6 +901,7 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				D9894B8A116280CA0034C3C8 /* BattleMenu */,
 				D95D7638116180F100CD00C6 /* Merchant */,
 				D9C4F2E4115C1D16006B3A78 /* Save */,
 				D95FB24B1148A3B9003DAB25 /* Score */,
@@ -1360,6 +1364,15 @@
 			);
 			name = Misc;
 			path = Menu;
+			sourceTree = "<group>";
+		};
+		D9894B8A116280CA0034C3C8 /* BattleMenu */ = {
+			isa = PBXGroup;
+			children = (
+				D9894B8C116280DA0034C3C8 /* BattleMenuManager.h */,
+				D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */,
+			);
+			name = BattleMenu;
 			sourceTree = "<group>";
 		};
 		D98DDFE110FD025E0096B5C4 /* PhoneCrawl */ = {
@@ -1886,6 +1899,7 @@
 				D9C4F2E7115C1F35006B3A78 /* GameFileManager.m in Sources */,
 				D95D75F7115F295200CD00C6 /* Critter.m in Sources */,
 				D95D763B1161810200CD00C6 /* MerchantDialogueManager.m in Sources */,
+				D9894B8E116280DA0034C3C8 /* BattleMenuManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

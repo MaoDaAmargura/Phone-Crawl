@@ -17,6 +17,8 @@
 
 @implementation Critter
 
+@synthesize alive;
+
 - (id) initWithLevel:(int)lvl
 {
 	if (self = [super init])
@@ -197,6 +199,11 @@
 	if (equipment.rhand) dmg+=equipment.rhand.elementalDamage;
 	if (equipment.lhand) dmg+=equipment.lhand.elementalDamage * OFFHAND_DMG_PERCENTAGE;
 	return dmg;
+}
+
+- (void) think
+{
+	
 }
 
 @end

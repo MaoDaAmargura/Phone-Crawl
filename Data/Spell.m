@@ -136,7 +136,7 @@ BOOL haveSetSpells = FALSE;
 //Return amount of damage to deal to combat system
 - (int) damageSpell: (Creature *) caster target: (Creature *) target {
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
-	[target Take_Damage:damage];
+	[target takeDamage:damage];
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
 			case FIRE:

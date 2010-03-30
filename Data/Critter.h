@@ -89,6 +89,8 @@ typedef struct {
 	CritterStats real;
 }
 
+@property (nonatomic, getter = isAlive) BOOL alive;
+
 - (id) initWithLevel:(int)lvl;
 
 - (void) gainCondition:(conditionType)cond;
@@ -105,6 +107,8 @@ typedef struct {
 
 - (float) getPhysDamage;
 - (float) getElemDamage;
+
+- (void) think;
 
 @end
 
