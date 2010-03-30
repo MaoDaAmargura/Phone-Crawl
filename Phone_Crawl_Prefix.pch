@@ -19,7 +19,7 @@
 //#endif
 
 
-#define MAP_DIMENSION 120
+#define MAP_DIMENSION 60
 #define MAP_DEPTH 5
 #define TILE_SIZE_PX 32
 #define WORLD_VIEW_SIZE_PX 320

@@ -663,7 +663,29 @@ typedef enum {
 			//Are we only adding enemies to the first level?
 			//Enemies were supposed to have level ranges that went with their floor.
 			//Can't have level 20 monsters popping up on the first level.
-			Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:[Rand min:1+((level-1)*4) max:4+((level-1)*4)] atX: coord.X Y: coord.Y Z:coord.Z];
+			int num = [Rand min:0 max:5];
+			creatureType type;
+			switch (num) {
+				case 0:
+					type = BERSERKER;
+					break;
+				case 1:
+					type = WARRIOR;
+					break;
+				case 2:
+					type = PALADIN;
+					break;
+				case 3:
+					type = SHADOWKNIGHT;
+					break;
+				case 4:
+					type = ROGUE;
+					break;
+				case 5:
+					type = MAGE;
+					break;
+			}
+			Creature *creature = [[Creature alloc] initMonsterOfType:type withElement:FIRE level:[Rand min:1+((level-1)*4) max:4+((level-1)*4)] atX: coord.X Y: coord.Y Z:coord.Z];
 			[dungeon.liveEnemies addObject:creature];
 		}
 	}
