@@ -90,6 +90,7 @@ BOOL have_set_abilities = FALSE;
 	float elementDamage = [attacker elementalWeaponDamage];
 	//float elementDamage = [attacker getElemDamage]; //Critter
 	elemType type = attacker.equipment.rHand.element;
+	//elemType type = attacker.equipment.rhand.element; //Critter
 	conditionType condtype = NO_CONDITION;
 	switch (type) {
 		case FIRE:

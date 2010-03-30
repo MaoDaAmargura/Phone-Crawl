@@ -81,8 +81,12 @@ typedef struct {
 	
 	int experience;
 	int level;
+	int abilityPoints;
+	int deathPenalty;
 
 	BOOL alive;
+	@private
+	CritterStats real;
 }
 
 - (id) initWithLevel:(int)lvl;
