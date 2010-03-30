@@ -730,15 +730,21 @@ typedef enum {
 	 a = Abyss stair
 	 i = Innkeeper
 	 */
-	#define TOWN_DIMENSION 6
+	#define TOWN_DIMENSION 12
 	const char TOWN [TOWN_DIMENSION][TOWN_DIMENSION] =
 	{
-		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
-		{ 'g', 'g', 'd', 'f', 'i', 'w' } ,
-		{ 'g', 'g', 'w', 'f', 'f', 'w' } ,
-		{ 'g', 'g', 'w', 'w', 'w', 'w' } ,
-		{ 'g', 'g', 'g', 'g', 'g', 'g' } ,
-		{ 'o', 'm', 'c', 'u', 'g', 'a' }
+		{ 'g', 'g', 'w', 'w', 'w', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
+		{ 'g', 'g', 'd', 'f', 'i', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
+		{ 'g', 'g', 'w', 'f', 'f', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
+		{ 'g', 'g', 'w', 'w', 'w', 'w' , 'd' , 'w' , 'w' , 'w' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'g' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'g' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'w', 'w' , 'd' , 'w' , 'w' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'w', 'w' , 'w' , 'w' , 'w' , 'g' , 'g' , 'g' } ,
+		{ 'o', 'm', 'c', 'u', 'g', 'a' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' }
 	};
 
 	[self setFloorOf: dungeon to: tilePit onZLevel: 0];

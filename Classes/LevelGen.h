@@ -6,6 +6,8 @@
 
 /* I REPEAT: DO NOT #INCLUDE THIS CLASS.  FROM ANYWHERE. */
 
+// its not #include, you idiot. It's #import
+
 @interface LevelGen : NSObject {
 
 }
