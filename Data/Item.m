@@ -271,7 +271,7 @@ static const int baseItemStats[10][9] = {
 - (NSString *) cast: (Creature *) caster target: (Creature *) target {
     if(effectSpellId == ITEM_NO_SPELL) {
         NSLog(@"Tried to cast item: %@ which has no effect",self.name);
-        return @"Item spell cast err!";
+        return @"";
     }
     --charges;
     return [Spell castSpellById:effectSpellId caster:caster target:target];
