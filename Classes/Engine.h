@@ -39,16 +39,6 @@
 	NSLock *loadDungeonLock;
 	
 	BattleMenuManager *battleMenuMngr;
-	
-	PCPopupMenu *battleMenu;
-	PCPopupMenu *attackMenu;
-	PCPopupMenu *spellMenu;
-	PCPopupMenu *itemMenu;
-	PCPopupMenu *damageSpellMenu;
-	PCPopupMenu *conditionSpellMenu;
-	PCPopupMenu *merchantMenu;
-	PCPopupMenu *merchantBuyMenu;
-	PCPopupMenu *merchantSellMenu;
 
 	// ugly, hackish workaround used only in moving the battleMenu to the correct spot
 	// when attacking a monster.
@@ -58,13 +48,6 @@
 
 @property (nonatomic, retain) Creature *player;
 @property (nonatomic, retain) Dungeon *currentDungeon;
-
-@property (nonatomic, retain) PCPopupMenu *battleMenu;
-@property (nonatomic, retain) PCPopupMenu *attackMenu;
-@property (nonatomic, retain) PCPopupMenu *spellMenu;
-@property (nonatomic, retain) PCPopupMenu *itemMenu;
-@property (nonatomic, retain) PCPopupMenu *damageSpellMenu;
-@property (nonatomic, retain) PCPopupMenu *conditionSpellMenu;
 
 @property (nonatomic, retain) WorldView *worldViewSingleton;
 
@@ -91,8 +74,6 @@
 
 - (void) sellItem:(Item *)it;
 - (void) buyItem:(Item *)it;
-
-- (void) showMerchantMenu;
 
 - (NSMutableArray*) getPlayerInventory;
 - (EquipSlots*) getPlayerEquippedItems;

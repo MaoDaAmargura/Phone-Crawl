@@ -42,6 +42,34 @@
 
 @end
 
+@interface Engine (MenuVisibility)
+
+- (void) hideMenus;
+- (void) showBattleMenu;
+- (void) showAttackMenu;
+- (void) showSpellMenu;
+- (void) showItemMenu;
+- (void) showDamageSpellMenu;
+- (void) showConditionSpellMenu;
+
+@end
+
+@interface Engine (MenuCreation)
+
+- (void) addMenusToWorldView:(WorldView*)wView;
+- (void) setupBattleMenu;
+- (void) setupAttackMenu;
+- (void) setupItemMenu;
+- (void) setupSpellMenus;
+- (void) setupMerchantMenu;
+
+- (void) fillSpellMenuForCreature: (Creature *) c;
+- (void) fillAttackMenuForCreature: (Creature *) c;
+- (void) fillMerchantMenu: (Creature *) c;
+
+@end
+
+
 @interface Engine (Movement)
 
 - (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC;
@@ -71,6 +99,7 @@
 @implementation Engine
 
 @synthesize player, currentDungeon;
+@synthesize battleMenu, attackMenu, itemMenu, spellMenu, damageSpellMenu, conditionSpellMenu;
 @synthesize tutorialMode;
 
 @synthesize worldViewSingleton;
@@ -93,6 +122,7 @@
 		loadDungeonLock = [NSLock new];
 		
 		showBattleMenu = NO;
+		hasAddedMenusToWorldView = NO;
 		
 		tilesPerSide = 11;
 		
@@ -106,6 +136,13 @@
 		player.inBattle = NO;
 		selectedMoveTarget = nil;
 		
+
+		[self setupBattleMenu];
+		[self setupAttackMenu];
+		[self setupItemMenu];
+		[self setupSpellMenus];
+		[self setupMerchantMenu];
+		[self hideMenus];
 	}
 	return self;
 }
@@ -123,6 +160,145 @@
 	[self releaseResources];
 	[super dealloc];
 	
+}
+
+#pragma mark -
+#pragma mark Menu Creation
+- (void) addMenusToWorldView:(WorldView*)wView
+{
+	[battleMenu showInView:wView.view];
+	[spellMenu showInView:wView.view];
+	[conditionSpellMenu showInView:wView.view];
+	[damageSpellMenu showInView:wView.view];
+	[attackMenu showInView:wView.view];
+	[itemMenu showInView:wView.view];
+	[merchantMenu showInView:wView.view];
+	[merchantSellMenu showInView:wView.view];
+	[merchantBuyMenu showInView:wView.view];
+	hasAddedMenusToWorldView = YES;
+	[self hideMenus];
+	
+}
+
+- (void) setupBattleMenu
+{
+	CGPoint origin = CGPointMake(0, 300);
+	battleMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[battleMenu addMenuItem:@"Attack" delegate:self selector:@selector(showAttackMenu) context:nil];
+	[battleMenu addMenuItem:@"Spell" delegate:self selector:@selector(showSpellMenu) context:nil];
+	[battleMenu addMenuItem:@"Item" delegate:self selector:@selector(showItemMenu) context: nil];
+	battleMenu.hideOnFire = NO;
+	[battleMenu hide];
+}
+
+- (void) setupAttackMenu
+{
+	DLog(@"Filling attack menu");
+	CGPoint origin = CGPointMake(60, 300);
+	attackMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[self fillAttackMenuForCreature:player];
+	[attackMenu hide];
+}
+
+- (void) setupItemMenu
+{
+	DLog(@"Filling item menu");
+	CGPoint origin = CGPointMake(60, 300);
+	itemMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	for (Item* it in player.inventory) 
+		if (it.type == WAND || it.type == POTION) {
+			NSLog(@"Adding item: <%@> to list",it.name);
+			[itemMenu addMenuItem:it.name delegate:self selector:@selector(item_handler:) context:it];
+		}
+	[itemMenu hide];
+}
+
+- (void) setupSpellMenus
+{
+	CGPoint origin = CGPointMake(60, 300);
+	DLog(@"Filling spell menu");
+	spellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[spellMenu addMenuItem:@"Damage" delegate:self selector:@selector(showDamageSpellMenu) context:nil];
+	[spellMenu addMenuItem:@"Condition" delegate:self selector:@selector(showConditionSpellMenu) context:nil];
+	[spellMenu hide];
+	
+	damageSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[damageSpellMenu hide];
+	
+	conditionSpellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[conditionSpellMenu hide];	
+	
+	[self fillSpellMenuForCreature: player];
+}
+
+- (void) setupMerchantMenu
+{
+	CGPoint origin = CGPointMake(0, 300);
+	merchantMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[merchantMenu addMenuItem:@"Buy" delegate:self selector:@selector(showMerchantBuyMenu) context:nil];
+	[merchantMenu addMenuItem:@"Sell" delegate:self selector:@selector(showMerchantSellMenu) context:nil];
+	merchantMenu.hideOnFire = NO;
+	origin = CGPointMake(60, 300);
+	merchantBuyMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	merchantSellMenu = [[PCPopupMenu alloc] initWithOrigin:origin];
+	[merchantBuyMenu hide];
+	[merchantSellMenu hide];
+	[merchantMenu hide];
+}
+
+- (void) fillMerchantMenu:(Creature *)c {
+	Item *it = [[[Item alloc] initExactItemWithName : @"HPot1"
+										iconFileName: @"potion-red-I.png"
+										 itemQuality: REGULAR itemSlot: BAG 
+											elemType: DARK    itemType: POTION
+											  damage: 1 elementalDamage:0
+											 charges:1 range:1 hp:0  shield:0 
+												mana:0 fire:0 cold:0 lightning:0
+											  poison:0 dark:0 armor: 0
+									   effectSpellId: ITEM_HEAL_SPELL_ID] autorelease];
+	[merchantBuyMenu addMenuItem:@"HPot1" delegate:self selector:@selector(buyItem:) context:it];
+	it = [[[Item alloc] initExactItemWithName : @"MPot1"
+								  iconFileName: @"potion-blue-I.png"
+								   itemQuality: REGULAR itemSlot: BAG 
+									  elemType: DARK    itemType: POTION
+										damage: 1 elementalDamage:0
+									   charges:1 range:1 hp:0  shield:0 
+										  mana:0 fire:0 cold:0 lightning:0
+										poison:0 dark:0 armor: 0
+								 effectSpellId: ITEM_MANA_SPELL_ID] autorelease];
+	[merchantBuyMenu addMenuItem:@"MPot1" delegate:self selector:@selector(buyItem:) context:it];
+	for (Item *i in player.inventory) {
+		[merchantSellMenu addMenuItem:i.name delegate:self selector:@selector(sellItem:) context:i];
+	}
+	
+}
+
+- (void) fillSpellMenuForCreature: (Creature *) c {
+	[damageSpellMenu removeAllMenuItems];
+	[conditionSpellMenu removeAllMenuItems];
+	for (int i = 0 ; i < NUM_PC_SPELL_TYPES ; ++i) {
+		if(c.abilities.spellBook[i] == 0) // No points trained in that spell
+			continue;
+		else {
+			Spell *spell = [spellList objectAtIndex:START_PC_SPELLS + i * 5 + c.abilities.spellBook[i] - 1];
+			if(i < FIRECONDITION) //Is a damage spell
+				[damageSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+			else
+				[conditionSpellMenu addMenuItem:spell.name delegate:self selector:@selector(spell_handler:) context:spell];
+		}
+	}
+}
+
+- (void) fillAttackMenuForCreature: (Creature *) c {
+	for (int i = 0 ; i < NUM_PLAYER_COMBAT_ABILITY_TYPES ; ++i) {
+		if(c.abilities.combatAbility[i] == 0) // No points trained in that ability
+			continue;
+		else {
+			//CombatAbility *ca = [abilityList objectAtIndex:i * 3 + c.abilities.combatAbility[i] - 1]; // For once we have combat ability levels done
+			CombatAbility *ca = [abilityList objectAtIndex:i];
+			[attackMenu addMenuItem:ca.name delegate:self selector:@selector(ability_handler:) context:ca];
+		}
+	}
 }
 
 #pragma mark -
@@ -183,7 +359,13 @@
 			//DLog(@"Used item, result: %@",actionResult);
 			// If charges are used up, drop item from inventory and rebuild item menu
 			if (creature.selectedItemToUse.charges <= 0) 
+			{
 				[creature.inventory removeObject:creature.selectedItemToUse];
+				if(creature == player) 
+				{
+					[itemMenu removeMenuItemNamed:creature.selectedItemToUse.name];
+				}
+			}
 			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
 			//not implemented because the spell of an item is innaccessable
 			//creature.turnPoints -= creature.selectedItemToUse.spell.turnPointCost;
@@ -196,11 +378,14 @@
 		[self performMoveActionForCreature:creature];
 	}
 	
+	if(creature == player) [self hideMenus];
+	
 	return actionResult;
 }
 
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
+	if(!hasAddedMenusToWorldView) [self addMenusToWorldView:wView];
 	if(!worldViewSingleton) worldViewSingleton = wView;
 	if (!battleMenuMngr) 
 		battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:wView.view andDelegate:self];
@@ -859,11 +1044,28 @@
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
+		// After the player has selected the additional input, other code will be called
+		// which will allow the character to take its turn.
 
+		#define POPUP_SHOVE_PX 40
+		if (worldViewSingleton) {
+			CGPoint point =  [self originOfTile: tileCoord inWorldView: worldViewSingleton];
+			float overlap = point.x + battleMenu.frame.size.width + POPUP_SHOVE_PX - WORLD_VIEW_SIZE_PX;
+			if (overlap > 0) {
+				point.y += POPUP_SHOVE_PX;
+				point.x -= overlap;
+			}
+			else {
+				point.x += POPUP_SHOVE_PX;
+			}
+			//[battleMenu moveTo: point];
+		}
+		//[self showBattleMenu];
 		[battleMenuMngr showBattleMenu];
 	}
 	else 
 	{
+		[self hideMenus];
 		if ([tileCoord equals:[player creatureLocation]]) {
 			for (Coord *c in [currentDungeon.items allKeys])
 			{
@@ -1028,6 +1230,10 @@
 - (void) playerEquipItem:(Item*)i
 {
 	[player addEquipment:i slot:i.slot];
+	// The code below will remove items that are equipped from the inventory. But since addEquipment is coded in a
+	// way that doesn't allow for getting back the old equipment, we aren't going to do that. -Austin
+	//[player.inventory removeObject:i];
+	//[self refreshInventoryScreen];
 	
 	if(tutorialMode)
 		[self tutorialModeEquippedItem];
@@ -1057,7 +1263,9 @@
 	{
 		[player.inventory addObject:it];
 		player.money -= itemVal;
+		[merchantBuyMenu removeItemWithContext:it];
 		[self refreshInventoryScreen];
+		[self hideMenus];
 	}
 }
 
@@ -1067,6 +1275,7 @@
 	int val = [Item getItemValue:it];
 	player.money += val >= 10 ? val : 10;
 	[self refreshInventoryScreen];
+	[self hideMenus];
 }
 
 #pragma mark -
@@ -1081,6 +1290,129 @@
 {
 	return player.equipment;
 }
+
+#pragma mark -
+#pragma mark Menu Visibility
+
+- (void) hideMenus
+{
+	[merchantMenu hide];
+	[merchantSellMenu hide];
+	[merchantBuyMenu hide];
+	[battleMenu hide];
+	[attackMenu hide];
+	[itemMenu hide];
+	[spellMenu hide];
+	[damageSpellMenu hide];
+	[conditionSpellMenu hide];
+}
+
+- (void) showBattleMenu
+{
+	[self hideMenus];
+	[battleMenu show];
+}
+
+- (void) showAttackMenu 
+{
+	[self hideMenus];
+	[attackMenu show];
+	[battleMenu show];
+
+	//CGRect rect = battleMenu.frame;
+	//float x = rect.origin.x - attackMenu.frame.size.width;
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + attackMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
+	//CGPoint origin = CGPointMake(x, y);
+	//[attackMenu moveTo: origin];
+}
+
+- (void) showSpellMenu 
+{
+	[self hideMenus];
+	[self fillSpellMenuForCreature:player];
+	[spellMenu show];
+	[battleMenu show];
+
+	//CGRect rect = battleMenu.frame;
+	//float x = rect.origin.x - spellMenu.frame.size.width;
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
+	//CGPoint origin = CGPointMake(x, y);
+	//[spellMenu moveTo: origin];	
+}
+
+- (void) showItemMenu
+{
+	[self hideMenus];
+	[itemMenu show];
+	[battleMenu show];
+
+	//CGRect rect = battleMenu.frame;
+	//float x = rect.origin.x - itemMenu.frame.size.width;
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + itemMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
+	//CGPoint origin = CGPointMake(x, y);
+	//[itemMenu moveTo: origin];	
+}
+
+- (void) showDamageSpellMenu 
+{
+	
+	[self hideMenus];
+	[damageSpellMenu show];
+	[spellMenu show];
+
+	//CGRect rect = battleMenu.frame;
+	//float x = rect.origin.x - spellMenu.frame.size.width;
+	//float y = rect.origin.y + battleMenu.frame.size.height / 2;
+	//if (y + spellMenu.frame.size.height > WORLD_VIEW_SIZE_PX) {
+	//	y -= battleMenu.frame.size.height / 2;
+	//}
+	//CGPoint origin = CGPointMake(x, y);
+	//[spellMenu moveTo: origin];
+
+	[battleMenu show];
+}
+
+- (void) showConditionSpellMenu 
+{
+	[self hideMenus];
+	[conditionSpellMenu show];
+	[spellMenu show];
+	[battleMenu show];
+}
+
+- (void) showMerchantMenu
+{
+	[self hideMenus];
+	[self fillMerchantMenu:player];
+	[merchantMenu show];
+}
+
+- (void) showMerchantBuyMenu
+{
+	[self hideMenus];
+	[merchantMenu show];
+	[merchantBuyMenu show];
+	[merchantSellMenu hide];
+}
+
+- (void) showMerchantSellMenu
+{
+	[self hideMenus];
+	[merchantMenu show];
+	[merchantSellMenu show];
+	[merchantBuyMenu hide];
+}
+
+
 
 #pragma mark -
 #pragma mark Starting a New Game
