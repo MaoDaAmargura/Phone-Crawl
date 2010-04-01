@@ -666,7 +666,7 @@ typedef enum {
 			
 			int aiType = [Rand min:0 max:5];
 			int monsterlevel = level*4 + [Rand min:0 max:4];
-			Critter *critter;
+			Critter *critter = [[[Critter alloc] initWithLevel:0] autorelease];
 			switch (aiType) {
 				case 0:
 					critter = [[[BerserkerCritter alloc] initWithLevel:monsterlevel] autorelease];

@@ -339,7 +339,7 @@ BOOL haveSetSpells = FALSE;
 
 + (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl
 {
-	return [spellList objectAtIndex:5*type + lvl];
+	return [spellList objectAtIndex:5*type + lvl + START_PC_SPELLS];
 }
 
 @end
