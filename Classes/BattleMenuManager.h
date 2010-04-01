@@ -8,12 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class Creature;
+@class Critter;
 @class Engine;
 
 @interface BattleMenuManager : NSObject <UIActionSheetDelegate>
 {
-	Creature *playerRef;
+	Critter *playerRef;
 	Engine *gameEngineRef;
 	UIView	*targetViewRef;
 	
@@ -25,7 +25,7 @@
 	UIActionSheet *dspellMenu;
 }
 
-@property (nonatomic, retain) Creature *playerRef;
+@property (nonatomic, retain) Critter *playerRef;
 
 - (id) initWithTargetView:(UIView*)target andDelegate:(Engine*) del;
 

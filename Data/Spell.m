@@ -1,9 +1,10 @@
 #import "Spell.h"
-#import "Creature.h"
+#import "Critter.h"
 #import "Item.h" 
 #import "PCPopupMenu.h"
 
-//Spell spell_list[NUM_SPELLS];
+
+NSMutableArray *spellList;
 BOOL haveSetSpells = FALSE;
 #define LEVEL_DIFF_MULT 2
 
@@ -21,9 +22,9 @@ BOOL haveSetSpells = FALSE;
 	
 	if(self = [super init])
 	{
-		if (!haveSetSpells) {
-			[Spell fillSpellList];
-		}
+		//if (!haveSetSpells) {
+		//	[Spell fillSpellList];
+		//}
 		name = [NSString stringWithString: spellName];
 		//DLog(@"Creating spell with name: %@, name is: %@",in_name,name);
 	    type = desiredSpellType;
@@ -41,17 +42,16 @@ BOOL haveSetSpells = FALSE;
 	return nil;
 }
 
-- (NSString *) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Critter *) caster target: (Critter *) target {
 	if (caster == nil || (target != SELF && target == nil)) {
 		NSLog(@"SPELL CAST ERROR: CASTER NIL");
 		return @"Spell: Caster/Target nil";
 	}
 	int spellResult = 0;
-	//if(target.current.mp < manaCost) //Critter
-	if(target.current.mana < manaCost)
-		return @"Not enough mana!";
-	//caster.current.mp -= manaCost; //Critter
-	caster.current.mana -= manaCost;
+	if (![caster spendMana:manaCost])
+	{
+		return @"Not enough mana!";		
+	}
 	BOOL didSpellLand = [self resistCheck:caster target:target];
 	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
 	else {
@@ -78,9 +78,9 @@ BOOL haveSetSpells = FALSE;
 	return @"";
 }
 
-+ (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target {
-	if (!haveSetSpells) [Spell fillSpellList];
-	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.name);
++ (NSString *) castSpellById: (int) desiredSpellId caster: (Critter *) caster target: (Critter *) target {
+	//if (!haveSetSpells) [Spell fillSpellList];
+	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.stringName);
 	//NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.stringName); //Critter
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
 	NSLog(@"Casting spell: %@",spell.name);
@@ -88,7 +88,7 @@ BOOL haveSetSpells = FALSE;
 	//return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
 };
 
-- (BOOL) resistCheck: (Creature *) caster target: (Creature *) target {
+- (BOOL) resistCheck: (Critter *) caster target: (Critter *) target {
 	if (caster == nil || target == nil) 
 	{
 		NSLog(@"Resist_Check nil");
@@ -98,24 +98,19 @@ BOOL haveSetSpells = FALSE;
 	int resist = 0;
 	switch (element) {
 		case FIRE:
-			resist = target.fire;
-			//resist = target.defense.fire; //Critter
+			resist = target.defense.fire;
 			break;
 		case COLD:
-			resist = target.cold;
-			//resist = target.defense.cold; //Critter
+			resist = target.defense.frost;
 			break;
 		case LIGHTNING:
-			resist = target.lightning;
-			//resist = target.defense.lightning; //Critter
+			resist = target.defense.shock;
 			break;
 		case POISON:
-			resist = target.poison;
-			//resist = target.defense.poison; //Critter
+			resist = target.defense.poison; 
 			break;
 		case DARK:
-			resist = target.dark;
-			//resist = target.defense.dark; //Critter
+			resist = target.defense.dark;
 			break;
 	}
 	if (resist > STAT_MAX) {
@@ -134,93 +129,86 @@ BOOL haveSetSpells = FALSE;
 }
 
 //Return amount of damage to deal to combat system
-- (int) damageSpell: (Creature *) caster target: (Creature *) target {
+- (int) damageSpell: (Critter *) caster target: (Critter *) target {
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
 	[target takeDamage:damage];
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
 			case FIRE:
-				[target addCondition:BURNED];
+				[target gainCondition:BURNED];
 				break;
 			case COLD:
-				[target addCondition:CHILLED];
+				[target gainCondition:CHILLED];
 				break;
 			case LIGHTNING:
-				[target addCondition:HASTENED];
+				[target gainCondition:HASTENED];
 				break;
 			case POISON:
-				[target addCondition:POISONED];
+				[target gainCondition:POISONED];
 				break;
 			case DARK:
-				[target addCondition:CURSED];
-				[caster heal:damage];
+				[target gainCondition:CURSED];
+				[caster gainHealth:damage];
 				break;
 		}
 	}
 	return damage;
-};
+}
 
-- (int) healPotion: (Creature *) caster target: (Creature *) target {
+- (int) healPotion: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
 	//DLog(@"In heal potion, healing for %d", damage);
-	[caster heal: damage];
+	[caster gainHealth: damage];
 	//DLog(@"Post heal");
 	return SPELL_NO_DAMAGE;
 }
 
-- (int) manaPotion: (Creature *) caster target: (Creature *) target {
+- (int) manaPotion: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
-	[caster healMana: damage];
+	[caster gainMana: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
-- (int) scroll: (Creature *) caster target: (Creature *) target {
+- (int) scroll: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
 	NSLog(@"Increasing caster ability points");
 	++caster.abilityPoints;
 	return SPELL_NO_DAMAGE;
 }
 
-- (int) haste: (Creature *) caster target: (Creature *) target {
+- (int) haste: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
-	[caster addCondition:HASTENED];
-	caster.current.turnSpeed += caster.current.turnSpeed * (damage/100.0); // Increase turn speed by percentage
-	//caster.current.ts += caster.current.ts * (damage/100.0); //Critter
+	[caster gainCondition:HASTENED];
 	return SPELL_HASTENED;
 }
 
-- (int) freeze: (Creature *) caster target: (Creature *) target {
+- (int) freeze: (Critter *) caster target: (Critter *) target {
 	if (target == nil) return SPELL_CAST_ERR;
-	[target addCondition:CHILLED];
-	target.current.turnSpeed -= target.current.turnSpeed * (damage / 100.0); // Decrease turn speed by percentage
-	//caster.current.ts -= target.current.ts * (damage / 100.0); //Critter
+	[target gainCondition:CHILLED];
 	return SPELL_FROZEN;
 }
 
-- (int) purge: (Creature *) caster target: (Creature *) target {
+- (int) purge: (Critter *) caster target: (Critter *) target {
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
-	[caster clearCondition];
+	[caster loseAllConditions];
 	[caster takeDamage:(damage / level)];
 	return SPELL_PURGED;
 }
 	
-- (int) taint: (Creature *) caster target: (Creature *) target {
+- (int) taint: (Critter *) caster target: (Critter *) target {
 	if (target == nil) return SPELL_CAST_ERR;
-	[target addCondition:WEAKENED];
-	target.max.health -= target.max.health * (damage / 100.0); // Decrease max health by percentage
-	target.max.shield -= target.max.shield * (damage / 100.0); // Decrease max shield by percentage
-	//target.total.hp -= target.total.hp * (damage / 100.0); //Critter
-	//target.total.sp -= target.total.sp * (damage / 100.0); //Critter
+	[target gainCondition:WEAKENED];
 	return SPELL_TAINTED;
 }
 
-- (int) confusion: (Creature *) caster target: (Creature *) target {
+- (int) confusion: (Critter *) caster target: (Critter *) target {
 	if (target == nil) return SPELL_CAST_ERR;
-	[target addCondition:CONFUSION];
+	[target gainCondition:CONFUSION];
 	return SPELL_CONFUSED;
 }
 
-+ (void) fillSpellList {
++ (void) initialize
+{
 	haveSetSpells = TRUE;
 	int id_cnt = 0, spell_lvl = 1;
 	spellList = [[NSMutableArray alloc] init];
@@ -347,6 +335,11 @@ BOOL haveSetSpells = FALSE;
 	ADD_SPELL(@"Drain4",DAMAGE,SINGLE,DARK,0,30,detr,80);
 	ADD_SPELL(@"Drain5",DAMAGE,SINGLE,DARK,0,30,detr,90);
 	
+}
+
++ (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl
+{
+	return [spellList objectAtIndex:5*type + lvl];
 }
 
 @end

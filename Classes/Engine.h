@@ -1,17 +1,16 @@
 
 #import <Foundation/Foundation.h>
 
+#import "Critter.h"	// Needs EquippedItems struct
+#import "Dungeon.h"	// Needs levelType enum
+
 @class BattleMenuManager;
 @class WorldView;
-@class Creature;
-@class Dungeon;
 @class Coord;
 @class Item;
-@class EquipSlots;
-@class PCPopupMenu;
 @class WorldView;
-@class CombatAbility;
 @class Spell;
+@class Skill;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -22,21 +21,12 @@
 	
 	BOOL tutorialMode;
 	
-	Creature *player;
+	Critter *player;
 	
 	Dungeon *currentDungeon;
+	NSLock *loadDungeonLock;
 	
 	int tilesPerSide;
-	
-	Coord *selectedMoveTarget;
-	Item *selectedItemToUse;
-	BOOL battleMode;
-	
-	BOOL showBattleMenu;
-	
-	BOOL hasAddedMenusToWorldView;
-	
-	NSLock *loadDungeonLock;
 	
 	BattleMenuManager *battleMenuMngr;
 
@@ -46,7 +36,7 @@
 	WorldView *worldViewSingleton;
 }
 
-@property (nonatomic, retain) Creature *player;
+@property (nonatomic, retain) Critter *player;
 @property (nonatomic, retain) Dungeon *currentDungeon;
 
 @property (nonatomic, retain) WorldView *worldViewSingleton;
@@ -57,36 +47,30 @@
 - (id) init;
 
 - (void) updateWorldView:(WorldView*) wView;
+- (void) gameLoopWithWorldView:(WorldView*)wView;
+- (void) changeToDungeon:(levelType)type;
+- (void) processTouch:(Coord *) coord;
 
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
 - (BOOL) canEnterTileAtCoord:(Coord*) coord;
-- (void) moveCreature:(Creature *) c ToTileAtCoord:(Coord*)tileCoord;
 - (CGSize) tileSizeForWorldView:(WorldView*) wView;
-
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
 - (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
 
-- (void) gameLoopWithWorldView:(WorldView*)wView;
+
+- (void) ability_handler:(Skill*)skill;
+- (void) spell_handler:(Spell *)spell;
+- (void) item_handler:(Item *)item;
 
 - (void) playerEquipItem:(Item*)i;
 - (void) playerUseItem:(Item*)i;
 - (void) playerDropItem:(Item*)i;
-
 - (void) sellItem:(Item *)it;
 - (void) buyItem:(Item *)it;
 
 - (NSMutableArray*) getPlayerInventory;
-- (EquipSlots*) getPlayerEquippedItems;
-
-- (void) processTouch:(Coord *) coord;
-
-- (void) ability_handler:(CombatAbility *)action;
-- (void) spell_handler:(Spell *)spell;
-- (void) item_handler:(Item *)item;
+- (EquippedItems) getPlayerEquippedItems;
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon;
-
-
-- (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView;
 
 @end

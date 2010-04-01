@@ -8,12 +8,15 @@
 
 #import "GameFileManager.h"
 
-#import "Creature.h"
+#import "Critter.h"
+#import "Critter+LoadExtensions.h"
 #import "Item.h"
+#import "Skill.h"
+#import "Spell.h"
 
 @interface GameFileManager (Helper)
 
-- (void) writeItemToFile:(Item *)item file:(FILE *)file;
+- (void) writeItem:(Item *)item file:(FILE *)file;
 
 - (Item *) loadItemFromFile:(NSString *)datastring;
 
@@ -25,16 +28,12 @@
 @implementation GameFileManager
 
 
-- (Creature*) loadCharacterFromFile:(NSString *)filename 
+- (Critter*) loadCharacterFromFile:(NSString *)filename 
 {
-	//NSMutableArray *ret = [[[NSMutableArray alloc] initWithCapacity:3] autorelease];
-	Creature *player = [[[Creature alloc] init] autorelease];
-
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
-		NSLog(@"Unable to open file for reading: ");
-		NSLog(@"%@", filename);
+		NSLog(@"Unable to open file for reading: %@", fname);
 		return nil;
 	}
 	char line[150];
@@ -64,41 +63,31 @@
 	// [inventorybegin]
 	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
+	Critter *player = [Critter alloc];
 	NSString *playerName = [self getArrayString:data];
 	NSString *playerIcon = [self getArrayString:data];
 	int money = [[self getArrayString:data] intValue];
 	int playerLevel = [[self getArrayString:data] intValue];
-	if (player == nil) {
-		player = [[[Creature alloc] initPlayerWithInfo:playerName level:playerLevel] autorelease];
-	} else {
-		[player initPlayerWithInfo:playerName level:playerLevel];
-	}
-	player.iconName = playerIcon;
+	[player initWithLevel:playerLevel];
+	player.stringName = playerName;
+	player.stringIcon = playerIcon;
 	player.money = money;
 	player.deathPenalty = [[self getArrayString:data] intValue];
-	player.experiencePoints = [[self getArrayString:data] intValue];
+	player.experience = [[self getArrayString:data] intValue];
 	player.abilityPoints = [[self getArrayString:data] intValue];
 	int head = [[self getArrayString:data] intValue];
     int chest = [[self getArrayString:data] intValue];
 	int rhand = [[self getArrayString:data] intValue];
 	int lhand = [[self getArrayString:data] intValue];
-	int health = [[self getArrayString:data] intValue];
-	player.current.health = health;
-	player.max.health = health;
-	int shield = [[self getArrayString:data] intValue];
-	player.current.shield = shield;
-	player.max.shield = shield;
-	int mana = [[self getArrayString:data] intValue];
-	player.current.mana = mana;
-	player.max.mana = mana;
-	int turnSpeed = [[self getArrayString:data] intValue];
-	player.current.turnSpeed = turnSpeed;
-	player.max.turnSpeed = turnSpeed;
+	[player setHealth:[[self getArrayString:data] intValue]];
+	[player setShield:[[self getArrayString:data] intValue]];
+	[player setMana:[[self getArrayString:data] intValue]];
+	player.turnSpeed = [[self getArrayString:data] intValue];
 	NSString *sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[abilitiesbegin]"]) {
-		for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; ++i) 
+		for (int i=0; i<NUM_PLAYER_SKILL_TYPES; ++i) 
 		{
-			player.abilities.combatAbility[i] = [[self getArrayString:data] intValue];
+			player.abilities.skills[i] = [[self getArrayString:data] intValue];
 		}
 	}
 	else {
@@ -107,8 +96,8 @@
 	}
 	sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[spellsbegin]"]) {
-		for (int i =0; i<NUM_PC_SPELL_TYPES; ++i) {
-			player.abilities.spellBook[i] = [[self getArrayString:data] intValue];
+		for (int i =0; i<NUM_PLAYER_SPELL_TYPES; ++i) {
+			player.abilities.spells[i] = [[self getArrayString:data] intValue];
 		}
 	}
 	else {
@@ -128,7 +117,7 @@
 			line = [self getArrayString:data];
 			Item *it = [self loadItemFromFile:line];
 			if (it) {
-				[player.inventory addObject:it];
+				[player gainItem: it];
 			}
 		}
 	}
@@ -138,29 +127,20 @@
 	}
 	
 	sentinel = [self getArrayString:data];
-	if (head >= 0) {
-		player.equipment.head = [player.inventory objectAtIndex:head];
-	} else {
-		player.equipment.head = nil;
-	}
-	if (chest >= 0) {
-		player.equipment.chest = [player.inventory objectAtIndex:chest];
-	} else {
-		player.equipment.head = nil;
-	}
-	if (rhand >= 0) {
-		player.equipment.rHand = [player.inventory objectAtIndex:rhand];
-	} else {
-		player.equipment.head = nil;
-	}
-	if (lhand >= 0) {
-		player.equipment.lHand = [player.inventory objectAtIndex:lhand];
-	} else {
-		player.equipment.head = nil;
-	}	
+	if (head >= 0)
+		[player equipItem: [[player inventoryItems] objectAtIndex:head]];
+
+	if (chest >= 0) 
+		[player equipItem:[[player inventoryItems] objectAtIndex:chest]];
+
+	if (rhand >= 0) 
+		[player equipItem:[[player inventoryItems] objectAtIndex:rhand]];
+	
+	if (lhand >= 0) 
+		[player equipItem:[[player inventoryItems] objectAtIndex:lhand]];
 	
 	fclose(file);
-	return player;
+	return [player autorelease];
 }
 
 /*Item *i = [self loadItemFromFile:line];
@@ -172,7 +152,8 @@
  sentinel = line;
  */
 
-- (Item *) loadItemFromFile:(NSString *)datastring {
+- (Item *) loadItemFromFile:(NSString *)datastring 
+{
 	//NSString *datastring = [self getArrayString:array];
 	Item *ret = nil;
 	if (![datastring isEqualToString:@"null"]) {
@@ -240,7 +221,7 @@
 	return ret;
 }
 
-- (void) saveCharacter:(Creature*) player toFile:(NSString *)filename 
+- (void) saveCharacter:(Critter*) player toFile:(NSString *)filename 
 {
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
@@ -271,9 +252,9 @@
 	// [inventorybegin]
 	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
 	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
-	fputs([player.name cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([player.stringName cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	fputs([player.iconName cStringUsingEncoding:NSASCIIStringEncoding], file);
+	fputs([player.stringIcon cStringUsingEncoding:NSASCIIStringEncoding], file);
 	fputs("\n", file);
 	fputs([[NSString stringWithFormat:@"%d",player.money] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
@@ -281,24 +262,24 @@
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d", player.deathPenalty] cStringUsingEncoding:NSASCIIStringEncoding], file);
 	fputs("\n", file);
-	fputs([[NSString stringWithFormat:@"%d",player.experiencePoints] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([[NSString stringWithFormat:@"%d", player.experience] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d", player.abilityPoints] cStringUsingEncoding:NSASCIIStringEncoding], file);
 	fputs("\n", file);
 	
-	int hindex = [player.inventory indexOfObject:player.equipment.head];
+	int hindex = [[player inventoryItems] indexOfObject:player.equipment.head];
 	if (hindex == NSNotFound) hindex = -1;
 	fputs([[NSString stringWithFormat:@"%d",hindex] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	int cindex = [player.inventory indexOfObject:player.equipment.chest];
+	int cindex = [[player inventoryItems] indexOfObject:player.equipment.chest];
 	if (cindex == NSNotFound) cindex = -1;
 	fputs([[NSString stringWithFormat:@"%d",cindex] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	int rindex = [player.inventory indexOfObject:player.equipment.rHand];
+	int rindex = [[player inventoryItems] indexOfObject:player.equipment.rhand];
 	if (rindex == NSNotFound) rindex = -1;
 	fputs([[NSString stringWithFormat:@"%d",rindex] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	int lindex = [player.inventory indexOfObject:player.equipment.lHand];
+	int lindex = [[player inventoryItems] indexOfObject:player.equipment.lhand];
 	if (lindex == NSNotFound) lindex = -1;
 	fputs([[NSString stringWithFormat:@"%d",lindex] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
@@ -308,41 +289,40 @@
 	//fputs("\n",file);
 	//fputs([[NSString stringWithFormat:@"%d",player.current.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	//fputs("\n",file);
-	fputs([[NSString stringWithFormat:@"%d",player.max.health] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.hp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	fputs([[NSString stringWithFormat:@"%d",player.max.shield] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.sp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	fputs([[NSString stringWithFormat:@"%d",player.max.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([[NSString stringWithFormat:@"%d",player.max.mp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	//fputs([[NSString stringWithFormat:@"%d",player.current.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	//fputs("\n",file);
-	fputs([[NSString stringWithFormat:@"%d",player.max.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
+	fputs([[NSString stringWithFormat:@"%d",player.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([@"[abilitiesbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	for (int i=0; i<NUM_COMBAT_ABILITY_TYPES; i++) {
-		int ability = player.abilities.combatAbility[i];
+	for (int i=0; i<NUM_PLAYER_SKILL_TYPES; i++)
+	{
+		int ability = player.abilities.skills[i];
 		fputs([[NSString stringWithFormat:@"%d", ability]cStringUsingEncoding:NSASCIIStringEncoding], file);
 		fputs("\n", file);
 	}
 	fputs([@"[spellsbegin]" cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	for (int i=0; i<NUM_PC_SPELL_TYPES; i++) {
-		int ability = player.abilities.spellBook[i];
-		if (ability != 0) {
-			fputs([[NSString stringWithFormat:@"%d", ability]cStringUsingEncoding:NSASCIIStringEncoding], file);
-			fputs("\n", file);
-		}
+	for (int i=0; i<NUM_PLAYER_SPELL_TYPES; i++) 
+	{
+		int ability = player.abilities.spells[i];
+		fputs([[NSString stringWithFormat:@"%d", ability]cStringUsingEncoding:NSASCIIStringEncoding], file);
+		fputs("\n", file);
 	}
 	fputs("[inventorybegin]",file);
 	fputs("\n",file);
-	int numItems = [player.inventory count];
+	int numItems = [[player inventoryItems] count];
 	fputs([[NSString stringWithFormat:@"%d", numItems] cStringUsingEncoding:NSASCIIStringEncoding], file);
 	fputs("\n", file);
 	
-	for (int i=0;i<numItems;++i) {
-		Item *item = [player.inventory objectAtIndex:i];
-		[self writeItemToFile:item file:file];
+	for (Item *i in [player inventoryItems]) {
+		[self writeItem:i file:file];
 	}
 	fclose(file);
 }
@@ -350,7 +330,7 @@
 // name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
 // ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 
-- (void) writeItemToFile:(Item *)item file:(FILE *)file {
+- (void) writeItem:(Item *)item file:(FILE *)file {
 	//fputs([@"item||" cStringUsingEncoding:NSASCIIStringEncoding],file);
 	if (item == nil) {
 		fputs([@"null\n" cStringUsingEncoding:NSASCIIStringEncoding],file);

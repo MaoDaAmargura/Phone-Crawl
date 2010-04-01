@@ -268,7 +268,7 @@ static const int baseItemStats[10][9] = {
 	return nil;
 };
 
-- (NSString *) cast: (Creature *) caster target: (Creature *) target {
+- (NSString *) cast: (Critter *) caster target: (Critter *) target {
     if(effectSpellId == ITEM_NO_SPELL) {
         NSLog(@"Tried to cast item: %@ which has no effect",self.name);
         return @"";

@@ -1,14 +1,15 @@
+
+
+
+
 #import "Engine.h"
-#import "Dungeon.h"
-#import "Creature.h"
 #import "Tile.h"
 #import "Item.h"
 #import "Spell.h"
+#import "Skill.h"
 #import "Util.h"
 #import "WorldView.h"
-#import "PCPopupMenu.h"
 #import "PCParticle.h"
-#import "CombatAbility.h"
 
 #import "Phone_CrawlAppDelegate.h"
 #import "HomeTabViewController.h"
@@ -27,18 +28,19 @@
 - (void) updateStatDisplayForWorldView:(WorldView *)wView;
 - (void) drawMiniMapForWorldView: (WorldView*) wView;
 - (void) drawItemsForWorldView: (WorldView*) wView;
+- (void) drawHealthBar:(Critter *)m inWorld:(WorldView*) wView;
 
 @end
 
 @interface Engine (TurnActions)
 
 - (void) calculateCreaturesInBattle;
-- (Creature *) nextCreatureToTakeTurn;
+- (Critter *) nextCreatureToTakeTurn;
 - (void) incrementCreatureTurnPointsBy:(int)amount;
-- (void) determineActionForCreature:(Creature*)c;
-- (void) performMoveActionForCreature:(Creature *)c;
-- (void) checkIfCreatureIsDead: (Creature *) c;
-- (void) bloodSprayWithAttacker: (Creature*) attacker;
+- (void) determineActionForCreature:(Critter*)c;
+- (void) performMoveActionForCreature:(Critter *)c;
+- (void) bloodSprayWithAttacker: (Critter*) attacker;
+- (void) processDeathOfCritter:(Critter*) critter;
 
 @end
 
@@ -49,8 +51,10 @@
 - (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
 - (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
 - (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
-- (int) manhattanDistanceFromPlayer: (Creature *) m;
+- (int) manhattanDistanceFromPlayer: (Critter *) m;
 - (BOOL) isACreatureAtLocation:(Coord*)loc;
+
+- (void) confirmLevelChange;
 
 @end
 
@@ -83,44 +87,23 @@
 	if(self = [super init])
 	{
 		tutorialMode = NO;
-		[PCParticle initialize];
 
-		[Spell fillSpellList];
-		[CombatAbility fillAbilityList];
 		liveEnemies = [[NSMutableArray alloc] init];
 		deadEnemies = [[NSMutableArray alloc] init];
-
-		loadDungeonLock = [NSLock new];
-		
-		showBattleMenu = NO;
-		
 		tilesPerSide = 11;
 		
-		self.player = [[[Creature alloc] initPlayerWithLevel:0] autorelease];
-		[player ClearTurnActions];
-		
+		self.player = nil;
 		self.currentDungeon = [[[Dungeon alloc] init] autorelease];
-		[self changeToDungeon:town];
 		currentDungeon.liveEnemies = liveEnemies;
-		
-		player.inBattle = NO;
-		selectedMoveTarget = nil;
-		
+		loadDungeonLock = [NSLock new];		
 	}
 	return self;
 }
 
-- (void) releaseResources
+- (void) dealloc
 {
 	[liveEnemies release];
 	[deadEnemies release];
-	[player release];
-	[currentDungeon release];
-}
-
-- (void) dealloc
-{
-	[self releaseResources];
 	[super dealloc];
 	
 }
@@ -128,74 +111,40 @@
 #pragma mark -
 #pragma mark Turn Actions
 
-- (void) checkIfCreatureIsDead: (Creature *) c
+- (void) processDeathOfCritter:(Critter*) critter
 {
-	if(c.current.health <= 0)
-	{
-		[liveEnemies removeObject:c];
-		[deadEnemies addObject:c];
-		float experienceGained = 1.0;
-		int levelDifference = player.level - c.level;
-		experienceGained *= pow(1.2, levelDifference);
-		[player gainExperience:experienceGained];
-		[currentDungeon.items setObject:[Item generateRandomItem:c.level/5 elemType:FIRE] forKey:c.creatureLocation];
-	}
+	[deadEnemies addObject:critter];
+	[liveEnemies removeObject:critter];
+	float experienceGained = 1.0;
+	int levelDifference = player.level - critter.level;
+	experienceGained *= pow(1.2, levelDifference);
+	[player gainExperience:experienceGained];
+	[currentDungeon.items setObject:[Item generateRandomItem:critter.level/5 elemType:FIRE] forKey:critter.location];
 }
 
-- (NSString*) performActionForCreature:(Creature*) creature
+- (NSString*) performActionForCreature:(Critter*) critter
 {
 	NSString *actionResult = @"";
 	
-	if(creature.selectedCreatureForAction)
+	if(critter.target.skillToUse)
 	{
-		if(creature.selectedCombatAbilityToUse)
-		{
-			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= [creature getRange]) {
-			//todo: use the combat ability on the target
-				actionResult = [creature.selectedCombatAbilityToUse useAbility:creature target:creature.selectedCreatureForAction];
-				[self bloodSprayWithAttacker:creature];
-				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-				creature.turnPoints -= creature.selectedCombatAbilityToUse.turnPointCost;
-			} else {
-				DLog(@"%d > %d",[Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation], [creature getRange]);
-				actionResult = @"Out of range!";
-			}
-			creature.selectedCreatureForAction = nil;
-			creature.selectedCombatAbilityToUse = nil;
-		}
-		else if(creature.selectedSpellToUse)
-		{
-			
-			if ([Util point_distanceC1:creature.creatureLocation C2:creature.selectedCreatureForAction.creatureLocation] <= creature.selectedSpellToUse.range) {
-				//use the spell on the target
-				actionResult = [creature.selectedSpellToUse cast:creature target:creature.selectedCreatureForAction];
-				[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-				creature.turnPoints -= creature.selectedSpellToUse.turnPointCost;
-			} else {
-				actionResult = @"Out of range!";
-			}
-			creature.selectedCreatureForAction = nil;
-			creature.selectedSpellToUse = nil;
-		}
-		else if(creature.selectedItemToUse)
-		{
-			actionResult = [creature.selectedItemToUse cast:creature target:creature.selectedCreatureForAction];
-			//DLog(@"Used item, result: %@",actionResult);
-			// If charges are used up, drop item from inventory and rebuild item menu
-			if (creature.selectedItemToUse.charges <= 0) 
-				[creature.inventory removeObject:creature.selectedItemToUse];
-			[self checkIfCreatureIsDead: creature.selectedCreatureForAction];
-			//not implemented because the spell of an item is innaccessable
-			//creature.turnPoints -= creature.selectedItemToUse.spell.turnPointCost;
-			creature.selectedCreatureForAction = nil;
-			creature.selectedItemToUse = nil;
-		}
-	}
-	else if(creature.selectedMoveTarget)
+		actionResult = [critter useSkill];
+		[self bloodSprayWithAttacker:critter];
+	} 
+	else if(critter.target.spellToCast)
 	{
-		[self performMoveActionForCreature:creature];
+		actionResult = [critter useSpell];
 	}
-	
+	else if(critter.target.itemForUse)
+	{
+		actionResult = [critter useItem];
+	}
+
+	if (![critter.target.critterForAction isAlive]) 
+	{
+		[self processDeathOfCritter:critter.target.critterForAction];
+		[critter think:nil];
+	}
 	return actionResult;
 }
 
@@ -210,43 +159,42 @@
 	NSString *actionResult = @"";
 	int oldLevel = player.level;
 	
-	//[loadDungeonLock lock];
-	Creature *creature = [self nextCreatureToTakeTurn];
+	Critter *critter = [self nextCreatureToTakeTurn];
 	
-	if (creature == player)
+	if (critter == player)
 	{
 		if(!player.inBattle)
-			player.current.shield += [Util minValueOfX:player.max.shield*0.05 andY:(player.max.shield-player.current.shield)];
-		
-		if([player hasActionToTake])
-			actionResult = [self performActionForCreature:player]; 
-			// For monsters to take turns when player is idling
-			//player.turnPoints -= 1;
+			[player regenShield];
 	}
 	else
 	{
-		[self determineActionForCreature:creature];
-		if ([creature hasActionToTake]) 
-		{
-			actionResult = [self performActionForCreature:creature];
-		}
+		[critter think:player]; 
 	}
 	
-	//[loadDungeonLock unlock];
+	if ([critter hasActionToTake])
+	{
+		actionResult = [self performActionForCreature:critter];
+	}
+	else if ([critter hasMoveToMake])
+	{
+		[self performMoveActionForCreature:critter];
+		if (critter == player)
+			[self confirmLevelChange];
+	}
 	
 	if (player.level > oldLevel)
 		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
 	
-	if(creature == player)
+	if(critter == player)
 		wView.actionResult.text = actionResult; //Set some result string from actions
 	
 	[self updateWorldView:wView];
 }
 
-- (int) manhattanDistanceFromPlayer: (Creature *) m
+- (int) manhattanDistanceFromPlayer: (Critter *) m
 {
-	return abs(m.creatureLocation.X - player.creatureLocation.X)
-			+ abs(m.creatureLocation.Y - player.creatureLocation.Y);
+	return abs(m.location.X - player.location.X)
+			+ abs(m.location.Y - player.location.Y);
 }
 
 - (void) calculateCreaturesInBattle
@@ -254,8 +202,8 @@
 	BOOL previousBattleMode = player.inBattle;
 	
 	player.inBattle = NO;
-	for (Creature *m in liveEnemies) {
-		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.creatureLocation.Z == player.creatureLocation.Z);
+	for (Critter *m in liveEnemies) {
+		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.location.Z == player.location.Z);
 		player.inBattle |= m.inBattle;
 	}
 	
@@ -263,7 +211,7 @@
 	if(previousBattleMode == NO && player.inBattle == YES)
 	{
 		player.turnPoints = 0;
-		for (Creature *m in liveEnemies)
+		for (Critter *m in liveEnemies)
 			m.turnPoints = 0;
 	}
 }
@@ -280,7 +228,7 @@
 						have to wait for a creature to reach 100 points - it happens instantly.  This is currently
 						not correct for creatures with different turnPoint regen, but it can be if needed.
 */
-- (Creature *) nextCreatureToTakeTurn
+- (Critter *) nextCreatureToTakeTurn
 {
 	/* This is not how we agreed we were going to do turn points. Is someone changing the system? */
 	// changed it again, I think it's more similar to how we discussed it should be. -Eric
@@ -288,8 +236,8 @@
 		return player;
 	
 	//get the creature with the most turnPoints (even if it's negative or above 100)
-	Creature *greatest = player;
-	for (Creature *m in liveEnemies)
+	Critter *greatest = player;
+	for (Critter *m in liveEnemies)
 	{
 		if (!m.inBattle)
 			continue;
@@ -307,60 +255,33 @@
 {
 	if(player.inBattle)
 		player.turnPoints += amount;
-	for(Creature *m in liveEnemies)
+	for(Critter *m in liveEnemies)
 		if(m.inBattle)
 			m.turnPoints += amount;
 }
 
-- (void) determineActionForCreature:(Creature*)c
+- (void) performMoveActionForCreature:(Critter *)c
 {
-	assert(c.inBattle);
-	
-	int mnhtnDist = [self manhattanDistanceFromPlayer: c];
-	
-	if( mnhtnDist > 1 && mnhtnDist < 10)
-		c.selectedMoveTarget = player.creatureLocation;
-	else if (mnhtnDist == 1)
+	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.target.moveLocation])
+		c.cachedPath = [self pathBetween:c.location and:c.target.moveLocation];
+
+	Coord *next = [c.cachedPath lastObject];
+	if ([currentDungeon tileAt: next].smashable) 
 	{
-		c.selectedCreatureForAction = player;
-		c.selectedCombatAbilityToUse = [abilityList objectAtIndex:SHITTY_STRIKE]; 
-	}
-}
-
-- (void) performMoveActionForCreature:(Creature *)c
-{
-	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.selectedMoveTarget])
-		c.cachedPath = [self pathBetween:c.creatureLocation and:c.selectedMoveTarget];
-
-	Coord *next = [[c.cachedPath lastObject] retain];
-	if ([currentDungeon tileAt: next].smashable) {
 		[[currentDungeon tileAt: next] smash];
-		[next release];
+		[c.cachedPath removeLastObject];
 		c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 		return;
 	}
-
-	[c.cachedPath removeLastObject];
-	
-	if(![self canEnterTileAtCoord:next])
+	else if ([self canEnterTileAtCoord:next]) 
 	{
-		//something other than terrain is blocking the path (probably monster)
-		//this is not an impossible situation to get into, but I dont know how to handle it nicely.
-		//the player probably didnt want to do this anyways.
-		NSLog(@"A Creature has tried to run through a monster.");
-		c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
-		[c ClearTurnActions];
-		return;
+		[c moveToTarget];
+	}
+	else 
+	{
+		//TODO: Can't go there, so...
 	}
 	
-	[self moveCreature:c ToTileAtCoord:next];
-	[next release];
-
-	// creature has reached its destination
-	if ([c.creatureLocation equals: c.selectedMoveTarget] || player.inBattle)
-		c.selectedMoveTarget = nil;
-
-	c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 }
 
 
@@ -377,7 +298,6 @@
 */
 - (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC
 {
-	
 	if([startC equals:endC])
 		return [NSMutableArray arrayWithObject: startC];
 	NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
@@ -503,7 +423,7 @@
 	UIImage *blue = [UIImage imageNamed: @"blue-dot.png"];
 	UIImage *pink = [UIImage imageNamed: @"pink-dot.png"];
 
-	Coord *playerLoc = [player creatureLocation];
+	Coord *playerLoc = player.location;
 	Coord *here = [Coord withX: 0 Y: 0 Z: playerLoc.Z];
 
 	int z = playerLoc.Z;
@@ -573,7 +493,7 @@
 
 - (BOOL) coordIsVisible:(Coord*) coord
 {
-	Coord *center = [player creatureLocation];
+	Coord *center = player.location;
 	if(coord.Z != center.Z) return NO;
 	
 	int offScreenDist = (tilesPerSide-1)/2 + 1;
@@ -591,7 +511,7 @@
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
+	Coord *center = player.location;
 	
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
@@ -599,14 +519,14 @@
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
 }
 
-- (void) drawHealthBar:(Creature *)m inWorld:(WorldView*) wView
+- (void) drawHealthBar:(Critter *)m inWorld:(WorldView*) wView
 {
-	Coord *loc = m.creatureLocation;
+	Coord *loc = m.location;
 	if(![self coordIsVisible:loc]) return;
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
+	Coord *center = player.location;
 	
 	CGPoint upperLeft = CGPointMake(center.X-halfTile, center.Y-halfTile);
 	CGPoint tile = CGPointMake(loc.X - upperLeft.x, loc.Y - upperLeft.y);
@@ -614,11 +534,11 @@
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height-4, tileSize.width, 4)];
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, 4)];
 	img = [UIImage imageNamed:@"healthgreen.png"];
-	float div = tileSize.width/m.max.health;
-	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height-4, div*m.current.health, 4)];
+	float div = tileSize.width/m.max.hp;
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height-4, div*m.current.hp, 4)];
 	img = [UIImage imageNamed:@"healthgreen.png"];
-	div = tileSize.width/m.max.shield;
-	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.shield, 4)];
+	div = tileSize.width/m.max.sp;
+	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.sp, 4)];
 }
 
 - (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
@@ -635,7 +555,7 @@
 {
 	int xInd, yInd;
 	int halfTile = (tilesPerSide-1)/2;
-	Coord *center = [player creatureLocation];
+	Coord *center = player.location;
 	
 	for (xInd = center.X - halfTile; xInd <= center.X + halfTile; ++xInd)
 	{
@@ -656,13 +576,13 @@
 
 - (void) drawPlayerInWorld:(WorldView*) wView
 {
-	[self drawImageNamed:[player iconName] atTile:[player creatureLocation] inWorld:wView];
+	[self drawImageNamed:player.stringIcon atTile:player.location inWorld:wView];
 }
 
 - (void) drawEnemiesInWorld:(WorldView*) wView
 {
-	for (Creature *m in liveEnemies) {
-		[self drawImageNamed:[m iconName] atTile:[m creatureLocation] inWorld:wView];
+	for (Critter *m in liveEnemies) {
+		[self drawImageNamed:m.stringIcon atTile:m.location inWorld:wView];
 		[self drawHealthBar:m inWorld:wView];
 	}
 }
@@ -710,22 +630,22 @@
  */
 - (void) updateStatDisplayForWorldView:(WorldView *)wView
 {	
-	[wView setDisplay:displayStatHealth withAmount:player.current.health ofMax:player.max.health];
-	[wView setDisplay:displayStatShield withAmount:player.current.shield ofMax:player.max.shield];
-	[wView setDisplay:displayStatMana withAmount:player.current.mana ofMax:player.max.mana];
+	[wView setDisplay:displayStatHealth withAmount:player.current.hp ofMax:player.max.hp];
+	[wView setDisplay:displayStatShield withAmount:player.current.sp ofMax:player.max.sp];
+	[wView setDisplay:displayStatMana withAmount:player.current.mp ofMax:player.max.mp];
 }
 
-- (void) bloodSprayWithAttacker: (Creature*) attacker {
+- (void) bloodSprayWithAttacker: (Critter*) attacker {
 	if (!worldViewSingleton.mapImageView) return;
 
-	Coord *origin = attacker.selectedCreatureForAction.creatureLocation;
+	Coord *origin = attacker.target.critterForAction.location;
 	CGPoint screenCoord = [self originOfTile: origin inWorldView: worldViewSingleton];
 	CGSize tileSize = [self tileSizeForWorldView: worldViewSingleton];
 	screenCoord = CGPointMake(screenCoord.x + tileSize.width / 2, screenCoord.y + tileSize.height / 2);
 
 	// normalized vectors for the bloody arterial deathspray
-	float sprayDeltaX = (float) origin.X - (float) attacker.creatureLocation.X;
-	float sprayDeltaY = (float) origin.Y - (float) attacker.creatureLocation.Y;
+	float sprayDeltaX = (float) origin.X - (float) attacker.location.X;
+	float sprayDeltaY = (float) origin.Y - (float) attacker.location.Y;
 	float totalDelta = fabs (sprayDeltaY) + fabs (sprayDeltaX);
 	float sprayDirectionX = sprayDeltaX / totalDelta;
 	float sprayDirectionY = sprayDeltaY / totalDelta;
@@ -751,32 +671,25 @@
  */
 - (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
 {
-	//if (LVL_GEN_ENV) {
-	//	NSLog(@"%@",[coord description]);
-	//	return false;
-	//}
-
 	Tile *t = [currentDungeon tileAt:coord];
-	if(t) {
+	if(t)
 		return !t.smashable && t.blockMove;
-	}
-	else {
+	else 
 		return YES;
-	}
 }
 
-- (Creature*) creatureAtLocation:(Coord*)loc
+- (Critter*) creatureAtLocation:(Coord*)loc
 {
-	for (Creature *c in liveEnemies)
-		if ([c.creatureLocation equals:loc])
+	for (Critter *c in liveEnemies)
+		if ([c.location equals:loc])
 			return c;
 	return nil;
 }
 
 - (BOOL) isACreatureAtLocation:(Coord*)loc
 {
-	for (Creature *c in liveEnemies)
-		if ([c.creatureLocation equals:loc])
+	for (Critter *c in liveEnemies)
+		if ([c.location equals:loc])
 			return YES;
 	
 	return NO;
@@ -784,7 +697,7 @@
 
 - (BOOL) locationIsOccupied:(Coord*)loc
 {
-	if ([player.creatureLocation equals:loc]) 
+	if ([player.location equals:loc]) 
 		return YES;
 	return [self isACreatureAtLocation:loc];
 }
@@ -799,51 +712,30 @@
 	return ![self tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
 }
 
-
-/*!
- @method		movePlayerToTileAtCoord:
- @abstract	Public function to move any creature. don't call it lightly.  
-				This method has no checks, and problems will occur if you aren't sure the tile is OK for movement.
-				If you want to see the movement, then call engines updateWorldView after a call to this function.
-				Moving creatures is the only thing that changes battle mode, so it is recalculated here
- */
-- (void) moveCreature:(Creature *)c ToTileAtCoord:(Coord*)tileCoord
+- (void) confirmLevelChange
 {
-	c.creatureLocation = tileCoord;
-
-	if (c == player) 
+	Tile *t = [currentDungeon tileAt:player.location];
+	//TODO: action confirmations
+	switch (t.slope) 
 	{
-		// duplicate check.  leave this here, because LVL_GEN_ENV bypasses the original check.
-		if ([c.creatureLocation equals: c.selectedMoveTarget]) {
-			c.selectedMoveTarget = nil;
-		}
-		slopeType currSlope = [currentDungeon tileAt: c.creatureLocation].slope;
-		if (currSlope) 
-		{
-			switch (currSlope) 
-			{
-				case slopeDown:
-					c.creatureLocation.Z++;
-					break;
-				case slopeUp:
-					c.creatureLocation.Z--;
-					break;
-				case slopeToOrc:
-					[self changeToDungeon:orcMines];
-					break;
-				case slopeToCrypt:
-					[self changeToDungeon:crypts];
-					break;					
-				case slopeToTown:
-					[self changeToDungeon:town];
-					break;
-				default:
-					break;
-			}
-		}
+		case slopeDown:
+			player.location.Z++;
+			break;
+		case slopeUp:
+			player.location.Z--;
+			break;
+		case slopeToOrc:
+			[self changeToDungeon:orcMines];
+			break;
+		case slopeToCrypt:
+			[self changeToDungeon:crypts];
+			break;					
+		case slopeToTown:
+			[self changeToDungeon:town];
+			break;
+		default:
+			break;
 	}
-
-	[self calculateCreaturesInBattle];
 }
 
 /*!
@@ -853,24 +745,23 @@
 */
 - (void) processTouch:(Coord *)tileCoord 
 {
-	player.selectedCreatureForAction = [self creatureAtLocation:tileCoord];
-	if (player.selectedCreatureForAction) 
+	if ([self isACreatureAtLocation:tileCoord]) 
 	{
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
-
+		[player think:[self creatureAtLocation:tileCoord]];
 		[battleMenuMngr showBattleMenu];
 	}
 	else 
 	{
-		if ([tileCoord equals:[player creatureLocation]]) {
+		if ([tileCoord equals:[player location]]) {
 			for (Coord *c in [currentDungeon.items allKeys])
 			{
 				if([c equals:tileCoord])
 				{
 					Item *i = [currentDungeon.items objectForKey:c];
-					[player.inventory addObject:i];
+					[player gainItem:i];
 					[currentDungeon.items removeObjectForKey:c];
 				}
 			}
@@ -879,11 +770,11 @@
 		{
 			if (TELEPORT_ENABLED) 
 			{
-				[self moveCreature: player ToTileAtCoord: tileCoord];
+				player.location = tileCoord;
 			}
 			else 
 			{
-				player.selectedMoveTarget = tileCoord;
+				[player setMoveTarget:tileCoord];
 			}
 		}
 	}
@@ -909,7 +800,7 @@
  */
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView
 {
-	Coord *center = player.creatureLocation;
+	Coord *center = player.location;
 	
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
@@ -925,10 +816,9 @@
  */
 - (CGPoint) originOfTile:(Coord*) tileCoord inWorldView:(WorldView *)wView
 {
-	Coord *center = player.creatureLocation;
+	Coord *center = player.location;
 	CGSize tileSize = [self tileSizeForWorldView:wView];
 	int halfTile = (tilesPerSide-1)/2;
-	
 	
 	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
 	
@@ -955,8 +845,7 @@
 
 - (void) successfullyLoadedDungeon
 {
-	if(tutorialMode) [self finishTutorial];
-	player.creatureLocation = [currentDungeon.playerStartLocation copy];
+	player.location = [currentDungeon.playerStartLocation copy];
 	
 	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[appDelg hideDungeonLoadingScreen];
@@ -978,19 +867,19 @@
 
 #pragma mark -
 #pragma mark Action Handlers
-- (void) ability_handler:(CombatAbility *)action 
+- (void) ability_handler:(Skill *)skill
 {
-	player.selectedCombatAbilityToUse = action;
+	[player setSkillToUse:skill];
 }
 
 - (void) spell_handler:(Spell *)spell 
 {
-	player.selectedSpellToUse = spell;
+	[player setSpellToUse:spell];
 }
 
 - (void) item_handler:(Item *)item 
 {
-	player.selectedItemToUse = item;
+	[player setItemToUse:item];
 }
 
 #pragma mark -
@@ -1020,14 +909,12 @@
 	[appDlgt.homeTabController finishTutorial];
 }
 
-
 #pragma mark -
 #pragma mark Player Commands
 
-
 - (void) playerEquipItem:(Item*)i
 {
-	[player addEquipment:i slot:i.slot];
+	[player equipItem:i];
 	
 	if(tutorialMode)
 		[self tutorialModeEquippedItem];
@@ -1036,17 +923,15 @@
 - (void) playerUseItem:(Item*)i
 {
 	if( i == nil ) return;
-	[i cast:player target:player.selectedCreatureForAction];
-	if(i.charges <= 0)
-		[player.inventory removeObject:i];
+	[player setItemToUse:i];
 	[self refreshInventoryScreen];
 }
 
 - (void) playerDropItem:(Item*)i
 {	
 	if (i == nil) return;
-	[currentDungeon.items setObject:i forKey:[player creatureLocation]];
-	[player.inventory removeObject:i];
+	[currentDungeon.items setObject:i forKey:[player location]];
+	[player loseItem:i];
 	[self refreshInventoryScreen];
 }
 
@@ -1055,7 +940,7 @@
 	int itemVal = [Item getItemValue:it];
 	if (player.money >= itemVal)
 	{
-		[player.inventory addObject:it];
+		[player gainItem:it];
 		player.money -= itemVal;
 		[self refreshInventoryScreen];
 	}
@@ -1063,7 +948,7 @@
 
 - (void) sellItem: (Item*) it
 {
-	[player.inventory removeObject: it];
+	[player loseItem:it];
 	int val = [Item getItemValue:it];
 	player.money += val >= 10 ? val : 10;
 	[self refreshInventoryScreen];
@@ -1074,10 +959,10 @@
 
 - (NSMutableArray*) getPlayerInventory
 {
-	return player.inventory;
+	return [player inventoryItems];
 }
 
-- (EquipSlots*) getPlayerEquippedItems
+- (EquippedItems) getPlayerEquippedItems
 {
 	return player.equipment;
 }
@@ -1087,11 +972,9 @@
 
 - (void) startNewGameWithPlayerName:(NSString*)name andIcon:(NSString*)icon
 {
-	self.player = [[[Creature alloc] init] autorelease];
-	player.name = name;
-	player.iconName = icon;
-	
-	[currentDungeon convertToType:town];
+	self.player = [[[Critter alloc] initWithLevel:1] autorelease];
+	player.stringName = name;
+	player.stringIcon = icon;
 }
 
 @end

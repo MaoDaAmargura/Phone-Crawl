@@ -3,7 +3,15 @@
 #import "LevelGen.h"
 #import "Tile.h"
 #import "Item.h"
-#import "Creature.h"
+
+#import "Critter.h"
+#import "WarriorCritter.h"
+#import "BerserkerCritter.h"
+#import "ShadowKnightCritter.h"
+#import "RogueCritter.h"
+#import "MageCritter.h"
+#import "PaladinCritter.h"
+
 
 #pragma mark --hacks
 
@@ -622,7 +630,71 @@ typedef enum {
 	}
 }
 
-+ (Dungeon*) makeOrcMines: (Dungeon*) dungeon {
++ (void) placeItems:(int) number inDungeon:(Dungeon*)dungeon
+{
+	for (int level=0; level < [dungeon numberOfLevels]; ++level) 
+	{
+		for (int LCV = 0; LCV < number; ++LCV) 
+		{
+			Coord *itemLoc;
+			// Find a square that we can place a monster in.
+			//TODO: Find a way to do this that is better than triple nested loop.
+			do {
+				itemLoc = [Coord withX:[Rand min:0 max:MAP_DIMENSION] Y:[Rand min:0 max:MAP_DIMENSION] Z:level];
+			} while ([dungeon tileAt:itemLoc].blockMove);
+			
+			
+			Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
+			// note: the key apparently gets copied during this call.
+			[dungeon.items setObject: item forKey: itemLoc];
+		}
+	}
+}
+
++ (void) placeMonsters:(int) number inDungeon:(Dungeon*)dungeon
+{
+	for (int level=0; level < [dungeon numberOfLevels]; ++level) 
+	{
+		for (int LCV = 0; LCV < number; ++LCV) 
+		{
+			Coord *monsterLoc;
+			// Find a square that we can place a monster in.
+			//TODO: Find a way to do this that is better than triple nested loop.
+			do {
+				monsterLoc = [Coord withX:[Rand min:0 max:MAP_DIMENSION] Y:[Rand min:0 max:MAP_DIMENSION] Z:level];
+			} while ([dungeon tileAt:monsterLoc].blockMove);
+			
+			int aiType = [Rand min:0 max:5];
+			int monsterlevel = level*4 + [Rand min:0 max:4];
+			Critter *critter;
+			switch (aiType) {
+				case 0:
+					critter = [[[BerserkerCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+				case 1:
+					critter = [[[WarriorCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+				case 2:
+					critter = [[[PaladinCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+				case 3:
+					critter = [[[ShadowKnightCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+				case 4:
+					critter = [[[RogueCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+				case 5:
+					critter = [[[MageCritter alloc] initWithLevel:monsterlevel] autorelease];
+					break;
+			}
+			critter.location = monsterLoc;
+			[dungeon.liveEnemies addObject:critter];
+		}
+	}
+}
+
++ (Dungeon*) makeOrcMines: (Dungeon*) dungeon 
+{
 	[self setFloorOf: dungeon to: tileGrass onZLevel: 0];
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:0];
 	[self putBuildings: dungeon onZLevel: 0];
@@ -635,62 +707,6 @@ typedef enum {
 	[self gameOfLife:dungeon zLevel:0 targeting:tileSlopeDown harshness: agentOrange];
 	[[dungeon tileAtX: 2 Y: 0 Z: 0] convertToType: tileStairsToTown];
 
-	[dungeon.items removeAllObjects];
-	Coord *coord = [Coord withX: 0 Y: 0 Z: 0];
-	for (int LCV = 0; LCV < MAP_DIMENSION; LCV++) {
-		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
-		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
-		if ([dungeon tileAt: coord].blockMove) {
-			--LCV;
-			continue;
-		}
-
-		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
-		[dungeon.items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
-//		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
-//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
-	}
-
-	for (int level=1; level <= 5;level ++) {
-		Coord *coord = [Coord withX: 0 Y: 0 Z: level-1];
-		for (int LCV = 0; LCV < MAP_DIMENSION * 2; LCV++) {
-			coord.X = [Rand min:0 max:MAP_DIMENSION - 1];
-			coord.Y = [Rand min:0 max:MAP_DIMENSION - 1];
-			if ([dungeon tileAt: coord].blockMove) {
-				--LCV;
-				continue;
-			}
-			//Are we only adding enemies to the first level?
-			//Enemies were supposed to have level ranges that went with their floor.
-			//Can't have level 20 monsters popping up on the first level.
-			int num = [Rand min:0 max:5];
-			creatureType type;
-			switch (num) {
-				case 0:
-					type = BERSERKER;
-					break;
-				case 1:
-					type = WARRIOR;
-					break;
-				case 2:
-					type = PALADIN;
-					break;
-				case 3:
-					type = SHADOWKNIGHT;
-					break;
-				case 4:
-					type = ROGUE;
-					break;
-				case 5:
-					type = MAGE;
-					break;
-			}
-			Creature *creature = [[Creature alloc] initMonsterOfType:type withElement:FIRE level:[Rand min:1+((level-1)*4) max:4+((level-1)*4)] atX: coord.X Y: coord.Y Z:coord.Z];
-			[dungeon.liveEnemies addObject:creature];
-		}
-	}
-
-
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 1];
 	[self followPit:dungeon fromZLevel:0];
 	for (int LCV = 0; LCV < 18; LCV++) {
@@ -698,8 +714,6 @@ typedef enum {
 	}
 
 	[self gameOfLife:dungeon zLevel:1 targeting:tileRockWall harshness: average];
-
-
 
 	[self putPatchesOf: tileRubble into: dungeon onZLevel:1];
 	[self putPatchesOf: tileLichen into: dungeon onZLevel:1];
@@ -711,8 +725,6 @@ typedef enum {
 	}
 	[self gameOfLife:dungeon zLevel:1 targeting:tileSlopeDown harshness: agentOrange];
 	[self followDownSlopes:dungeon fromZLevel:0];
-
-
 
 	[self setFloorOf: dungeon to: tileRockWall onZLevel: 2];
 	[self followPit: dungeon fromZLevel:1];
@@ -733,7 +745,8 @@ typedef enum {
 //	}
 	[self followDownSlopes: dungeon fromZLevel:1];
 	
-	//DLog (@"%@",[self allConnected:dungeon onZLevel: 2]);
+	[self placeMonsters:70 inDungeon:dungeon];
+	[self placeItems:40 inDungeon:dungeon];
 
 	return dungeon;
 }
@@ -848,33 +861,10 @@ typedef enum {
 		}
 
 	}
-
-	for (int LCV = 0; LCV < MAP_DIMENSION / 2; LCV++) {
-		coord.X = [Rand min: 0 max: MAP_DIMENSION - 1];
-		coord.Y = [Rand min: 0 max: MAP_DIMENSION - 1];
-		if ([dungeon tileAt: coord].blockMove) {
-			--LCV;
-			continue;
-		}
-		
-		Item *item = [Item generateRandomItem: 0 elemType: [Rand min: 0 max: 4]];
-		[dungeon.items setObject: item forKey: coord];	// note: the key apparently gets copied during this call.
-		//		+(Item *) generate_random_item: (int) dungeon_level elem_type: (elemType) elem_type;
-		//		typedef enum {FIRE = 0,COLD = 1,LIGHTNING = 2,POISON = 3,DARK = 4} elemType;
-	}
 	
-	for (int LCV = 0; LCV < MAP_DIMENSION / 2; LCV++) {
-		coord.X = [Rand min:0 max:MAP_DIMENSION - 1];
-		coord.Y = [Rand min:0 max:MAP_DIMENSION - 1];
-		if ([dungeon tileAt: coord].blockMove) {
-			--LCV;
-			continue;
-		}
-		//Quick hack -- the level of the monster should be determined by the Z level, according to requirements!
-		Creature *creature = [[Creature alloc] initMonsterOfType:WARRIOR withElement:FIRE level:[Rand min:1 max:4] atX: coord.X Y: coord.Y Z:0];
-		[dungeon.liveEnemies addObject:creature];		
-	}
-
+	[self placeMonsters:40 inDungeon:dungeon];
+	[self placeItems:25 inDungeon:dungeon];
+	
 	return dungeon;
 }
 

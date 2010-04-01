@@ -3,7 +3,7 @@
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
-#import "Creature.h"
+@class Critter;
 
 @interface SkillUpgradeViewController : PCBaseViewController
 {
@@ -11,7 +11,7 @@
 	IBOutlet UIView *spellView;
 	IBOutlet UIView *abilityView;
 	
-	Creature *player;
+	Critter *player;
 	IBOutlet UILabel *numPoints;
 	
 	IBOutlet UISegmentedControl *mainSegmentControl;

@@ -12,15 +12,20 @@
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765080DF74369002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765070DF74369002DB57D /* CoreGraphics.framework */; };
 		28AD73880D9D96C1002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD73870D9D96C1002E5188 /* MainWindow.xib */; };
-		65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD9D3A111CD37B00343473 /* CombatAbility.m */; };
+		65AD9D3B111CD37B00343473 /* Skill.m in Sources */ = {isa = PBXBuildFile; fileRef = 65AD9D3A111CD37B00343473 /* Skill.m */; };
 		65E8F37D110BFC06000BF581 /* Spell.m in Sources */ = {isa = PBXBuildFile; fileRef = 65E8F37C110BFC06000BF581 /* Spell.m */; };
 		B058D3C21147391E00AEBDF1 /* EndGame.xib in Resources */ = {isa = PBXBuildFile; fileRef = B058D3C11147391E00AEBDF1 /* EndGame.xib */; };
 		B058D3C61147392800AEBDF1 /* EndGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B058D3C51147392800AEBDF1 /* EndGame.m */; };
 		D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70FA6EE11480B44001F1C56 /* PCParticle.m */; };
 		D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70FA7CD11481E1A001F1C56 /* PCParticle.xib */; };
 		D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */; };
+		D920250B11630F3300DEB456 /* WarriorCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D920250A11630F3300DEB456 /* WarriorCritter.m */; };
+		D9202520116310E400DEB456 /* BerserkerCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D920251F116310E400DEB456 /* BerserkerCritter.m */; };
+		D9202523116310F200DEB456 /* ShadowKnightCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D9202522116310F200DEB456 /* ShadowKnightCritter.m */; };
+		D9202526116310FD00DEB456 /* RogueCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D9202525116310FD00DEB456 /* RogueCritter.m */; };
+		D92025291163110400DEB456 /* MageCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D92025281163110400DEB456 /* MageCritter.m */; };
+		D920252C1163110E00DEB456 /* PaladinCritter.m in Sources */ = {isa = PBXBuildFile; fileRef = D920252B1163110E00DEB456 /* PaladinCritter.m */; };
 		D931C3E11106321A0032A3DD /* Engine.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E01106321A0032A3DD /* Engine.m */; };
-		D931C3E7110632A00032A3DD /* Creature.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E6110632A00032A3DD /* Creature.m */; };
 		D931C3EA110632B60032A3DD /* Item.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C3E9110632B60032A3DD /* Item.m */; };
 		D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D931C40A11063B790032A3DD /* PCBaseViewController.m */; };
 		D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = D957F44E112BAEE000809C1B /* InventoryScrollView.m */; };
@@ -338,8 +343,8 @@
 		28A0AB4B0D9B1048005BE974 /* Phone_Crawl_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Phone_Crawl_Prefix.pch; sourceTree = "<group>"; };
 		28AD73870D9D96C1002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		65AD9D39111CD37B00343473 /* CombatAbility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CombatAbility.h; sourceTree = "<group>"; };
-		65AD9D3A111CD37B00343473 /* CombatAbility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CombatAbility.m; sourceTree = "<group>"; };
+		65AD9D39111CD37B00343473 /* Skill.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Skill.h; sourceTree = "<group>"; };
+		65AD9D3A111CD37B00343473 /* Skill.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Skill.m; sourceTree = "<group>"; };
 		65E8F37B110BFC06000BF581 /* Spell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spell.h; sourceTree = "<group>"; };
 		65E8F37C110BFC06000BF581 /* Spell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Spell.m; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Phone_Crawl-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Phone_Crawl-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
@@ -351,10 +356,21 @@
 		D70FA7CD11481E1A001F1C56 /* PCParticle.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PCParticle.xib; sourceTree = "<group>"; };
 		D918C0EB1146F46A002D4575 /* UIImage+Overlay.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Overlay.h"; sourceTree = "<group>"; };
 		D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Overlay.m"; sourceTree = "<group>"; };
+		D92024451163024600DEB456 /* Critter+LoadExtensions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Critter+LoadExtensions.h"; sourceTree = "<group>"; };
+		D920250911630F3300DEB456 /* WarriorCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WarriorCritter.h; sourceTree = "<group>"; };
+		D920250A11630F3300DEB456 /* WarriorCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WarriorCritter.m; sourceTree = "<group>"; };
+		D920251E116310E400DEB456 /* BerserkerCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BerserkerCritter.h; sourceTree = "<group>"; };
+		D920251F116310E400DEB456 /* BerserkerCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BerserkerCritter.m; sourceTree = "<group>"; };
+		D9202521116310F200DEB456 /* ShadowKnightCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShadowKnightCritter.h; sourceTree = "<group>"; };
+		D9202522116310F200DEB456 /* ShadowKnightCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShadowKnightCritter.m; sourceTree = "<group>"; };
+		D9202524116310FD00DEB456 /* RogueCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RogueCritter.h; sourceTree = "<group>"; };
+		D9202525116310FD00DEB456 /* RogueCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RogueCritter.m; sourceTree = "<group>"; };
+		D92025271163110400DEB456 /* MageCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MageCritter.h; sourceTree = "<group>"; };
+		D92025281163110400DEB456 /* MageCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MageCritter.m; sourceTree = "<group>"; };
+		D920252A1163110E00DEB456 /* PaladinCritter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaladinCritter.h; sourceTree = "<group>"; };
+		D920252B1163110E00DEB456 /* PaladinCritter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaladinCritter.m; sourceTree = "<group>"; };
 		D931C3DF1106321A0032A3DD /* Engine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Engine.h; sourceTree = "<group>"; };
 		D931C3E01106321A0032A3DD /* Engine.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Engine.m; sourceTree = "<group>"; };
-		D931C3E5110632A00032A3DD /* Creature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Creature.h; sourceTree = "<group>"; };
-		D931C3E6110632A00032A3DD /* Creature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Creature.m; sourceTree = "<group>"; };
 		D931C3E8110632B60032A3DD /* Item.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Item.h; sourceTree = "<group>"; };
 		D931C3E9110632B60032A3DD /* Item.m */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 4; lastKnownFileType = sourcecode.c.objc; path = Item.m; sourceTree = "<group>"; tabWidth = 4; usesTabs = 0; wrapsLines = 0; };
 		D931C40911063B790032A3DD /* PCBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCBaseViewController.h; sourceTree = "<group>"; };
@@ -765,13 +781,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		65AD9D38111CD35D00343473 /* CombatAbilities */ = {
+		65AD9D38111CD35D00343473 /* Skill */ = {
 			isa = PBXGroup;
 			children = (
-				65AD9D39111CD37B00343473 /* CombatAbility.h */,
-				65AD9D3A111CD37B00343473 /* CombatAbility.m */,
+				65AD9D39111CD37B00343473 /* Skill.h */,
+				65AD9D3A111CD37B00343473 /* Skill.m */,
 			);
-			name = CombatAbilities;
+			name = Skill;
 			sourceTree = "<group>";
 		};
 		65E8F378110BFBDC000BF581 /* Spell */ = {
@@ -790,6 +806,25 @@
 				D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		D920250811630F0C00DEB456 /* MonsterSubtypes */ = {
+			isa = PBXGroup;
+			children = (
+				D920250911630F3300DEB456 /* WarriorCritter.h */,
+				D920250A11630F3300DEB456 /* WarriorCritter.m */,
+				D920251E116310E400DEB456 /* BerserkerCritter.h */,
+				D920251F116310E400DEB456 /* BerserkerCritter.m */,
+				D9202521116310F200DEB456 /* ShadowKnightCritter.h */,
+				D9202522116310F200DEB456 /* ShadowKnightCritter.m */,
+				D9202524116310FD00DEB456 /* RogueCritter.h */,
+				D9202525116310FD00DEB456 /* RogueCritter.m */,
+				D92025271163110400DEB456 /* MageCritter.h */,
+				D92025281163110400DEB456 /* MageCritter.m */,
+				D920252A1163110E00DEB456 /* PaladinCritter.h */,
+				D920252B1163110E00DEB456 /* PaladinCritter.m */,
+			);
+			name = MonsterSubtypes;
 			sourceTree = "<group>";
 		};
 		D931C3E21106322D0032A3DD /* Util */ = {
@@ -901,10 +936,7 @@
 		D95F3AEE10FFCECF00323446 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				D9894B8A116280CA0034C3C8 /* BattleMenu */,
-				D95D7638116180F100CD00C6 /* Merchant */,
-				D9C4F2E4115C1D16006B3A78 /* Save */,
-				D95FB24B1148A3B9003DAB25 /* Score */,
+				D9F6D71411654A5700A96358 /* Managers */,
 				D931C3E4110632430032A3DD /* Engine */,
 				D931C3E3110632350032A3DD /* Generation */,
 				D931C3E21106322D0032A3DD /* Util */,
@@ -1429,7 +1461,7 @@
 		D9B55D1911015878007173A3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				65AD9D38111CD35D00343473 /* CombatAbilities */,
+				65AD9D38111CD35D00343473 /* Skill */,
 				65E8F378110BFBDC000BF581 /* Spell */,
 				D9EBB8EC1106889100C34836 /* Item */,
 				D9EBB8EB1106887F00C34836 /* Creature */,
@@ -1461,10 +1493,10 @@
 		D9EBB8EB1106887F00C34836 /* Creature */ = {
 			isa = PBXGroup;
 			children = (
-				D931C3E5110632A00032A3DD /* Creature.h */,
-				D931C3E6110632A00032A3DD /* Creature.m */,
+				D920250811630F0C00DEB456 /* MonsterSubtypes */,
 				D95D75F5115F295200CD00C6 /* Critter.h */,
 				D95D75F6115F295200CD00C6 /* Critter.m */,
+				D92024451163024600DEB456 /* Critter+LoadExtensions.h */,
 			);
 			name = Creature;
 			sourceTree = "<group>";
@@ -1478,6 +1510,17 @@
 				D98D744B111E3EA200EC62CF /* InventoryItemButton.m */,
 			);
 			name = Item;
+			sourceTree = "<group>";
+		};
+		D9F6D71411654A5700A96358 /* Managers */ = {
+			isa = PBXGroup;
+			children = (
+				D95FB24B1148A3B9003DAB25 /* Score */,
+				D9C4F2E4115C1D16006B3A78 /* Save */,
+				D95D7638116180F100CD00C6 /* Merchant */,
+				D9894B8A116280CA0034C3C8 /* BattleMenu */,
+			);
+			name = Managers;
 			sourceTree = "<group>";
 		};
 		D9F89CEC113F2A1A005DC43E /* GTM */ = {
@@ -1880,12 +1923,11 @@
 				D9B55D2111015886007173A3 /* LevelGen.m in Sources */,
 				D9B55D2211015886007173A3 /* Util.m in Sources */,
 				D931C3E11106321A0032A3DD /* Engine.m in Sources */,
-				D931C3E7110632A00032A3DD /* Creature.m in Sources */,
 				D931C3EA110632B60032A3DD /* Item.m in Sources */,
 				D931C40B11063B790032A3DD /* PCBaseViewController.m in Sources */,
 				D9EBB8EF110688A800C34836 /* Tile.m in Sources */,
 				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
-				65AD9D3B111CD37B00343473 /* CombatAbility.m in Sources */,
+				65AD9D3B111CD37B00343473 /* Skill.m in Sources */,
 				D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */,
 				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
@@ -1900,6 +1942,12 @@
 				D95D75F7115F295200CD00C6 /* Critter.m in Sources */,
 				D95D763B1161810200CD00C6 /* MerchantDialogueManager.m in Sources */,
 				D9894B8E116280DA0034C3C8 /* BattleMenuManager.m in Sources */,
+				D920250B11630F3300DEB456 /* WarriorCritter.m in Sources */,
+				D9202520116310E400DEB456 /* BerserkerCritter.m in Sources */,
+				D9202523116310F200DEB456 /* ShadowKnightCritter.m in Sources */,
+				D9202526116310FD00DEB456 /* RogueCritter.m in Sources */,
+				D92025291163110400DEB456 /* MageCritter.m in Sources */,
+				D920252C1163110E00DEB456 /* PaladinCritter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,16 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-@class Creature;
+@class Critter;
 
 @interface GameFileManager : NSObject 
 {
 
 }
 
-- (Creature*) loadCharacterFromFile:(NSString *)filename;
+- (Critter*) loadCharacterFromFile:(NSString *)filename;
 
-- (void) saveCharacter:(Creature*) player toFile:(NSString *)filename;
+- (void) saveCharacter:(Critter*) player toFile:(NSString *)filename;
 
 
 @end

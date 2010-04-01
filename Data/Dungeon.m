@@ -132,6 +132,11 @@
 	return [self tileAtX: coord.X Y: coord.Y Z: coord.Z];
 }
 
+- (int) numberOfLevels
+{
+	return [tiles count]/(MAP_DIMENSION*MAP_DIMENSION);
+}
+
 #pragma mark -
 #pragma mark Static
 

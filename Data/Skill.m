@@ -1,17 +1,19 @@
-#import "CombatAbility.h"
+
 #define LEVEL_DIFF_MULT 2
 
-#import "Creature.h"
-#import "PCPopupMenu.h"
+#import "Skill.h"
+
+#import "Critter.h"
 #import "Item.h"
 
-#define ADD_ABILITY(NAME,DMG,FN,TPNTS) [abilityList addObject:[[[CombatAbility alloc] initWithInfo:NAME damageMultiplier:DMG \
+#define ADD_ABILITY(NAME,DMG,FN,TPNTS) [abilityList addObject:[[[Skill alloc] initWithInfo:NAME damageMultiplier:DMG \
 abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] autorelease]]
 
 NSMutableArray *abilityList = nil;
+
 BOOL have_set_abilities = FALSE;
 
-@implementation CombatAbility
+@implementation Skill
 
 @synthesize name;
 @synthesize abilityId;
@@ -34,7 +36,7 @@ BOOL have_set_abilities = FALSE;
 	return nil;
 }
 
-- (NSString *) useAbility: (Creature *) caster target: (Creature *) target 
+- (NSString *) useAbility: (Critter *) caster target: (Critter *) target 
 {
 	int abilityResult = 0;
 
@@ -53,15 +55,15 @@ BOOL have_set_abilities = FALSE;
 
 }
 
-+ (NSString *) useAbilityWithId: (int) desiredAbilityId caster: (Creature *) caster target: (Creature *) target {
-	if(!have_set_abilities) [CombatAbility fillAbilityList];
++ (NSString *) useAbilityWithId: (int) desiredAbilityId caster: (Critter *) caster target: (Critter *) target {
+	//if(!have_set_abilities) [Skill fillAbilityList];
 
-	CombatAbility *ca = [abilityList objectAtIndex:desiredAbilityId];
+	Skill *ca = [abilityList objectAtIndex:desiredAbilityId];
 	return [ca useAbility:caster target:target];
 };
 
-- (int) mitigateDamage:(Creature *)caster target:(Creature *)target damage: (int) amountDamage {
-	int resist = target.armor;
+- (int) mitigateDamage:(Critter *)caster target:(Critter *)target damage: (int) amountDamage {
+	int resist = target.defense.armor;
 	//int resist = target.defense.armor; //Critter
 	if (resist > STAT_MAX) {
 		resist = STAT_MAX;
@@ -76,46 +78,36 @@ BOOL have_set_abilities = FALSE;
 	return amountDamage * resist / 100;
 }
 
-- (int) basicAttack:(Creature *)attacker def:(Creature *)defender {
-	float basedamage = [attacker regularWeaponDamage];
-	//float basedamage = [attacker getPhysDamage]; //Critter
+- (int) basicAttack:(Critter *)attacker def:(Critter *)defender {
+	float basedamage = [attacker getPhysDamage];
 	basedamage *= damageMultiplier;
-	float finaldamage = basedamage*((120-defender.armor)/54+0.1);
-	//return basedamage*((120-defender.defense.armor)/54+0.1); //Critter
-	return finaldamage;
+	return basedamage*((120-defender.defense.armor)/54+0.1); 
 }
 
-- (int) elementalAttack:(Creature *)attacker def:(Creature *)defender {
+- (int) elementalAttack:(Critter *)attacker def:(Critter *)defender {
 	float resist;
-	float elementDamage = [attacker elementalWeaponDamage];
-	//float elementDamage = [attacker getElemDamage]; //Critter
-	elemType type = attacker.equipment.rHand.element;
-	//elemType type = attacker.equipment.rhand.element; //Critter
+	float elementDamage = [attacker getElemDamage]; //Critter
+	elemType type = attacker.equipment.rhand.element; //Critter
 	conditionType condtype = NO_CONDITION;
 	switch (type) {
 		case FIRE:
-			resist = defender.fire;
-			//resist = defender.defense.fire; //Critter
+			resist = defender.defense.fire; //Critter
 			condtype = BURNED;
 			break;
 		case COLD:
-			resist = defender.cold;
-			//resist = defender.defense.cold; //Critter
+			resist = defender.defense.frost; //Critter
 			condtype = CHILLED;
 			break;
 		case LIGHTNING:
-			resist = defender.lightning;
-			//resist = defender.defense.lightning; //Critter
+			resist = defender.defense.shock; //Critter
 			condtype = HASTENED;
 			break;
 		case POISON:
-			resist = defender.poison;
-			//resist = defender.defense.poison; //Critter
+			resist = defender.defense.poison; //Critter
 			condtype = POISONED;
 			break;
 		case DARK:
-			resist = defender.dark;
-			//resist = defender.defense.dark; //Critter
+			resist = defender.defense.dark; //Critter
 			condtype = CURSED;
 			break;
 		default:
@@ -125,38 +117,38 @@ BOOL have_set_abilities = FALSE;
 
 	int finaldamage = (elementDamage * (100-resist) / 100);
 	if ([Rand min:0 max:100] > 20 * abilityLevel)
-		[defender addCondition:condtype];
+		[defender gainCondition:condtype];
 	//[defender takeDamage:finaldamage];
 	return finaldamage;
 }
 
 //Specialized ability function example
-- (int) mixedStrike: (Creature *) attacker target: (Creature *) defender {
+- (int) mixedStrike: (Critter *) attacker target: (Critter *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
 	return 0.5*([self basicAttack: attacker def: defender] + [self elementalAttack:attacker def:defender]);
 }
 
-- (int) elementalStrike: (Creature *) attacker target: (Creature *) defender {
+- (int) elementalStrike: (Critter *) attacker target: (Critter *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
 	return [self elementalAttack: attacker def: defender];
 }
 
-- (int) defaultStrike: (Creature *) attacker target: (Creature *) defender {
+- (int) defaultStrike: (Critter *) attacker target: (Critter *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
 	int dmg = [self basicAttack: attacker def: defender];
-	DLog(@"%@ hits %@ for %d",attacker.iconName, defender.name, dmg);
 	//DLog(@"%@ hits %@ for %d",attacker.stringName, defender.stringName, dmg); //Critter
 	return dmg;
 }
 
 
-+ (void) fillAbilityList {
++ (void) initialize
+{
 	have_set_abilities = TRUE;
 	int id_cnt = 0, abilityLvl = 1;
 	//ability_list = [[[NSMutableArray alloc] init] autorelease];
@@ -165,12 +157,18 @@ BOOL have_set_abilities = FALSE;
 	SEL ele = @selector(elementalStrike:target:);
 	SEL def = @selector(defaultStrike:target:);
 
-	ADD_ABILITY(@"Elem",2.0,ele,50);
-	ADD_ABILITY(@"Power",4.0,def,100);
-	ADD_ABILITY(@"Combo",2.0,mix,50);
-	ADD_ABILITY(@"Quick",1.0,def,25);
+	
 	ADD_ABILITY(@"Basic",2.0,def,50);
+	ADD_ABILITY(@"Quick",1.0,def,25);
+	ADD_ABILITY(@"Power",4.0,def,100);
+	ADD_ABILITY(@"Elem",2.0,ele,50);
+	ADD_ABILITY(@"Combo",2.0,mix,50);
 	ADD_ABILITY(@"Shitty",0.8,def,50);
+}
+
++ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type
+{
+	return [abilityList objectAtIndex:type];
 }
 
 @end

@@ -7,6 +7,9 @@
 #import <QuartzCore/QuartzCore.h>
 
 #import "Util.h"
+#import "Critter.h"
+#import "Skill.h"
+#import "Spell.h"
 
 #define FIRE_ICON	@"bg-fire.png"
 #define COLD_ICON	@"bg-cold.png"
@@ -95,25 +98,25 @@
 
 - (void) updateUI
 {
-	Abilities *playerAbils = [player abilities];
+	Abilities playerAbils = player.abilities;
 	
-	[self updateButton:flameSkillButton withBackground:FIRE_ICON number:playerAbils.spellBook[FIREDAMAGE]];
-	[self updateButton:frostSkillButton withBackground:COLD_ICON number:playerAbils.spellBook[COLDDAMAGE]];
-	[self updateButton:shockSkillButton withBackground:SHOCK_ICON number:playerAbils.spellBook[LIGHTNINGDAMAGE]];
-	[self updateButton:erodeSkillButton withBackground:POISON_ICON number:playerAbils.spellBook[POISONDAMAGE]];
-	[self updateButton:drainSkillButton withBackground:DARK_ICON number:playerAbils.spellBook[DARKDAMAGE]];
+	[self updateButton:flameSkillButton withBackground:FIRE_ICON number:playerAbils.spells[FIREDAMAGE]];
+	[self updateButton:frostSkillButton withBackground:COLD_ICON number:playerAbils.spells[COLDDAMAGE]];
+	[self updateButton:shockSkillButton withBackground:SHOCK_ICON number:playerAbils.spells[LIGHTNINGDAMAGE]];
+	[self updateButton:erodeSkillButton withBackground:POISON_ICON number:playerAbils.spells[POISONDAMAGE]];
+	[self updateButton:drainSkillButton withBackground:DARK_ICON number:playerAbils.spells[DARKDAMAGE]];
 	
-	[self updateButton:burnSkillButton withBackground:FIRE_ICON number:playerAbils.spellBook[FIRECONDITION]];
-	[self updateButton:freezeSkillButton withBackground:COLD_ICON number:playerAbils.spellBook[COLDCONDITION]];
-	[self updateButton:purgeSkillButton withBackground:SHOCK_ICON number:playerAbils.spellBook[LIGHTNINGCONDITION]];
-	[self updateButton:poisonSkillButton withBackground:POISON_ICON number:playerAbils.spellBook[POISONCONDITION]];
-	[self updateButton:confuseSkillButton withBackground:DARK_ICON number:playerAbils.spellBook[DARKCONDITION]];
+	[self updateButton:burnSkillButton withBackground:FIRE_ICON number:playerAbils.spells[FIRECONDITION]];
+	[self updateButton:freezeSkillButton withBackground:COLD_ICON number:playerAbils.spells[COLDCONDITION]];
+	[self updateButton:purgeSkillButton withBackground:SHOCK_ICON number:playerAbils.spells[LIGHTNINGCONDITION]];
+	[self updateButton:poisonSkillButton withBackground:POISON_ICON number:playerAbils.spells[POISONCONDITION]];
+	[self updateButton:confuseSkillButton withBackground:DARK_ICON number:playerAbils.spells[DARKCONDITION]];
 	
-	[self updateButton:basicAttackButton withBackground:BASIC_ICON number:playerAbils.combatAbility[REG_STRIKE]];
-	[self updateButton:quickAttackButton withBackground:QUICK_ICON number:playerAbils.combatAbility[QUICK_STRIKE]];
-	[self updateButton:powerAttackButton withBackground:POWER_ICON number:playerAbils.combatAbility[BRUTE_STRIKE]];
-	[self updateButton:eleAttackButton withBackground:ELEM_ICON number:playerAbils.combatAbility[ELE_STRIKE]];
-	[self updateButton:comboAttackButton withBackground:COMBO_ICON number:playerAbils.combatAbility[MIX_STRIKE]];
+	[self updateButton:basicAttackButton withBackground:BASIC_ICON number:playerAbils.skills[REG_STRIKE]];
+	[self updateButton:quickAttackButton withBackground:QUICK_ICON number:playerAbils.skills[QUICK_STRIKE]];
+	[self updateButton:powerAttackButton withBackground:POWER_ICON number:playerAbils.skills[BRUTE_STRIKE]];
+	[self updateButton:eleAttackButton withBackground:ELEM_ICON number:playerAbils.skills[ELE_STRIKE]];
+	[self updateButton:comboAttackButton withBackground:COMBO_ICON number:playerAbils.skills[MIX_STRIKE]];
 	
 	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
 }
@@ -141,26 +144,23 @@
 
 - (void) upgradeSpell:(PC_SPELL_TYPE)spell andUpdateButton:(UIButton*)button withIconNamed:(NSString*)name 
 {
-	if (player.abilities.spellBook[spell] >= 5 || player.abilityPoints < COST_OF_SPELL)
-	{
+	int i = (int) spell;
+	if (player.abilities.spells[i] >= 5 || player.abilityPoints < COST_OF_SPELL)
 		return;
-	}
-	player.abilities.spellBook[spell]++;
+	[player abilities].spells[i]++;
 	player.abilityPoints -= COST_OF_SPELL;
 	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
-	[self updateButton:button withBackground:name number:player.abilities.spellBook[spell]];
+	[self updateButton:button withBackground:name number:player.abilities.spells[spell]];
 }
 
 - (void) upgradeSkill:(PC_COMBAT_ABILITY_TYPE)skill andUpdateButton:(UIButton*)button withIconNamed:(NSString*) name
 {
-	if (player.abilities.combatAbility[skill] >= 5 || player.abilityPoints < COST_OF_SKILL)
-	{
+	if (player.abilities.skills[skill] >= 5 || player.abilityPoints < COST_OF_SKILL)
 		return;
-	}
-	player.abilities.combatAbility[skill]++;
+	[player abilities].skills[skill]++;
 	player.abilityPoints -= COST_OF_SKILL;
 	numPoints.text = [NSString stringWithFormat:@"%d", player.abilityPoints];
-	[self updateButton:button withBackground:name number:player.abilities.combatAbility[skill]];
+	[self updateButton:button withBackground:name number:player.abilities.skills[skill]];
 }
 
 - (IBAction) upgradeFlame

@@ -2,18 +2,20 @@
 
 #import "HomeTabViewController.h"
 #import "NewGameFlowControl.h"
+#import "EndGame.h"
 
 #import "Dungeon.h" // simply for the "town" enum
-#import "Creature.h"
+#import "Critter.h"
+#import "Skill.h"
+#import "Spell.h"
 
 #import "Engine.h"
 
 #import "HighScoreViewController.h"
 #import "HighScoreManager.h"
-
 #import "GameFileManager.h"
 
-#import "EndGame.h"
+
 
 #define ALLOWED_TO_LOAD_GAME_KEY	@"ac871013842be92b2b53c294d1c1d48efa51"
 
@@ -47,6 +49,13 @@
 		[window insertSubview:homeTabController.view atIndex:0];
 		gameStarted = NO;
 	}
+	
+	[Spell initialize];
+	[Skill initialize];
+	
+	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.3 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
+	
+	[timer fire];
 }
 
 
@@ -73,11 +82,39 @@
 #pragma mark -
 #pragma mark Delegates
 
+- (void) fireGameLoop
+{
+	if (gameStarted)
+	{
+		// check to see if player is dead
+		if ([homeTabController.gameEngine.player isAlive]) 
+		{
+			[homeTabController.gameEngine gameLoopWithWorldView:homeTabController.wView];
+		}
+		else 
+		{
+			[homeTabController.wView.view addSubview:homeTabController.endView.view];
+			// TODO: get view to change to endgame properly
+			//[homeTabController.navigationController pushViewController:homeTabController.endView animated:YES];
+		}
+	}
+}
+
+- (void) loadGameWorld
+{
+	[window bringSubviewToFront:homeTabController.view];
+	[homeTabController.gameEngine changeToDungeon:town];
+	isAllowedToLoadGame = YES;
+	gameStarted = YES;
+}
+
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
 {
-	flow.view.hidden = YES;
+	[flow.view removeFromSuperview];
+	[flow release];
+	homeTabController.gameEngine.tutorialMode = YES;
 	[homeTabController newCharacterWithName:name andIcon:icon];
-	[window bringSubviewToFront:homeTabController.view];
+	[self loadGameWorld];
 }
 
 #pragma mark -
@@ -85,16 +122,10 @@
 
 - (IBAction) startNewGame
 {
-	if(!flow)
-	{
-		flow = [[NewGameFlowControl alloc] init];
-		[window addSubview:flow.view];
-		flow.delegate = self;
-	}
-	[window bringSubviewToFront:flow.view];
+	flow = [[NewGameFlowControl alloc] init];
+	[window addSubview:flow.view];
+	flow.delegate = self;
 	[flow begin];
-	gameStarted = YES;
-	isAllowedToLoadGame = YES;
 }
 
 - (IBAction) loadSaveGame
@@ -103,10 +134,8 @@
 	homeTabController.gameEngine.player = [gameManager loadCharacterFromFile:SAVED_GAME_FILE_NAME];
 	if(homeTabController.gameEngine.player)
 	{
-		[homeTabController.gameEngine.currentDungeon convertToType:town];
-		[homeTabController updateCharacterView];
-		[window bringSubviewToFront:homeTabController.view];
-		gameStarted = YES;
+		homeTabController.gameEngine.tutorialMode = NO;
+		[self loadGameWorld];
 	}
 
 }
@@ -122,12 +151,12 @@
 {
 	isAllowedToLoadGame = NO;
 	gameStarted = NO;
-	Creature *player = [homeTabController.gameEngine player];
-	[scoreController insertPossibleNewScore:[player getHighScore] name:[player name]];
+	Critter *player = [homeTabController.gameEngine player];
+	[scoreController insertPossibleNewScore:[player score] name:player.stringName];
 	[window bringSubviewToFront:mainMenuView];
 }
 
-- (Creature*) playerObject
+- (Critter*) playerObject
 {
 	return [homeTabController.gameEngine player];
 }

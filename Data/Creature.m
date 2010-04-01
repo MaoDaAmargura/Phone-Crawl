@@ -4,7 +4,7 @@
 #import "Item.h"
 #import "Dungeon.h"
 
-@implementation Creature
+@implementation Critter
 
 @synthesize abilities;
 @synthesize creatureLocation;
@@ -533,14 +533,14 @@
 @end
 
 @implementation Abilities
-@synthesize spellBook;
-@synthesize combatAbility;
+@synthesize spells;
+@synthesize skills;
 - (id) init
 {
 	if(self = [super init])
 	{
-		spellBook = (int*)malloc(sizeof(int) * NUM_PC_SPELL_TYPES);
-		combatAbility = (int*)malloc(sizeof(int) * NUM_COMBAT_ABILITY_TYPES);
+		spells = (int*)malloc(sizeof(int) * NUM_PC_SPELL_TYPES);
+		skills = (int*)malloc(sizeof(int) * NUM_COMBAT_ABILITY_TYPES);
 		return self;
 	}
 	return nil;
@@ -548,12 +548,12 @@
 - (void) setSpellBookArray:(int []) sb {
 	int i = 0;
 	for (; i < NUM_PC_SPELL_TYPES; ++i)
-		spellBook[i] = sb[i];
+		spells[i] = sb[i];
 }
 - (void) setCombatAbilityArray:(int [])c {
 	int i = 0;
 	for (; i < NUM_COMBAT_ABILITY_TYPES; ++i)
-		combatAbility[i] = c[i];
+		skills[i] = c[i];
 }
 
 @end

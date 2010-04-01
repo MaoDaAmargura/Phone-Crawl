@@ -7,17 +7,26 @@
 //
 
 #import "Critter.h"
+#import "Critter+LoadExtensions.h"
 
-#import "Util.h"
 #import "Item.h"
 #import "Spell.h"
-#import "CombatAbility.h"
+#import "Skill.h"
 
-
+#define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 
 @implementation Critter
 
-@synthesize alive;
+@synthesize stringName, stringIcon;
+@synthesize alive, inBattle;
+@synthesize cachedPath;
+@synthesize level, turnPoints, money, abilityPoints, deathPenalty, turnSpeed;
+@synthesize location;
+@synthesize equipment;
+@synthesize target;
+@synthesize defense;
+@synthesize current, max;
+@synthesize abilities;
 
 - (id) initWithLevel:(int)lvl
 {
@@ -25,18 +34,79 @@
 	{
 		level = lvl;
 		alive = YES;
+		int baseStat = 100 + 25*level;
+		[self setHealth:baseStat];
+		[self setShield:baseStat];
+		[self setMana:baseStat];
+		inventory = [[NSMutableArray alloc] initWithCapacity:10];
+		abilities.spells = malloc(NUM_PLAYER_SPELL_TYPES*sizeof(int));
+		for (int i = 0; i < NUM_PLAYER_SPELL_TYPES; ++i) 
+			abilities.spells[i] = 0;
+		abilities.skills = malloc(NUM_PLAYER_SKILL_TYPES*sizeof(int));
+		abilities.skills[0] = 1;
+		for (int i = 1; i < NUM_PLAYER_SKILL_TYPES; ++i)
+			abilities.skills[i] = 0;
+		abilityPoints = 5;
 	}
 	return self;
 }
+								  
+- (void) dealloc
+{
+	free(abilities.spells);
+	free(abilities.skills);
+	[inventory release];
+	[super dealloc];
+}
 
+- (BOOL) hasCondition:(conditionType)cond
+{
+	return cond&conditionBitSet != 0;
+}
+	
 - (void) gainCondition:(conditionType)cond
 {
-	conditionBitSet |= cond;
+	if (![self hasCondition:cond])
+	{
+		conditionBitSet |= cond;
+		if (cond == WEAKENED) {
+			max.hp *= .8; 
+			current.hp *= .8;
+		}
+	}
 }
 
 - (void) loseCondition:(conditionType)cond
 {
-	conditionBitSet &= ~cond;
+	if ([self hasCondition:cond]) 
+	{
+		if (cond ==  WEAKENED) {
+			max.hp *= 1.25;
+			current.hp *= 1.25;
+		}
+		conditionBitSet &= ~cond;
+	}
+}
+
+- (void) loseAllConditions
+{
+	conditionBitSet &= 0;
+}
+
+- (void) gainExperience:(int) exp
+{
+	experience += exp;
+	while (experience >= 1000) 
+	{
+		++level;
+		experience -= 1000;
+	}
+}
+
+- (void) incrementTurnSpeed
+{
+	//caster.current.ts += caster.current.ts * (damage/100.0); //Critter
+	turnPoints += turnSpeed * (0.7 * (conditionBitSet&CHILLED)) * (1.2 * (conditionBitSet&HASTENED));
 }
 
 - (void) takeDamage:(int)amount
@@ -54,12 +124,37 @@
 - (void) gainHealth:(int)amount
 {
 	current.hp += amount;
-	if (current.hp <= total.hp) return;
+	if (current.hp <= max.hp) return;
 	
-	current.sp += current.hp - total.hp;
-	current.hp = total.hp;
-	if (current.sp > total.sp) 
-		current.sp = total.sp;
+	current.sp += current.hp - max.hp;
+	current.hp = max.hp;
+	if (current.sp > max.sp) 
+		current.sp = max.sp;
+}
+
+- (BOOL) spendMana:(int)amount
+{
+	if (current.mp > amount) 
+	{
+		current.mp -= amount;
+		return YES;
+	}
+	else {
+		return NO;
+	}
+}
+
+
+- (void) gainMana:(int)amount
+{
+	current.mp += amount;
+	if (current.mp > max.mp)
+		current.mp = max.mp;
+}
+
+- (void) regenShield
+{
+	current.sp += [Util minValueOfX:max.sp*0.05 andY:(max.sp-current.sp)];
 }
 
 - (void) gainItem:(Item*)it
@@ -129,6 +224,7 @@
 					[self gainStatsForItem:it];
 					equipment.rhand = it;
 					equipment.lhand = nil;
+					break;
 				default:
 					[[[[UIAlertView alloc] initWithTitle:@"Can't Do That" 
 												 message:[NSString stringWithFormat:@"%@ can't be equipped.", it.name]
@@ -201,9 +297,171 @@
 	return dmg;
 }
 
-- (void) think
+- (BOOL) hasActionToTake
 {
+	return (target.skillToUse)||(target.spellToCast)||(target.itemForUse);
+}
+
+- (BOOL) hasMoveToMake
+{
+	return (target.moveLocation) != nil;
+}
+
+- (void) think:(Critter*)player
+{
+	target.critterForAction = player;
+}
+
+- (NSString*) useSkill
+{
+	NSString *actionResult = @"";
+	if (target.critterForAction)
+	{
+		if (target.skillToUse) 
+		{
+			if ([Util point_distanceC1:location C2:target.critterForAction.location] <= equipment.rhand.range)
+			{
+				actionResult = [target.skillToUse useAbility:self target:target.critterForAction];
+				turnPoints -= target.skillToUse.turnPointCost;
+				[self setSkillToUse:nil];
+			}
+			else 
+			{
+				actionResult = @"Not in Range!";
+			}
+		}
+	}
 	
+	return actionResult;
+}
+
+- (NSString*) useSpell
+{
+	NSString *actionResult = @"";
+	if (target.critterForAction)
+	{
+		if (target.spellToCast) 
+		{
+			if ([Util point_distanceC1:location C2:target.critterForAction.location] <= 5)
+			{
+				actionResult = [target.spellToCast cast:self target:target.critterForAction];
+				turnPoints -= target.spellToCast.turnPointCost;
+				[self setSpellToUse:nil];
+			}
+			else 
+			{
+				actionResult = @"Not in Range!";
+			}
+		}
+	}
+	return actionResult;
+}
+
+- (NSString*) useItem
+{
+	NSString *actionResult = @"";
+	if (target.critterForAction) 
+	{
+		if (target.itemForUse && target.itemForUse.charges > 0)
+		{
+			if ([Util point_distanceC1:location C2:target.critterForAction.location] <= target.itemForUse.range)
+			{
+				[target.itemForUse cast:self target:target.critterForAction];
+				//TODO: turnPoints -= ;
+				target.itemForUse.charges--;
+				if (target.itemForUse.charges <= 0) 
+					[inventory removeObject:target.itemForUse];
+				[self setItemToUse:nil];
+			}
+			else 
+			{
+				actionResult = @"Not in Range!";
+			}
+		}
+	}
+	return actionResult;
+}
+
+- (void) moveToTarget
+{
+	self.location = [cachedPath lastObject];
+	[cachedPath removeLastObject];
+	if (inBattle)
+		turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
+	if ([target.moveLocation equals:location])
+		[self setMoveTarget:nil];
+}
+
+- (NSMutableArray*) inventoryItems
+{
+	return inventory;
+}
+
+
+- (void) setItemToUse:(Item*) it
+{
+	[target.itemForUse release];
+	target.itemForUse = [it retain];
+}
+
+- (void) setMoveTarget:(Coord*) loc
+{
+	[target.moveLocation release];
+	target.moveLocation = [loc retain];
+}
+
+- (void) setSkillToUse:(Skill*) skill
+{
+	[target.skillToUse release];
+	target.skillToUse = [skill retain];;
+}
+
+- (void) setSpellToUse:(Spell*) spell
+{
+	[target.spellToCast release];
+	target.spellToCast = [spell retain];
+}
+
+- (int) score
+{
+	int score = level*1000 + money;
+	// death penalty
+	for (Item *i in inventory)
+		score += i.pointValue;
+	return score;
+}
+
+
+#pragma mark -
+#pragma mark Load Extensions
+/*	These are for private use in load/save manager 
+ Don't add these to the main header.
+ If you think you need them, ask me for a better way. - Austin
+ */
+- (void) setHealth:(int)hp
+{
+	current.hp = max.hp = real.hp = hp;
+}
+
+- (void) setShield:(int)sp
+{
+	current.sp = max.sp = real.sp = sp;
+}
+
+- (void) setMana:(int)mp
+{
+	current.mp = max.mp = real.mp = mp;
+}
+
+- (void) setExperience:(int) exp
+{
+	experience = exp;
+}
+
+- (int) experience
+{
+	return experience;
 }
 
 @end
+

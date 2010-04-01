@@ -30,6 +30,8 @@ typedef enum {
 
 + (Dungeon*) loadDungeonFromFile:(NSString*)filename;
 
+- (int) numberOfLevels;
+
 // These are attributes of the dungeon object used by engine to determine how to set up a game.
 // This is object oriented programming 101. 
 @property (nonatomic) levelType dungeonType;

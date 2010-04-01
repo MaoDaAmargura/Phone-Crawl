@@ -13,7 +13,7 @@
 #import "Dungeon.h"
 #import "Tile.h"
 #import "Item.h"
-#import "Creature.h"
+#import "Critter.h"
 
 #import "EndGame.h"
 
@@ -40,14 +40,13 @@
 
 @synthesize mainTabController, gameEngine;
 
-@synthesize wView;
+@synthesize wView, endView;
 
 #pragma mark -
 #pragma mark Life Cycle
 
 -(void) loadView
 {
-	tutorialMode = NO;
 	doneMerchant = NO;
 	gotSword = NO;
 	
@@ -80,9 +79,7 @@
     [super viewDidLoad];
 	//[gameEngine updateWorldView:wView];
 	
-	NSTimer *timer = [[NSTimer scheduledTimerWithTimeInterval:0.2 target:self selector:@selector(fireGameLoop) userInfo:nil repeats:YES] retain];
 	
-	[timer fire];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -103,23 +100,6 @@
 }
 
 #pragma mark -
-#pragma mark Engine Related Calls
-
-//I really should just combine HTVC and Engine
-
-- (void) fireGameLoop
-{
-	// check to see if player is dead
-	if (gameEngine.player.current.health <= 0) {
-		[wView.view addSubview:endView.view];
-		// TODO: get view to change to endgame properly
-		//self.navigationController.pushViewController(endView);
-	}
-	
-	[gameEngine gameLoopWithWorldView:wView];
-}
-
-#pragma mark -
 #pragma mark Delegate Callbacks
 
 #pragma mark WorldView
@@ -127,11 +107,8 @@
 - (void) moveHighlightInWorldView:(WorldView*)worldView toCoord:(Coord*) loc
 {
 	CGPoint p = [gameEngine originOfTile:loc inWorldView:worldView];
-	
 	CGSize s = [gameEngine tileSizeForWorldView:worldView];
-	
 	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
-	
 }
 /*!
  @method		worldTouchedAt
@@ -168,21 +145,20 @@
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];
 	}
-	
-	if([gameEngine.currentDungeon dungeonType] == town)
+	else if([gameEngine.currentDungeon dungeonType] == town)
 	{
-		if(!doneMerchant && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
+		if([gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
 		{
-			if(tutorialMode)
+			if(gameEngine.tutorialMode && !doneMerchant)
 			{
 				[self continueTutorialFromMerchant];
 			}
 			else
 			{
-				//[gameEngine showMerchantMenu];
 				[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
 			}
-		}else if (!gotSword && [tileCoord equals:[gameEngine.player creatureLocation]])
+		}
+		else if (!gotSword && [tileCoord equals:gameEngine.player.location])
 		{
 			[self continueTutorialFromSword];
 		}
@@ -196,18 +172,12 @@
 	[gameEngine updateWorldView:wView];
 }
 
-- (void) refreshInventoryView
-{
-	[iView updateWithItemArray:[gameEngine getPlayerInventory]];
-}
-
 #pragma mark -
 #pragma mark New Tab View Controllers
 
 - (UIViewController*) initWorldView
 {
 	wView = [[WorldView alloc] init];
-	//wView.tabBarItem.image = 
 	[wView setDelegate: self];
 	wView.title = @"World";
 	wView.tabBarItem.image = [UIImage imageNamed:@"icon-world.png"];
@@ -247,7 +217,12 @@
 
 - (void) updateCharacterView
 {
-	[cView setIcon:gameEngine.player.iconName];
+	[cView updateWithPlayer:gameEngine.player];
+}
+
+- (void) refreshInventoryView
+{
+	[iView updateWithItemArray:[gameEngine getPlayerInventory]];
 }
 
 /*!
@@ -257,7 +232,6 @@
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon
 {
 	[gameEngine startNewGameWithPlayerName:name andIcon:icon];
-	tutorialMode = YES;
 	gameEngine.tutorialMode = YES;
 	
 	doneMerchant = NO;
@@ -278,15 +252,12 @@
 	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
 	wView.highlight.hidden = NO;
 	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
-	[self.view bringSubviewToFront:mainTabController.view];
-	
-	[cView setIcon:icon];
 	
 }
 
 - (void) continueTutorialFromMerchant
 {
-	if(tutorialMode)
+	if(gameEngine.tutorialMode)
 	{
 		tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
 		Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
@@ -299,7 +270,7 @@
 
 - (void) continueTutorialFromSword
 {
-	if(tutorialMode)
+	if(gameEngine.tutorialMode)
 	{
 		tutorialDialogueBox.text = @"Yeah, that's the spirit. Let's see how you hold it. Open your inventory, tap the sword, and equip it.";
 		gotSword = YES;
@@ -309,7 +280,7 @@
 
 - (void) continueTutorialFromSwordEquipped
 {
-	if(tutorialMode)
+	if(gameEngine.tutorialMode)
 	{
 		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
 		equippedSword = YES;
@@ -326,7 +297,6 @@
 - (void) finishTutorial
 {
 	[tutorialDialogueBox removeFromSuperview];
-	tutorialMode = NO;
 	gameEngine.tutorialMode = NO;
 }
 
@@ -344,7 +314,7 @@
 	if(viewController == iView)
 		[self refreshInventoryView];
 	if(viewController == cView)
-		[cView updateWithEquippedItems:[gameEngine getPlayerEquippedItems] money:gameEngine.player.money];
+		[self updateCharacterView];
 }
 
 @end

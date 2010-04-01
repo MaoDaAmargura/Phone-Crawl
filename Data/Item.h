@@ -19,7 +19,7 @@
 #define ICON_CHEST_LIGHT	@"armor-light.png"
 #define ICON_CHEST_HEAVY	@"armor-heavy.png"
 
-@class Creature;
+@class Critter;
 
 typedef enum {
 	SWORD_ONE_HAND = 0,
@@ -90,7 +90,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int effectSpellId;
 @property (nonatomic,readonly) BOOL isEquipable;
 
-- (NSString *) cast: (Creature *) caster target: (Creature *) target;
+- (NSString *) cast: (Critter *) caster target: (Critter *) target;
 
 // Generate a random item based on the dungeon level and elemental type
 +(Item *) generateRandomItem: (int) dungeonLevel elemType: (elemType) elementalType;

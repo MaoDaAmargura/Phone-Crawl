@@ -1,4 +1,5 @@
 #import <Foundation/Foundation.h>
+
 #import "Util.h"
 
 #define NUM_PC_SPELLS 50
@@ -25,9 +26,21 @@ typedef enum {SELF,SINGLE} targetType;
 #define SPELL_NO_DAMAGE -8
 #define SPELL_CAST_ERR -9
 
-NSMutableArray *spellList;
+#define NUM_PLAYER_SPELL_TYPES 10
+typedef enum {
+	FIREDAMAGE = 0,
+	COLDDAMAGE = 1,
+	LIGHTNINGDAMAGE = 2,
+	POISONDAMAGE = 3,
+	DARKDAMAGE = 4,
+	FIRECONDITION = 5,
+	COLDCONDITION = 6,
+	LIGHTNINGCONDITION = 7,
+	POISONCONDITION = 8,
+	DARKCONDITION = 9,
+} PC_SPELL_TYPE; // For use by spellbook field in creature.h
 
-@class Creature;
+@class Critter;
 @interface Spell : NSObject {
 	NSString *name;
 	spellType type; //Hurt or Help
@@ -43,29 +56,31 @@ NSMutableArray *spellList;
 	//IMP spell_fn;
 }
 
-+ (void) fillSpellList;
+//+ (void) fillSpellList;
 
-+ (NSString *) castSpellById: (int) desiredSpellId caster: (Creature *) caster target: (Creature *) target;
-- (NSString *) cast: (Creature *) caster target: (Creature *) target;
++ (NSString *) castSpellById: (int) desiredSpellId caster: (Critter *) caster target: (Critter *) target;
+- (NSString *) cast: (Critter *) caster target: (Critter *) target;
 
 - (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
 				manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
 				 spellFn: (SEL) fn turnPointCost: (int) turnPntCost;
 
-- (BOOL) resistCheck: (Creature *) caster target: (Creature *) target;
+- (BOOL) resistCheck: (Critter *) caster target: (Critter *) target;
 
 //Specialized spell functions
 
-- (int) damageSpell: (Creature *) caster target: (Creature *) target;
-- (int) healPotion: (Creature *) caster target: (Creature *) target;
-- (int) manaPotion: (Creature *) caster target: (Creature *) target;
-- (int) scroll: (Creature *) caster target: (Creature *) target;
-- (int) haste: (Creature *) caster target: (Creature *) target;
-- (int) freeze: (Creature *) caster target: (Creature *) target;
-- (int) purge: (Creature *) caster target: (Creature *) target;
-- (int) taint: (Creature *) caster target: (Creature *) target;
-- (int) confusion: (Creature *) caster target: (Creature *) target;
+- (int) damageSpell: (Critter *) caster target: (Critter *) target;
+- (int) healPotion: (Critter *) caster target: (Critter *) target;
+- (int) manaPotion: (Critter *) caster target: (Critter *) target;
+- (int) scroll: (Critter *) caster target: (Critter *) target;
+- (int) haste: (Critter *) caster target: (Critter *) target;
+- (int) freeze: (Critter *) caster target: (Critter *) target;
+- (int) purge: (Critter *) caster target: (Critter *) target;
+- (int) taint: (Critter *) caster target: (Critter *) target;
+- (int) confusion: (Critter *) caster target: (Critter *) target;
 
++ (void) initialize;
++ (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl;
 
 @property (readonly) int range;
 @property (readonly, retain) NSString * name;

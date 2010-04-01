@@ -1,7 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
-@class Item,Spell,CombatAbility;
+@class Item,Spell,skills;
 @class Dungeon;
 
 //#define NUM_EQUIP_SLOTS 4
@@ -55,12 +55,12 @@ typedef enum {
 {
 	//Spell book currently has 10 indexes that will go from 1-5 indicating the level of the corresponding spell
 	//See "PC_SPELL_TYPE" enum in util.h
-	int *spellBook; //[NUM_PC_SPELL_TYPES]
+	int *spells; //[NUM_PC_SPELL_TYPES]
 	//Combat abilities / passive abilities (Dodge, Counter-attack, Bash, etc)
-	int *combatAbility; //[NUM_COMBAT_ABILITY_TYPES]
+	int *skills; //[NUM_COMBAT_ABILITY_TYPES]
 }
-@property (nonatomic) int* spellBook;
-@property (nonatomic) int* combatAbility;
+@property (nonatomic) int* spells;
+@property (nonatomic) int* skills;
 - (id) init;
 - (void) setSpellBookArray:(int []) sb;
 - (void) setCombatAbilityArray:(int []) cb;
@@ -91,14 +91,14 @@ typedef enum {
 @property (nonatomic, retain) Item* lHand;
 @end
 
-@interface Creature : NSObject {
+@interface Critter : NSObject {
 	NSString *name;
 	creatureType type;
 	Coord *creatureLocation;
 	
-	Creature *selectedCreatureForAction;
+	Critter *selectedCreatureForAction;
 	
-	CombatAbility *selectedCombatAbilityToUse;
+	skills *selectedCombatAbilityToUse;
 	Spell *selectedSpellToUse;
 	Item *selectedItemToUse;
 	Coord *selectedMoveTarget;
@@ -178,8 +178,8 @@ typedef enum {
 @property (nonatomic, retain) NSMutableArray *inventory;
 @property (nonatomic, retain) Abilities *abilities;
 
-@property (nonatomic, retain) Creature *selectedCreatureForAction;
-@property (nonatomic, retain) CombatAbility *selectedCombatAbilityToUse;
+@property (nonatomic, retain) Critter *selectedCreatureForAction;
+@property (nonatomic, retain) skills *selectedCombatAbilityToUse;
 @property (nonatomic, retain) Spell *selectedSpellToUse;
 @property (nonatomic, retain) Item *selectedItemToUse;
 @property (nonatomic, retain) Coord *selectedMoveTarget;

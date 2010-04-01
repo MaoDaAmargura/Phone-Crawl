@@ -1,6 +1,7 @@
 #import "EndGame.h"
 #import "Engine.h"
-#import "Creature.h"
+#import "Critter.h"
+#import "Util.h"
 
 // for the "town" enum
 #import "Dungeon.h"
@@ -28,11 +29,10 @@
 - (IBAction) clickContinue {
 	//self.navigationController.popViewController(endView);
 	// return player to town
-	engine.player.current.health = engine.player.max.health;
-	engine.player.current.shield = engine.player.max.shield;
-	engine.player.current.mana = engine.player.max.mana;
+	[engine.player gainHealth:engine.player.max.hp];
+	[engine.player gainMana:engine.player.max.sp];
 	engine.player.deathPenalty += engine.player.level * 100;
-	engine.player.creatureLocation = [Coord withX:0 Y:0 Z:0];
+	engine.player.location = [Coord withX:0 Y:0 Z:0];
 	[engine.currentDungeon convertToType:town];
 	[self.view removeFromSuperview];
 }
@@ -44,7 +44,7 @@
 }
 
 - (void) update {
-	[score setText:[NSString stringWithFormat:@"%d",[engine.player getHighScore]]];
+	[score setText:[NSString stringWithFormat:@"%d",[engine.player score]]];
 	[cost setText:[NSString stringWithFormat:@"%d",engine.player.level * 100]];
 }
 

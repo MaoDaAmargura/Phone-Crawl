@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "NewGameFlowControl.h"
 
-@class Creature;
+@class Critter;
 @class HomeTabViewController;
 @class EndGame;
 @class HighScoreManager;
@@ -48,7 +48,7 @@
 
 - (void) applicationWillTerminate:(UIApplication *)application;
 
-- (Creature*) playerObject;
+- (Critter*) playerObject;
 
 - (void) showDungeonLoadingScreen;
 - (void) hideDungeonLoadingScreen;

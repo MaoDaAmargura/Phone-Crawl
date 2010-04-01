@@ -1,7 +1,7 @@
 #import <UIKit/UIKit.h>
 #import "PCBaseViewController.h"
 
-@class EquipSlots;
+@class Critter;
 
 @interface CharacterView : PCBaseViewController
 {
@@ -17,9 +17,7 @@
 	NSString *imgName;
 }
 
-- (void) setIcon:(NSString*) iconName;
-
-- (void) updateWithEquippedItems:(EquipSlots*) items money:(int)money;
+- (void) updateWithPlayer:(Critter*)player;
 
 @end
 

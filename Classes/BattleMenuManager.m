@@ -8,13 +8,12 @@
 
 #import "BattleMenuManager.h"
 
-#import "CombatAbility.h"
+#import "Skill.h"
 #import "Spell.h"
 #import "Item.h"
 #import "Util.h"
-#import "Creature.h"
 #import "Engine.h"
-
+#import "Critter.h"
 
 @interface BattleMenuManager (MenuDisplay)
 
@@ -71,9 +70,9 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 									cancelButtonTitle:nil
 							   destructiveButtonTitle:nil
 									otherButtonTitles:nil] autorelease];
-	for (int i = 0 ; i < NUM_PLAYER_COMBAT_ABILITY_TYPES ; ++i) 
+	for (int i = 0 ; i < NUM_PLAYER_SKILL_TYPES ; ++i) 
 	{
-		if (playerRef.abilities.combatAbility[i] != 0) 
+		if (playerRef.abilities.skills[i] != 0) 
 			[attackMenu addButtonWithTitle:attackMenuOptions[i]];
 	}
 	[attackMenu addButtonWithTitle:@"Do Something Else"];
@@ -97,7 +96,7 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 								   cancelButtonTitle:nil
 							  destructiveButtonTitle:nil
 								   otherButtonTitles:nil] autorelease];
-	for (Item *i in playerRef.inventory)
+	for (Item *i in [playerRef inventoryItems])
 	{
 		if (![i isEquipable])
 			[itemMenu addButtonWithTitle:i.name];
@@ -116,7 +115,7 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 	
 	for (int i = 0; i < 5 /*number of damage spells*/; ++i) 
 	{
-		int spellLevel = playerRef.abilities.spellBook[i];
+		int spellLevel = playerRef.abilities.spells[i];
 		if (spellLevel!=0) 
 			[dspellMenu addButtonWithTitle:[NSString stringWithFormat:@"%@ %@", 
 											spellLevelDesignations[spellLevel-1], 
@@ -135,7 +134,7 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 									 otherButtonTitles:nil] autorelease];
 	for (int i = 5; i < 10/*number of condition spells*/; ++i)
 	{
-		int spellLevel = playerRef.abilities.spellBook[i];
+		int spellLevel = playerRef.abilities.spells[i];
 		if (spellLevel > 0) 
 			[cspellMenu addButtonWithTitle:[NSString stringWithFormat:@"%@ %@",
 											spellLevelDesignations[spellLevel-1],
@@ -168,31 +167,31 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 - (void) attackMenuTouchedAtIndex:(NSInteger) buttonIndex
 {
 	NSString *buttonTitle = [attackMenu buttonTitleAtIndex:buttonIndex];
-	CombatAbility *ca = nil;
+	Skill *ca = nil;
 	if ([buttonTitle isEqualToString:attackMenuOptions[0]])
 	{
 		// Regular
-		ca = [abilityList objectAtIndex:0];
+		ca = [Skill skillOfType:REG_STRIKE];
 	}
 	else if ([buttonTitle isEqualToString:attackMenuOptions[1]])
 	{
 		// Quick
-		ca = [abilityList objectAtIndex:1];
+		ca = [Skill skillOfType:QUICK_STRIKE];
 	}
 	else if	([buttonTitle isEqualToString:attackMenuOptions[2]])
 	{
 		// Power
-		ca = [abilityList objectAtIndex:2];
+		ca = [Skill skillOfType:BRUTE_STRIKE];
 	}
 	else if ([buttonTitle isEqualToString:attackMenuOptions[3]])
 	{
 		// Elemental
-		ca = [abilityList objectAtIndex:3];
+		ca = [Skill skillOfType:ELE_STRIKE];
 	}
 	else if	([buttonTitle isEqualToString:attackMenuOptions[4]])
 	{
 		// Combo
-		ca = [abilityList objectAtIndex:4];
+		ca = [Skill skillOfType:MIX_STRIKE];
 	}
 	else 
 	{
@@ -221,7 +220,7 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 - (void) itemMenuTouchedAtIndex:(NSInteger)buttonIndex
 {
 	int index = 0;
-	for (Item *i in playerRef.inventory)
+	for (Item *i in [playerRef inventoryItems])
 	{
 		if (![i isEquipable]) {
 			if (index == buttonIndex) 
@@ -247,27 +246,27 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 	if ([buttonTitle rangeOfString:cspellMenuOptions[0]].length > 0) 
 	{
 		// Fire
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 25 /*Fire offset*/ + playerRef.abilities.spellBook[5] - 1];
+		spell = [Spell spellOfType:FIRECONDITION level:playerRef.abilities.spells[FIRECONDITION]-1];
 	}
 	else if ([buttonTitle rangeOfString:cspellMenuOptions[1]].length > 0) 
 	{
 		// Frost
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 30 /*Frost offset*/ + playerRef.abilities.spellBook[6] - 1];
+		spell = [Spell spellOfType:COLDCONDITION level:playerRef.abilities.spells[COLDCONDITION]-1];
 	}
 	else if ([buttonTitle rangeOfString:cspellMenuOptions[2]].length > 0) 
 	{
 		// Shock
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 35 /*Shock offset*/ + playerRef.abilities.spellBook[7] - 1];
+		spell = [Spell spellOfType:LIGHTNINGCONDITION level:playerRef.abilities.spells[LIGHTNINGCONDITION]-1];
 	}
 	else if ([buttonTitle rangeOfString:cspellMenuOptions[3]].length > 0) 
 	{
 		// Poison
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 40 /*Poison offset*/ + playerRef.abilities.spellBook[8] - 1];
+		spell = [Spell spellOfType:POISONCONDITION level:playerRef.abilities.spells[POISONCONDITION]-1];
 	}
 	else if ([buttonTitle rangeOfString:cspellMenuOptions[4]].length > 0) 
 	{
 		// Dark
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 45 /*Dark offset*/ + playerRef.abilities.spellBook[9] - 1];
+		spell = [Spell spellOfType:DARKCONDITION level:playerRef.abilities.spells[DARKCONDITION]-1];
 	}
 	else
 	{
@@ -285,27 +284,27 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 	if ([buttonTitle rangeOfString:dspellMenuOptions[0]].length > 0) 
 	{
 		// Fire
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 0 /*Fire offset*/ + playerRef.abilities.spellBook[0] - 1];
+		spell = [Spell spellOfType:FIREDAMAGE level:playerRef.abilities.spells[FIREDAMAGE]-1];
 	}
 	else if ([buttonTitle rangeOfString:dspellMenuOptions[1]].length > 0) 
 	{
 		// Frost
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 5 /*Frost offset*/ + playerRef.abilities.spellBook[1] - 1];
+		spell = [Spell spellOfType:COLDDAMAGE level:playerRef.abilities.spells[COLDDAMAGE]-1];
 	}
 	else if ([buttonTitle rangeOfString:dspellMenuOptions[2]].length > 0) 
 	{
 		// Shock
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 10 /*Shock offset*/ + playerRef.abilities.spellBook[2] - 1];
+		spell = [Spell spellOfType:LIGHTNINGDAMAGE level:playerRef.abilities.spells[LIGHTNINGDAMAGE]-1];
 	}
 	else if ([buttonTitle rangeOfString:dspellMenuOptions[3]].length > 0) 
 	{
 		// Poison
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 15 /*Poison offset*/ + playerRef.abilities.spellBook[3] - 1];
+		spell = [Spell spellOfType:POISONDAMAGE level:playerRef.abilities.spells[POISONDAMAGE]-1];
 	}
 	else if ([buttonTitle rangeOfString:dspellMenuOptions[4]].length > 0) 
 	{
 		// Dark
-		spell = [spellList objectAtIndex:START_PC_SPELLS + 20 /*Dark offset*/ + playerRef.abilities.spellBook[4] - 1];
+		spell = [Spell spellOfType:DARKDAMAGE level:playerRef.abilities.spells[DARKDAMAGE]-1];
 	}
 	else
 	{

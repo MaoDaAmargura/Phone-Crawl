@@ -20,8 +20,6 @@
 	
 	EndGame *endView;
 	
-	BOOL tutorialMode;
-	
 	BOOL doneMerchant;
 	BOOL gotSword;
 	BOOL equippedSword;
@@ -35,6 +33,7 @@
 @property (nonatomic, retain) Engine *gameEngine;
 
 @property (nonatomic, retain) WorldView *wView;
+@property (nonatomic, retain) EndGame *endView;
 
 - (void) newCharacterWithName:(NSString*)name andIcon:(NSString*)icon;
 

@@ -1,7 +1,7 @@
 #import "CharacterView.h"
-#import "CombatAbility.h"
+#import "Skill.h"
 #import "Spell.h"
-#import "Creature.h"
+#import "Critter.h"
 #import "Item.h"
 
 @implementation CharacterView
@@ -42,20 +42,21 @@
 #pragma mark -
 #pragma mark Control
 
-- (void) updateWithEquippedItems:(EquipSlots*) items money:(int)money
+- (void) updateWithPlayer:(Critter*)player
 {
-	[leftHandEquipImg setImage:[UIImage imageNamed:items.lHand.icon]];
-	[rightHandEquipImg setImage:[UIImage imageNamed:items.rHand.icon]];
+	EquippedItems items = player.equipment;
+	[leftHandEquipImg setImage:[UIImage imageNamed:items.lhand.icon]];
+	[rightHandEquipImg setImage:[UIImage imageNamed:items.rhand.icon]];
 	[headArmorEquipImg setImage:[UIImage imageNamed:items.head.icon]];
 	[chestArmorEquipImg setImage:[UIImage imageNamed:items.chest.icon]];
 	
-	moneyDisplay.text = [NSString stringWithFormat:@"%d", money];
-}
-
-- (void) setIcon:(NSString*) iconName
-{
-	imgName = iconName;
-	characterImageView.image = [UIImage imageNamed:iconName];
+	moneyDisplay.text = [NSString stringWithFormat:@"%d", player.money];
+	
+	if (imgName != player.stringIcon)
+	{
+		imgName = player.stringIcon;
+		characterImageView.image = [UIImage imageNamed:imgName];
+	}
 }
 
 @end
