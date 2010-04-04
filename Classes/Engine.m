@@ -59,7 +59,7 @@
 @end
 
 @interface Engine (Tutorial)
-
+- (void) tutorialModeSword;
 - (void) finishTutorial;
 
 @end
@@ -763,6 +763,8 @@
 					Item *i = [currentDungeon.items objectForKey:c];
 					[player gainItem:i];
 					[currentDungeon.items removeObjectForKey:c];
+					if (tutorialMode)
+						[self tutorialModeSword];
 				}
 			}
 		}
@@ -896,6 +898,12 @@
 
 #pragma mark -
 #pragma mark Tutorial
+
+- (void) tutorialModeSword
+{
+	Phone_CrawlAppDelegate *appDlgt = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
+	[appDlgt.homeTabController continueTutorialFromSword];
+}
 
 - (void) tutorialModeEquippedItem
 {

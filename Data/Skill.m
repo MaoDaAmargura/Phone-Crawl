@@ -64,7 +64,6 @@ BOOL have_set_abilities = FALSE;
 
 - (int) mitigateDamage:(Critter *)caster target:(Critter *)target damage: (int) amountDamage {
 	int resist = target.defense.armor;
-	//int resist = target.defense.armor; //Critter
 	if (resist > STAT_MAX) {
 		resist = STAT_MAX;
 	} else if (resist < STAT_MIN) {
@@ -86,28 +85,28 @@ BOOL have_set_abilities = FALSE;
 
 - (int) elementalAttack:(Critter *)attacker def:(Critter *)defender {
 	float resist;
-	float elementDamage = [attacker getElemDamage]; //Critter
-	elemType type = attacker.equipment.rhand.element; //Critter
+	float elementDamage = [attacker getElemDamage];
+	elemType type = attacker.equipment.rhand.element;
 	conditionType condtype = NO_CONDITION;
 	switch (type) {
 		case FIRE:
-			resist = defender.defense.fire; //Critter
+			resist = defender.defense.fire;
 			condtype = BURNED;
 			break;
 		case COLD:
-			resist = defender.defense.frost; //Critter
+			resist = defender.defense.frost;
 			condtype = CHILLED;
 			break;
 		case LIGHTNING:
-			resist = defender.defense.shock; //Critter
+			resist = defender.defense.shock;
 			condtype = HASTENED;
 			break;
 		case POISON:
-			resist = defender.defense.poison; //Critter
+			resist = defender.defense.poison;
 			condtype = POISONED;
 			break;
 		case DARK:
-			resist = defender.defense.dark; //Critter
+			resist = defender.defense.dark;
 			condtype = CURSED;
 			break;
 		default:
@@ -118,7 +117,6 @@ BOOL have_set_abilities = FALSE;
 	int finaldamage = (elementDamage * (100-resist) / 100);
 	if ([Rand min:0 max:100] > 20 * abilityLevel)
 		[defender gainCondition:condtype];
-	//[defender takeDamage:finaldamage];
 	return finaldamage;
 }
 
@@ -151,7 +149,6 @@ BOOL have_set_abilities = FALSE;
 {
 	have_set_abilities = TRUE;
 	int id_cnt = 0, abilityLvl = 1;
-	//ability_list = [[[NSMutableArray alloc] init] autorelease];
 	abilityList = [[NSMutableArray alloc] init];
 	SEL mix = @selector(mixedStrike:target:);
 	SEL ele = @selector(elementalStrike:target:);
