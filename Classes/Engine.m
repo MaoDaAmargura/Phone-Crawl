@@ -834,6 +834,8 @@
 
 - (void) changeToDungeon:(levelType)type
 {
+	if(tutorialMode && type != town)
+		[self finishTutorial];
 	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
 	[liveEnemies removeAllObjects];
 	[deadEnemies removeAllObjects];
