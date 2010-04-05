@@ -122,7 +122,7 @@
 	
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
 	
-	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
+	if(![gameEngine.currentDungeon tileAtCoordBlocksMovement:tileCoord])
 		worldView.highlight.backgroundColor = HIGHLIGHT_YELLOW;
 	else 
 		worldView.highlight.backgroundColor = HIGHLIGHT_RED;
@@ -140,7 +140,7 @@
 {
 	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
 	
-	if(![gameEngine tileAtCoordBlocksMovement:tileCoord])
+	if(![gameEngine.currentDungeon tileAtCoordBlocksMovement:tileCoord])
 	{
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];

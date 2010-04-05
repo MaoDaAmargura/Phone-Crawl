@@ -16,9 +16,10 @@
 
 #import "BattleMenuManager.h"
 
-#define GREATEST_ALLOWED_TURN_POINTS 100
+#define GREATEST_ALLOWED_TURN_POINTS 150
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
-#define LARGEST_ALLOWED_PATH 80
+#define POINTS_TO_TAKE_TURN		100
+
 
 #define TELEPORT_ENABLED NO
 
@@ -34,25 +35,23 @@
 
 @interface Engine (TurnActions)
 
-- (void) calculateCreaturesInBattle;
-- (Critter *) nextCreatureToTakeTurn;
-- (void) incrementCreatureTurnPointsBy:(int)amount;
-- (void) determineActionForCreature:(Critter*)c;
-- (void) performMoveActionForCreature:(Critter *)c;
-- (void) bloodSprayWithAttacker: (Critter*) attacker;
+- (BOOL) critter:(Critter*)c1 isInRange:(int)range ofCritter:(Critter*)c2;
+- (BOOL) locationIsOccupied:(Coord*)loc;
+- (BOOL) canEnterTileAtCoord:(Coord*) coord;
 - (void) processDeathOfCritter:(Critter*) critter;
+- (void) incrementCritterTurnPoints;
+- (Critter*) nextCritterToAct;
+- (void) determineBattleModes;
+- (NSString*) performActionForCreature:(Critter*) critter;
+- (void) performMoveForCreature:(Critter *)c;
+- (void) bloodSprayWithAttacker: (Critter*) attacker;
 
 @end
 
 @interface Engine (Movement)
 
-- (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC;
-- (Tile*) tileWithEstimatedShortestPath:(Coord*) c;
-- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
-- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
-- (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
-- (int) manhattanDistanceFromPlayer: (Critter *) m;
-- (BOOL) isACreatureAtLocation:(Coord*)loc;
+- (BOOL) locationIsOccupied:(Coord*)loc;
+- (BOOL) canEnterTileAtCoord:(Coord*) coord;
 
 - (void) confirmLevelChange;
 
@@ -88,13 +87,10 @@
 	{
 		tutorialMode = NO;
 
-		liveEnemies = [[NSMutableArray alloc] init];
-		deadEnemies = [[NSMutableArray alloc] init];
 		tilesPerSide = 11;
 		
 		self.player = nil;
 		self.currentDungeon = [[[Dungeon alloc] init] autorelease];
-		currentDungeon.liveEnemies = liveEnemies;
 		loadDungeonLock = [NSLock new];		
 	}
 	return self;
@@ -102,8 +98,6 @@
 
 - (void) dealloc
 {
-	[liveEnemies release];
-	[deadEnemies release];
 	[super dealloc];
 	
 }
@@ -111,15 +105,73 @@
 #pragma mark -
 #pragma mark Turn Actions
 
+- (BOOL) critter:(Critter*)c1 isInRange:(int)range ofCritter:(Critter*)c2
+{
+	return [Util point_distanceC1:c1.location C2:c2.location] < range && c1.location.Z == c2.location.Z;
+}
+
+- (BOOL) locationIsOccupied:(Coord*)loc
+{
+	if ([player.location equals:loc]) 
+		return YES;
+	return [currentDungeon isACreatureAtLocation:loc];
+}
+
+
+/*!
+ @method		creature:c CanEnterTileAtCoord:
+ @abstract		query function for if anything prevents creature entrance to coord (blocked by environment or monsters)
+ A creature doesn't block itself.
+ */
+- (BOOL) canEnterTileAtCoord:(Coord*) coord
+{
+	return ![currentDungeon tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
+}
+
 - (void) processDeathOfCritter:(Critter*) critter
 {
-	[deadEnemies addObject:critter];
-	[liveEnemies removeObject:critter];
 	float experienceGained = 1.0;
 	int levelDifference = player.level - critter.level;
 	experienceGained *= pow(1.2, levelDifference);
 	[player gainExperience:experienceGained];
 	[currentDungeon.items setObject:[Item generateRandomItem:critter.level/5 elemType:FIRE] forKey:critter.location];
+}
+
+- (NSMutableArray*) crittersInRange
+{
+	NSMutableArray* ret = [[[NSMutableArray alloc] initWithCapacity:10] autorelease];
+	for (Critter *c in currentDungeon.liveEnemies)
+		if ([self critter:c isInRange:4 ofCritter:player])
+			[ret addObject:c];
+	return ret;
+}
+
+- (void) incrementCritterTurnPoints
+{
+	[player incrementTurnPoints];
+	for (Critter *c in [self crittersInRange])
+		[c incrementTurnPoints];
+}
+
+- (Critter*) nextCritterToAct
+{
+	if (player.turnPoints >= POINTS_TO_TAKE_TURN)
+		return player;
+	
+	for (Critter *c in [self crittersInRange])
+		if (c.turnPoints >= POINTS_TO_TAKE_TURN)
+			return c;
+	return nil;
+}
+
+- (void) determineBattleModes
+{
+	for (Critter *c in currentDungeon.liveEnemies)
+		if ([self critter:c isInRange:5 ofCritter:player])
+		{
+			c.inBattle = YES;
+			player.inBattle = YES;
+		}
 }
 
 - (NSString*) performActionForCreature:(Critter*) critter
@@ -148,123 +200,11 @@
 	return actionResult;
 }
 
-- (void) gameLoopWithWorldView:(WorldView*)wView
-{
-	if(!worldViewSingleton) worldViewSingleton = wView;
-	if (!battleMenuMngr) 
-		battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:wView.view andDelegate:self];
-	
-	battleMenuMngr.playerRef = player;
-
-	NSString *actionResult = @"";
-	int oldLevel = player.level;
-	
-	Critter *critter = [self nextCreatureToTakeTurn];
-	
-	if (critter == player)
-	{
-		if(!player.inBattle)
-			[player regenShield];
-	}
-	else
-	{
-		[critter think:player]; 
-	}
-	
-	if ([critter hasActionToTake])
-	{
-		actionResult = [self performActionForCreature:critter];
-	}
-	else if ([critter hasMoveToMake])
-	{
-		[self performMoveActionForCreature:critter];
-		if (critter == player)
-			[self confirmLevelChange];
-	}
-	
-	if (player.level > oldLevel)
-		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
-	
-	if(critter == player)
-		wView.actionResult.text = actionResult; //Set some result string from actions
-	
-	[self updateWorldView:wView];
-}
-
-- (int) manhattanDistanceFromPlayer: (Critter *) m
-{
-	return abs(m.location.X - player.location.X)
-			+ abs(m.location.Y - player.location.Y);
-}
-
-- (void) calculateCreaturesInBattle
-{
-	BOOL previousBattleMode = player.inBattle;
-	
-	player.inBattle = NO;
-	for (Critter *m in liveEnemies) {
-		m.inBattle = ([self manhattanDistanceFromPlayer: m] <= 4) && (m.location.Z == player.location.Z);
-		player.inBattle |= m.inBattle;
-	}
-	
-	// entering battle mode zeroes all turn points.
-	if(previousBattleMode == NO && player.inBattle == YES)
-	{
-		player.turnPoints = 0;
-		for (Critter *m in liveEnemies)
-			m.turnPoints = 0;
-	}
-}
-
-/*!
-	@method		nextCreatureToTakeTurn
-	@abstract		ALWAYS returns a creature (any living monster or the player) that will take the next turn.
-	@discussion		Turn points work a little bit backwards now, but they behave exactly the same as we 
-						discussed at the whiteboards a while ago.  The method we discussed increasing everybody's 
-						turnpoints until one creature had 100, then that creature took a turn.
-						This method works backwards, because it picks the creature that is going to take a turn, 
-						then increments everybody's turnpoints by some amount such that the picked monster 
-						ends up with 100 turn points.  The behavior is exactly the same, except that we don't 
-						have to wait for a creature to reach 100 points - it happens instantly.  This is currently
-						not correct for creatures with different turnPoint regen, but it can be if needed.
-*/
-- (Critter *) nextCreatureToTakeTurn
-{
-	/* This is not how we agreed we were going to do turn points. Is someone changing the system? */
-	// changed it again, I think it's more similar to how we discussed it should be. -Eric
-	if(!player.inBattle)
-		return player;
-	
-	//get the creature with the most turnPoints (even if it's negative or above 100)
-	Critter *greatest = player;
-	for (Critter *m in liveEnemies)
-	{
-		if (!m.inBattle)
-			continue;
-		else
-			greatest = (greatest.turnPoints >= m.turnPoints ? greatest : m);
-	}
-	
-	// normalize turn points - add whatever amount is neccessary to make the chosen creature have TP of 100
-	[self incrementCreatureTurnPointsBy: 100-greatest.turnPoints];
-
-	return greatest;
-}
-	
-- (void) incrementCreatureTurnPointsBy:(int)amount
-{
-	if(player.inBattle)
-		player.turnPoints += amount;
-	for(Critter *m in liveEnemies)
-		if(m.inBattle)
-			m.turnPoints += amount;
-}
-
-- (void) performMoveActionForCreature:(Critter *)c
+- (void) performMoveForCreature:(Critter *)c
 {
 	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.target.moveLocation])
-		c.cachedPath = [self pathBetween:c.location and:c.target.moveLocation];
-
+		c.cachedPath = [currentDungeon pathBetween:c.location and:c.target.moveLocation];
+	
 	Coord *next = [c.cachedPath lastObject];
 	if ([currentDungeon tileAt: next].smashable) 
 	{
@@ -284,121 +224,59 @@
 	
 }
 
-
-#pragma mark -
-#pragma mark Pathing
-
-/*!
-	@method		pathBetween:startC and:endC
-	@abstract		Runs an A* algorithm to find the next step on an optimal path towards the destination.
-						Monsters are not considered.  They do not block the path.
-						The last Coord in the returned array is the next step.  The first object is the end point.
-	@discussion		This method does not save the path when it's generated.  It definitely should.
-						Gets slow (>0.25 seconds) when paths are above 80 tiles or so.
-*/
-- (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC
+- (void) gameLoopWithWorldView:(WorldView*)wView
 {
-	if([startC equals:endC])
-		return [NSMutableArray arrayWithObject: startC];
-	NSMutableArray *discovered = [NSMutableArray arrayWithCapacity:50];
+	if(!worldViewSingleton) worldViewSingleton = wView;
+	if (!battleMenuMngr) 
+		battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:wView.view andDelegate:self];
 	
-	startC.pathing_distance = 0;
-	startC.pathing_parentCoord = nil;
-	[discovered addObject: (id)startC];
-	NSMutableArray *evaluated = [NSMutableArray arrayWithCapacity:50];
-	while( [discovered count] != 0 )
-	{
-		Coord *closest = [self coordWithShortestEstimatedPathFromArray:discovered toDest:endC];
-		[evaluated addObject: closest];
-		[discovered removeObject: closest];
-		NSMutableArray *potentialCoords = [self getAdjacentNonBlockingTiles: closest]; // coord parents must be set with this method.
-		for( Coord *discovering in potentialCoords )
-		{
-			if( [discovering equals:endC] )
-				// it's done.  Build a path and return it.
-				return [self buildPathFromEvaluatedDestinationCoord: discovering];
-			
-			if( [evaluated containsObject: discovering] )
-				// this coord has been evaluated earlier.  The earlier evaluation must have had a shorter distance, so ignore it now.  
-				continue;
-			
-			discovering.pathing_distance = closest.pathing_distance + 1;
-			// FIXME: adjust this algorithm so that it builds a path TO the end, not FROM the end, so that we can
-			// return a partial path immediately below instead of nothing.
-			if(discovering.pathing_distance > LARGEST_ALLOWED_PATH)
-			{
-				[discovered removeAllObjects];
-				break;
-			}
-			
-			if( [discovered containsObject:discovering] ) {
-				Coord *previouslyDiscovered = [discovered objectAtIndex:[discovered indexOfObject:discovering]];
-				previouslyDiscovered.pathing_distance = (discovering.pathing_distance > previouslyDiscovered.pathing_distance 
-															? previouslyDiscovered.pathing_distance : discovering.pathing_distance);
-			} else
-				[discovered addObject:discovering];
-		}
-	} 
-   // if the code falls out of the while, there is no possible path.  
-	return [NSMutableArray arrayWithObject: startC];
-}
+	battleMenuMngr.playerRef = player;
+	[self determineBattleModes];
 
-/*!
-	@discussion		simple helper method for the pathfinder.  It just moves some boring code away from the main algorithm.
-*/
-- (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c
-{
-	assert(c.pathing_parentCoord);
+	NSString *actionResult = @"";
+	int oldLevel = player.level;
 	
-	NSMutableArray *path = [NSMutableArray arrayWithCapacity:c.pathing_distance];
-	while( c.pathing_parentCoord )
+	Critter *critter = [self nextCritterToAct];
+	while (critter == nil)
 	{
-		[path addObject: c];
-		c = c.pathing_parentCoord;
+		[self incrementCritterTurnPoints];
+		critter = [self nextCritterToAct];
 	}
-	return path;
-}
-
-/*!
-	@method		getAdjacentNonBlockingTiles: c
-	@abstract		returns an array of tiles adjacent to argument
-						Sets the parent of this tile to the argument
-*/
-- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c
-{
-   NSMutableArray *ret = [NSMutableArray arrayWithCapacity:4];
 	
-   Coord *c1 = [Coord withX:c.X + 1 Y:c.Y Z:c.Z];
-   if(![self tileAtCoordBlocksMovement: c1])
-      [ret addObject: c1];
-   c1 = [Coord withX:c.X - 1 Y:c.Y Z:c.Z];
-   if(![self tileAtCoordBlocksMovement: c1])
-      [ret addObject: c1];
-   c1 = [Coord withX:c.X Y:c.Y + 1 Z:c.Z];
-   if(![self tileAtCoordBlocksMovement: c1])
-      [ret addObject: c1];
-   c1 = [Coord withX:c.X Y:c.Y - 1 Z:c.Z];
-   if(![self tileAtCoordBlocksMovement: c1])
-      [ret addObject: c1];
-		
-	for (Coord *temp in ret)
-		temp.pathing_parentCoord = c;
-   return ret;
+	if (critter == player)
+	{
+		if(!player.inBattle)
+			[player regenShield];
+	}
+	else
+	{
+		[critter think:player]; 
+	}
+	
+	if ([critter hasActionToTake])
+	{
+		actionResult = [self performActionForCreature:critter];
+	}
+	else if ([critter hasMoveToMake])
+	{
+		[self performMoveForCreature:critter];
+		if (critter == player)
+			[self confirmLevelChange];
+	}
+	else 
+	{
+		critter.turnPoints -= 15; //inactivity
+	}
+	
+	if (player.level > oldLevel)
+		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
+	
+	if(critter == player)
+		wView.actionResult.text = actionResult; //Set some result string from actions
+	
+	[self updateWorldView:wView];
 }
 
-- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest
-{
-   Coord *ret = [arrOfCoords objectAtIndex:0];
-   for( Coord *c in arrOfCoords )
-   {
-      int diffnew = [Util point_distanceC1:c C2:dest];
-      int diffold = [Util point_distanceC1:ret C2:dest];
-      if( diffnew + c.pathing_distance 
-          < diffold + ret.pathing_distance )
-         ret = c;
-   }
-   return ret;
-}
 
 
 #pragma mark -
@@ -439,7 +317,7 @@
 			}
 
 			here.X = x, here.Y = y;
-			if ([self isACreatureAtLocation: here]) {
+			if ([currentDungeon isACreatureAtLocation: here]) {
 				[pink drawInRect: rect];
 				continue;
 			}
@@ -581,7 +459,7 @@
 
 - (void) drawEnemiesInWorld:(WorldView*) wView
 {
-	for (Critter *m in liveEnemies) {
+	for (Critter *m in currentDungeon.liveEnemies) {
 		[self drawImageNamed:m.stringIcon atTile:m.location inWorld:wView];
 		[self drawHealthBar:m inWorld:wView];
 	}
@@ -665,52 +543,6 @@
 #pragma mark -
 #pragma mark control
 
-/*!
- @method		tileAtCoordBlocksMovement:
- @abstract		query function for whether the tile object blocks movement (blocked by environment, not monsters)
- */
-- (BOOL) tileAtCoordBlocksMovement:(Coord*) coord
-{
-	Tile *t = [currentDungeon tileAt:coord];
-	if(t)
-		return !t.smashable && t.blockMove;
-	else 
-		return YES;
-}
-
-- (Critter*) creatureAtLocation:(Coord*)loc
-{
-	for (Critter *c in liveEnemies)
-		if ([c.location equals:loc])
-			return c;
-	return nil;
-}
-
-- (BOOL) isACreatureAtLocation:(Coord*)loc
-{
-	for (Critter *c in liveEnemies)
-		if ([c.location equals:loc])
-			return YES;
-	
-	return NO;
-}
-
-- (BOOL) locationIsOccupied:(Coord*)loc
-{
-	if ([player.location equals:loc]) 
-		return YES;
-	return [self isACreatureAtLocation:loc];
-}
-
-/*!
- @method		creature:c CanEnterTileAtCoord:
- @abstract		query function for if anything prevents creature entrance to coord (blocked by environment or monsters)
-					A creature doesn't block itself.
- */
-- (BOOL) canEnterTileAtCoord:(Coord*) coord
-{
-	return ![self tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
-}
 
 - (void) confirmLevelChange
 {
@@ -745,12 +577,12 @@
 */
 - (void) processTouch:(Coord *)tileCoord 
 {
-	if ([self isACreatureAtLocation:tileCoord]) 
+	if ([currentDungeon isACreatureAtLocation:tileCoord]) 
 	{
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
-		[player think:[self creatureAtLocation:tileCoord]];
+		[player think:[currentDungeon creatureAtLocation:tileCoord]];
 		[battleMenuMngr showBattleMenu];
 	}
 	else 
@@ -833,8 +665,6 @@
 - (void) changeToDungeon:(levelType)type
 {
 	Phone_CrawlAppDelegate *appDelg = (Phone_CrawlAppDelegate*) [[UIApplication sharedApplication] delegate];
-	[liveEnemies removeAllObjects];
-	[deadEnemies removeAllObjects];
 	[appDelg showDungeonLoadingScreen];
 	[loadDungeonLock lock];
 	[NSThread detachNewThreadSelector:@selector(asynchronouslyLoadDungeon:)

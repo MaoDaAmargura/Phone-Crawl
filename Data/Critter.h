@@ -133,7 +133,7 @@ typedef struct {
 - (void) loseAllConditions;
 
 - (void) gainExperience:(int) exp;
-- (void) incrementTurnSpeed;
+- (void) incrementTurnPoints;
 
 - (void) takeDamage:(int)amount;
 - (void) gainHealth:(int)amount;

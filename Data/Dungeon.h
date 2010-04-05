@@ -7,15 +7,14 @@ typedef enum {
 
 @class Coord;		// defined in Util
 @class Tile;
-
-
-#pragma mark -
+@class Critter;
 
 @interface Dungeon : NSObject 
 {
 	levelType dungeonType;
 	Coord *playerStartLocation;
 	NSMutableArray *liveEnemies;
+	NSMutableArray *deadEnemies;
 	NSMutableDictionary *items;
 	
 	@private
@@ -32,11 +31,22 @@ typedef enum {
 
 - (int) numberOfLevels;
 
+- (NSMutableArray*) pathBetween:(Coord*) startC and:(Coord*) endC;
+- (NSMutableArray*) buildPathFromEvaluatedDestinationCoord:(Coord *) c;
+- (NSMutableArray*) getAdjacentNonBlockingTiles:(Coord*) c;
+- (Coord*) coordWithShortestEstimatedPathFromArray:(NSMutableArray*) arrOfCoords toDest:(Coord*) dest;
+
+- (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
+- (Critter*) creatureAtLocation:(Coord*)loc;
+- (BOOL) isACreatureAtLocation:(Coord*)loc;
+
+
 // These are attributes of the dungeon object used by engine to determine how to set up a game.
 // This is object oriented programming 101. 
 @property (nonatomic) levelType dungeonType;
 @property (nonatomic, retain) Coord *playerStartLocation;
 @property (nonatomic, retain) NSMutableArray *liveEnemies;
+@property (nonatomic, retain) NSMutableArray *deadEnemies;
 @property (nonatomic, retain) NSMutableDictionary *items;
 
 @end

@@ -15,10 +15,7 @@
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
 @interface Engine : NSObject 
-{
-	NSMutableArray *liveEnemies; 
-	NSMutableArray *deadEnemies;
-	
+{	
 	BOOL tutorialMode;
 	
 	Critter *player;
@@ -51,7 +48,6 @@
 - (void) changeToDungeon:(levelType)type;
 - (void) processTouch:(Coord *) coord;
 
-- (BOOL) tileAtCoordBlocksMovement:(Coord*) coord;
 - (BOOL) canEnterTileAtCoord:(Coord*) coord;
 - (CGSize) tileSizeForWorldView:(WorldView*) wView;
 - (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
@@ -67,6 +63,8 @@
 - (void) playerDropItem:(Item*)i;
 - (void) sellItem:(Item *)it;
 - (void) buyItem:(Item *)it;
+
+- (BOOL) locationIsOccupied:(Coord*)loc;
 
 - (NSMutableArray*) getPlayerInventory;
 - (EquippedItems) getPlayerEquippedItems;

@@ -46,7 +46,9 @@
 		abilities.skills[0] = 1;
 		for (int i = 1; i < NUM_PLAYER_SKILL_TYPES; ++i)
 			abilities.skills[i] = 0;
-		abilityPoints = 5;
+		abilityPoints = 8;
+		turnPoints = 0;
+		turnSpeed = 15;
 	}
 	return self;
 }
@@ -103,10 +105,14 @@
 	}
 }
 
-- (void) incrementTurnSpeed
+- (void) incrementTurnPoints
 {
-	//caster.current.ts += caster.current.ts * (damage/100.0); //Critter
-	turnPoints += turnSpeed * (0.7 * (conditionBitSet&CHILLED)) * (1.2 * (conditionBitSet&HASTENED));
+	int realTS = turnSpeed;
+	if (conditionBitSet&CHILLED)
+		realTS *= 0.7;
+	if (conditionBitSet&HASTENED)
+		realTS *= 1.2;
+	turnPoints += realTS;
 }
 
 - (void) takeDamage:(int)amount
