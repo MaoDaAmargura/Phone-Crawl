@@ -17,17 +17,17 @@
 {
 	if (self = [super initWithLevel:lvl])
 	{
-		int dungeonLevel = level % 5;
+		int skillLevel = level / 6 + 1;
 		elemType elem = [Rand min:FIRE max: DARK];
 		stringIcon = @"monster-ogre.png";
 		stringName = @"Paladin";
-		for (int i = FIRECONDITION; i < NUM_PLAYER_SPELL_TYPES; ++i)
-			abilities.spells[i] = dungeonLevel;
-		for (int i = 0; i < NUM_PLAYER_SKILL_TYPES; ++i)
-			abilities.skills[i] = level % 8 + 1;
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease]];
+		abilities.spells[FIREDAMAGE] = skillLevel;
+		abilities.spells[LIGHTNINGCONDITION] = skillLevel;
+		abilities.skills[REG_STRIKE] = skillLevel;
+		abilities.skills[BRUTE_STRIKE] = skillLevel;
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_ONE_HAND] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:LIGHT_HELM] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_CHEST] autorelease]];
 	}
 	return self;
 }

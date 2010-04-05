@@ -17,18 +17,19 @@
 {
 	if (self = [super initWithLevel:lvl])
 	{
-		int dungeonLevel = level % 5;
+		int skillLevel = level/5 + 1;
 		elemType elem = [Rand min:FIRE max: DARK];
 		stringIcon = @"monster-warrior.png";
 		stringName = @"Warrior";
-		for (int i = 0; i < NUM_PLAYER_SPELL_TYPES; ++i)
-			abilities.spells[i] = 0;
-		for (int i = 0; i < NUM_PLAYER_SKILL_TYPES; ++i)
-			abilities.skills[i] = level % 7 + 1;	
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_ONE_HAND] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SHIELD] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_HELM] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:HEAVY_CHEST] autorelease]];
+		
+		abilities.skills[REG_STRIKE] = skillLevel;
+		abilities.skills[QUICK_STRIKE] = skillLevel;
+		abilities.skills[ELE_STRIKE] = skillLevel;
+		
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_ONE_HAND] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SHIELD] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_HELM] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_CHEST] autorelease]];
 	}
 	return self;
 }
