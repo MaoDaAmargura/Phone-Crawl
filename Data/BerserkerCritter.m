@@ -7,7 +7,9 @@
 //
 
 #import "BerserkerCritter.h"
-
+#import "Spell.h"
+#import "Skill.h"
+#import "Item.h"
 
 @implementation BerserkerCritter
 
@@ -15,8 +17,15 @@
 {
 	if (self = [super initWithLevel:lvl])
 	{
-		// Build his inventory
+		int dungeonLevel = level % 5;
+		elemType elem = [Rand min:FIRE max: DARK];
 		stringIcon = @"monster-hornman.png";
+		stringName = @"Berserker";			
+		for (int i = 0; i < NUM_PLAYER_SPELL_TYPES; ++i)
+			abilities.spells[i] = 0;
+		for (int i = 0; i < NUM_PLAYER_SKILL_TYPES; ++i)
+			abilities.skills[i] = level % 7 + 1;	
+		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:SWORD_TWO_HAND] autorelease]];
 	}
 	return self;
 }
