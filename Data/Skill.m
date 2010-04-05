@@ -154,13 +154,32 @@ BOOL have_set_abilities = FALSE;
 	SEL ele = @selector(elementalStrike:target:);
 	SEL def = @selector(defaultStrike:target:);
 
+#define ADD_ABILITY(NAME,DMG,FN,TPNTS) [abilityList addObject:[[[Skill alloc] initWithInfo:NAME damageMultiplier:DMG \
+abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] autorelease]]
 	
-	ADD_ABILITY(@"Basic",2.0,def,50);
-	ADD_ABILITY(@"Quick",1.0,def,25);
-	ADD_ABILITY(@"Power",4.0,def,100);
-	ADD_ABILITY(@"Elem",2.0,ele,50);
-	ADD_ABILITY(@"Combo",2.0,mix,50);
-	ADD_ABILITY(@"Shitty",0.8,def,50);
+	ADD_ABILITY(@"Basic1",2.0,def,50);
+	ADD_ABILITY(@"Basic2",2.2,def,50);
+	ADD_ABILITY(@"Basic3",2.4,def,50);
+	
+	ADD_ABILITY(@"Quick1",1.0,def,25);
+	ADD_ABILITY(@"Quick2",1.33,def,25);
+	ADD_ABILITY(@"Quick3",1.66,def,25);
+	
+	ADD_ABILITY(@"Power1",4.0,def,100);
+	ADD_ABILITY(@"Power2",5.0,def,100);
+	ADD_ABILITY(@"Power3",6.0,def,100);
+	
+	ADD_ABILITY(@"Elem1",2.0,ele,50);
+	ADD_ABILITY(@"Elem2",2.2,ele,50);
+	ADD_ABILITY(@"Elem3",2.4,ele,50);
+	
+	ADD_ABILITY(@"Combo1",2.0,mix,50);
+	ADD_ABILITY(@"Combo2",2.2,mix,50);
+	ADD_ABILITY(@"Combo3",2.4,mix,50);
+	
+	ADD_ABILITY(@"Shitty1",0.8,def,50);
+	ADD_ABILITY(@"Shitty2",1.0,def,50);
+	ADD_ABILITY(@"Shitty3",1.2,def,50);
 }
 
 + (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type

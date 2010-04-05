@@ -29,7 +29,8 @@
 static NSString *attackMenuOptions[5] = {@"Regular", @"Quick", @"Power", @"Elemental", @"Combo"};
 static NSString *dspellMenuOptions[5] = {@"Flame", @"Frost", @"Shock", @"Erode", @"Drain"};
 static NSString *cspellMenuOptions[5] = {@"Burn", @"Freeze", @"Purge", @"Poison", @"Confuse"};
-static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"Greater", @"Superior"};
+static NSString *spellLevelDesignations[5] = {@"Minor", @"Lesser", @"Major", @"Greater", @"Superior"};
+static NSString *skillLevelDesignations[3] = {@"Basic",@"Journeyman", @"Master"};
 
 @implementation BattleMenuManager
 
@@ -73,7 +74,9 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 	for (int i = 0 ; i < NUM_PLAYER_SKILL_TYPES ; ++i) 
 	{
 		if (playerRef.abilities.skills[i] != 0) 
-			[attackMenu addButtonWithTitle:attackMenuOptions[i]];
+			[attackMenu addButtonWithTitle:[NSString stringWithFormat:@"%@ %@",
+											skillLevelDesignations[i],
+											attackMenuOptions[i]]];
 	}
 	[attackMenu addButtonWithTitle:@"Do Something Else"];
 	[attackMenu showInView:targetViewRef];
