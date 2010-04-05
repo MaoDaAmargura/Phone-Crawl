@@ -182,9 +182,9 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	ADD_ABILITY(@"Shitty3",1.2,def,50);
 }
 
-+ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type
++ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type level: (int)lvl
 {
-	return [abilityList objectAtIndex:type];
+	return [abilityList objectAtIndex: 3 * type + lvl];
 }
 
 @end
