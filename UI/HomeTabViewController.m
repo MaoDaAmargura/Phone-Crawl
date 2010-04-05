@@ -145,15 +145,19 @@
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];
 	}
-	else if([gameEngine.currentDungeon dungeonType] == town && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
+	else if([gameEngine.currentDungeon dungeonType] == town)
 	{
-		if(gameEngine.tutorialMode && !doneMerchant)
-		{
-			[self continueTutorialFromMerchant];
-		}
-		else if(!gameEngine.tutorialMode)
-		{	
-			[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
+		if ([gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper) {
+			if(gameEngine.tutorialMode && !doneMerchant)
+			{
+				[self continueTutorialFromMerchant];
+			}
+			else if(!gameEngine.tutorialMode)
+			{	
+				[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
+			}
+		} else if ([gameEngine.currentDungeon tileAt:tileCoord].type == tileNPC) {
+			
 		}
 	}
 }

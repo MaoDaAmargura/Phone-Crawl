@@ -10,7 +10,7 @@
 #import "Critter.h"
 
 
-@interface Response {
+@interface Response : NSObject {
 	NSString *dialog;
 	int pointsTo;
 	SEL callfunc;
@@ -24,7 +24,7 @@
 
 @end
 
-@interface Dialog {
+@interface Dialog : NSObject {
 	NSString *dialog;
 	NSMutableArray *responses;
 }
@@ -41,10 +41,13 @@
 	NSMutableArray *dialogs;
 	Dialog *opening;
 	Critter *player;
+	Dialog *current;
 }
 
 @property (nonatomic, retain) NSMutableArray *dialogs;
+@property (retain) Dialog *current;
 
--(id) initWithCritter:(Critter *)target;
+-(id) initWithCritter:(Critter *)c;
+-(void) changeDialog:(Response *)r;
 
 @end

@@ -20,6 +20,9 @@
 	[d addResponse:r];
 	
 	[dialogs addObject:d];
+	
+	opening = d;
+	current = d;
 	return self;
 }
 

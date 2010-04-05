@@ -44,12 +44,19 @@
 @implementation Npc
 
 @synthesize dialogs;
+@synthesize current;
 
--(id) initWithCritter:(Critter *)critter {
+-(id) initWithCritter:(Critter *)c {
 	dialogs = [NSMutableArray arrayWithCapacity:1];
 	opening = [[Dialog alloc] initWithDialog:@""];
-	player = critter;
+	current = opening;
+	player = c;
 	return self;
+}
+
+-(void) changeDialog:(Response *)r {
+	current = [dialogs objectAtIndex:r.pointsTo];
+	[self performSelector:r.callfunc];
 }
 
 @end
