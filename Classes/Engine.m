@@ -15,6 +15,7 @@
 #import "HomeTabViewController.h"
 
 #import "BattleMenuManager.h"
+#import "NPCDialogManager.h"
 
 #define GREATEST_ALLOWED_TURN_POINTS 100
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
@@ -78,6 +79,8 @@
 @synthesize tutorialMode;
 
 @synthesize worldViewSingleton;
+
+@synthesize npcManager;
 
 #pragma mark -
 #pragma mark Life Cycle
@@ -751,8 +754,13 @@
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
-		[player think:[self creatureAtLocation:tileCoord]];
-		[battleMenuMngr showBattleMenu];
+		Critter *c = [self creatureAtLocation:tileCoord];
+		if (c.npc) {
+			
+		} else {
+			[player think:[self creatureAtLocation:tileCoord]];
+			[battleMenuMngr showBattleMenu];
+		}
 	}
 	else 
 	{

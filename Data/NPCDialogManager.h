@@ -10,16 +10,18 @@
 #import "Util.h"
 
 #import "Engine.h"
+#import "Critter.h"
 
 
 @interface NPCDialogManager : NSObject <UIActionSheetDelegate> {
 	UIActionSheet *initial;
 	UIView *targetViewRef;
 	Engine *delegate;
+	Critter *current;
 }
 
 - (id) initWithView:(UIView*)target andDelegate:(id)del;
 
-- (void) beginDialog:(CGPoint)p;
+- (void) beginDialog:(Critter *)c;
 
 @end

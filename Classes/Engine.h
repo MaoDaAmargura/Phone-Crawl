@@ -11,6 +11,7 @@
 @class WorldView;
 @class Spell;
 @class Skill;
+@class NPCDialogManager;
 
 #define ENGINE_DICTIONARY_KEY "andi402mdu501ke75ncm39dj50s37fn3"
 
@@ -34,6 +35,7 @@
 	// when attacking a monster.
 	// - Nate
 	WorldView *worldViewSingleton;
+	NPCDialogManager *npcManager;
 }
 
 @property (nonatomic, retain) Critter *player;
@@ -43,6 +45,7 @@
 
 @property (nonatomic) BOOL tutorialMode;
 
+@property (nonatomic, retain) NPCDialogManager *npcManager;
 
 - (id) init;
 

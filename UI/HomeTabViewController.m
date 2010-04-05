@@ -71,6 +71,8 @@
 	
 	merchManager = [[MerchantDialogueManager alloc] initWithView:wView.view andDelegate:gameEngine];
 	npcManager = [[NPCDialogManager alloc] initWithView:wView.view andDelegate:gameEngine];
+	
+	gameEngine.npcManager = npcManager;
 }
 
 
@@ -146,19 +148,15 @@
 		[gameEngine processTouch:tileCoord];
 		[gameEngine updateWorldView:worldView];
 	}
-	else if([gameEngine.currentDungeon dungeonType] == town)
+	else if([gameEngine.currentDungeon dungeonType] == town && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
 	{
-		if ([gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper) {
-			if(gameEngine.tutorialMode && !doneMerchant)
-			{
-				[self continueTutorialFromMerchant];
-			}
-			else if(!gameEngine.tutorialMode)
-			{	
-				[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
-			}
-		} else if ([gameEngine.currentDungeon tileAt:tileCoord].type == tileNPC) {
-			[npcManager beginDialog:point];
+		if(gameEngine.tutorialMode && !doneMerchant)
+		{
+			[self continueTutorialFromMerchant];
+		}
+		else if(!gameEngine.tutorialMode)
+		{	
+			[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
 		}
 	}
 }

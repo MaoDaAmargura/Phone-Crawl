@@ -16,11 +16,12 @@
 	{
 		targetViewRef = target;
 		delegate = del;
+		current = nil;
 	}
 	return self;
 }
 
--(void) beginDialog:(CGPoint)p {
+-(void) beginDialog:(Critter *)c {
 	
 }
 
