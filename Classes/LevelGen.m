@@ -11,6 +11,10 @@
 #import "RogueCritter.h"
 #import "MageCritter.h"
 #import "PaladinCritter.h"
+#import "NPCCritter.h"
+
+// NPC Dialogs
+#import "Priest.h"
 
 
 #pragma mark --hacks
@@ -815,6 +819,15 @@ typedef enum {
 			}
 		}
 	}
+	
+	// place NPC characters
+	Critter *critter;
+	critter = [[[NPCCritter alloc] initWithLevel:1] autorelease];
+	critter.location = [Coord withX:7 Y:1 Z:0];
+	critter.npc = YES;
+	//critter.stringIcon = @"Priest.png";
+	critter.dialog = [[Priest alloc] init];
+	[dungeon.liveEnemies addObject:critter];
 	return dungeon;
 }
 

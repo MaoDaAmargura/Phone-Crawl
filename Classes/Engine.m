@@ -587,7 +587,9 @@
 {
 	for (Critter *m in liveEnemies) {
 		[self drawImageNamed:m.stringIcon atTile:m.location inWorld:wView];
-		[self drawHealthBar:m inWorld:wView];
+		if (m.npc == NO) {
+			[self drawHealthBar:m inWorld:wView];
+		}
 	}
 }
 
@@ -756,7 +758,7 @@
 		//     -the menu should be triggered here.
 		Critter *c = [self creatureAtLocation:tileCoord];
 		if (c.npc) {
-			
+			[npcManager beginDialog:c];
 		} else {
 			[player think:[self creatureAtLocation:tileCoord]];
 			[battleMenuMngr showBattleMenu];
