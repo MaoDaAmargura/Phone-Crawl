@@ -11,6 +11,10 @@
 #import "RogueCritter.h"
 #import "MageCritter.h"
 #import "PaladinCritter.h"
+#import "NPCCritter.h"
+
+#import "Npc.h"
+#import "Priest.h"
 
 #define LARGEST_ALLOWED_PATH 80
 
@@ -1074,6 +1078,15 @@ FOUND_START_TILE:;
 			}
 		}
 	}
+	
+	// place NPC characters
+	Critter *critter;
+	critter = [[[NPCCritter alloc] initWithLevel:1] autorelease];
+	critter.location = [Coord withX:7 Y:1 Z:0];
+	critter.npc = YES;
+	//critter.stringIcon = @"Priest.png";
+	critter.dialog = [[Priest alloc] init];
+	[dungeon.liveEnemies addObject:critter];
 	return dungeon;
 }
 
