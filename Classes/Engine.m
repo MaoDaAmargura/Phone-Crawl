@@ -129,7 +129,8 @@
 	if(critter.target.skillToUse)
 	{
 		actionResult = [critter useSkill];
-		[self bloodSprayWithAttacker:critter];
+		if(![actionResult isEqualToString:@"Not in Range!"])
+			[self bloodSprayWithAttacker:critter];
 	} 
 	else if(critter.target.spellToCast)
 	{
