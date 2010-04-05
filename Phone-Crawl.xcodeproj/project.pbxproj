@@ -18,6 +18,8 @@
 		B058D3C61147392800AEBDF1 /* EndGame.m in Sources */ = {isa = PBXBuildFile; fileRef = B058D3C51147392800AEBDF1 /* EndGame.m */; };
 		B0D2A6A21169649A008400F3 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D2A6A11169649A008400F3 /* Npc.m */; };
 		B0D2A6A31169649A008400F3 /* Npc.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D2A6A11169649A008400F3 /* Npc.m */; };
+		B0D2A6C81169669C008400F3 /* Priest.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D2A6C71169669C008400F3 /* Priest.m */; };
+		B0D2A6C91169669C008400F3 /* Priest.m in Sources */ = {isa = PBXBuildFile; fileRef = B0D2A6C71169669C008400F3 /* Priest.m */; };
 		D70FA6EF11480B44001F1C56 /* PCParticle.m in Sources */ = {isa = PBXBuildFile; fileRef = D70FA6EE11480B44001F1C56 /* PCParticle.m */; };
 		D70FA7CF11481E1A001F1C56 /* PCParticle.xib in Resources */ = {isa = PBXBuildFile; fileRef = D70FA7CD11481E1A001F1C56 /* PCParticle.xib */; };
 		D918C0ED1146F46A002D4575 /* UIImage+Overlay.m in Sources */ = {isa = PBXBuildFile; fileRef = D918C0EC1146F46A002D4575 /* UIImage+Overlay.m */; };
@@ -355,6 +357,8 @@
 		B058D3C51147392800AEBDF1 /* EndGame.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EndGame.m; sourceTree = "<group>"; };
 		B0D2A6A01169649A008400F3 /* Npc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Npc.h; sourceTree = "<group>"; };
 		B0D2A6A11169649A008400F3 /* Npc.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Npc.m; sourceTree = "<group>"; };
+		B0D2A6C61169669C008400F3 /* Priest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Priest.h; sourceTree = "<group>"; };
+		B0D2A6C71169669C008400F3 /* Priest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Priest.m; sourceTree = "<group>"; };
 		D70FA6ED11480B44001F1C56 /* PCParticle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCParticle.h; sourceTree = "<group>"; };
 		D70FA6EE11480B44001F1C56 /* PCParticle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCParticle.m; sourceTree = "<group>"; };
 		D70FA7CD11481E1A001F1C56 /* PCParticle.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PCParticle.xib; sourceTree = "<group>"; };
@@ -808,8 +812,18 @@
 			children = (
 				B0D2A6A01169649A008400F3 /* Npc.h */,
 				B0D2A6A11169649A008400F3 /* Npc.m */,
+				B0D2A6C511696689008400F3 /* NPC subtypes */,
 			);
 			name = NPC;
+			sourceTree = "<group>";
+		};
+		B0D2A6C511696689008400F3 /* NPC subtypes */ = {
+			isa = PBXGroup;
+			children = (
+				B0D2A6C61169669C008400F3 /* Priest.h */,
+				B0D2A6C71169669C008400F3 /* Priest.m */,
+			);
+			name = "NPC subtypes";
 			sourceTree = "<group>";
 		};
 		D918C0E91146F44D002D4575 /* Categories */ = {
@@ -1963,6 +1977,7 @@
 				D92025291163110400DEB456 /* MageCritter.m in Sources */,
 				D920252C1163110E00DEB456 /* PaladinCritter.m in Sources */,
 				B0D2A6A31169649A008400F3 /* Npc.m in Sources */,
+				B0D2A6C91169669C008400F3 /* Priest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1979,6 +1994,7 @@
 				D9F89D13113F2D18005DC43E /* Util.m in Sources */,
 				D9F89D2C113F2DB2005DC43E /* Spell.m in Sources */,
 				B0D2A6A21169649A008400F3 /* Npc.m in Sources */,
+				B0D2A6C81169669C008400F3 /* Priest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

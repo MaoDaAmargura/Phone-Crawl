@@ -7,24 +7,44 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Critter.h"
 
 
-typedef struct {
+@interface Response {
 	NSString *dialog;
 	int pointsTo;
-} Response;
+	SEL callfunc;
+}
 
-typedef struct {
+@property (retain) NSString *dialog;
+@property int pointsTo;
+@property SEL callfunc;
+
+-(id) initWithDialog:(NSString *)d pointsTo:(int) points func:(SEL) func;
+
+@end
+
+@interface Dialog {
 	NSString *dialog;
 	NSMutableArray *responses;
-} Dialog;
+}
+
+@property (retain) NSString *dialog;
+@property (retain) NSMutableArray *responses;
+
+-(id) initWithDialog:(NSString *)d;
+-(void) addResponse:(Response *)r;
+
+@end
 
 @interface Npc : NSObject {
 	NSMutableArray *dialogs;
+	Dialog *opening;
+	Critter *player;
 }
 
 @property (nonatomic, retain) NSMutableArray *dialogs;
 
--(id) init;
+-(id) initWithCritter:(Critter *)target;
 
 @end
