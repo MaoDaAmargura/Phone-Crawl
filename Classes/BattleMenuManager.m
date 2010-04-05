@@ -29,7 +29,8 @@
 static NSString *attackMenuOptions[5] = {@"Regular", @"Quick", @"Power", @"Elemental", @"Combo"};
 static NSString *dspellMenuOptions[5] = {@"Flame", @"Frost", @"Shock", @"Erode", @"Drain"};
 static NSString *cspellMenuOptions[5] = {@"Burn", @"Freeze", @"Purge", @"Poison", @"Confuse"};
-static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"Greater", @"Superior"};
+static NSString *spellLevelDesignations[5] = {@"Minor", @"Lesser", @"Major", @"Greater", @"Superior"};
+static NSString *skillLevelDesignations[3] = {@"Basic",@"Journeyman", @"Master"};
 
 @implementation BattleMenuManager
 
@@ -72,8 +73,11 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 									otherButtonTitles:nil] autorelease];
 	for (int i = 0 ; i < NUM_PLAYER_SKILL_TYPES ; ++i) 
 	{
-		if (playerRef.abilities.skills[i] != 0) 
-			[attackMenu addButtonWithTitle:attackMenuOptions[i]];
+		int skillLevel = playerRef.abilities.skills[i];
+		if (skillLevel != 0) 
+			[attackMenu addButtonWithTitle:[NSString stringWithFormat:@"%@ %@",
+											skillLevelDesignations[i],
+											attackMenuOptions[i]]];
 	}
 	[attackMenu addButtonWithTitle:@"Do Something Else"];
 	[attackMenu showInView:targetViewRef];
@@ -168,30 +172,30 @@ static NSString *spellLevelDesignations[5] = {@"Lesser", @"Minor", @"Major", @"G
 {
 	NSString *buttonTitle = [attackMenu buttonTitleAtIndex:buttonIndex];
 	Skill *ca = nil;
-	if ([buttonTitle isEqualToString:attackMenuOptions[0]])
+	if ([buttonTitle rangeOfString:attackMenuOptions[0]].length > 0)
 	{
 		// Regular
-		ca = [Skill skillOfType:REG_STRIKE];
+		ca = [Skill skillOfType:REG_STRIKE level:playerRef.abilities.skills[REG_STRIKE]-1];
 	}
-	else if ([buttonTitle isEqualToString:attackMenuOptions[1]])
+	else if ([buttonTitle rangeOfString:attackMenuOptions[1]].length > 0)
 	{
 		// Quick
-		ca = [Skill skillOfType:QUICK_STRIKE];
+		ca = [Skill skillOfType:QUICK_STRIKE level:playerRef.abilities.skills[QUICK_STRIKE]-1];
 	}
-	else if	([buttonTitle isEqualToString:attackMenuOptions[2]])
+	else if	([buttonTitle rangeOfString:attackMenuOptions[2]].length > 0)
 	{
 		// Power
-		ca = [Skill skillOfType:BRUTE_STRIKE];
+		ca = [Skill skillOfType:BRUTE_STRIKE level:playerRef.abilities.skills[BRUTE_STRIKE]-1];
 	}
-	else if ([buttonTitle isEqualToString:attackMenuOptions[3]])
+	else if ([buttonTitle rangeOfString:attackMenuOptions[3]].length > 0)
 	{
 		// Elemental
-		ca = [Skill skillOfType:ELE_STRIKE];
+		ca = [Skill skillOfType:ELE_STRIKE level:playerRef.abilities.skills[ELE_STRIKE]-1];
 	}
-	else if	([buttonTitle isEqualToString:attackMenuOptions[4]])
+	else if	([buttonTitle rangeOfString:attackMenuOptions[4]].length > 0)
 	{
 		// Combo
-		ca = [Skill skillOfType:MIX_STRIKE];
+		ca = [Skill skillOfType:MIX_STRIKE level:playerRef.abilities.skills[MIX_STRIKE]-1];
 	}
 	else 
 	{

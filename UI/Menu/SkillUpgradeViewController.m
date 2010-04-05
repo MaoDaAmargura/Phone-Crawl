@@ -155,7 +155,7 @@
 
 - (void) upgradeSkill:(PC_COMBAT_ABILITY_TYPE)skill andUpdateButton:(UIButton*)button withIconNamed:(NSString*) name
 {
-	if (player.abilities.skills[skill] >= 5 || player.abilityPoints < COST_OF_SKILL)
+	if (player.abilities.skills[skill] >= 3 || player.abilityPoints < COST_OF_SKILL)
 		return;
 	[player abilities].skills[skill]++;
 	player.abilityPoints -= COST_OF_SKILL;

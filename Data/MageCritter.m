@@ -7,7 +7,9 @@
 //
 
 #import "MageCritter.h"
-
+#import "Spell.h"
+#import "Skill.h"
+#import "Item.h"
 
 @implementation MageCritter
 
@@ -15,8 +17,17 @@
 {
 	if (self = [super initWithLevel:lvl])
 	{
-		// Build his inventory
+		int dungeonLevel = level % 5;
+		elemType elem = [Rand min:FIRE max: DARK];
 		stringIcon = @"monster-iceman.png";
+		stringName = @"Mage";
+		for (int i = 0; i < NUM_PLAYER_SPELL_TYPES; ++i)
+			abilities.spells[i] = dungeonLevel+1;
+		for (int i = 0; i < NUM_PLAYER_SKILL_TYPES; ++i)
+			abilities.skills[i] = 1; 
+		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:STAFF] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_HELM] autorelease]];
+		[self equipItem:[[[Item alloc] initWithBaseStats:dungeonLevel elemType:elem itemType:LIGHT_CHEST] autorelease]];
 	}
 	return self;
 }

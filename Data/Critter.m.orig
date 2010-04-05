@@ -12,6 +12,7 @@
 #import "Item.h"
 #import "Spell.h"
 #import "Skill.h"
+#import "Npc.h"
 
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 
@@ -48,11 +49,14 @@
 		abilities.skills[0] = 1;
 		for (int i = 1; i < NUM_PLAYER_SKILL_TYPES; ++i)
 			abilities.skills[i] = 0;
+<<<<<<< HEAD
 		abilityPoints = 8;
 		turnPoints = 0;
 		turnSpeed = 15;
+=======
 		abilityPoints = 5;
 		npc = NO;
+>>>>>>> f8502c633b562395d0c74152679554671b6d3b47
 	}
 	return self;
 }

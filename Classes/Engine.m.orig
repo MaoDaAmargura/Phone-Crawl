@@ -588,13 +588,18 @@
 		// The player has touched a monster.
 		// The game should show a menu of actions and be ready for additional user input.
 		//     -the menu should be triggered here.
-		Critter *c = [currentDungeon creatureAtLocation:tileCoord];
+<<<<<<< HEAD
+		[player think:[currentDungeon creatureAtLocation:tileCoord]];
+		[battleMenuMngr showBattleMenu];
+=======
+		Critter *c = [self creatureAtLocation:tileCoord];
 		if (c.npc) {
 			[npcManager beginDialog:c];
 		} else {
-			[player think:c];
+			[player think:[self creatureAtLocation:tileCoord]];
 			[battleMenuMngr showBattleMenu];
 		}
+>>>>>>> f8502c633b562395d0c74152679554671b6d3b47
 	}
 	else 
 	{

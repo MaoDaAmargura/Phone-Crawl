@@ -48,7 +48,7 @@ typedef enum {
 - (int) mixedStrike:(Critter *)attacker target:(Critter *)defender;
 
 + (void) initialize;
-+ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type;
++ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type level: (int)lvl;
 
 @property (readonly, retain) NSString *name;
 @property (readonly) int abilityId;
