@@ -12,10 +12,15 @@
 @implementation NPCDialogManager
 
 -(id) initWithView:(UIView *)target andDelegate:(id)del {
+	if (self = [super init])
+	{
+		targetViewRef = target;
+		delegate = del;
+	}
 	return self;
 }
 
--(void) beginDialog:(Coord *)c {
+-(void) beginDialog:(CGPoint)p {
 	
 }
 

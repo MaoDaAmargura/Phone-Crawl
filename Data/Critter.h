@@ -14,6 +14,7 @@
 @class Spell;
 @class Skill;
 @class Coord;
+@class Npc;
 
 #define STAT_MAX 100
 #define STAT_MIN 0
@@ -101,6 +102,9 @@ typedef struct {
 	BOOL inBattle;
 	@private
 	CritterStats real;
+	
+	BOOL npc;
+	Npc *dialog;
 }
 
 @property (nonatomic, retain) NSString *stringName;
@@ -125,6 +129,9 @@ typedef struct {
 @property (nonatomic) Abilities abilities;
 
 @property (nonatomic, retain) Coord *location;
+
+@property (assign) BOOL npc;
+@property (nonatomic, retain) Npc *dialog;
 
 - (id) initWithLevel:(int)lvl;
 

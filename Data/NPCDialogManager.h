@@ -9,13 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
+#import "Engine.h"
+
 
 @interface NPCDialogManager : NSObject <UIActionSheetDelegate> {
 	UIActionSheet *initial;
+	UIView *targetViewRef;
+	Engine *delegate;
 }
 
 - (id) initWithView:(UIView*)target andDelegate:(id)del;
 
-- (void) beginDialog:(Coord *)c;
+- (void) beginDialog:(CGPoint)p;
 
 @end

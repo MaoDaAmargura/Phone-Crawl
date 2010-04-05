@@ -70,6 +70,7 @@
 	endView.engine = gameEngine;
 	
 	merchManager = [[MerchantDialogueManager alloc] initWithView:wView.view andDelegate:gameEngine];
+	npcManager = [[NPCDialogManager alloc] initWithView:wView.view andDelegate:gameEngine];
 }
 
 
@@ -157,7 +158,7 @@
 				[merchManager interactionWithInventory:[gameEngine getPlayerInventory]];
 			}
 		} else if ([gameEngine.currentDungeon tileAt:tileCoord].type == tileNPC) {
-			
+			[npcManager beginDialog:point];
 		}
 	}
 }

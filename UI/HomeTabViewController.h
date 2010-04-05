@@ -6,6 +6,7 @@
 #import "Engine.h"
 
 #import "MerchantDialogueManager.h"
+#import "NPCDialogManager.h"
 
 @class EndGame;
 
@@ -27,6 +28,7 @@
 	UILabel *tutorialDialogueBox;
 	
 	MerchantDialogueManager *merchManager;
+	NPCDialogManager *npcManager;
 }
 
 @property (nonatomic, retain) UITabBarController *mainTabController;

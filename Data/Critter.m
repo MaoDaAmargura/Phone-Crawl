@@ -12,6 +12,7 @@
 #import "Item.h"
 #import "Spell.h"
 #import "Skill.h"
+#import "Npc.h"
 
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 
@@ -27,6 +28,8 @@
 @synthesize defense;
 @synthesize current, max;
 @synthesize abilities;
+@synthesize npc;
+@synthesize dialog;
 
 - (id) initWithLevel:(int)lvl
 {
@@ -47,6 +50,7 @@
 		for (int i = 1; i < NUM_PLAYER_SKILL_TYPES; ++i)
 			abilities.skills[i] = 0;
 		abilityPoints = 5;
+		npc = NO;
 	}
 	return self;
 }
