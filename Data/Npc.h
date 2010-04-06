@@ -29,7 +29,7 @@
 	NSMutableArray *responses;
 }
 
-@property (nonatomic, retain) NSString *dialog;
+@property (retain) NSString *dialog;
 @property (nonatomic, retain) NSMutableArray *responses;
 
 -(id) initWithDialog:(NSString *)d;
@@ -44,7 +44,7 @@
 	Dialog *current;
 }
 
-@property (nonatomic, retain) NSMutableArray *dialogs;
+@property (retain) NSMutableArray *dialogs;
 @property (retain) Dialog *current;
 @property (nonatomic, copy) Dialog *opening;
 

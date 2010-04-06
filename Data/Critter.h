@@ -131,7 +131,7 @@ typedef struct {
 @property (nonatomic, retain) Coord *location;
 
 @property (assign) BOOL npc;
-@property (nonatomic, retain) Npc *dialog;
+@property (retain) Npc *dialog;
 
 - (id) initWithLevel:(int)lvl;
 
