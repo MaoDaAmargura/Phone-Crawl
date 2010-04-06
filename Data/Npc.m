@@ -31,7 +31,7 @@
 
 -(id) initWithDialog:(NSString *)d {
 	dialog = d;
-	responses = [NSMutableArray arrayWithCapacity:1];
+	responses = [[NSMutableArray alloc] init];
 	return self;
 }
 
@@ -45,6 +45,7 @@
 
 @synthesize dialogs;
 @synthesize current;
+@synthesize opening;
 
 -(id) initWithCritter:(Critter *)c {
 	dialogs = [NSMutableArray arrayWithCapacity:1];

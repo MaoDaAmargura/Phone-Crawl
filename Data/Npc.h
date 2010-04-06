@@ -29,8 +29,8 @@
 	NSMutableArray *responses;
 }
 
-@property (retain) NSString *dialog;
-@property (retain) NSMutableArray *responses;
+@property (nonatomic, retain) NSString *dialog;
+@property (nonatomic, retain) NSMutableArray *responses;
 
 -(id) initWithDialog:(NSString *)d;
 -(void) addResponse:(Response *)r;
@@ -46,6 +46,7 @@
 
 @property (nonatomic, retain) NSMutableArray *dialogs;
 @property (retain) Dialog *current;
+@property (nonatomic, copy) Dialog *opening;
 
 -(id) initWithCritter:(Critter *)c;
 -(void) changeDialog:(Response *)r;

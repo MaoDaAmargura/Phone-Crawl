@@ -23,6 +23,10 @@
 	
 	opening = d;
 	current = d;
+	
+	d = [[Dialog alloc] initWithDialog:@"Healing!"];
+	
+	[dialogs addObject:d];
 	return self;
 }
 
