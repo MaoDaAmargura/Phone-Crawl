@@ -162,7 +162,7 @@
 		return player;
 	
 	for (Critter *c in [self crittersInRange])
-		if (c.turnPoints >= POINTS_TO_TAKE_TURN)
+		if (c.turnPoints >= POINTS_TO_TAKE_TURN && !c.npc)
 			return c;
 	return nil;
 }
