@@ -36,8 +36,8 @@
 	return self;
 }
 
--(void) healPlayer {
-	
+-(void) healPlayer:(Critter *)p {
+	[p resetStats];
 }
 
 @end
