@@ -32,6 +32,7 @@
 {
 	[super think:player];
 	
+	target.moveLocation = player.location;
 }
 
 @end

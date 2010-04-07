@@ -226,6 +226,9 @@
 	else 
 	{
 		//TODO: Can't go there, so...
+		if (c != player) {
+			c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
+		}
 	}
 	
 }
@@ -271,7 +274,7 @@
 	}
 	else 
 	{
-		critter.turnPoints -= 15; //inactivity
+		//critter.turnPoints -= 15; //inactivity
 	}
 	
 	if (player.level > oldLevel)

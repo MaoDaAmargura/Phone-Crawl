@@ -35,6 +35,10 @@
 {
 	[super think:player];
 	
+	//TODO: this should actually move to a nearby location good for casting 3-5 spaces away
+	target.moveLocation = player.location; 
+	
+	
 }
 
 @end
