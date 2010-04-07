@@ -13,7 +13,8 @@
 #import "Spell.h"
 #import "Skill.h"
 
-#define TURN_POINTS_FOR_MOVEMENT_ACTION 50
+#define TURN_POINTS_FOR_MOVEMENT_ACTION 40
+#define TURN_POINTS_FOR_ITEM_USE		50
 
 @implementation Critter
 
@@ -333,12 +334,12 @@
 			{
 				actionResult = [target.skillToUse useAbility:self target:target.critterForAction];
 				turnPoints -= target.skillToUse.turnPointCost;
-				[self setSkillToUse:nil];
 			}
 			else 
 			{
 				actionResult = @"Not in Range!";
 			}
+			[self setSkillToUse:nil];
 		}
 	}
 	
@@ -356,12 +357,12 @@
 			{
 				actionResult = [target.spellToCast cast:self target:target.critterForAction];
 				turnPoints -= target.spellToCast.turnPointCost;
-				[self setSpellToUse:nil];
 			}
 			else 
 			{
 				actionResult = @"Not in Range!";
 			}
+			[self setSpellToUse:nil];
 		}
 	}
 	return actionResult;
@@ -377,16 +378,16 @@
 			if ([Util point_distanceC1:location C2:target.critterForAction.location] <= target.itemForUse.range)
 			{
 				[target.itemForUse cast:self target:target.critterForAction];
-				//TODO: turnPoints -= ;
+				turnPoints -= TURN_POINTS_FOR_ITEM_USE;
 				target.itemForUse.charges--;
 				if (target.itemForUse.charges <= 0) 
 					[inventory removeObject:target.itemForUse];
-				[self setItemToUse:nil];
 			}
 			else 
 			{
 				actionResult = @"Not in Range!";
 			}
+			[self setItemToUse:nil];
 		}
 	}
 	return actionResult;

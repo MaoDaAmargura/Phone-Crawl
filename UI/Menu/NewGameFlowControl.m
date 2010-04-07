@@ -8,10 +8,10 @@
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5
 
-#define TOP_LEFT_ICON		@"knight.png"
-#define TOP_RIGHT_ICON		@"female1.png"
-#define BOTTOM_LEFT_ICON	@"male2.png"
-#define BOTTOM_RIGHT_ICON	@"mage.png"
+#define TOP_LEFT_ICON		@"knight1C.png"
+#define TOP_RIGHT_ICON		@"knightess1C.png"
+#define BOTTOM_LEFT_ICON	@"wizardC.png"
+#define BOTTOM_RIGHT_ICON	@"wizardessC.png"
 
 @interface NewGameFlowControl (Private)
 

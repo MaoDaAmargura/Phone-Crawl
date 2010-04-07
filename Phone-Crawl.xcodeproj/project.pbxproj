@@ -330,6 +330,10 @@
 		D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */; };
 		D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */; };
 		D9AFEE891130C577001EC0B5 /* NewGameFlowControl.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */; };
+		D9B2E595116C29D7007F48C4 /* knight1C.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D9B2E591116C29D7007F48C4 /* knight1C.PNG */; };
+		D9B2E596116C29D7007F48C4 /* knightess1C.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D9B2E592116C29D7007F48C4 /* knightess1C.PNG */; };
+		D9B2E597116C29D7007F48C4 /* wizardC.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D9B2E593116C29D7007F48C4 /* wizardC.PNG */; };
+		D9B2E598116C29D7007F48C4 /* wizardessC.PNG in Resources */ = {isa = PBXBuildFile; fileRef = D9B2E594116C29D7007F48C4 /* wizardessC.PNG */; };
 		D9B55D1C11015878007173A3 /* Dungeon.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D1B11015878007173A3 /* Dungeon.m */; };
 		D9B55D2211015886007173A3 /* Util.m in Sources */ = {isa = PBXBuildFile; fileRef = D9B55D2011015886007173A3 /* Util.m */; };
 		D9C4F2E7115C1F35006B3A78 /* GameFileManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9C4F2E6115C1F35006B3A78 /* GameFileManager.m */; };
@@ -706,6 +710,10 @@
 		D9AFEE851130C577001EC0B5 /* NewGameFlowControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewGameFlowControl.h; sourceTree = "<group>"; };
 		D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewGameFlowControl.m; sourceTree = "<group>"; };
 		D9AFEE871130C577001EC0B5 /* NewGameFlowControl.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NewGameFlowControl.xib; sourceTree = "<group>"; };
+		D9B2E591116C29D7007F48C4 /* knight1C.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight1C.PNG; sourceTree = "<group>"; };
+		D9B2E592116C29D7007F48C4 /* knightess1C.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knightess1C.PNG; sourceTree = "<group>"; };
+		D9B2E593116C29D7007F48C4 /* wizardC.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wizardC.PNG; sourceTree = "<group>"; };
+		D9B2E594116C29D7007F48C4 /* wizardessC.PNG */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = wizardessC.PNG; sourceTree = "<group>"; };
 		D9B55D1A11015878007173A3 /* Dungeon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dungeon.h; sourceTree = "<group>"; };
 		D9B55D1B11015878007173A3 /* Dungeon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dungeon.m; sourceTree = "<group>"; };
 		D9B55D1F11015886007173A3 /* Util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Util.h; sourceTree = "<group>"; };
@@ -1241,6 +1249,7 @@
 		D97B06A0115C4B2B00FDF2CA /* players */ = {
 			isa = PBXGroup;
 			children = (
+				D9B2E590116C29D7007F48C4 /* NewIcons */,
 				D97B06A1115C4B2B00FDF2CA /* donald.bmp */,
 				D97B06A2115C4B2B00FDF2CA /* female1.png */,
 				D97B06A3115C4B2B00FDF2CA /* female2.png */,
@@ -1482,6 +1491,17 @@
 				D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */,
 			);
 			name = HighScores;
+			sourceTree = "<group>";
+		};
+		D9B2E590116C29D7007F48C4 /* NewIcons */ = {
+			isa = PBXGroup;
+			children = (
+				D9B2E591116C29D7007F48C4 /* knight1C.PNG */,
+				D9B2E592116C29D7007F48C4 /* knightess1C.PNG */,
+				D9B2E593116C29D7007F48C4 /* wizardC.PNG */,
+				D9B2E594116C29D7007F48C4 /* wizardessC.PNG */,
+			);
+			path = NewIcons;
 			sourceTree = "<group>";
 		};
 		D9B55D1911015878007173A3 /* Data */ = {
@@ -1905,6 +1925,10 @@
 				D97B0829115C4B2B00FDF2CA /* ui-tab-inventory.png in Resources */,
 				D97B082A115C4B2B00FDF2CA /* ui-tab-options.png in Resources */,
 				D97B082B115C4B2B00FDF2CA /* ui-tab-world.png in Resources */,
+				D9B2E595116C29D7007F48C4 /* knight1C.PNG in Resources */,
+				D9B2E596116C29D7007F48C4 /* knightess1C.PNG in Resources */,
+				D9B2E597116C29D7007F48C4 /* wizardC.PNG in Resources */,
+				D9B2E598116C29D7007F48C4 /* wizardessC.PNG in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
