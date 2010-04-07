@@ -129,7 +129,10 @@
 	current.sp = 0;
 
 	if (current.hp <= 0)
+	{
+		current.hp = 0;
 		alive = NO;
+	}
 }
 
 - (void) gainHealth:(int)amount
@@ -434,9 +437,9 @@
 - (int) score
 {
 	int score = level*1000 + money;
-	// death penalty
 	for (Item *i in inventory)
 		score += i.pointValue;
+	score -= deathPenalty;
 	return score;
 }
 

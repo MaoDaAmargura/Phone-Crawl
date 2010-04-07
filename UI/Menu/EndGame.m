@@ -31,9 +31,10 @@
 	// return player to town
 	[engine.player gainHealth:engine.player.max.hp];
 	[engine.player gainMana:engine.player.max.sp];
+	engine.player.alive = YES;
 	engine.player.deathPenalty += engine.player.level * 100;
-	engine.player.location = [Coord withX:0 Y:0 Z:0];
-	[engine.currentDungeon convertToType:town];
+	[engine changeToDungeon:town];
+	engine.player.location = [Coord withX:6 Y:2 Z:0];
 	[self.view removeFromSuperview];
 }
 
