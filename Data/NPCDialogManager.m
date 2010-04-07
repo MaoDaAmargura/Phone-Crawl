@@ -56,7 +56,7 @@
 	}
 	if (r == nil) return;
 	if (r.callfunc != nil) {
-		[current.dialog performSelector:r.callfunc];
+		[current.dialog performSelector:r.callfunc withObject:current];
 	}
 	Dialog *d = [current.dialog.dialogs objectAtIndex:r.pointsTo];
 	[self setDialog:d];

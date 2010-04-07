@@ -135,6 +135,12 @@
 	}
 }
 
+- (void) resetStats {
+	current.hp = max.hp;
+	current.sp = max.sp;
+	current.mp = max.mp;
+}
+
 - (void) gainHealth:(int)amount
 {
 	current.hp += amount;

@@ -148,6 +148,8 @@ typedef struct {
 - (void) gainMana:(int)amount;
 - (void) regenShield;
 
+- (void) resetStats;
+
 
 - (void) gainItem:(Item*)it;
 - (void) loseItem:(Item*)it;

@@ -14,6 +14,6 @@
 
 }
 
--(void) healPlayer;
+-(void) healPlayer:(Critter *)p;
 
 @end
