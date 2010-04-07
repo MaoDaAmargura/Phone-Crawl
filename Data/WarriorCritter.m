@@ -26,10 +26,18 @@
 		abilities.skills[QUICK_STRIKE] = skillLevel;
 		abilities.skills[ELE_STRIKE] = skillLevel;
 		
-		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_ONE_HAND] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SHIELD] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_HELM] autorelease]];
-		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_CHEST] autorelease]];
+		Item *sword = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_ONE_HAND] autorelease];
+		[self gainItem:sword];
+		[self equipItem:sword];
+		Item *shield = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SHIELD] autorelease];
+		[self gainItem:shield];
+		[self equipItem:shield];
+		Item *helm = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_HELM] autorelease];
+		[self gainItem:helm];
+		[self equipItem:helm];
+		Item *plate = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:HEAVY_CHEST] autorelease];
+		[self gainItem:plate];
+		[self equipItem:plate];
 	}
 	return self;
 }
@@ -39,7 +47,23 @@
 	[super think:player];
 	
 	target.moveLocation = player.location;
+	
+	switch ([Rand min:0 max:2])
+	{
+		case 0:
+			target.skillToUse = [Skill skillOfType:REG_STRIKE level:abilities.skills[REG_STRIKE]];
+			break;
+		case 1:
+			target.skillToUse = [Skill skillOfType:QUICK_STRIKE level:abilities.skills[QUICK_STRIKE]];
+			break;
+		case 2:
+			target.skillToUse = [Skill skillOfType:ELE_STRIKE level:abilities.skills[ELE_STRIKE]];
+			break;
 
+
+		default:
+			break;
+	}
 }
 
 @end

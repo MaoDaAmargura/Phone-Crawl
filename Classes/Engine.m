@@ -21,6 +21,7 @@
 #define TURN_POINTS_FOR_MOVEMENT_ACTION 50
 #define POINTS_TO_TAKE_TURN		100
 
+#define OUT_OF_RANGE @"Not in Range!"
 
 #define TELEPORT_ENABLED NO
 
@@ -186,7 +187,7 @@
 	if(critter.target.skillToUse)
 	{
 		actionResult = [critter useSkill];
-		if(![actionResult isEqualToString:@"Not in Range!"])
+		if(![actionResult isEqualToString:OUT_OF_RANGE])
 			[self bloodSprayWithAttacker:critter];
 	} 
 	else if(critter.target.spellToCast)
@@ -266,7 +267,7 @@
 	{
 		actionResult = [self performActionForCreature:critter];
 	}
-	else if ([critter hasMoveToMake])
+	if ([critter hasMoveToMake] && ([actionResult isEqualToString:OUT_OF_RANGE] || [actionResult isEqualToString:@""]))
 	{
 		[self performMoveForCreature:critter];
 		if (critter == player)

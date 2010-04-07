@@ -423,14 +423,12 @@
 
 - (void) setSkillToUse:(Skill*) skill
 {
-	[target.skillToUse release];
-	target.skillToUse = [skill retain];;
+	target.skillToUse = skill;
 }
 
 - (void) setSpellToUse:(Spell*) spell
 {
-	[target.spellToCast release];
-	target.spellToCast = [spell retain];
+	target.spellToCast = spell;
 }
 
 - (int) score
