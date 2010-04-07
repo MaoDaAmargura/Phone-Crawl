@@ -76,7 +76,7 @@ static NSString *skillLevelDesignations[3] = {@"Basic",@"Journeyman", @"Master"}
 		int skillLevel = playerRef.abilities.skills[i];
 		if (skillLevel != 0) 
 			[attackMenu addButtonWithTitle:[NSString stringWithFormat:@"%@ %@",
-											skillLevelDesignations[i],
+											skillLevelDesignations[skillLevel-1],
 											attackMenuOptions[i]]];
 	}
 	[attackMenu addButtonWithTitle:@"Do Something Else"];

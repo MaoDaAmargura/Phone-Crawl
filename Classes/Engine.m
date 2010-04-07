@@ -138,6 +138,8 @@
 	experienceGained *= pow(1.2, levelDifference);
 	[player gainExperience:experienceGained];
 	[currentDungeon.items setObject:[Item generateRandomItem:critter.level/5 elemType:FIRE] forKey:critter.location];
+	[currentDungeon.deadEnemies addObject:critter];
+	[currentDungeon.liveEnemies removeObject:critter];
 }
 
 - (NSMutableArray*) crittersInRange
