@@ -14,19 +14,20 @@
 #import "Skill.h"
 #import "Spell.h"
 
+// helper class for the manager
 @interface GameFileManager (Helper)
 
+// given an item, write it to a fiel
 - (void) writeItem:(Item *)item file:(FILE *)file;
-
+// given a string of data, load an item
 - (Item *) loadItemFromFile:(NSString *)datastring;
-
+// given an array, turn it into a string
 - (NSString *) getArrayString:(NSMutableArray *)array;
 
 @end
 
 
 @implementation GameFileManager
-
 
 - (Critter*) loadCharacterFromFile:(NSString *)filename 
 {
@@ -50,19 +51,6 @@
 		[[[[UIAlertView alloc] initWithTitle:@"No Save Games" message:@"You don't have a saved character." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
 		return nil;
 	}
-	// maxhealth
-	// maxshield
-	// maxmana
-	// maxturnspeed
-	// [abilitiesbegin]
-	// id||level
-	// ...
-	// [spellsbegin]
-	// id||level
-	// ...
-	// [inventorybegin]
-	// name||icon||equipable||damage||elementaldamage||range||charges||pointvalue||quality||slot||element||type
-	// ||spellid||hp||shield||mana||fire||cold||lightning||poison||dark||armor
 	Critter *player = [Critter alloc];
 	NSString *playerName = [self getArrayString:data];
 	NSString *playerIcon = [self getArrayString:data];
