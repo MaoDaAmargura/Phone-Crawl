@@ -326,6 +326,7 @@
 		D9894B8E116280DA0034C3C8 /* BattleMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
 		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
+		D9A15956116D66C0001E37D4 /* priest.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A15955116D66C0001E37D4 /* priest.png */; };
 		D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A46F46114890FD00AAC433 /* HighScoreViewController.m */; };
 		D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */; };
 		D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */ = {isa = PBXBuildFile; fileRef = D9AFEE861130C577001EC0B5 /* NewGameFlowControl.m */; };
@@ -703,6 +704,7 @@
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
 		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
 		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
+		D9A15955116D66C0001E37D4 /* priest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = priest.png; sourceTree = "<group>"; };
 		D9A46F45114890FD00AAC433 /* HighScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreViewController.h; sourceTree = "<group>"; };
 		D9A46F46114890FD00AAC433 /* HighScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreViewController.m; sourceTree = "<group>"; };
 		D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HighScoreViewController.xib; sourceTree = "<group>"; };
@@ -1228,6 +1230,7 @@
 		D97B0696115C4B2B00FDF2CA /* NPC */ = {
 			isa = PBXGroup;
 			children = (
+				D9A15955116D66C0001E37D4 /* priest.png */,
 				D97B0697115C4B2B00FDF2CA /* shopkeeper.png */,
 			);
 			path = NPC;
@@ -1929,6 +1932,7 @@
 				D9B2E596116C29D7007F48C4 /* knightess1C.PNG in Resources */,
 				D9B2E597116C29D7007F48C4 /* wizardC.PNG in Resources */,
 				D9B2E598116C29D7007F48C4 /* wizardessC.PNG in Resources */,
+				D9A15956116D66C0001E37D4 /* priest.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

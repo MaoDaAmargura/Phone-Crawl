@@ -1084,7 +1084,7 @@ FOUND_START_TILE:;
 	critter = [[[NPCCritter alloc] initWithLevel:1] autorelease];
 	critter.location = [Coord withX:7 Y:1 Z:0];
 	critter.npc = YES;
-	//critter.stringIcon = @"Priest.png";
+	critter.stringIcon = @"priest.png";
 	critter.dialog = [[Priest alloc] init];
 	[dungeon.liveEnemies addObject:critter];
 	return dungeon;

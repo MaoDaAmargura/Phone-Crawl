@@ -42,6 +42,7 @@
 {
 	Phone_CrawlAppDelegate *appdel = (Phone_CrawlAppDelegate*)[[UIApplication sharedApplication] delegate];
 	[appdel endOfPlayersLife];
+	[self.view removeFromSuperview];
 }
 
 - (void) update {
