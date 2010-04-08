@@ -134,6 +134,9 @@
 
 - (void) processDeathOfCritter:(Critter*) critter
 {
+	if (critter == nil) {
+		return;
+	}
 	float experienceGained = 1.0;
 	int levelDifference = player.level - critter.level;
 	experienceGained *= pow(1.2, levelDifference);
@@ -199,7 +202,7 @@
 		actionResult = [critter useItem];
 	}
 
-	if (![critter.target.critterForAction isAlive]) 
+	if (critter.target.critterForAction != nil && ![critter.target.critterForAction isAlive]) 
 	{
 		[self processDeathOfCritter:critter.target.critterForAction];
 		[critter think:nil];
