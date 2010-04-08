@@ -78,7 +78,8 @@
 		conditionBitSet |= cond;
 		if (cond == WEAKENED) {
 			max.hp *= .8; 
-			current.hp *= .8;
+			if (current.hp < max.hp)
+				current.hp = max.hp;
 		}
 	}
 }
@@ -87,16 +88,16 @@
 {
 	if ([self hasCondition:cond]) 
 	{
-		if (cond ==  WEAKENED) {
+		if (cond ==  WEAKENED)
 			max.hp *= 1.25;
-			current.hp *= 1.25;
-		}
 		conditionBitSet &= ~cond;
 	}
 }
 
 - (void) loseAllConditions
 {
+	if ([self hasCondition:WEAKENED])
+		max.hp *= 1.25;
 	conditionBitSet &= 0;
 }
 
