@@ -13,6 +13,9 @@
 #define USE_BUTTON_TITLE	@"Use"
 #define DROP_BUTTON_TITLE	@"Drop"
 
+#define TILES_DOWN		5
+#define TILES_ACROSS	4
+
 @interface InventoryScrollView (Private)
 
 + (void) clearCurrentItem;
@@ -29,10 +32,7 @@
 		drawnItems = [[NSMutableArray alloc] initWithCapacity:5];
 		pageMaster = [[UIPageControl alloc] initWithFrame:CGRectMake(140, 340, 40, 20)];
 		[self addSubview:pageMaster];
-		//self.backgroundColor = [UIColor redColor];
-		UIImageView *imgView = [[[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.bounds.size.width, self.bounds.size.height)] autorelease];
-		[imgView setImage:[UIImage imageNamed:@"ui-inventorybg.png"]];
-		[self addSubview:imgView];
+		self.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"ui-inventorybg.png"]];
 		self.bounces = YES;
 		
 		acceptsButtonTouchEvents = YES;
@@ -68,25 +68,22 @@
 	
 	CGRect bounds = self.bounds;
 	
-	int numTilesAcross = 4; //bounds.size.width/ITEM_BUTTON_SIZE;
-	int numTilesDown = 5; //bounds.size.height/ITEM_BUTTON_SIZE;
-	
-	int tileVertSpread = (bounds.size.width - (numTilesAcross * ITEM_BUTTON_SIZE))/(numTilesAcross+1);
-	int tileHorizSpread = (bounds.size.height - (numTilesDown * ITEM_BUTTON_SIZE))/(numTilesDown+1);
+	int tileVertSpread = (bounds.size.width - (TILES_ACROSS * ITEM_BUTTON_SIZE))/(TILES_ACROSS+1)-1;
+	int tileHorizSpread = (bounds.size.height - (TILES_DOWN * ITEM_BUTTON_SIZE))/(TILES_DOWN+1)-1;
 	
 	int row, col, pageIndex, numPages;
 	
-	numPages = ([items count]/(numTilesDown*numTilesAcross)) + 1;
+	numPages = ([items count]/(TILES_DOWN*TILES_ACROSS))+1;
 	self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, PAGE_WIDTH * numPages, self.frame.size.height);
 	
 	for(Item *i in items)
 	{
-		row = index/numTilesAcross;
-		col	= index%numTilesAcross;
+		row = index/TILES_ACROSS;
+		col	= index%TILES_ACROSS;
 		pageIndex = 0;
-		while(row>=numTilesDown)
+		while(row>=TILES_DOWN)
 		{
-			row -= numTilesDown;
+			row -= TILES_DOWN;
 			pageIndex++;
 		}
 
