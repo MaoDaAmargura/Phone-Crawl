@@ -1,3 +1,6 @@
+//	the Item class is responsible for storing data on items
+//	and associated functions
+
 #import <Foundation/Foundation.h>
 #import "Util.h"
 
@@ -8,6 +11,7 @@
 #define NUM_ITEM_TYPES 13
 #define OFFHAND_DMG_PERCENTAGE 0.75
 
+// defines for item pictures
 #define ICON_SWORD_SINGLE	@"swordsingle.png"
 #define ICON_SWORD_DOUBLE	@"claymore.png"
 #define ICON_BOW			@"bow.png"
@@ -39,13 +43,21 @@ typedef enum {
 
 typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
+// interface for item
 @interface Item : NSObject {
+	// name of icon
 	NSString *name;
+	// picture of icon
 	NSString *icon;
+	// is item equipable?
 	BOOL isEquipable;
+	// damage of item
 	int damage;
+	// elemental damage item does
 	int elementalDamage;
+	// range of item
 	int range;
+	// how many times an item can be used
 	int charges;
 	int pointValue; //Sell value + high score point value
 	
@@ -55,9 +67,11 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 	itemType type; //Item type
 	int effectSpellId; //Which spell the item casts
 	
+	// stat modifiers
 	int hp;
 	int shield;
 	int mana;
+	// resistance modifiers/damage (depending on type of item)
 	int fire;
 	int cold;
 	int lightning;
@@ -66,6 +80,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 	int armor;
 }
 
+// getter/setter methods
 @property (nonatomic) slotType slot;
 @property (nonatomic) elemType element;
 @property (nonatomic) itemType type;
@@ -90,6 +105,8 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic) int effectSpellId;
 @property (nonatomic,readonly) BOOL isEquipable;
 
+
+// cast-for wands
 - (NSString *) cast: (Critter *) caster target: (Critter *) target;
 
 // Generate a random item based on the dungeon level and elemental type
@@ -97,6 +114,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 // Determine an item's value for high score
 + (int) getItemValue : (Item *) item; 
 
+// init functions
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement itemType: (itemType) desiredType;
 - (id) initExactItemWithName: (NSString *) itemName
 			 iconFileName: (NSString *) iconFileName
