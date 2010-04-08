@@ -8,6 +8,8 @@
 //	This file contains the main NPC class, which is designed to hold the data
 //	required for complete interaction for an NPC, and the Dialog and Response
 //	helper classes
+//	Npc is meant to be extended by child classes into different types of
+//	conversation behavior
 
 #import <Foundation/Foundation.h>
 #import "Critter.h"
