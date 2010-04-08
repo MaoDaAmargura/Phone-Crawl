@@ -2,6 +2,7 @@
 #import "InventoryItemButton.h"
 
 @class InventoryItemButton;
+@class Engine;
 
 @interface InventoryScrollView : UIScrollView <InventoryButtonDelegate, UIActionSheetDelegate>
 {
@@ -10,6 +11,8 @@
 	
 	InventoryItemButton *lastPressed;
 	BOOL acceptsButtonTouchEvents;
+	
+	Engine *gEngineRef;
 }
 
 - (void) updateWithItemArray:(NSArray*) items;

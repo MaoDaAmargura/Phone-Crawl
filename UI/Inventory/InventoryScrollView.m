@@ -3,6 +3,7 @@
 
 #import "HomeTabViewController.h"
 #import "Phone_CrawlAppDelegate.h"
+#import "Critter.h"
 #import "Engine.h"
 #import "Item.h"
 
@@ -10,6 +11,7 @@
 #define PAGE_WIDTH 320
 
 #define EQUIP_BUTTON_TITLE	@"Equip"
+#define DEQUIP_BUTTON_TITLE	@"Dequip"
 #define USE_BUTTON_TITLE	@"Use"
 #define DROP_BUTTON_TITLE	@"Drop"
 
@@ -37,9 +39,10 @@
 		
 		acceptsButtonTouchEvents = YES;
 		lastPressed = nil;
-		return self;
+		
+		gEngineRef = [(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) gameEngineObject];
 	}
-	return nil;
+	return self;
 }
 
 - (void)dealloc 
@@ -134,15 +137,27 @@
 	[menu showInView:self];
 	*/
 	lastPressed = button;
-	UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:button.item.name 
+	Item *i = button.item;
+	UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:i.name 
 															  delegate:self 
 													 cancelButtonTitle:nil
 												destructiveButtonTitle:nil
 													 otherButtonTitles:nil] autorelease];
-	if ([button.item isEquipable]) 
-		[actionSheet addButtonWithTitle:EQUIP_BUTTON_TITLE];
+	if ([i isEquipable])
+	{
+		if ([gEngineRef.player hasItemEquipped:i])
+		{
+			[actionSheet addButtonWithTitle:DEQUIP_BUTTON_TITLE];
+		}
+		else
+		{
+			[actionSheet addButtonWithTitle:EQUIP_BUTTON_TITLE];
+		}
+	}
 	else 
+	{
 		[actionSheet addButtonWithTitle:USE_BUTTON_TITLE];
+	}
 	[actionSheet addButtonWithTitle:DROP_BUTTON_TITLE];
 	[actionSheet addButtonWithTitle:@"Cancel"];
 	
@@ -151,22 +166,24 @@
 								   
 // Called when a button is clicked. The view will be automatically dismissed after this call returns
 - (void)actionSheet:(UIActionSheet *)actionSheet clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-	Engine *gEngine = [(Phone_CrawlAppDelegate*)([[UIApplication sharedApplication] delegate]) gameEngineObject];
-	
+{	
 	NSString *buttonTitle = [actionSheet buttonTitleAtIndex:buttonIndex];
 	
 	if ([buttonTitle isEqualToString:EQUIP_BUTTON_TITLE])
 	{
-		[gEngine playerEquipItem:lastPressed.item];
+		[gEngineRef playerEquipItem:lastPressed.item];
 	}
 	else if ([buttonTitle isEqualToString:USE_BUTTON_TITLE])
 	{
-		[gEngine playerUseItem:lastPressed.item];
+		[gEngineRef playerUseItem:lastPressed.item];
 	}
 	else if ([buttonTitle isEqualToString:DROP_BUTTON_TITLE])
 	{
-		[gEngine playerDropItem:lastPressed.item];
+		[gEngineRef playerDropItem:lastPressed.item];
+	}
+	else if ([buttonTitle isEqualToString:DEQUIP_BUTTON_TITLE])
+	{
+		[gEngineRef playerDequipItem:lastPressed.item];
 	}
 
 

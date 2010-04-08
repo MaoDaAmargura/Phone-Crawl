@@ -50,6 +50,8 @@
 	doneMerchant = NO;
 	gotSword = NO;
 	
+	self.gameEngine = [[[Engine alloc] init] autorelease]; 
+	
 	self.mainTabController = [[[UITabBarController alloc] init] autorelease];
 	
 	NSMutableArray *tabs = [[[NSMutableArray alloc] initWithCapacity:NUMBER_OF_TABS] autorelease];
@@ -63,7 +65,7 @@
 	self.view = mainTabController.view;
 	mainTabController.delegate = self;
 	
-	self.gameEngine = [[[Engine alloc] init] autorelease]; 
+
 	
 	endView = [[EndGame alloc] init];
 	[endView setDelegate:self];

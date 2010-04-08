@@ -79,9 +79,9 @@
     int chest = [[self getArrayString:data] intValue];
 	int rhand = [[self getArrayString:data] intValue];
 	int lhand = [[self getArrayString:data] intValue];
-	[player setHealth:[[self getArrayString:data] intValue]];
-	[player setShield:[[self getArrayString:data] intValue]];
-	[player setMana:[[self getArrayString:data] intValue]];
+	//[player setHealth:[[self getArrayString:data] intValue]];
+	//[player setShield:[[self getArrayString:data] intValue]];
+	//[player setMana:[[self getArrayString:data] intValue]];
 	player.turnSpeed = [[self getArrayString:data] intValue];
 	NSString *sentinel = [self getArrayString:data];
 	if ([sentinel isEqualToString:@"[abilitiesbegin]"]) {
@@ -289,13 +289,13 @@
 	//fputs("\n",file);
 	//fputs([[NSString stringWithFormat:@"%d",player.current.mana] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	//fputs("\n",file);
-	fputs([[NSString stringWithFormat:@"%d",player.max.hp] cStringUsingEncoding:NSASCIIStringEncoding],file);
+/*	fputs([[NSString stringWithFormat:@"%d",player.max.hp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.max.sp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.max.mp] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);
-	//fputs([[NSString stringWithFormat:@"%d",player.current.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
+*/	//fputs([[NSString stringWithFormat:@"%d",player.current.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	//fputs("\n",file);
 	fputs([[NSString stringWithFormat:@"%d",player.turnSpeed] cStringUsingEncoding:NSASCIIStringEncoding],file);
 	fputs("\n",file);

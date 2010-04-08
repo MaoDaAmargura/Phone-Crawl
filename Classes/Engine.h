@@ -62,6 +62,7 @@
 - (void) item_handler:(Item *)item;
 
 - (void) playerEquipItem:(Item*)i;
+- (void) playerDequipItem:(Item*)i;
 - (void) playerUseItem:(Item*)i;
 - (void) playerDropItem:(Item*)i;
 - (void) sellItem:(Item *)it;

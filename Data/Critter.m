@@ -188,14 +188,51 @@
 	[inventory removeObject:it];
 }
 
+/* Add items stats to critters stats for calculation */
 - (void) gainStatsForItem:(Item*)it
 {
 	if (!it) return;
+	
+	max.hp += it.hp;
+	current.hp += it.hp;
+	
+	max.sp += it.shield;
+	current.sp += it.shield;
+	
+	max.mp += it.mana;
+	current.mp += it.mana;
+	
+	defense.armor += it.armor;
+	defense.fire += it.fire;
+	defense.frost += it.cold;
+	defense.shock += it.lightning;
+	defense.dark += it.dark;
+	defense.poison += it.poison;
 }
 
+/* Remove an items stats from the critters stats used for calculations */
 - (void) loseStatsForItem:(Item*)it
 {
 	if (!it) return;
+	
+	max.hp -= it.hp;
+	current.hp -= it.hp;
+	if (current.hp < 1) current.hp = 1;
+	
+	max.sp -= it.shield;
+	current.sp -= it.shield;
+	if (current.sp < 0) current.sp = 0;
+	
+	max.mp -= it.mana;
+	current.mp -= it.mana;
+	if (current.mp < 0) current.mp = 0;
+	
+	defense.armor -= it.armor;
+	defense.fire -= it.fire;
+	defense.frost -= it.cold;
+	defense.shock -= it.lightning;
+	defense.dark -= it.dark;
+	defense.poison -= it.poison;
 }
 
 - (void) equipItem:(Item*)it
@@ -227,7 +264,7 @@
 					equipment.rhand = it;
 					break;
 				case EITHER:
-					if (!equipment.rhand) 
+					if (equipment.rhand == nil || equipment.rhand.slot == BOTH) 
 					{
 						[self gainStatsForItem:it];
 						equipment.rhand = it;

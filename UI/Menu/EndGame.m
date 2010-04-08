@@ -32,6 +32,7 @@
 	[engine.player gainHealth:engine.player.max.hp];
 	[engine.player gainMana:engine.player.max.sp];
 	engine.player.alive = YES;
+	[engine.player loseAllConditions];
 	engine.player.deathPenalty += engine.player.level * 100;
 	[engine changeToDungeon:town];
 	engine.player.location = [Coord withX:6 Y:2 Z:0];

@@ -778,6 +778,12 @@
 	
 	if(tutorialMode)
 		[self tutorialModeEquippedItem];
+	
+}
+
+- (void) playerDequipItem:(Item*) i
+{
+	[player dequipItem:i];
 }
 
 - (void) playerUseItem:(Item*)i
@@ -791,6 +797,8 @@
 {	
 	if (i == nil) return;
 	[currentDungeon.items setObject:i forKey:[player location]];
+	if ([player hasItemEquipped:i])
+		[player dequipItem:i];
 	[player loseItem:i];
 	[self refreshInventoryScreen];
 }
