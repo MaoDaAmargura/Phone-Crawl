@@ -48,7 +48,7 @@
 										   delegate:self
 								  cancelButtonTitle:nil
 							 destructiveButtonTitle:nil
-								  oterButtonTitles:nil] autorelease];
+								  otherButtonTitles:nil] autorelease];
 	// need to keep track of position for the dismissWithClickedButtonIndex
 	int i = 0;
 	// for each response
