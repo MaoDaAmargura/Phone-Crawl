@@ -42,6 +42,12 @@
 	return self;
 }
 
+
+/*
+ * Warrior AI logic:
+ * -set move location
+ * -randomly pick one of three different types of attacks
+ */
 - (void) think:(Critter *)player
 {
 	[super think:player];

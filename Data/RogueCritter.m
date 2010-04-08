@@ -47,6 +47,15 @@
 	return self;
 }
 
+/*
+ * Rogue AI logic:
+ * -set move location
+ * -First move should always be to weaken the player, which decreases his/her maximum hp.
+ * -Second move should be to slow the player, which reduces the player's number of turn points gained each turn
+ * -Third move should be to attempt to poison the player in order to cause damage over time
+ * -If critter's hp is low, start hitting the player with its more powerful attack
+ * -Otherwise, use quick attack on player to deal damage and attack before the player
+ */
 - (void) think:(Critter *)player
 {
 	[super think:player];

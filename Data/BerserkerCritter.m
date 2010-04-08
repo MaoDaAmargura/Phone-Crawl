@@ -30,6 +30,12 @@
 	return self;
 }
 
+/*
+ * Berserker AI logic:
+ * -set move location
+ * -randomly pick one of two different types of attacks
+ */
+
 - (void) think:(Critter *)player
 {
 	[super think:player];

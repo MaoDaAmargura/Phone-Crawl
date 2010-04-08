@@ -38,6 +38,13 @@
 	return self;
 }
 
+/*
+ * Paladin AI logic:
+ * -set move target
+ * -If paladin is confused, use lightning-type condition spell to remove the effect
+ * -Otherwise, randomly choose between two physical attacks and a fire-type damage spell
+ */
+
 - (void) think:(Critter *)player
 {
 	[super think:player];

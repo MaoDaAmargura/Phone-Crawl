@@ -15,6 +15,7 @@
 	BOOL debuffMode;
 	BOOL haveWeakened;
 	BOOL haveSlowed;
+	BOOL haveHastened;
 }
 
 @end

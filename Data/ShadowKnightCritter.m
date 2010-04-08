@@ -25,7 +25,7 @@
 		abilities.spells[POISONCONDITION] = skillLevel;
 		abilities.spells[FIREDAMAGE] = skillLevel;
 		abilities.skills[REG_STRIKE] = skillLevel;
-		havePoisoned = FALSE;
+		haveWeakened = FALSE;
 		Item *sword = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_TWO_HAND] autorelease];
 		[self gainItem:sword];
 		[self equipItem:sword];
@@ -39,6 +39,16 @@
 	return self;
 }
 
+/*
+ * ShadowKnight AI logic:
+ * -set move location
+ * -if health is low, use spell which both damages target and heals self
+ * -first move by the shadowknight should always be to use the poison-type condition spell on the player
+ *  which temporarily decreases the player's max health.
+ * -if the player has already been weakened, randomly choose between casting the fire-type damage spell
+ *  and using a regular physical attack.
+ */
+
 - (void) think:(Critter *)player
 {
 	[super think:player];
@@ -47,10 +57,9 @@
 	if (current.sp == 0 && current.hp < (max.hp * .50))
 		//Low health, use Dark Damage spell
 		target.spellToCast = [Spell spellOfType:DARKDAMAGE level:abilities.spells[DARKDAMAGE]];
-	else if (!havePoisoned) {
-		//Poison player to deal damage for entire fight
+	else if (!haveWeakened) {
 		target.spellToCast = [Spell spellOfType:POISONCONDITION level:abilities.spells[POISONCONDITION]];
-		havePoisoned = TRUE;
+		haveWeakened = TRUE;
 	}
 	else if ([Rand min:0 max:1])
 		target.spellToCast = [Spell spellOfType:FIREDAMAGE level:abilities.spells[FIREDAMAGE]];

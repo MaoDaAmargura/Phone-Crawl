@@ -198,7 +198,7 @@ BOOL haveSetSpells = FALSE;
 ///////////////////////////////////////
 // the following 5 functions
 // are designed to give conditions to
-// the caster
+// the caster or target
 ///////////////////////////////////////
 
 - (int) haste: (Critter *) caster target: (Critter *) target {
