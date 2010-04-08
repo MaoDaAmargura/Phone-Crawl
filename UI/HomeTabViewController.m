@@ -233,7 +233,7 @@
 	gotSword = NO;
 	equippedSword = NO;
 	
-	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:10 Z:0]];
+	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:11 Z:0]];
 	
 	down.blockMove = YES;
 	
@@ -280,11 +280,11 @@
 		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
 		equippedSword = YES;
 		
-		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:9 Z:0]];
+		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:10 Z:0]];
 		wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 		wView.highlight.hidden = NO;
 		
-		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:10 Z:0]];
+		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:11 Z:0]];
 		down.blockMove = NO;
 	}
 }
