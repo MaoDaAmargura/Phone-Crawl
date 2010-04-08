@@ -1,3 +1,6 @@
+//	The Spell class contains data on the spells that the player (and enemies)
+//	can use, as well as the functions required to use those spells
+
 #import <Foundation/Foundation.h>
 
 #import "Util.h"
@@ -16,6 +19,7 @@
 typedef enum {DAMAGE, CONDITION, ITEM} spellType;
 typedef enum {SELF,SINGLE} targetType;
 
+// conditions that may be inflicted when a target is hit
 #define SPELL_HASTENED -1
 #define SPELL_FROZEN -2
 #define SPELL_PURGED -3
@@ -27,6 +31,8 @@ typedef enum {SELF,SINGLE} targetType;
 #define SPELL_CAST_ERR -9
 
 #define NUM_PLAYER_SPELL_TYPES 10
+
+// type of spell, used by critter class
 typedef enum {
 	FIREDAMAGE = 0,
 	COLDDAMAGE = 1,
@@ -38,37 +44,50 @@ typedef enum {
 	LIGHTNINGCONDITION = 7,
 	POISONCONDITION = 8,
 	DARKCONDITION = 9,
-} PC_SPELL_TYPE; // For use by spellbook field in creature.h
+} PC_SPELL_TYPE;
 
 @class Critter;
+
+// interface for Spell
 @interface Spell : NSObject {
+	// name of the spell
 	NSString *name;
-	spellType type; //Hurt or Help
-	targetType spellTarget; //Self, one target, all in range
-	elemType element; //Elemental type of damage or buff
+	// does the spell hurt enemies, or help caster
+	spellType type;
+	// type of target, single, range, ect
+	targetType spellTarget;
+	// elemental type of spell
+	elemType element;
+	// cost of spell
 	int manaCost;
+	// spell damage
 	int damage;
+	// spell range
 	int range;
-	int level; //Minor,Lesser, (unnamed regular), Major, Superior
+	// level of spell
+	int level; //Minor,Lesser, Regular, Major, Superior
 	int spellId; //Index in spell_list array of the spell
+	// function called when spell is cast
 	SEL spellFn;
+	// turn point cost of spell
 	int turnPointCost;
-	//IMP spell_fn;
 }
 
-//+ (void) fillSpellList;
-
+// casting functions
 + (NSString *) castSpellById: (int) desiredSpellId caster: (Critter *) caster target: (Critter *) target;
 - (NSString *) cast: (Critter *) caster target: (Critter *) target;
 
+// init functions
 - (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
 				manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
 				 spellFn: (SEL) fn turnPointCost: (int) turnPntCost;
++ (void) initialize;
++ (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl;
 
+// check if target is resistant to a spell
 - (BOOL) resistCheck: (Critter *) caster target: (Critter *) target;
 
 //Specialized spell functions
-
 - (int) damageSpell: (Critter *) caster target: (Critter *) target;
 - (int) healPotion: (Critter *) caster target: (Critter *) target;
 - (int) manaPotion: (Critter *) caster target: (Critter *) target;
@@ -79,9 +98,7 @@ typedef enum {
 - (int) taint: (Critter *) caster target: (Critter *) target;
 - (int) confusion: (Critter *) caster target: (Critter *) target;
 
-+ (void) initialize;
-+ (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl;
-
+// getter and setter methods
 @property (readonly) int range;
 @property (readonly, retain) NSString * name;
 @property (readonly) targetType spellTarget;
