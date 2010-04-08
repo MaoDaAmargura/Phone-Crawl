@@ -12,7 +12,9 @@
 
 @interface MageCritter : Critter
 {
-
+	BOOL debuffMode;
+	BOOL haveWeakened;
+	BOOL haveSlowed;
 }
 
 @end
