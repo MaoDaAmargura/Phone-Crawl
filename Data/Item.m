@@ -2,6 +2,8 @@
 #import "Item.h"
 
 #define NUM_NAMES_PER_ITEM 2
+
+// array for alternate item names
 static const NSString *itemNameString[8][NUM_NAMES_PER_ITEM] = {
 	{@"Sword",@"Scimitar"},
 	{@"Greatsword",@"Glaive",},
@@ -13,9 +15,11 @@ static const NSString *itemNameString[8][NUM_NAMES_PER_ITEM] = {
 	{@"Cloth", @"Leather"},
 };
 
+// arrays for element names, spell names
 static const NSString *elemString1[] = {@"Fiery",@"Icy",@"Shocking",@"Venomous",@"Dark"};
 static const NSString *elemString2[] = {@"Fire",@"Ice",@"Lightning",@"Poison",@"Darkness"};
 static const NSString *spellName[] = {@"Minor",@"Lesser",@"",@"Major",@"Superior"};
+// pictures for health potions
 static const NSString *healPotionIcon[] = {
     @"potion-red-I.png",
     @"potion-red-II.png",
@@ -23,6 +27,7 @@ static const NSString *healPotionIcon[] = {
     @"potion-red-IV.png",
     @"potion-red-V.png"
 };
+// pictures for mana potions
 static const NSString *manaPotionIcon[] = {
     @"potion-blue-I.png",
     @"potion-blue-II.png",
@@ -31,6 +36,7 @@ static const NSString *manaPotionIcon[] = {
     @"potion-blue-V.png"
 };
 
+// giant array of base stats for weapons and armor
 static const int baseItemStats[10][9] = {
   //{hp,shield,mana,resist,armor,damage,elemental damage,elemental stat adjustment}
     {8 , 5 , 0 , 5 , 0 , 10, 15, 7 , -2 }, //One handed Sword
@@ -45,8 +51,10 @@ static const int baseItemStats[10][9] = {
     {10, 10, 30, 12, 2 , 0 , 0 , 15, -3 }, //Light Chest
 };
 
+// implementation for Item
 @implementation Item
 
+// getter/setter methods
 @synthesize isEquipable;
 @synthesize effectSpellId;
 @synthesize icon;
@@ -71,6 +79,7 @@ static const int baseItemStats[10][9] = {
 @synthesize charges;
 @synthesize pointValue;
 
+// based on item type, finds correct item picture and returns it
 + (NSString*) iconNameForItemType:(itemType)desiredType
 {
     switch (desiredType) 
@@ -92,6 +101,8 @@ static const int baseItemStats[10][9] = {
     
 }
 
+// finds item name based on type and element
+// with some randomization (two names for each item)
 + (NSString *) itemNameForItemType:(itemType)desiredType element:(elemType) elem{
     switch (desiredType) 
     {
@@ -134,17 +145,22 @@ static const int baseItemStats[10][9] = {
     return nil;
 }
 
+// creates an item with the basic stats given
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
 {
-    if (desiredType > LIGHT_CHEST) { //Error: Function used for equipment only
+    // make sure we are trying to create a valid item
+    if (desiredType > LIGHT_CHEST) {
         NSLog(@"Cannot create BAG item from equipment creation function");
         return nil;
     }
     if (self = [super init]) {
+        // clamp level variable
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
+        // increment level variable to get correct value
         ++dungeonLevel; //Dungeon levels = [0,4], desired values = [1,5]
+        // find proper slot for item (left hand, right hand, head, chest)
         switch (desiredType) {
             case SWORD_ONE_HAND:
             case DAGGER:
@@ -167,22 +183,23 @@ static const int baseItemStats[10][9] = {
                 slot = LEFT;
                 break;
         }
+        // find quality of item
         if (desiredType == SWORD_ONE_HAND || desiredType == DAGGER || desiredType == SWORD_TWO_HAND)
             quality = [Rand min: DULL max: SHARP];
         else quality = REGULAR;
-        
+        // get icon for item
         icon = [Item iconNameForItemType:desiredType];
-        
+        // check if item can be equipped or not
         if(desiredType < POTION) isEquipable = TRUE;
         else isEquipable = FALSE;
-        
+        // get name for item
         self.name = [Item itemNameForItemType:desiredType element:dungeonElement];
-        //printf("item name: %s\n",[name cStringUsingEncoding:NSASCIIStringEncoding]);
-            
+        // initialize other base stats based on level of dungeon
         hp = dungeonLevel * baseItemStats[desiredType][0];
         shield = dungeonLevel * baseItemStats[desiredType][1];
         mana = dungeonLevel * baseItemStats[desiredType][2];
         fire = cold = lightning = poison = dark = dungeonLevel * baseItemStats[desiredType][8];
+        // get elemental damage/resist
         switch (dungeonElement) {
             case FIRE:
                 fire = dungeonLevel * baseItemStats[desiredType][3];
@@ -200,6 +217,7 @@ static const int baseItemStats[10][9] = {
                 dark = dungeonLevel * baseItemStats[desiredType][3];
                 break;
         }
+        // more basic stats
         armor = dungeonLevel * baseItemStats[desiredType][4];
         damage = dungeonLevel * baseItemStats[desiredType][5];
         elementalDamage =dungeonLevel * baseItemStats[desiredType][6];
@@ -209,13 +227,17 @@ static const int baseItemStats[10][9] = {
         element = dungeonElement;
         type = desiredType;
         effectSpellId = ITEM_NO_SPELL;
+        // find point value
         pointValue = [Item getItemValue:self];
+        // clamp point value
         if (pointValue < 10) pointValue = 10;
         return self;
     }
     return nil;
 }
 
+// create item exactly with given stats.
+// straightforward-simply saves arguments to proper variables
 -(id)initExactItemWithName: (NSString *) itemName
              iconFileName: (NSString *) iconFileName
           itemQuality: (itemQuality) itemQual
@@ -268,18 +290,20 @@ static const int baseItemStats[10][9] = {
 	return nil;
 };
 
+// if item has a spell attached to it, cast the spell
 - (NSString *) cast: (Critter *) caster target: (Critter *) target {
+    // make sure the item actually has a spell associated with it
     if(effectSpellId == ITEM_NO_SPELL) {
         NSLog(@"Tried to cast item: %@ which has no effect",self.name);
         return @"";
     }
+    // decrement charges
     --charges;
+    // cast spell
     return [Spell castSpellById:effectSpellId caster:caster target:target];
-    //return --charges;
 }
 
 // Generate a random item based on the dungeon level and elemental type
-
 +(Item *) generateRandomItem: (int) dungeonLevel
 					 elemType: (elemType) elementalType {
     if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
@@ -350,6 +374,7 @@ static const int baseItemStats[10][9] = {
     };
 };
 
+// returns value of item based on type and base stats
 +(int) getItemValue : (Item *) item {
     if (item == nil) {
         return -1;

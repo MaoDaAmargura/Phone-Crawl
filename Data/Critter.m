@@ -78,7 +78,7 @@
 		conditionBitSet |= cond;
 		if (cond == WEAKENED) {
 			max.hp *= .8; 
-			if (current.hp < max.hp)
+			if (current.hp > max.hp)
 				current.hp = max.hp;
 		}
 	}

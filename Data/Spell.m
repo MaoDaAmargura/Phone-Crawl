@@ -8,25 +8,24 @@ NSMutableArray *spellList;
 BOOL haveSetSpells = FALSE;
 #define LEVEL_DIFF_MULT 2
 
+// implementation for Spell
 @implementation Spell
 
+// getter and setter methods
 @synthesize name;
 @synthesize range;
 @synthesize spellTarget;
 @synthesize spellId;
 @synthesize turnPointCost;
 
+// creates a spell with the given parameters. Pretty straightforward-just storing argument data
 - (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
 		  manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
 		   spellFn: (SEL) fn turnPointCost: (int) turnPntCost {
 	
 	if(self = [super init])
 	{
-		//if (!haveSetSpells) {
-		//	[Spell fillSpellList];
-		//}
 		name = [NSString stringWithString: spellName];
-		//DLog(@"Creating spell with name: %@, name is: %@",in_name,name);
 	    type = desiredSpellType;
 		spellTarget = spellTargetType; 
 		element = elementalType;
@@ -42,25 +41,35 @@ BOOL haveSetSpells = FALSE;
 	return nil;
 }
 
+// cast the spell on a specified target
 - (NSString *) cast: (Critter *) caster target: (Critter *) target {
+	// check to make sure everything is valid
 	if (caster == nil || (target != SELF && target == nil)) {
 		NSLog(@"SPELL CAST ERROR: CASTER NIL");
 		return @"Spell: Caster/Target nil";
 	}
 	int spellResult = 0;
+	// check to see if caster has enough mana to cast spell
+	// calling this function also spends the mana if the caster has enough
 	if (![caster spendMana:manaCost])
 	{
 		return @"Not enough mana!";		
 	}
+	// check if the spell was resisted
 	BOOL didSpellLand = [self resistCheck:caster target:target];
 	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
 	else {
+		// if the spell was not resisted and the action function is set
 		if([self respondsToSelector:spellFn]){
+			// get the method pointer
 			IMP f = [self methodForSelector:spellFn];
+			// cast the spell and store the result
 			spellResult = (int)(f)(self, spellFn, caster, target);
 		}
 	}
+	// if there was damage dealt, inform the player
 	if(spellResult > 0) return [NSString stringWithFormat:@"%d damage dealt!",spellResult];
+	// otherwise a condition was set, find out what it is and inform the player
 	else switch (spellResult) {
 		case SPELL_HASTENED: return @"Attack speed has increased!";
 		case SPELL_FROZEN: return @"Target's attack speed decreased!";
@@ -71,31 +80,31 @@ BOOL haveSetSpells = FALSE;
 		case SPELL_NO_DAMAGE: return @""; 
 		case SPELL_CAST_ERR: return @"Spell casting error!";
 		default:
-			//DLog(@"Spell result error: Caster: <%@> Target: <%@> Spell: <%@>",caster.stringName, target.stringName); //Critter
 			return @"";
 	}
-	//DLog(@"Spell result switch error: Caster: <%@> Target: <%@> Spell: <%@>",caster.stringName, target.stringName); //Critter
 	return @"";
 }
 
+// static function-alternate method of casting when just the ID of the spell is known
 + (NSString *) castSpellById: (int) desiredSpellId caster: (Critter *) caster target: (Critter *) target {
-	//if (!haveSetSpells) [Spell fillSpellList];
-	NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.stringName);
-	//NSLog(@"In cast_id: Casting %d by %@",desiredSpellId,caster.stringName); //Critter
+	// get the pointer to the spell requested
 	Spell *spell = [spellList objectAtIndex:desiredSpellId];
-	NSLog(@"Casting spell: %@",spell.name);
+	// cast the spell and return the result
 	return [spell cast:caster target:target];
-	//return [[spell_list objectAtIndex: in_spell_id] cast:caster target:target];
-};
+}
 
+// check resistance
 - (BOOL) resistCheck: (Critter *) caster target: (Critter *) target {
+	// make sure parameters are valid
 	if (caster == nil || target == nil) 
 	{
 		NSLog(@"Resist_Check nil");
 		return FALSE;
 	}
+	// and caster is not target...
 	if (caster == target) return TRUE;
 	int resist = 0;
+	// based on element of spell, get target's base resistance
 	switch (element) {
 		case FIRE:
 			resist = target.defense.fire;
@@ -113,16 +122,20 @@ BOOL haveSetSpells = FALSE;
 			resist = target.defense.dark;
 			break;
 	}
+	// clamp resistance
 	if (resist > STAT_MAX) {
 		resist = STAT_MAX;
 	} else if (resist < STAT_MIN) {
 		resist = STAT_MIN;
 	}
+	// find difference in levels
 	int level_diff = caster.level - target.level;
+	// based on level difference, calculate adjusted resistance
 	if(level_diff < 0)
 		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
 	else if(level_diff > 0)
 		resist = resist * LEVEL_DIFF_MULT / level_diff;
+	// check if spell was resisted or not
 	if([Rand min:0 max:STAT_MAX + 1] <= resist / 8)
 		return FALSE;
 	return TRUE;
@@ -130,8 +143,11 @@ BOOL haveSetSpells = FALSE;
 
 //Return amount of damage to deal to combat system
 - (int) damageSpell: (Critter *) caster target: (Critter *) target {
+	// check for valid arguments
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
+	// damage the target
 	[target takeDamage:damage];
+	// randomly give target spell condition
 	if ([Rand min: 0 max: STAT_MAX + 1] > 10 * level ) {
 		switch (element) {
 			case FIRE:
@@ -155,26 +171,35 @@ BOOL haveSetSpells = FALSE;
 	return damage;
 }
 
+// when a health potion is used
 - (int) healPotion: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
-	//DLog(@"In heal potion, healing for %d", damage);
+	// give caster extra health
 	[caster gainHealth: damage];
-	//DLog(@"Post heal");
 	return SPELL_NO_DAMAGE;
 }
 
+// if a mana potion is used
 - (int) manaPotion: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
+	// give caster extra mana
 	[caster gainMana: damage];
 	return SPELL_NO_DAMAGE;
 }
 	
+// if a scroll is used
 - (int) scroll: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
-	NSLog(@"Increasing caster ability points");
+	// increase the ability points of the caster
 	++caster.abilityPoints;
 	return SPELL_NO_DAMAGE;
 }
+
+///////////////////////////////////////
+// the following 5 functions
+// are designed to give conditions to
+// the caster or target
+///////////////////////////////////////
 
 - (int) haste: (Critter *) caster target: (Critter *) target {
 	if (caster == nil) return SPELL_CAST_ERR;
@@ -207,6 +232,8 @@ BOOL haveSetSpells = FALSE;
 	return SPELL_CONFUSED;
 }
 
+
+// static function to add all possible spells to the spell list
 + (void) initialize
 {
 	haveSetSpells = TRUE;
@@ -337,6 +364,7 @@ BOOL haveSetSpells = FALSE;
 	
 }
 
+// static function that returns a spell given a type and level
 + (Spell*) spellOfType:(PC_SPELL_TYPE)type level:(int)lvl
 {
 	return [spellList objectAtIndex:5*type + lvl + START_PC_SPELLS];
