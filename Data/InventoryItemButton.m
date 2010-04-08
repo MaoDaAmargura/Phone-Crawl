@@ -24,9 +24,7 @@
 {
 	InventoryItemButton *ret = [[[InventoryItemButton alloc] init] autorelease];
 	ret.item = it;
-	//DLog(@"Item_icon: <%@>",it.item_icon);
 	ret.itemImage.image = [UIImage imageNamed:it.icon];
-	//DLog(@"Item loaded successfully: %@",it.item_icon);
 	ret.hidden = NO;
 	ret.userInteractionEnabled = YES;
 	

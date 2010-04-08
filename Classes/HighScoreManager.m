@@ -1,10 +1,12 @@
 //
-//  HighScoreController.m
+//  HighScoreManager.m
 //  Phone-Crawl
 //
 //  Created by Austin Kelley on 3/10/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
+//  Control object for managing high score table; i.e. selecting scores to display, adding new scores, 
+//		selecting scores to display.
 
 #import "HighScoreManager.h"
 
@@ -27,12 +29,12 @@
 		if(!scores)
 		{
 			scores = [[NSMutableDictionary alloc] initWithCapacity:6];
-			[scores setObject:[NSNumber numberWithInt: 2500] forKey:@"Albeiro Invictus"];
-			[scores setObject:[NSNumber numberWithInt: 2000] forKey:@"Warmaster Wijtman"];
-			[scores setObject:[NSNumber numberWithInt: 1750] forKey:@"Gangster Forgeman"];
-			[scores setObject:[NSNumber numberWithInt: 1500] forKey:@"Mapmaker King"];
-			[scores setObject:[NSNumber numberWithInt: 1250] forKey:@"Beastmaster Fultz"];
-			[scores setObject:[NSNumber numberWithInt: 10] forKey:@"Curator Tan"];
+			[scores setObject:[NSNumber numberWithInt: 25000] forKey:@"Albeiro Invictus"];
+			[scores setObject:[NSNumber numberWithInt: 20000] forKey:@"Warmaster Wijtman"];
+			[scores setObject:[NSNumber numberWithInt: 17500] forKey:@"Gangster Forgeman"];
+			[scores setObject:[NSNumber numberWithInt: 15000] forKey:@"Mapmaker King"];
+			[scores setObject:[NSNumber numberWithInt: 12500] forKey:@"Beastmaster Fultz"];
+			[scores setObject:[NSNumber numberWithInt: 10000] forKey:@"Curator Tan"];
 			
 			[[NSUserDefaults standardUserDefaults] setObject:scores forKey:HIGH_SCORES_DICT_USER_DEFAULTS_KEY];
 		}
@@ -44,6 +46,12 @@
 	return self;
 }
 
+/*!
+ @method		sortNames
+ @abstract		sorts the scores we've kept track of so far
+ @discussion	simple insertion sort. Order of Magnitude is not a problem
+				because list size should never exceed 7-10 elements.
+ */
 - (void) sortNames
 {
 	NSMutableArray *temp = [NSMutableArray arrayWithArray:[scores allKeys]];
@@ -70,6 +78,12 @@
 	}
 }
 
+/*!
+ @method		removeLowScores
+ @abstract		drop scores that aren't in Top Six (save space)
+ @discussion	drops all scores that didn't make it into sortedNames
+				meaning they weren't Top Six scores
+ */
 - (void) removeLowScores
 {
 	NSMutableArray *temp = [NSMutableArray arrayWithArray:[scores allKeys]];

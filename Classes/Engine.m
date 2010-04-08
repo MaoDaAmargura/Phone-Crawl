@@ -1,6 +1,12 @@
-
-
-
+//
+//  Engine.m
+//  Phone-Crawl
+//
+//  Created by Austin Kelley 
+//
+//  Flow control class for the entire system. Maintains important game objects like 
+//  dungeon singleton and player object, and handles implementation behind most user
+//  interaction at some point. 
 
 #import "Engine.h"
 #import "Tile.h"
@@ -132,20 +138,29 @@
 	return ![currentDungeon tileAtCoordBlocksMovement:coord] && ![self locationIsOccupied:coord];
 }
 
+/*!
+ @method		processDeathOfCritter
+ @abstract		It's all in the title
+ */
 - (void) processDeathOfCritter:(Critter*) critter
 {
-	if (critter == nil) {
-		return;
+	if (critter != nil)
+	{
+		float experienceGained = 1.0;
+		int levelDifference = player.level - critter.level;
+		experienceGained *= pow(1.2, levelDifference);
+		[player gainExperience:experienceGained];
+		[currentDungeon.items setObject:[Item generateRandomItem:critter.level/5 elemType:FIRE] forKey:critter.location];
+		[currentDungeon.deadEnemies addObject:critter];
+		[currentDungeon.liveEnemies removeObject:critter];
 	}
-	float experienceGained = 1.0;
-	int levelDifference = player.level - critter.level;
-	experienceGained *= pow(1.2, levelDifference);
-	[player gainExperience:experienceGained];
-	[currentDungeon.items setObject:[Item generateRandomItem:critter.level/5 elemType:FIRE] forKey:critter.location];
-	[currentDungeon.deadEnemies addObject:critter];
-	[currentDungeon.liveEnemies removeObject:critter];
 }
 
+/*!
+ @method		crittersInRange
+ @abstract		calculates an array of enemies that are close enough to the player to be allowed to act
+ @discussion	uses custom range function in engine for a more radial feel than point distance
+ */
 - (NSMutableArray*) crittersInRange
 {
 	NSMutableArray* ret = [[[NSMutableArray alloc] initWithCapacity:10] autorelease];
@@ -162,15 +177,25 @@
 		[c incrementTurnPoints];
 }
 
+/*!
+ @method		nextCritterToAct
+ @abstract		Returns exactly what the name says
+ */
 - (Critter*) nextCritterToAct
 {
-	if (player.turnPoints >= POINTS_TO_TAKE_TURN)
-		return player;
+	Critter *ret = nil;
+	while (ret == nil)
+	{
+		if (player.turnPoints >= POINTS_TO_TAKE_TURN)
+			ret = player;
 	
-	for (Critter *c in [self crittersInRange])
-		if (c.turnPoints >= POINTS_TO_TAKE_TURN && !c.npc)
-			return c;
-	return nil;
+		for (Critter *c in [self crittersInRange])
+			if (c.turnPoints >= POINTS_TO_TAKE_TURN && !c.npc)
+				ret = c;
+		
+		[self incrementCritterTurnPoints];
+	}
+	return ret;
 }
 
 - (void) determineBattleModes
@@ -183,6 +208,15 @@
 		}
 }
 
+/*!
+ @method		performActionForCreature
+ @abstract		Well titled method.
+ @discussion	will attempt actions in this order:
+				1) Skill
+				2) Spell
+				3) Item
+				Checks for death of the target critter (if it exists) at the end
+ */
 - (NSString*) performActionForCreature:(Critter*) critter
 {
 	NSString *actionResult = @"";
@@ -210,6 +244,16 @@
 	return actionResult;
 }
 
+/*!
+ @method		performMoveForCreature
+ @abstract		attempts to move the critter along its determined path
+ @discussion	if no path has been decided, the critter makes one
+				then it attempts to follow the path
+				smashable objects are handled here, because Critter doesn't have access to class Dungeon
+				movement is handled by Critter functions
+				Inability to move costs monsters their turn (but not the player) because monsters
+				aren't smart enough to change move targets (infinite loop)
+ */
 - (void) performMoveForCreature:(Critter *)c
 {
 	if (![c.cachedPath count] || ![[c.cachedPath objectAtIndex:0] equals: c.target.moveLocation])
@@ -237,6 +281,15 @@
 	
 }
 
+/*!
+ @method		gameLoopWithWorldView
+ @abstract		handle everything that needs to happen during one turn 
+ @discussion	sets some important variables that couldn't have been put anywhere smarter
+				checks for battle mode for some legacy functions (i.e. shield regen)
+				saves state information to check for changes
+				requests a critter object to work with and performs its turn
+				rechecks state information for updates
+ */
 - (void) gameLoopWithWorldView:(WorldView*)wView
 {
 	if(!worldViewSingleton) worldViewSingleton = wView;
@@ -250,11 +303,6 @@
 	int oldLevel = player.level;
 	
 	Critter *critter = [self nextCritterToAct];
-	while (critter == nil)
-	{
-		[self incrementCritterTurnPoints];
-		critter = [self nextCritterToAct];
-	}
 	
 	if (critter == player)
 	{
@@ -270,15 +318,12 @@
 	{
 		actionResult = [self performActionForCreature:critter];
 	}
+	
 	if ([critter hasMoveToMake] && ([actionResult isEqualToString:OUT_OF_RANGE] || [actionResult isEqualToString:@""]))
 	{
 		[self performMoveForCreature:critter];
 		if (critter == player)
 			[self confirmLevelChange];
-	}
-	else 
-	{
-		//critter.turnPoints -= 15; //inactivity
 	}
 	
 	if (player.level > oldLevel)
@@ -381,7 +426,10 @@
 	}
 }
 
-
+/*!
+ @method		coordIsVisible
+ @abstract		determines whether a particular world coordinate is visible on the screen that the player can see
+ */
 - (BOOL) coordIsVisible:(Coord*) coord
 {
 	Coord *center = player.location;
@@ -396,6 +444,11 @@
 	return YES;
 }
 
+/*!
+ @method		drawImage:atTile:inWorld:
+ @abstract		helper routine to place images on tiles
+				refactored from code in drawMonsters and drawItems
+ */
 - (void) drawImage:(UIImage*) img atTile:(Coord*) loc inWorld:(WorldView*) wView
 {
 	if(![self coordIsVisible:loc]) return;
@@ -410,6 +463,10 @@
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
 }
 
+/*!
+ @method		drawHealthBar
+ @abstract		draws a critters health bar above it on the worldView
+ */
 - (void) drawHealthBar:(Critter *)m inWorld:(WorldView*) wView
 {
 	Coord *loc = m.location;
@@ -528,6 +585,10 @@
 	[wView setDisplay:displayStatMana withAmount:player.current.mp ofMax:player.max.mp];
 }
 
+/*!
+ @method		bloodSprayWithAttacker
+ @abstract		provide visceral visual feedback for melee skill actions
+ */
 - (void) bloodSprayWithAttacker: (Critter*) attacker {
 	if (!worldViewSingleton.mapImageView) return;
 
@@ -683,7 +744,11 @@
 #pragma mark -
 #pragma mark Dungeon Loading 
 
-
+/*!
+ @method		changeToDungeon
+ @abstract		thread launched for dungeon changing
+ @discussion	locks access to certain parts of the app until dungeon is loaded so that stupid stuff doesn't happen
+ */
 - (void) changeToDungeon:(levelType)type
 {
 	if(tutorialMode && type != town)
@@ -697,6 +762,10 @@
 	
 }
 
+/*!
+ @method		successfullyLoadedDungeon
+ @abstract		end of thread function that unlocks resource access and redraws screen
+ */
 - (void) successfullyLoadedDungeon
 {
 	player.location = [currentDungeon.playerStartLocation copy];
@@ -707,6 +776,10 @@
 	[loadDungeonLock unlock];
 }
 
+/*!
+ @method		asynchronouslyLoadDungeon
+ @abstract		function for dungeon loading to be done in a thead
+ */
 - (void) asynchronouslyLoadDungeon:(NSNumber*)type
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];

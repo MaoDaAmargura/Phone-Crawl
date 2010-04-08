@@ -5,6 +5,9 @@
 //  Created by Austin Kelley on 3/27/10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
+//  Superclass representing all kinds of mobile entities in the game
+//  Subclass it to make custom monsters and override -[think] to change behavior
+//  
 
 #import "Critter.h"
 #import "Critter+LoadExtensions.h"
