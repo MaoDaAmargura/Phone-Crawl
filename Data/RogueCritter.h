@@ -12,7 +12,9 @@
 
 @interface RogueCritter : Critter
 {
-
+	BOOL haveWeakened;
+	BOOL havePoisoned;
+	BOOL haveSlowed;
 }
 
 @end

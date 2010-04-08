@@ -12,7 +12,7 @@
 
 @interface ShadowKnightCritter : Critter
 {
-
+	BOOL havePoisoned;
 }
 
 @end

@@ -23,7 +23,9 @@
 		stringName = @"Berserker";			
 		abilities.skills[REG_STRIKE] = skillLevel;
 		abilities.skills[BRUTE_STRIKE] = skillLevel;
-		[self equipItem:[[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_TWO_HAND] autorelease]];
+		Item *sword = [[[Item alloc] initWithBaseStats:skillLevel-1 elemType:elem itemType:SWORD_TWO_HAND] autorelease];
+		[self gainItem:sword];
+		[self equipItem:sword];
 	}
 	return self;
 }
@@ -33,6 +35,11 @@
 	[super think:player];
 	
 	target.moveLocation = player.location;
+	if ([Rand min:0 max:1])
+		target.skillToUse = [Skill skillOfType:REG_STRIKE level:abilities.skills[REG_STRIKE]];
+	else 
+		target.skillToUse = [Skill skillOfType:REG_STRIKE level:abilities.skills[BRUTE_STRIKE]];
+	
 }
 
 @end
