@@ -40,7 +40,7 @@
 	{
 		level = lvl;
 		alive = YES;
-		int baseStat = 100 + 25*level;
+		int baseStat = 100 + 25*level; // base formula for health, shield, mana
 		[self setHealth:baseStat];
 		[self setShield:baseStat];
 		[self setMana:baseStat];
@@ -71,9 +71,10 @@
 
 - (BOOL) hasCondition:(conditionType)cond
 {
-	return cond&conditionBitSet != 0;
+	return cond & conditionBitSet != 0;
 }
-	
+
+// If a critter does not already have a condition, add it to the bitset
 - (void) gainCondition:(conditionType)cond
 {
 	if (![self hasCondition:cond])
@@ -87,6 +88,8 @@
 	}
 }
 
+
+// If a critter has the specified condition, remove it from the bitset
 - (void) loseCondition:(conditionType)cond
 {
 	if ([self hasCondition:cond]) 
@@ -97,6 +100,7 @@
 	}
 }
 
+// Reset player condition
 - (void) loseAllConditions
 {
 	if ([self hasCondition:WEAKENED])
@@ -109,11 +113,17 @@
 	experience += exp;
 	while (experience >= 1000) 
 	{
+		//Player levels up, gains abilityPoints, increases in hp, sp, mp
 		++level;
+		abilityPoints += 2;
+		[self setHealth:max.hp+25];
+		[self setMana:max.mp+25];
+		[self setShield:max.sp+25];
 		experience -= 1000;
 	}
 }
 
+// Player gains turnPoints based on turnSpeed and affecting conditions
 - (void) incrementTurnPoints
 {
 	int realTS = turnSpeed;
@@ -129,6 +139,7 @@
 	current.sp -= amount;
 	if (current.sp >= 0) return;
 
+	//sp will be negative by exactly the amount that health must decrease
 	current.hp += current.sp;
 	current.sp = 0;
 

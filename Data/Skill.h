@@ -2,6 +2,7 @@
 //	combat ability
 
 #import <Foundation/Foundation.h>
+#import "Util.h"
 
 #define ABILITY_ERR -1
 
@@ -17,24 +18,15 @@ typedef enum {
 	MIX_STRIKE = 4
 } PC_COMBAT_ABILITY_TYPE;
 
-
-#import "Util.h"
-
 @class Critter;
 
 // interface for Skill
 @interface Skill : NSObject {
-	// name of skill
 	NSString *name;
-	// damage of skill
-	float damageMultiplier;
-	// abilityLevel
-	int abilityLevel; //Novice, Journeyman, Master
-	// abilityId, index in combat_list for Critter
-	int abilityId;
-	// function that this ability will call when it is used
-	SEL abilityFn;
-	// how much this ability costs in turn pints
+	float damageMultiplier; // damage of skill
+	int abilityLevel; //Basic, Journeyman, Master
+	int abilityId; 	//Index in array of skills
+	SEL abilityFn;  //Custom function for each ability to have a different effect
 	int turnPointCost;
 }
 
@@ -46,12 +38,9 @@ typedef enum {
 - (id) initWithInfo: (NSString *) abilityName damageMultiplier: (float) abilityDamage abilityLevel: (int) level 
 		 abilityId: (int) desiredId abilityFn: (SEL) fn turnPoints:(int) turnPntCost;
 + (void) initialize;
-// creates a skill with a given type and level
-+ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type level: (int)lvl;
-	
-// checks to see how much damage will be done, taking armor into account
-- (int) mitigateDamage: (Critter *) caster target: (Critter *) target damage: (int) amountDamage;
 
+//Return a pointer to the skill with specified type and of specfied power level
++ (Skill*) skillOfType:(PC_COMBAT_ABILITY_TYPE)type level: (int)lvl;
 
 //Specialized ability functions
 - (int) basicAttack:(Critter *)attacker def:(Critter *)defender;
@@ -59,8 +48,6 @@ typedef enum {
 - (int) defaultStrike: (Critter *) caster target: (Critter *) target;
 - (int) elementalStrike:(Critter *)attacker target:(Critter *)defender;
 - (int) mixedStrike:(Critter *)attacker target:(Critter *)defender;
-
-
 
 // getter and setter methods
 @property (readonly, retain) NSString *name;

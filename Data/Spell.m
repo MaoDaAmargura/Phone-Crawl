@@ -8,7 +8,6 @@ NSMutableArray *spellList;
 BOOL haveSetSpells = FALSE;
 #define LEVEL_DIFF_MULT 2
 
-// implementation for Spell
 @implementation Spell
 
 // getter and setter methods
@@ -18,7 +17,7 @@ BOOL haveSetSpells = FALSE;
 @synthesize spellId;
 @synthesize turnPointCost;
 
-// creates a spell with the given parameters. Pretty straightforward-just storing argument data
+// creates a spell with the given parameters
 - (id) initSpellWithName: (NSString *) spellName spellType: (spellType) desiredSpellType targetType: (targetType) spellTargetType elemType: (elemType) elementalType
 		  manaCost: (int) mana damage: (int) dmg range: (int) spellRange spellLevel: (int) spellLevel spellId: (int) desiredSpellId
 		   spellFn: (SEL) fn turnPointCost: (int) turnPntCost {
@@ -43,18 +42,20 @@ BOOL haveSetSpells = FALSE;
 
 // cast the spell on a specified target
 - (NSString *) cast: (Critter *) caster target: (Critter *) target {
-	// check to make sure everything is valid
+	// check to ensure valid arguments
 	if (caster == nil || (target != SELF && target == nil)) {
 		NSLog(@"SPELL CAST ERROR: CASTER NIL");
 		return @"Spell: Caster/Target nil";
 	}
 	int spellResult = 0;
-	// check to see if caster has enough mana to cast spell
-	// calling this function also spends the mana if the caster has enough
+
+	// attempt to decrement the mana cost of the spell from the player's mana bar.
+	// fails if the caster does not have enough mana
 	if (![caster spendMana:manaCost])
 	{
 		return @"Not enough mana!";		
 	}
+	
 	// check if the spell was resisted
 	BOOL didSpellLand = [self resistCheck:caster target:target];
 	if (!didSpellLand && target != SELF) spellResult = SPELL_RESIST;
@@ -67,7 +68,7 @@ BOOL haveSetSpells = FALSE;
 			spellResult = (int)(f)(self, spellFn, caster, target);
 		}
 	}
-	// if there was damage dealt, inform the player
+	// if there was damage dealt, generate a response string
 	if(spellResult > 0) return [NSString stringWithFormat:@"%@ dealt %d damage to %@", name, spellResult, target.stringName];
 	// otherwise a condition was set, find out what it is and inform the player
 	else switch (spellResult) {
@@ -101,7 +102,7 @@ BOOL haveSetSpells = FALSE;
 		NSLog(@"Resist_Check nil");
 		return FALSE;
 	}
-	// and caster is not target...
+	// caster is allowed to cast anything on himself
 	if (caster == target) return TRUE;
 	int resist = 0;
 	// based on element of spell, get target's base resistance
@@ -128,9 +129,10 @@ BOOL haveSetSpells = FALSE;
 	} else if (resist < STAT_MIN) {
 		resist = STAT_MIN;
 	}
-	// find difference in levels
+
 	int level_diff = caster.level - target.level;
-	// based on level difference, calculate adjusted resistance
+	
+	// calculate resist chance based on target's resistance and the level difference
 	if(level_diff < 0)
 		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
 	else if(level_diff > 0)
@@ -141,7 +143,7 @@ BOOL haveSetSpells = FALSE;
 	return TRUE;
 }
 
-//Return amount of damage to deal to combat system
+//Return amount of damage to deal, can inflict conditions on target
 - (int) damageSpell: (Critter *) caster target: (Critter *) target {
 	// check for valid arguments
 	if (caster == nil || target == nil) return SPELL_CAST_ERR;
@@ -198,7 +200,7 @@ BOOL haveSetSpells = FALSE;
 ///////////////////////////////////////
 // the following 5 functions
 // are designed to give conditions to
-// the caster or target
+// the caster or target 
 ///////////////////////////////////////
 
 - (int) haste: (Critter *) caster target: (Critter *) target {

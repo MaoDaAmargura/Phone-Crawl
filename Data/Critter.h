@@ -71,13 +71,13 @@ typedef struct {
 @interface Critter : NSObject 
 {
 	NSString *stringName;
-	NSString *stringIcon;
+	NSString *stringIcon; //filename of critter's picture
 	
 	Coord *location;
 	
-	int conditionBitSet;
+	int conditionBitSet; //All current effects on critter
 	
-	EquippedItems equipment;
+	EquippedItems equipment; //List of items that determine critter's stats
 	ActionTargets target;
 	
 	CritterStats current;
@@ -85,7 +85,7 @@ typedef struct {
 	
 	DefenseStats defense;
 	
-	Abilities abilities;
+	Abilities abilities; //Stores critter's ability to use each spell and skill
 	
 	NSMutableArray *inventory;
 	NSMutableArray *cachedPath;
@@ -93,10 +93,10 @@ typedef struct {
 	
 	int experience;
 	int level;
-	int abilityPoints;
-	int deathPenalty;
-	int turnPoints;
-	int turnSpeed;
+	int abilityPoints; //Gained each level, used for adding or upgrading spells and skills
+	int deathPenalty; //High score penalty added for each death during gameplay
+	int turnPoints;   //Number of turn points available
+	int turnSpeed;    //Number of turn points gained every turn
 	
 	BOOL alive;
 	BOOL inBattle;
@@ -107,6 +107,8 @@ typedef struct {
 	Npc *dialog;
 }
 
+
+//getter / setter methods
 @property (nonatomic, retain) NSString *stringName;
 @property (nonatomic, retain) NSString *stringIcon;
 
@@ -150,13 +152,20 @@ typedef struct {
 
 - (void) resetStats;
 
-
+//Item added to inventory
 - (void) gainItem:(Item*)it;
+
+//Item removed from inventory
 - (void) loseItem:(Item*)it;
+
+//Item equipped, stats added to current player stats
 - (void) equipItem:(Item*)it;
+
+//Item unequipped, stats removed from current player stats
 - (void) dequipItem:(Item*)it;
 - (BOOL) hasItemEquipped:(Item*)it;
 
+// Get damage values from equipped weapons
 - (float) getPhysDamage;
 - (float) getElemDamage;
 
@@ -172,11 +181,13 @@ typedef struct {
 
 - (NSMutableArray*) inventoryItems;
 
+// Set actions to be used when critter's turn is taken
 - (void) setItemToUse:(Item*) it;
 - (void) setMoveTarget:(Coord*) loc;
 - (void) setSkillToUse:(Skill*) skill;
 - (void) setSpellToUse:(Spell*) spell;
 
+//Determine player's score upon death
 - (int) score;
 
 @end

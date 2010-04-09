@@ -51,7 +51,6 @@ static const int baseItemStats[10][9] = {
     {10, 10, 30, 12, 2 , 0 , 0 , 15, -3 }, //Light Chest
 };
 
-// implementation for Item
 @implementation Item
 
 // getter/setter methods
@@ -101,8 +100,8 @@ static const int baseItemStats[10][9] = {
     
 }
 
-// finds item name based on type and element
-// with some randomization (two names for each item)
+// generate item name based on type and element
+// Each item has two possible naming patterns, and each type has two possible labels
 + (NSString *) itemNameForItemType:(itemType)desiredType element:(elemType) elem{
     switch (desiredType) 
     {
@@ -145,7 +144,7 @@ static const int baseItemStats[10][9] = {
     return nil;
 }
 
-// creates an item with the basic stats given
+// creates an item from the basic item stats template
 - (id) initWithBaseStats: (int) dungeonLevel elemType: (elemType) dungeonElement
                itemType: (itemType) desiredType 
 {
@@ -155,7 +154,6 @@ static const int baseItemStats[10][9] = {
         return nil;
     }
     if (self = [super init]) {
-        // clamp level variable
         if(dungeonLevel > MAX_DUNGEON_LEVEL) dungeonLevel = MAX_DUNGEON_LEVEL;
         if(dungeonLevel < MIN_DUNGEON_LEVEL) dungeonLevel = MIN_DUNGEON_LEVEL;
         // increment level variable to get correct value
@@ -183,15 +181,17 @@ static const int baseItemStats[10][9] = {
                 slot = LEFT;
                 break;
         }
-        // find quality of item
+        // determine quality of item
         if (desiredType == SWORD_ONE_HAND || desiredType == DAGGER || desiredType == SWORD_TWO_HAND)
             quality = [Rand min: DULL max: SHARP];
         else quality = REGULAR;
+        
         // get icon for item
         icon = [Item iconNameForItemType:desiredType];
-        // check if item can be equipped or not
-        if(desiredType < POTION) isEquipable = TRUE;
+        
+        if(desiredType < POTION) isEquipable = TRUE; 
         else isEquipable = FALSE;
+        
         // get name for item
         self.name = [Item itemNameForItemType:desiredType element:dungeonElement];
         // initialize other base stats based on level of dungeon
@@ -221,6 +221,8 @@ static const int baseItemStats[10][9] = {
         armor = dungeonLevel * baseItemStats[desiredType][4];
         damage = dungeonLevel * baseItemStats[desiredType][5];
         elementalDamage =dungeonLevel * baseItemStats[desiredType][6];
+        
+        // if the item is a bow or staff, give it a range. Otherwise, default range is 1.
         range = (desiredType == BOW) ? (MIN_BOW_RANGE + dungeonLevel) : 
                                         (desiredType == STAFF)? STAFF_RANGE:1;
         charges = 0;
@@ -237,7 +239,8 @@ static const int baseItemStats[10][9] = {
 }
 
 // create item exactly with given stats.
-// straightforward-simply saves arguments to proper variables
+// used for the creation of items that must be exactly the same
+// and cannot be created from a template
 -(id)initExactItemWithName: (NSString *) itemName
              iconFileName: (NSString *) iconFileName
           itemQuality: (itemQuality) itemQual
@@ -297,9 +300,10 @@ static const int baseItemStats[10][9] = {
         NSLog(@"Tried to cast item: %@ which has no effect",self.name);
         return @"";
     }
-    // decrement charges
     --charges;
-    // cast spell
+    
+    // The spell system handles all of the effects of the spell and generates
+    // a result string, which is then returned
     return [Spell castSpellById:effectSpellId caster:caster target:target];
 }
 
@@ -419,7 +423,7 @@ static const int baseItemStats[10][9] = {
                 case 3: return 500 * item.charges;
                 case 4: return 1000 * item.charges;
             }
-        case SCROLL:  // Scroll
+        case SCROLL:
 			return 2000;
             break;
         default:
