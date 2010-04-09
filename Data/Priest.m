@@ -46,6 +46,7 @@
 // heals player when "Heal Me" option is selected
 -(void) healPlayer:(Critter *)p {
 	// resetStats, which resets hp, mp, and sp to max levels
+	[p loseAllConditions];
 	[p resetStats];
 }
 
