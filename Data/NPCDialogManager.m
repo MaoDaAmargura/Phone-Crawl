@@ -78,12 +78,14 @@
 		// menu will close automatically-no need to do more
 		return;
 	}
-	// if the action has been set
-	[current.dialog handle:r.action target:current];
+	// handle the action
+	[current.dialog handle:r.action target:delegate.player];
 	// get the next dialog
 	Dialog *d = [current.dialog.dialogs objectAtIndex:r.pointsTo];
 	// set the current dialog to the next dialog
 	[self setDialog:d];
+	// call a world refresh
+	[delegate updateWorldView];
 }
 
 @end
