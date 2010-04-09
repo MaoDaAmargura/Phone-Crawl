@@ -33,11 +33,11 @@
 
 @interface Engine (UIUpdates)
 
-- (void) updateBackgroundImageForWorldView:(WorldView*)wView;
-- (void) updateStatDisplayForWorldView:(WorldView *)wView;
-- (void) drawMiniMapForWorldView: (WorldView*) wView;
-- (void) drawItemsForWorldView: (WorldView*) wView;
-- (void) drawHealthBar:(Critter *)m inWorld:(WorldView*) wView;
+- (void) updateBackgroundImage;
+- (void) updateStatDisplay;
+- (void) drawMiniMap;
+- (void) drawItems;
+- (void) drawHealthBarAboveCritter:(Critter *)m;
 
 @end
 
@@ -84,7 +84,7 @@
 @synthesize player, currentDungeon;
 @synthesize tutorialMode;
 
-@synthesize worldViewSingleton;
+@synthesize worldViewRef;
 
 @synthesize npcManager;
 
@@ -98,8 +98,7 @@
 		tutorialMode = NO;
 
 		tilesPerSide = 11;
-		
-		self.player = nil;
+
 		self.currentDungeon = [[[Dungeon alloc] init] autorelease];
 		loadDungeonLock = [NSLock new];		
 	}
@@ -110,6 +109,17 @@
 {
 	[super dealloc];
 	
+}
+
+- (void) setWorldViewRef:(WorldView *)wView
+{
+	[worldViewRef release];
+	worldViewRef = [wView retain];
+	
+	[battleMenuMngr release];
+	battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:worldViewRef.view andDelegate:self];
+	
+	battleMenuMngr.playerRef = player;
 }
 
 #pragma mark -
@@ -183,29 +193,33 @@
  */
 - (Critter*) nextCritterToAct
 {
-	Critter *ret = nil;
-	while (ret == nil)
+	while (YES)
 	{
 		if (player.turnPoints >= POINTS_TO_TAKE_TURN)
-			ret = player;
+			return player;
 	
 		for (Critter *c in [self crittersInRange])
 			if (c.turnPoints >= POINTS_TO_TAKE_TURN && !c.npc)
-				ret = c;
+				return c;
 		
 		[self incrementCritterTurnPoints];
 	}
-	return ret;
 }
 
 - (void) determineBattleModes
 {
+	player.inBattle = NO;
 	for (Critter *c in currentDungeon.liveEnemies)
 		if ([self critter:c isInRange:5 ofCritter:player])
 		{
 			c.inBattle = YES;
 			player.inBattle = YES;
 		}
+		else
+		{
+			c.inBattle = NO;
+		}
+
 }
 
 /*!
@@ -273,12 +287,10 @@
 	}
 	else 
 	{
-		//TODO: Can't go there, so...
 		if (c != player) {
 			c.turnPoints -= TURN_POINTS_FOR_MOVEMENT_ACTION;
 		}
 	}
-	
 }
 
 /*!
@@ -290,49 +302,48 @@
 				requests a critter object to work with and performs its turn
 				rechecks state information for updates
  */
-- (void) gameLoopWithWorldView:(WorldView*)wView
+- (void) gameLoop
 {
-	if(!worldViewSingleton) worldViewSingleton = wView;
-	if (!battleMenuMngr) 
-		battleMenuMngr = [[BattleMenuManager alloc] initWithTargetView:wView.view andDelegate:self];
-	
-	battleMenuMngr.playerRef = player;
 	[self determineBattleModes];
 
 	NSString *actionResult = @"";
-	int oldLevel = player.level;
 	
 	Critter *critter = [self nextCritterToAct];
 	
-	if (critter == player)
+	if (player.level > oldPlayerLevel)
 	{
-		if(!player.inBattle)
-			[player regenShield];
+		actionResult = @"You gained a level!";
 	}
 	else
 	{
-		[critter think:player]; 
-	}
-	
-	if ([critter hasActionToTake])
-	{
-		actionResult = [self performActionForCreature:critter];
-	}
-	
-	if ([critter hasMoveToMake] && ([actionResult isEqualToString:OUT_OF_RANGE] || [actionResult isEqualToString:@""]))
-	{
-		[self performMoveForCreature:critter];
 		if (critter == player)
-			[self confirmLevelChange];
+		{
+			if(!player.inBattle)
+				[player regenShield];
+		}
+		else
+		{
+			[critter think:player]; 
+		}
+	
+		if ([critter hasActionToTake])
+		{
+			actionResult = [self performActionForCreature:critter];
+		}
+	
+		if ([critter hasMoveToMake] && ([actionResult isEqualToString:OUT_OF_RANGE] || [actionResult isEqualToString:@""]))
+		{
+			[self performMoveForCreature:critter];
+			if (critter == player)
+				[self confirmLevelChange];
+		}
 	}
 	
-	if (player.level > oldLevel)
-		actionResult = [NSString stringWithFormat:@"%@ %@", actionResult, @"You have gained a level!"];
+	worldViewRef.actionResult.text = actionResult;
 	
-	if(critter == player)
-		wView.actionResult.text = actionResult; //Set some result string from actions
+	oldPlayerLevel = player.level;
 	
-	[self updateWorldView:wView];
+	[self updateWorldView];
 }
 
 
@@ -345,7 +356,7 @@
  @abstract		presents the minimap
  @discussion	does this belong in this class?
  */
-- (void) drawMiniMapForWorldView: (WorldView*) wView 
+- (void) drawMiniMap 
 {
 	UIGraphicsBeginImageContext(CGSizeMake(MAP_DIMENSION, MAP_DIMENSION));
 	CGContextRef context = UIGraphicsGetCurrentContext();
@@ -405,23 +416,23 @@
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 
-	wView.miniMapImageView.image = result;
+	worldViewRef.miniMapImageView.image = result;
 }
 
 /*!
  @method		updateWorldView
  @abstract		main graphics loop for world view. 
  */
-- (void) updateWorldView:(WorldView*) wView 
+- (void) updateWorldView
 {
 	if (!currentDungeon || currentDungeon.dungeonType == NOT_INITIALIZED)
 		return;
 	
 	if ([loadDungeonLock tryLock])
 	{
-		[self updateBackgroundImageForWorldView:wView];
-		[self updateStatDisplayForWorldView:wView];
-		[self drawMiniMapForWorldView: wView];
+		[self updateBackgroundImage];
+		[self updateStatDisplay];
+		[self drawMiniMap];
 		[loadDungeonLock unlock];
 	}
 }
@@ -449,11 +460,11 @@
  @abstract		helper routine to place images on tiles
 				refactored from code in drawMonsters and drawItems
  */
-- (void) drawImage:(UIImage*) img atTile:(Coord*) loc inWorld:(WorldView*) wView
+- (void) drawImage:(UIImage*) img atTile:(Coord*) loc
 {
 	if(![self coordIsVisible:loc]) return;
 	
-	CGSize tileSize = [self tileSizeForWorldView:wView];
+	CGSize tileSize = [self tileSizeForWorldView];
 	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = player.location;
 	
@@ -463,16 +474,23 @@
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, tileSize.width, tileSize.height)];
 }
 
+- (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc
+{
+	UIImage *img = [UIImage imageNamed:imgName];
+	[self drawImage:img atTile:loc];
+}
+
+
 /*!
  @method		drawHealthBar
  @abstract		draws a critters health bar above it on the worldView
  */
-- (void) drawHealthBar:(Critter *)m inWorld:(WorldView*) wView
+- (void) drawHealthBarAboveCritter:(Critter *)m
 {
 	Coord *loc = m.location;
 	if(![self coordIsVisible:loc]) return;
 	
-	CGSize tileSize = [self tileSizeForWorldView:wView];
+	CGSize tileSize = [self tileSizeForWorldView];
 	int halfTile = (tilesPerSide-1)/2;
 	Coord *center = player.location;
 	
@@ -489,17 +507,11 @@
 	[img drawInRect:CGRectMake(tile.x*tileSize.width, tile.y*tileSize.height, div*m.current.sp, 4)];
 }
 
-- (void) drawImageNamed:(NSString*) imgName atTile:(Coord*) loc	inWorld:(WorldView*) wView
-{
-	UIImage *img = [UIImage imageNamed:imgName];
-	[self drawImage:img atTile:loc inWorld:wView];
-}
-
 /*!
  @method		drawTiles
  @abstract		subroutine to draw tiles to the current graphics context
  */
-- (void) drawTilesForWorldView:(WorldView*)wView
+- (void) drawTiles
 {
 	int xInd, yInd;
 	int halfTile = (tilesPerSide-1)/2;
@@ -517,33 +529,33 @@
 			else
 				img = [Tile imageForType:tileNone]; //Black square if the tile doesn't exist
 			
-			[self drawImage:img atTile:loc inWorld:wView];
+			[self drawImage:img atTile:loc];
 		}
 	}
 }
 
-- (void) drawPlayerInWorld:(WorldView*) wView
+- (void) drawPlayer
 {
-	[self drawImageNamed:player.stringIcon atTile:player.location inWorld:wView];
+	[self drawImageNamed:player.stringIcon atTile:player.location];
 }
 
-- (void) drawEnemiesInWorld:(WorldView*) wView
+- (void) drawEnemies
 {
 	for (Critter *m in currentDungeon.liveEnemies) {
-		[self drawImageNamed:m.stringIcon atTile:m.location inWorld:wView];
+		[self drawImageNamed:m.stringIcon atTile:m.location];
 		if (m.npc == NO) {
-			[self drawHealthBar:m inWorld:wView];
+			[self drawHealthBarAboveCritter:m];
 		}
 	}
 }
 
-- (void) drawItemsInWorld:(WorldView*) wView
+- (void) drawItems
 {
 	NSMutableDictionary *items = currentDungeon.items;
 	for(Coord *c in [items allKeys])
 	{
 		Item *i = [items objectForKey:c];
-		[self drawImageNamed:[i icon]  atTile:c inWorld:wView];
+		[self drawImageNamed:[i icon]  atTile:c];
 	}
 }
 
@@ -552,49 +564,50 @@
  @abstract		draws background image and player. 
  @discussion	enemies kinda should be done with player. maybe i'll make an extra creature loop.
  */
-- (void) updateBackgroundImageForWorldView:(WorldView*)wView
+- (void) updateBackgroundImage
 {
-	CGRect bounds = wView.mapImageView.bounds;
+	CGRect bounds = worldViewRef.mapImageView.bounds;
 
 	UIGraphicsBeginImageContext(bounds.size);
 	CGContextRef context = UIGraphicsGetCurrentContext();
 	
 	UIGraphicsPushContext(context);
 	
-	[self drawTilesForWorldView:wView];
-	[self drawItemsInWorld:wView];
-	[self drawEnemiesInWorld:wView];
-	[self drawPlayerInWorld:wView];
+	[self drawTiles];
+	[self drawItems];
+	[self drawEnemies];
+	[self drawPlayer];
 
 	UIGraphicsPopContext();
 
 	UIImage* result = UIGraphicsGetImageFromCurrentImageContext();
 	UIGraphicsEndImageContext();
 	
-	wView.mapImageView.image = result;
+	worldViewRef.mapImageView.image = result;
 }
 
 /*!
  @method		updateStatDisplay
  @abstract		updates the stat displays based on the players vitals.
  */
-- (void) updateStatDisplayForWorldView:(WorldView *)wView
+- (void) updateStatDisplay
 {	
-	[wView setDisplay:displayStatHealth withAmount:player.current.hp ofMax:player.max.hp];
-	[wView setDisplay:displayStatShield withAmount:player.current.sp ofMax:player.max.sp];
-	[wView setDisplay:displayStatMana withAmount:player.current.mp ofMax:player.max.mp];
+	[worldViewRef setDisplay:displayStatHealth withAmount:player.current.hp ofMax:player.max.hp];
+	[worldViewRef setDisplay:displayStatShield withAmount:player.current.sp ofMax:player.max.sp];
+	[worldViewRef setDisplay:displayStatMana withAmount:player.current.mp ofMax:player.max.mp];
 }
 
 /*!
  @method		bloodSprayWithAttacker
  @abstract		provide visceral visual feedback for melee skill actions
  */
-- (void) bloodSprayWithAttacker: (Critter*) attacker {
-	if (!worldViewSingleton.mapImageView) return;
+- (void) bloodSprayWithAttacker: (Critter*) attacker 
+{
+	if (!worldViewRef.mapImageView) return;
 
 	Coord *origin = attacker.target.critterForAction.location;
-	CGPoint screenCoord = [self originOfTile: origin inWorldView: worldViewSingleton];
-	CGSize tileSize = [self tileSizeForWorldView: worldViewSingleton];
+	CGPoint screenCoord = [self originOfTile: origin];
+	CGSize tileSize = [self tileSizeForWorldView];
 	screenCoord = CGPointMake(screenCoord.x + tileSize.width / 2, screenCoord.y + tileSize.height / 2);
 
 	// normalized vectors for the bloody arterial deathspray
@@ -612,7 +625,7 @@
 									  lifeSpan: 1
 										  freq: 60
 										  bias: sprayDirection];
-	[worldViewSingleton.mapImageView addSubview: emitter];
+	[worldViewRef.mapImageView addSubview: emitter];
 }
 
 
@@ -663,6 +676,7 @@
 			[npcManager beginDialog:c];
 		} else {
 			[player think:c];
+			battleMenuMngr.playerRef = player;
 			[battleMenuMngr showBattleMenu];
 		}
 	}
@@ -699,9 +713,9 @@
  @method		tileSizeForWorldView
  @abstract		calculates the size of a tile in the current world view with the current tilesPerSide configuration.
  */
-- (CGSize) tileSizeForWorldView:(WorldView*) wView
+- (CGSize) tileSizeForWorldView
 {
-	CGRect bounds = wView.mapImageView.bounds;
+	CGRect bounds = worldViewRef.mapImageView.bounds;
 	int tileWidth = bounds.size.width/tilesPerSide;
 	int tileHeight = bounds.size.height/tilesPerSide;
 	
@@ -713,11 +727,11 @@
  @abstract		converts a point in pixels to an absolute dungeon coordinate.
  @discussion	coord returned is the actual location in dungeon that the screen was touched. no locality.
  */
-- (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView
+- (Coord*) convertToDungeonCoord:(CGPoint) touch
 {
 	Coord *center = player.location;
 	
-	CGSize tileSize = [self tileSizeForWorldView:wView];
+	CGSize tileSize = [self tileSizeForWorldView];
 	int halfTile = (tilesPerSide-1)/2;
 	
 	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);
@@ -729,10 +743,10 @@
  @method		originOfTile
  @abstract		returns the pixel point on the screen that is the top left point where the tile at coord should be drawn.
  */
-- (CGPoint) originOfTile:(Coord*) tileCoord inWorldView:(WorldView *)wView
+- (CGPoint) originOfTile:(Coord*) tileCoord
 {
 	Coord *center = player.location;
-	CGSize tileSize = [self tileSizeForWorldView:wView];
+	CGSize tileSize = [self tileSizeForWorldView];
 	int halfTile = (tilesPerSide-1)/2;
 	
 	CGPoint topleft = CGPointMake(center.X - halfTile, center.Y - halfTile);

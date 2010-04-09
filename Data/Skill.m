@@ -94,7 +94,7 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 		// deal damage to target
 		[target takeDamage:abilityResult];
 		// tell player how much damage was done
-		return [NSString stringWithFormat:@"Dealt %d damage!!",abilityResult];
+		return [NSString stringWithFormat:@"%@ was dealt %d damage!!", target.stringName, abilityResult];
 	} else {
 		// otherwise there was an error. Flag it
 		DLog(@"Ability error: %@",self.name);

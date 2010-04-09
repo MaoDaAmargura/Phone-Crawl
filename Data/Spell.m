@@ -68,15 +68,15 @@ BOOL haveSetSpells = FALSE;
 		}
 	}
 	// if there was damage dealt, inform the player
-	if(spellResult > 0) return [NSString stringWithFormat:@"%d damage dealt!",spellResult];
+	if(spellResult > 0) return [NSString stringWithFormat:@"%@ dealt %d damage to %@", name, spellResult, target.stringName];
 	// otherwise a condition was set, find out what it is and inform the player
 	else switch (spellResult) {
-		case SPELL_HASTENED: return @"Attack speed has increased!";
-		case SPELL_FROZEN: return @"Target's attack speed decreased!";
-		case SPELL_PURGED: return @"All conditions purged!";
-		case SPELL_TAINTED: return @"Target tainted!";
-		case SPELL_CONFUSED: return @"Target is confused!";
-		case SPELL_RESIST: return @"Target resisted your spell!";
+		case SPELL_HASTENED: return [target.stringName stringByAppendingString:@"'s Speed increased!"];
+		case SPELL_FROZEN: return [target.stringName stringByAppendingString:@"'s Speed decreased!"];
+		case SPELL_PURGED: return [target.stringName stringByAppendingString: @" lost all status conditions!"];
+		case SPELL_TAINTED: return [target.stringName stringByAppendingString: @" was tainted!"];
+		case SPELL_CONFUSED: return [target.stringName stringByAppendingString: @" became confused!"];
+		case SPELL_RESIST: return [target.stringName stringByAppendingString:@" resisted the spell!"];
 		case SPELL_NO_DAMAGE: return @""; 
 		case SPELL_CAST_ERR: return @"Spell casting error!";
 		default:

@@ -494,8 +494,8 @@
 #pragma mark -
 #pragma mark Load Extensions
 /*	These are for private use in load/save manager 
- Don't add these to the main header.
- If you think you need them, ask me for a better way. - Austin
+	Don't add these to the main header.
+	If you think you need them, ask me for a better way. - Austin
  */
 - (void) setHealth:(int)hp
 {

@@ -89,7 +89,7 @@
 		// check to see if player is dead
 		if ([homeTabController.gameEngine.player isAlive]) 
 		{
-			[homeTabController.gameEngine gameLoopWithWorldView:homeTabController.wView];
+			[homeTabController.gameEngine gameLoop];
 		}
 		else 
 		{

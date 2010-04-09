@@ -65,8 +65,6 @@
 	self.view = mainTabController.view;
 	mainTabController.delegate = self;
 	
-
-	
 	endView = [[EndGame alloc] init];
 	[endView setDelegate:self];
 	endView.engine = gameEngine;
@@ -75,6 +73,7 @@
 	npcManager = [[NPCDialogManager alloc] initWithView:wView.view andDelegate:gameEngine];
 	
 	gameEngine.npcManager = npcManager;
+	gameEngine.worldViewRef = wView;
 }
 
 
@@ -111,8 +110,8 @@
 
 - (void) moveHighlightInWorldView:(WorldView*)worldView toCoord:(Coord*) loc
 {
-	CGPoint p = [gameEngine originOfTile:loc inWorldView:worldView];
-	CGSize s = [gameEngine tileSizeForWorldView:worldView];
+	CGPoint p = [gameEngine originOfTile:loc];
+	CGSize s = [gameEngine tileSizeForWorldView];
 	worldView.highlight.frame = CGRectMake(p.x, p.y, s.width, s.height);
 }
 /*!
@@ -125,7 +124,7 @@
 {
 	DLog(@"worldView:(WorldView*)wView touchedAt:(CGPoint)point");
 	
-	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:wView];
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point];
 	
 	if(![gameEngine.currentDungeon tileAtCoordBlocksMovement:tileCoord])
 		worldView.highlight.backgroundColor = HIGHLIGHT_YELLOW;
@@ -143,12 +142,12 @@
  */
 - (void) worldView:(WorldView*) worldView selectedAt:(CGPoint)point 
 {
-	Coord *tileCoord = [gameEngine convertToDungeonCoord:point inWorldView:worldView];
+	Coord *tileCoord = [gameEngine convertToDungeonCoord:point];
 	
 	if(![gameEngine.currentDungeon tileAtCoordBlocksMovement:tileCoord])
 	{
 		[gameEngine processTouch:tileCoord];
-		[gameEngine updateWorldView:worldView];
+		[gameEngine updateWorldView];
 	}
 	else if([gameEngine.currentDungeon dungeonType] == town && [gameEngine.currentDungeon tileAt:tileCoord].type == tileShopKeeper)
 	{
@@ -166,7 +165,7 @@
 - (void) worldViewDidLoad:(WorldView*) worldView
 {
 	DLog(@"worldViewDidLoad:(WorldView*) worldView");
-	[gameEngine updateWorldView:wView];
+	[gameEngine updateWorldView];
 }
 
 #pragma mark -

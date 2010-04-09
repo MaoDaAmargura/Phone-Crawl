@@ -27,18 +27,20 @@
 	int tilesPerSide;
 	
 	BattleMenuManager *battleMenuMngr;
+	
+	int oldPlayerLevel;
 
 	// ugly, hackish workaround used only in moving the battleMenu to the correct spot
 	// when attacking a monster.
 	// - Nate
-	WorldView *worldViewSingleton;
+	WorldView *worldViewRef;
 	NPCDialogManager *npcManager;
 }
 
 @property (nonatomic, retain) Critter *player;
 @property (nonatomic, retain) Dungeon *currentDungeon;
 
-@property (nonatomic, retain) WorldView *worldViewSingleton;
+@property (nonatomic, retain) WorldView *worldViewRef;
 
 @property (nonatomic) BOOL tutorialMode;
 
@@ -46,15 +48,15 @@
 
 - (id) init;
 
-- (void) updateWorldView:(WorldView*) wView;
-- (void) gameLoopWithWorldView:(WorldView*)wView;
+- (void) updateWorldView;
+- (void) gameLoop;
 - (void) changeToDungeon:(levelType)type;
 - (void) processTouch:(Coord *) coord;
 
 - (BOOL) canEnterTileAtCoord:(Coord*) coord;
-- (CGSize) tileSizeForWorldView:(WorldView*) wView;
-- (Coord*) convertToDungeonCoord:(CGPoint) touch inWorldView:(WorldView *)wView;
-- (CGPoint) originOfTile:(Coord*) tile inWorldView:(WorldView *)wView;
+- (CGSize) tileSizeForWorldView;
+- (Coord*) convertToDungeonCoord:(CGPoint) touch;
+- (CGPoint) originOfTile:(Coord*) tile;
 
 
 - (void) ability_handler:(Skill*)skill;
