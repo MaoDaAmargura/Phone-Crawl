@@ -1,9 +1,9 @@
 #import "NewGameFlowControl.h"
 
-#define FIRST_DIALOGUE	@"Welcome, Adventurer, to the land of Tin'Foyel. A realm of dire monsters, dark dungeons and legendary weapons."
-#define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a shilling to tie up your boat in the dock. And I shall need to know your name."
-#define THIRD_DIALOGUE	@"Welcome to Port Royal. Tell me a bit more about yourself. What do you look like?"
-#define FOURTH_DIALOGUE	@"Alright, brave Adventurer. Journey north from here. Save the village of Andor and take your place in history!"
+#define FIRST_DIALOGUE	@"Welcome, Adventurer, to the land of Tin'Foyel. A realm of dire monsters, dark dungeons and legends carved in stone."
+#define	SECOND_DIALOGUE	@"Woah, woah. Hold up there you! It's a shilling to tie up your boat in the dock. And I shall need to know your name..."
+#define THIRD_DIALOGUE	@"Welcome to Port Regal. Let's unpack your stuff. Which were your clothes, again?"
+#define FOURTH_DIALOGUE	@"Alright, brave Adventurer. Journey south from here to the village of Andor. If anyone can use your help, it's them."
 
 #define NAME_SELECTION 3
 #define CHAR_SELECTION 5

@@ -335,7 +335,6 @@
 			actionResult = @"";
 		}
 	}
-	
 	worldViewRef.actionResult.text = actionResult;
 	
 	oldPlayerLevel = player.level;
