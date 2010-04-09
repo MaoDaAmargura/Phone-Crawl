@@ -96,8 +96,8 @@
 	if(self = [super init])
 	{
 		tutorialMode = NO;
-
 		tilesPerSide = 11;
+		oldPlayerLevel = 0;
 
 		self.currentDungeon = [[[Dungeon alloc] init] autorelease];
 		loadDungeonLock = [NSLock new];		
@@ -310,7 +310,7 @@
 	
 	Critter *critter = [self nextCritterToAct];
 	
-	if (player.level > oldPlayerLevel)
+	if (player.level > oldPlayerLevel && oldPlayerLevel != 0)
 	{
 		actionResult = @"You gained a level!";
 	}
@@ -336,6 +336,7 @@
 			[self performMoveForCreature:critter];
 			if (critter == player)
 				[self confirmLevelChange];
+			actionResult = @"";
 		}
 	}
 	
