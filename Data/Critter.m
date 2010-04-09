@@ -113,15 +113,17 @@
 	experience += exp;
 	while (experience >= 1000) 
 	{
+		//Player levels up, gains abilityPoints, increases in hp, sp, mp
 		++level;
 		abilityPoints += 2;
 		[self setHealth:max.hp+25];
-		[self setMana:max.hp+25];
+		[self setMana:max.mp+25];
 		[self setShield:max.sp+25];
 		experience -= 1000;
 	}
 }
 
+// Player gains turnPoints based on turnSpeed and affecting conditions
 - (void) incrementTurnPoints
 {
 	int realTS = turnSpeed;
@@ -137,6 +139,7 @@
 	current.sp -= amount;
 	if (current.sp >= 0) return;
 
+	//sp will be negative by exactly the amount that health must decrease
 	current.hp += current.sp;
 	current.sp = 0;
 
