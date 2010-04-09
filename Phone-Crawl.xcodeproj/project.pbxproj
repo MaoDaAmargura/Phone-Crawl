@@ -205,11 +205,7 @@
 		D97B07B2115C4B2B00FDF2CA /* monster-iceman.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B068E115C4B2B00FDF2CA /* monster-iceman.png */; };
 		D97B07B3115C4B2B00FDF2CA /* monster-ogre-dead.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B068F115C4B2B00FDF2CA /* monster-ogre-dead.png */; };
 		D97B07B4115C4B2B00FDF2CA /* monster-ogre.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0690115C4B2B00FDF2CA /* monster-ogre.png */; };
-		D97B07B5115C4B2B00FDF2CA /* monster-paladin.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D97B0691115C4B2B00FDF2CA /* monster-paladin.bmp */; };
-		D97B07B6115C4B2B00FDF2CA /* monster-rogue.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D97B0692115C4B2B00FDF2CA /* monster-rogue.bmp */; };
-		D97B07B7115C4B2B00FDF2CA /* monster-shadowknight.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D97B0693115C4B2B00FDF2CA /* monster-shadowknight.bmp */; };
 		D97B07B8115C4B2B00FDF2CA /* monster-warrior.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0694115C4B2B00FDF2CA /* monster-warrior.png */; };
-		D97B07B9115C4B2B00FDF2CA /* monster-wizard.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D97B0695115C4B2B00FDF2CA /* monster-wizard.bmp */; };
 		D97B07BA115C4B2B00FDF2CA /* shopkeeper.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0697115C4B2B00FDF2CA /* shopkeeper.png */; };
 		D97B07BB115C4B2B00FDF2CA /* blood.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0699115C4B2B00FDF2CA /* blood.png */; };
 		D97B07BC115C4B2B00FDF2CA /* blood2.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069A115C4B2B00FDF2CA /* blood2.png */; };
@@ -217,14 +213,6 @@
 		D97B07BF115C4B2B00FDF2CA /* eye.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069D115C4B2B00FDF2CA /* eye.png */; };
 		D97B07C0115C4B2B00FDF2CA /* skull.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069E115C4B2B00FDF2CA /* skull.png */; };
 		D97B07C1115C4B2B00FDF2CA /* star.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B069F115C4B2B00FDF2CA /* star.png */; };
-		D97B07C2115C4B2B00FDF2CA /* donald.bmp in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A1115C4B2B00FDF2CA /* donald.bmp */; };
-		D97B07C3115C4B2B00FDF2CA /* female1.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A2115C4B2B00FDF2CA /* female1.png */; };
-		D97B07C4115C4B2B00FDF2CA /* female2.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A3115C4B2B00FDF2CA /* female2.png */; };
-		D97B07C5115C4B2B00FDF2CA /* human1.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A4115C4B2B00FDF2CA /* human1.png */; };
-		D97B07C6115C4B2B00FDF2CA /* knight.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A5115C4B2B00FDF2CA /* knight.png */; };
-		D97B07C7115C4B2B00FDF2CA /* mage.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A6115C4B2B00FDF2CA /* mage.png */; };
-		D97B07C8115C4B2B00FDF2CA /* male1.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A7115C4B2B00FDF2CA /* male1.png */; };
-		D97B07C9115C4B2B00FDF2CA /* male2.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06A8115C4B2B00FDF2CA /* male2.png */; };
 		D97B07CA115C4B2B00FDF2CA /* bg-cold-C1.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06AA115C4B2B00FDF2CA /* bg-cold-C1.png */; };
 		D97B07CB115C4B2B00FDF2CA /* bg-cold-C2.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06AB115C4B2B00FDF2CA /* bg-cold-C2.png */; };
 		D97B07CC115C4B2B00FDF2CA /* bg-cold-C3.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06AC115C4B2B00FDF2CA /* bg-cold-C3.png */; };
@@ -304,28 +292,8 @@
 		D97B0816115C4B2B00FDF2CA /* Numeral4-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06FB115C4B2B00FDF2CA /* Numeral4-Normal.png */; };
 		D97B0817115C4B2B00FDF2CA /* Numeral5-Normal.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06FC115C4B2B00FDF2CA /* Numeral5-Normal.png */; };
 		D97B0818115C4B2B00FDF2CA /* PileofGold.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B06FD115C4B2B00FDF2CA /* PileofGold.png */; };
-		D97B0819115C4B2B00FDF2CA /* Screen shot 2010-01-23 at 9.08.10 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0700115C4B2B00FDF2CA /* Screen shot 2010-01-23 at 9.08.10 PM.png */; };
-		D97B081A115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 10.19.51 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0701115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 10.19.51 PM.png */; };
-		D97B081B115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.26.49 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0702115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.26.49 PM.png */; };
-		D97B081C115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.27.00 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0703115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.27.00 PM.png */; };
-		D97B081D115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 6.56.12 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0704115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 6.56.12 PM.png */; };
-		D97B081E115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 8.38.26 PM.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0705115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 8.38.26 PM.png */; };
-		D97B081F115C4B2B00FDF2CA /* character-selection.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0706115C4B2B00FDF2CA /* character-selection.png */; };
-		D97B0820115C4B2B00FDF2CA /* character.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0707115C4B2B00FDF2CA /* character.png */; };
-		D97B0821115C4B2B00FDF2CA /* inventory-itemmenu.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0708115C4B2B00FDF2CA /* inventory-itemmenu.png */; };
-		D97B0822115C4B2B00FDF2CA /* inventory.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0709115C4B2B00FDF2CA /* inventory.png */; };
-		D97B0823115C4B2B00FDF2CA /* options.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070A115C4B2B00FDF2CA /* options.png */; };
-		D97B0824115C4B2B00FDF2CA /* splash.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070B115C4B2B00FDF2CA /* splash.png */; };
-		D97B0825115C4B2B00FDF2CA /* world-battlemenu.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070C115C4B2B00FDF2CA /* world-battlemenu.png */; };
-		D97B0826115C4B2B00FDF2CA /* world.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070D115C4B2B00FDF2CA /* world.png */; };
-		D97B0827115C4B2B00FDF2CA /* ui-selectcharacter.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070E115C4B2B00FDF2CA /* ui-selectcharacter.png */; };
-		D97B0828115C4B2B00FDF2CA /* ui-tab-character.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B070F115C4B2B00FDF2CA /* ui-tab-character.png */; };
-		D97B0829115C4B2B00FDF2CA /* ui-tab-inventory.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0710115C4B2B00FDF2CA /* ui-tab-inventory.png */; };
-		D97B082A115C4B2B00FDF2CA /* ui-tab-options.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0711115C4B2B00FDF2CA /* ui-tab-options.png */; };
-		D97B082B115C4B2B00FDF2CA /* ui-tab-world.png in Resources */ = {isa = PBXBuildFile; fileRef = D97B0712115C4B2B00FDF2CA /* ui-tab-world.png */; };
 		D9894B8E116280DA0034C3C8 /* BattleMenuManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */; };
 		D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */ = {isa = PBXBuildFile; fileRef = D98D744B111E3EA200EC62CF /* InventoryItemButton.m */; };
-		D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A134D21129261800127C55 /* PCPopupMenu.m */; };
 		D9A15956116D66C0001E37D4 /* priest.png in Resources */ = {isa = PBXBuildFile; fileRef = D9A15955116D66C0001E37D4 /* priest.png */; };
 		D9A46F48114890FD00AAC433 /* HighScoreViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D9A46F46114890FD00AAC433 /* HighScoreViewController.m */; };
 		D9A46F49114890FD00AAC433 /* HighScoreViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D9A46F47114890FD00AAC433 /* HighScoreViewController.xib */; };
@@ -580,11 +548,7 @@
 		D97B068E115C4B2B00FDF2CA /* monster-iceman.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster-iceman.png"; sourceTree = "<group>"; };
 		D97B068F115C4B2B00FDF2CA /* monster-ogre-dead.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster-ogre-dead.png"; sourceTree = "<group>"; };
 		D97B0690115C4B2B00FDF2CA /* monster-ogre.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster-ogre.png"; sourceTree = "<group>"; };
-		D97B0691115C4B2B00FDF2CA /* monster-paladin.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-paladin.bmp"; sourceTree = "<group>"; };
-		D97B0692115C4B2B00FDF2CA /* monster-rogue.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-rogue.bmp"; sourceTree = "<group>"; };
-		D97B0693115C4B2B00FDF2CA /* monster-shadowknight.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-shadowknight.bmp"; sourceTree = "<group>"; };
 		D97B0694115C4B2B00FDF2CA /* monster-warrior.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "monster-warrior.png"; sourceTree = "<group>"; };
-		D97B0695115C4B2B00FDF2CA /* monster-wizard.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = "monster-wizard.bmp"; sourceTree = "<group>"; };
 		D97B0697115C4B2B00FDF2CA /* shopkeeper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = shopkeeper.png; sourceTree = "<group>"; };
 		D97B0699115C4B2B00FDF2CA /* blood.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blood.png; sourceTree = "<group>"; };
 		D97B069A115C4B2B00FDF2CA /* blood2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blood2.png; sourceTree = "<group>"; };
@@ -592,14 +556,6 @@
 		D97B069D115C4B2B00FDF2CA /* eye.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = eye.png; sourceTree = "<group>"; };
 		D97B069E115C4B2B00FDF2CA /* skull.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = skull.png; sourceTree = "<group>"; };
 		D97B069F115C4B2B00FDF2CA /* star.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = star.png; sourceTree = "<group>"; };
-		D97B06A1115C4B2B00FDF2CA /* donald.bmp */ = {isa = PBXFileReference; lastKnownFileType = image.bmp; path = donald.bmp; sourceTree = "<group>"; };
-		D97B06A2115C4B2B00FDF2CA /* female1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = female1.png; sourceTree = "<group>"; };
-		D97B06A3115C4B2B00FDF2CA /* female2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = female2.png; sourceTree = "<group>"; };
-		D97B06A4115C4B2B00FDF2CA /* human1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = human1.png; sourceTree = "<group>"; };
-		D97B06A5115C4B2B00FDF2CA /* knight.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = knight.png; sourceTree = "<group>"; };
-		D97B06A6115C4B2B00FDF2CA /* mage.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = mage.png; sourceTree = "<group>"; };
-		D97B06A7115C4B2B00FDF2CA /* male1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male1.png; sourceTree = "<group>"; };
-		D97B06A8115C4B2B00FDF2CA /* male2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = male2.png; sourceTree = "<group>"; };
 		D97B06AA115C4B2B00FDF2CA /* bg-cold-C1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-cold-C1.png"; sourceTree = "<group>"; };
 		D97B06AB115C4B2B00FDF2CA /* bg-cold-C2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-cold-C2.png"; sourceTree = "<group>"; };
 		D97B06AC115C4B2B00FDF2CA /* bg-cold-C3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "bg-cold-C3.png"; sourceTree = "<group>"; };
@@ -679,31 +635,10 @@
 		D97B06FB115C4B2B00FDF2CA /* Numeral4-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Numeral4-Normal.png"; sourceTree = "<group>"; };
 		D97B06FC115C4B2B00FDF2CA /* Numeral5-Normal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Numeral5-Normal.png"; sourceTree = "<group>"; };
 		D97B06FD115C4B2B00FDF2CA /* PileofGold.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PileofGold.png; sourceTree = "<group>"; };
-		D97B0700115C4B2B00FDF2CA /* Screen shot 2010-01-23 at 9.08.10 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-23 at 9.08.10 PM.png"; sourceTree = "<group>"; };
-		D97B0701115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 10.19.51 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-24 at 10.19.51 PM.png"; sourceTree = "<group>"; };
-		D97B0702115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.26.49 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-24 at 3.26.49 PM.png"; sourceTree = "<group>"; };
-		D97B0703115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.27.00 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-24 at 3.27.00 PM.png"; sourceTree = "<group>"; };
-		D97B0704115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 6.56.12 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-24 at 6.56.12 PM.png"; sourceTree = "<group>"; };
-		D97B0705115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 8.38.26 PM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Screen shot 2010-01-24 at 8.38.26 PM.png"; sourceTree = "<group>"; };
-		D97B0706115C4B2B00FDF2CA /* character-selection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "character-selection.png"; sourceTree = "<group>"; };
-		D97B0707115C4B2B00FDF2CA /* character.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = character.png; sourceTree = "<group>"; };
-		D97B0708115C4B2B00FDF2CA /* inventory-itemmenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "inventory-itemmenu.png"; sourceTree = "<group>"; };
-		D97B0709115C4B2B00FDF2CA /* inventory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = inventory.png; sourceTree = "<group>"; };
-		D97B070A115C4B2B00FDF2CA /* options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = options.png; sourceTree = "<group>"; };
-		D97B070B115C4B2B00FDF2CA /* splash.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = splash.png; sourceTree = "<group>"; };
-		D97B070C115C4B2B00FDF2CA /* world-battlemenu.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "world-battlemenu.png"; sourceTree = "<group>"; };
-		D97B070D115C4B2B00FDF2CA /* world.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = world.png; sourceTree = "<group>"; };
-		D97B070E115C4B2B00FDF2CA /* ui-selectcharacter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-selectcharacter.png"; sourceTree = "<group>"; };
-		D97B070F115C4B2B00FDF2CA /* ui-tab-character.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-character.png"; sourceTree = "<group>"; };
-		D97B0710115C4B2B00FDF2CA /* ui-tab-inventory.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-inventory.png"; sourceTree = "<group>"; };
-		D97B0711115C4B2B00FDF2CA /* ui-tab-options.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-options.png"; sourceTree = "<group>"; };
-		D97B0712115C4B2B00FDF2CA /* ui-tab-world.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ui-tab-world.png"; sourceTree = "<group>"; };
 		D9894B8C116280DA0034C3C8 /* BattleMenuManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BattleMenuManager.h; sourceTree = "<group>"; };
 		D9894B8D116280DA0034C3C8 /* BattleMenuManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BattleMenuManager.m; sourceTree = "<group>"; };
 		D98D744A111E3EA200EC62CF /* InventoryItemButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InventoryItemButton.h; sourceTree = "<group>"; };
 		D98D744B111E3EA200EC62CF /* InventoryItemButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InventoryItemButton.m; sourceTree = "<group>"; };
-		D9A134D11129261800127C55 /* PCPopupMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCPopupMenu.h; sourceTree = "<group>"; };
-		D9A134D21129261800127C55 /* PCPopupMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PCPopupMenu.m; sourceTree = "<group>"; };
 		D9A15955116D66C0001E37D4 /* priest.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = priest.png; sourceTree = "<group>"; };
 		D9A46F45114890FD00AAC433 /* HighScoreViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HighScoreViewController.h; sourceTree = "<group>"; };
 		D9A46F46114890FD00AAC433 /* HighScoreViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HighScoreViewController.m; sourceTree = "<group>"; };
@@ -897,8 +832,6 @@
 				D918C0E91146F44D002D4575 /* Categories */,
 				D931C40911063B790032A3DD /* PCBaseViewController.h */,
 				D931C40A11063B790032A3DD /* PCBaseViewController.m */,
-				D9A134D11129261800127C55 /* PCPopupMenu.h */,
-				D9A134D21129261800127C55 /* PCPopupMenu.m */,
 				D70FA6ED11480B44001F1C56 /* PCParticle.h */,
 				D70FA6EE11480B44001F1C56 /* PCParticle.m */,
 				D70FA7CD11481E1A001F1C56 /* PCParticle.xib */,
@@ -1218,11 +1151,7 @@
 				D97B068E115C4B2B00FDF2CA /* monster-iceman.png */,
 				D97B068F115C4B2B00FDF2CA /* monster-ogre-dead.png */,
 				D97B0690115C4B2B00FDF2CA /* monster-ogre.png */,
-				D97B0691115C4B2B00FDF2CA /* monster-paladin.bmp */,
-				D97B0692115C4B2B00FDF2CA /* monster-rogue.bmp */,
-				D97B0693115C4B2B00FDF2CA /* monster-shadowknight.bmp */,
 				D97B0694115C4B2B00FDF2CA /* monster-warrior.png */,
-				D97B0695115C4B2B00FDF2CA /* monster-wizard.bmp */,
 			);
 			path = monsters;
 			sourceTree = "<group>";
@@ -1253,14 +1182,6 @@
 			isa = PBXGroup;
 			children = (
 				D9B2E590116C29D7007F48C4 /* NewIcons */,
-				D97B06A1115C4B2B00FDF2CA /* donald.bmp */,
-				D97B06A2115C4B2B00FDF2CA /* female1.png */,
-				D97B06A3115C4B2B00FDF2CA /* female2.png */,
-				D97B06A4115C4B2B00FDF2CA /* human1.png */,
-				D97B06A5115C4B2B00FDF2CA /* knight.png */,
-				D97B06A6115C4B2B00FDF2CA /* mage.png */,
-				D97B06A7115C4B2B00FDF2CA /* male1.png */,
-				D97B06A8115C4B2B00FDF2CA /* male2.png */,
 			);
 			path = players;
 			sourceTree = "<group>";
@@ -1347,12 +1268,6 @@
 				D97B06F2115C4B2B00FDF2CA /* icons */,
 				D97B06F7115C4B2B00FDF2CA /* Numerals */,
 				D97B06FD115C4B2B00FDF2CA /* PileofGold.png */,
-				D97B06FE115C4B2B00FDF2CA /* screens */,
-				D97B070E115C4B2B00FDF2CA /* ui-selectcharacter.png */,
-				D97B070F115C4B2B00FDF2CA /* ui-tab-character.png */,
-				D97B0710115C4B2B00FDF2CA /* ui-tab-inventory.png */,
-				D97B0711115C4B2B00FDF2CA /* ui-tab-options.png */,
-				D97B0712115C4B2B00FDF2CA /* ui-tab-world.png */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -1393,35 +1308,6 @@
 				D97B06FC115C4B2B00FDF2CA /* Numeral5-Normal.png */,
 			);
 			path = Numerals;
-			sourceTree = "<group>";
-		};
-		D97B06FE115C4B2B00FDF2CA /* screens */ = {
-			isa = PBXGroup;
-			children = (
-				D97B06FF115C4B2B00FDF2CA /* austin's */,
-				D97B0706115C4B2B00FDF2CA /* character-selection.png */,
-				D97B0707115C4B2B00FDF2CA /* character.png */,
-				D97B0708115C4B2B00FDF2CA /* inventory-itemmenu.png */,
-				D97B0709115C4B2B00FDF2CA /* inventory.png */,
-				D97B070A115C4B2B00FDF2CA /* options.png */,
-				D97B070B115C4B2B00FDF2CA /* splash.png */,
-				D97B070C115C4B2B00FDF2CA /* world-battlemenu.png */,
-				D97B070D115C4B2B00FDF2CA /* world.png */,
-			);
-			path = screens;
-			sourceTree = "<group>";
-		};
-		D97B06FF115C4B2B00FDF2CA /* austin's */ = {
-			isa = PBXGroup;
-			children = (
-				D97B0700115C4B2B00FDF2CA /* Screen shot 2010-01-23 at 9.08.10 PM.png */,
-				D97B0701115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 10.19.51 PM.png */,
-				D97B0702115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.26.49 PM.png */,
-				D97B0703115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.27.00 PM.png */,
-				D97B0704115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 6.56.12 PM.png */,
-				D97B0705115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 8.38.26 PM.png */,
-			);
-			path = "austin's";
 			sourceTree = "<group>";
 		};
 		D988806B110D272C00AFFB2E /* Misc */ = {
@@ -1810,11 +1696,7 @@
 				D97B07B2115C4B2B00FDF2CA /* monster-iceman.png in Resources */,
 				D97B07B3115C4B2B00FDF2CA /* monster-ogre-dead.png in Resources */,
 				D97B07B4115C4B2B00FDF2CA /* monster-ogre.png in Resources */,
-				D97B07B5115C4B2B00FDF2CA /* monster-paladin.bmp in Resources */,
-				D97B07B6115C4B2B00FDF2CA /* monster-rogue.bmp in Resources */,
-				D97B07B7115C4B2B00FDF2CA /* monster-shadowknight.bmp in Resources */,
 				D97B07B8115C4B2B00FDF2CA /* monster-warrior.png in Resources */,
-				D97B07B9115C4B2B00FDF2CA /* monster-wizard.bmp in Resources */,
 				D97B07BA115C4B2B00FDF2CA /* shopkeeper.png in Resources */,
 				D97B07BB115C4B2B00FDF2CA /* blood.png in Resources */,
 				D97B07BC115C4B2B00FDF2CA /* blood2.png in Resources */,
@@ -1822,14 +1704,6 @@
 				D97B07BF115C4B2B00FDF2CA /* eye.png in Resources */,
 				D97B07C0115C4B2B00FDF2CA /* skull.png in Resources */,
 				D97B07C1115C4B2B00FDF2CA /* star.png in Resources */,
-				D97B07C2115C4B2B00FDF2CA /* donald.bmp in Resources */,
-				D97B07C3115C4B2B00FDF2CA /* female1.png in Resources */,
-				D97B07C4115C4B2B00FDF2CA /* female2.png in Resources */,
-				D97B07C5115C4B2B00FDF2CA /* human1.png in Resources */,
-				D97B07C6115C4B2B00FDF2CA /* knight.png in Resources */,
-				D97B07C7115C4B2B00FDF2CA /* mage.png in Resources */,
-				D97B07C8115C4B2B00FDF2CA /* male1.png in Resources */,
-				D97B07C9115C4B2B00FDF2CA /* male2.png in Resources */,
 				D97B07CA115C4B2B00FDF2CA /* bg-cold-C1.png in Resources */,
 				D97B07CB115C4B2B00FDF2CA /* bg-cold-C2.png in Resources */,
 				D97B07CC115C4B2B00FDF2CA /* bg-cold-C3.png in Resources */,
@@ -1909,25 +1783,6 @@
 				D97B0816115C4B2B00FDF2CA /* Numeral4-Normal.png in Resources */,
 				D97B0817115C4B2B00FDF2CA /* Numeral5-Normal.png in Resources */,
 				D97B0818115C4B2B00FDF2CA /* PileofGold.png in Resources */,
-				D97B0819115C4B2B00FDF2CA /* Screen shot 2010-01-23 at 9.08.10 PM.png in Resources */,
-				D97B081A115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 10.19.51 PM.png in Resources */,
-				D97B081B115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.26.49 PM.png in Resources */,
-				D97B081C115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 3.27.00 PM.png in Resources */,
-				D97B081D115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 6.56.12 PM.png in Resources */,
-				D97B081E115C4B2B00FDF2CA /* Screen shot 2010-01-24 at 8.38.26 PM.png in Resources */,
-				D97B081F115C4B2B00FDF2CA /* character-selection.png in Resources */,
-				D97B0820115C4B2B00FDF2CA /* character.png in Resources */,
-				D97B0821115C4B2B00FDF2CA /* inventory-itemmenu.png in Resources */,
-				D97B0822115C4B2B00FDF2CA /* inventory.png in Resources */,
-				D97B0823115C4B2B00FDF2CA /* options.png in Resources */,
-				D97B0824115C4B2B00FDF2CA /* splash.png in Resources */,
-				D97B0825115C4B2B00FDF2CA /* world-battlemenu.png in Resources */,
-				D97B0826115C4B2B00FDF2CA /* world.png in Resources */,
-				D97B0827115C4B2B00FDF2CA /* ui-selectcharacter.png in Resources */,
-				D97B0828115C4B2B00FDF2CA /* ui-tab-character.png in Resources */,
-				D97B0829115C4B2B00FDF2CA /* ui-tab-inventory.png in Resources */,
-				D97B082A115C4B2B00FDF2CA /* ui-tab-options.png in Resources */,
-				D97B082B115C4B2B00FDF2CA /* ui-tab-world.png in Resources */,
 				D9B2E595116C29D7007F48C4 /* knight1C.PNG in Resources */,
 				D9B2E596116C29D7007F48C4 /* knightess1C.PNG in Resources */,
 				D9B2E597116C29D7007F48C4 /* wizardC.PNG in Resources */,
@@ -1983,7 +1838,6 @@
 				65E8F37D110BFC06000BF581 /* Spell.m in Sources */,
 				65AD9D3B111CD37B00343473 /* Skill.m in Sources */,
 				D98D744C111E3EA200EC62CF /* InventoryItemButton.m in Sources */,
-				D9A134D31129261800127C55 /* PCPopupMenu.m in Sources */,
 				D957F44F112BAEE000809C1B /* InventoryScrollView.m in Sources */,
 				D9AFEE881130C577001EC0B5 /* NewGameFlowControl.m in Sources */,
 				D9F2B2B211389E360031058B /* SkillUpgradeViewController.m in Sources */,

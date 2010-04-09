@@ -1,7 +1,6 @@
 #import "Spell.h"
 #import "Critter.h"
 #import "Item.h" 
-#import "PCPopupMenu.h"
 
 
 NSMutableArray *spellList;
