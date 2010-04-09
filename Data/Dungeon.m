@@ -1028,27 +1028,28 @@ FOUND_START_TILE:;
 	 a = Abyss stair
 	 i = Innkeeper
 	 */
-#define TOWN_DIMENSION 12
-	const char TOWN [TOWN_DIMENSION][TOWN_DIMENSION] =
+#define TOWN_HEIGHT 13
+#define TOWN_WIDTH 12
+	const char TOWN [TOWN_WIDTH][TOWN_HEIGHT] =
 	{
-		{ 'g', 'g', 'w', 'w', 'w', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
-		{ 'g', 'g', 'd', 'f', 'i', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
-		{ 'g', 'g', 'w', 'f', 'f', 'w' , 'f' , 'f' , 'f' , 'w' , 'g' , 'g' } ,
-		{ 'g', 'g', 'w', 'w', 'w', 'w' , 'd' , 'w' , 'w' , 'w' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'g', 'g' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'g', 'g' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'w', 'w' , 'd' , 'w' , 'w' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'w', 'f' , 'f' , 'f' , 'w' , 'g' , 'g' , 'g' } ,
-		{ 'g', 'g', 'g', 'g', 'w', 'w' , 'w' , 'w' , 'w' , 'g' , 'g' , 'g' } ,
-		{ 'o', 'm', 'c', 'u', 'g', 'a' , 'g' , 'g' , 'g' , 'g' , 'g' , 'g' }
+		{ 'g', 'g', 'g', 'w', 'w', 'w', 'w', 'f', 'f', 'f', 'w', 'g', 'g' } ,
+		{ 'g', 'g', 'g', 'd', 'f', 'i', 'w', 'f', 'f', 'f', 'w', 'g', 'g' } ,
+		{ 's', 's', 'g', 'w', 'f', 'f', 'w', 'f', 'f', 'f', 'w', 'g', 'g' } ,
+		{ 'g', 's', 'g', 'w', 'w', 'w', 'w', 'd', 'w', 'w', 'w', 'g', 'g' } ,
+		{ 'o', 's', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g' } ,
+		{ 'g', 's', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g', 'g' } ,
+		{ 's', 's', 'g', 'g', 'g', 'w', 'w', 'd', 'w', 'w', 'g', 'g', 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'w', 'f', 'f', 'f', 'w', 'g', 'g', 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'w', 'f', 'f', 'f', 'w', 'g', 'g', 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'w', 'f', 'f', 'f', 'w', 'g', 'g', 'g' } ,
+		{ 'g', 'g', 'g', 'g', 'g', 'w', 'w', 'w', 'w', 'w', 'g', 'g', 'g' } ,
+		{ 'g', 'm', 'c', 'u', 'g', 'a', 'g', 'g', 'g', 'g', 'g', 'g', 'g' }
 	};
 	
 	[self setFloorOf: dungeon to: tilePit onZLevel: 0];
 	
-	for (int x = 0; x < TOWN_DIMENSION; x++) {
-		for (int y = 0; y < TOWN_DIMENSION; y++) {
+	for (int x = 0; x < TOWN_HEIGHT; x++) {
+		for (int y = 0; y < TOWN_WIDTH; y++) {
 			Tile *tile = [dungeon tileAtX:x Y:y Z:0];
 			switch (TOWN [y][x]) {
 				case 'g':
@@ -1072,6 +1073,9 @@ FOUND_START_TILE:;
 				case 'o':
 					[tile convertToType: tileStairsToOrcMines];
 					break;
+				case 's':
+					[tile convertToType: tileRockWall];
+					break;
 				default:
 					[tile convertToType: tileGroundCrumbling];
 					// FIXME need more graphics
@@ -1082,7 +1086,7 @@ FOUND_START_TILE:;
 	// place NPC characters
 	Critter *critter;
 	critter = [[[NPCCritter alloc] initWithLevel:1] autorelease];
-	critter.location = [Coord withX:7 Y:1 Z:0];
+	critter.location = [Coord withX:8 Y:1 Z:0];
 	critter.npc = YES;
 	critter.stringIcon = @"priest.png";
 	critter.dialog = [[Priest alloc] init];
