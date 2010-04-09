@@ -4,15 +4,17 @@
 #define NUM_NAMES_PER_ITEM 2
 
 // array for alternate item names
-static const NSString *itemNameString[8][NUM_NAMES_PER_ITEM] = {
+static const NSString *itemNameString[10][NUM_NAMES_PER_ITEM] = {
 	{@"Sword",@"Scimitar"},
-	{@"Greatsword",@"Glaive",},
+	{@"Greatsword",@"Glaive"},
 	{@"Bow",@"Crossbow"},
 	{@"Dagger",@"Dirk"},
 	{@"Staff", @"Stave"},
     {@"Tower Shield", @"Kite Shield"},
 	{@"Plate",@"Chainmail"},
+    {@"Plate",@"Chainmail"},
 	{@"Cloth", @"Leather"},
+    {@"Cloth", @"Leather"}
 };
 
 // arrays for element names, spell names
