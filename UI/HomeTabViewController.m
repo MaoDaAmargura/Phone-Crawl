@@ -236,7 +236,7 @@
 	
 	tutorialDialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 290, 80)] autorelease];
 	tutorialDialogueBox.backgroundColor = [UIColor whiteColor];
-	tutorialDialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
+	tutorialDialogueBox.text = @"This is the town of Er'dra. The fat man in the building is the merchant. Go say hello.";
 	tutorialDialogueBox.numberOfLines = 4;
 	
 	[wView.view addSubview:tutorialDialogueBox];
@@ -251,7 +251,7 @@
 {
 	if(gameEngine.tutorialMode)
 	{
-		tutorialDialogueBox.text = @"Welcome to Andor, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
+		tutorialDialogueBox.text = @"Welcome to Er'dra, kiddo. You got no money, huh? Well, that sword was left here. It's yours. Stand on it and tap it to pick it up.";
 		Item *tutorialSword = [[[Item alloc] initWithBaseStats:0 elemType:FIRE itemType:SWORD_ONE_HAND] autorelease];
 	
 		[gameEngine.currentDungeon.items setObject:tutorialSword forKey:[Coord withX:4 Y:2 Z:0]];
