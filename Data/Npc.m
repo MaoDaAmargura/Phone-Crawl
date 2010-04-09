@@ -16,14 +16,14 @@
 // getter and setter methods
 @synthesize dialog;
 @synthesize pointsTo;
-@synthesize callfunc;
+@synthesize action;
 
 // init methods
--(id) initWithDialog:(NSString *)d pointsTo:(int)points func:(SEL)func {
+-(id) initWithDialog:(NSString *)d pointsTo:(int)points action:(NSString *)acts {
 	// set basic values then return pointer to self
 	dialog = d;
 	pointsTo = points;
-	callfunc = func;
+	action = acts;
 	return self;
 }
 
@@ -75,9 +75,11 @@
 	current = [dialogs objectAtIndex:r.pointsTo];
 	// perform action if one is designated
 	
-	if ([self respondsToSelector:r.callfunc]) {
-		[self performSelector:r.callfunc];
-	}
+	[self handle:r.action];
+}
+
+-(void) handle:(NSString *)act {
+
 }
 
 @end

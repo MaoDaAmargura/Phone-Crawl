@@ -79,10 +79,7 @@
 		return;
 	}
 	// if the action has been set
-	if (r.callfunc != nil) {
-		// call the action function (note that current.dialog in this case is an Npc object)
-		[current.dialog performSelector:r.callfunc withObject:current];
-	}
+	[current.dialog handle:r.action target:current];
 	// get the next dialog
 	Dialog *d = [current.dialog.dialogs objectAtIndex:r.pointsTo];
 	// set the current dialog to the next dialog

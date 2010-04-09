@@ -19,11 +19,11 @@
 	// create first new dialog (opening dialog)
 	Dialog *d = [[Dialog alloc] initWithDialog:@"Hello"];
 	// create response to opening dialog
-	Response *r = [[Response alloc] initWithDialog:@"Heal me please" pointsTo:1 func:@selector(healPlayer)];
+	Response *r = [[Response alloc] initWithDialog:@"Heal me please" pointsTo:1 action:@"Heal"];
 	// add response to dialog
 	[d addResponse:r];
 	// second response, to terminate conversation
-	r = [[Response alloc] initWithDialog:@"Done" pointsTo:0 func:nil];
+	r = [[Response alloc] initWithDialog:@"Done" pointsTo:0 action:@""];
 	// add second response
 	[d addResponse:r];
 	// add object to dialogs array
@@ -33,8 +33,8 @@
 	current = d;
 	// second dialog, for after player is healed
 	d = [[Dialog alloc] initWithDialog:@"You are fully healed."];
-	// response to return to start dialog
-	r = [[Response alloc] initWithDialog:@"Thanks!" pointsTo:0 func:nil];
+	// response to returo start dialog
+	r = [[Response alloc] initWithDialog:@"Thanks!" pointsTo:0 action:@""];
 	// add response
 	[d addResponse:r];
 	// add second dialog
@@ -47,6 +47,12 @@
 -(void) healPlayer:(Critter *)p {
 	// resetStats, which resets hp, mp, and sp to max levels
 	[p resetStats];
+}
+
+-(void) handle:(NSString *)act target:(Critter *)c {
+	if ([act compare:@"Heal"] == NSOrderedSame) {
+		[self healPlayer:c];
+	}
 }
 
 @end

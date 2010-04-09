@@ -17,5 +17,6 @@
 
 // function to heal player when the player requests it
 -(void) healPlayer:(Critter *)p;
+// handle actions
 
 @end

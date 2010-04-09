@@ -23,16 +23,16 @@
 @interface Response : NSObject {
 	NSString *dialog;
 	int pointsTo;
-	SEL callfunc;
+	NSString *action;
 }
 
 // getter and setter methods
 @property (retain) NSString *dialog;
 @property int pointsTo;
-@property SEL callfunc;
+@property (retain) NSString *action;
 
 // init methods
--(id) initWithDialog:(NSString *)d pointsTo:(int) points func:(SEL) func;
+-(id) initWithDialog:(NSString *)d pointsTo:(int) points action:(NSString *)acts;
 
 @end
 
@@ -75,5 +75,7 @@
 -(id) initWithCritter:(Critter *)c;
 // given a chosen response, moves the conversation to the required dialog
 -(void) changeDialog:(Response *)r;
+
+-(void) handle:(NSString *)act target:(Critter *) t;
 
 @end
