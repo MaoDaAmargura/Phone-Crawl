@@ -11,7 +11,7 @@
 #define NUM_ITEM_TYPES 13
 #define OFFHAND_DMG_PERCENTAGE 0.75
 
-// defines for item pictures
+// pre-defined filenames for item pictures
 #define ICON_SWORD_SINGLE	@"swordsingle.png"
 #define ICON_SWORD_DOUBLE	@"claymore.png"
 #define ICON_BOW			@"bow.png"
@@ -45,26 +45,19 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 
 // interface for item
 @interface Item : NSObject {
-	// name of icon
 	NSString *name;
-	// picture of icon
-	NSString *icon;
-	// is item equipable?
+	NSString *icon; // name of picture file
 	BOOL isEquipable;
-	// damage of item
 	int damage;
-	// elemental damage item does
 	int elementalDamage;
-	// range of item
 	int range;
-	// how many times an item can be used
-	int charges;
+	int charges; //For limited use items
 	int pointValue; //Sell value + high score point value
-	
 	itemQuality quality; // Dull, Regular, Sharp, for critical hits
-	slotType slot; //What slot can the item go in?
-	elemType element; //Elemental type of item
-	itemType type; //Item type
+	slotType slot; //What equipment slot can the item go in?
+	elemType element; //Elemental type of item (Fire,Cold, etc)
+	itemType type; 
+	
 	int effectSpellId; //Which spell the item casts
 	
 	// stat modifiers
@@ -106,7 +99,7 @@ typedef enum {DULL,REGULAR,SHARP} itemQuality;
 @property (nonatomic,readonly) BOOL isEquipable;
 
 
-// cast-for wands
+// cast-for wands, scrolls, and potions
 - (NSString *) cast: (Critter *) caster target: (Critter *) target;
 
 // Generate a random item based on the dungeon level and elemental type

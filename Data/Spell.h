@@ -50,27 +50,18 @@ typedef enum {
 
 // interface for Spell
 @interface Spell : NSObject {
-	// name of the spell
 	NSString *name;
-	// does the spell hurt enemies, or help caster
-	spellType type;
-	// type of target, single, range, ect
-	targetType spellTarget;
-	// elemental type of spell
+	spellType type; // does the spell hurt enemies, or help caster
+	targetType spellTarget; //Single target or self-targeted
 	elemType element;
-	// cost of spell
-	int manaCost;
-	// spell damage
+	int manaCost; // Mana point cost of a spell
 	int damage;
-	// spell range
 	int range;
-	// level of spell
-	int level; //Minor,Lesser, Regular, Major, Superior
+
+	int level; //Relative power level of spell
 	int spellId; //Index in spell_list array of the spell
-	// function called when spell is cast
-	SEL spellFn;
-	// turn point cost of spell
-	int turnPointCost;
+	SEL spellFn; // function called when spell is cast
+	int turnPointCost; 	// turn point cost of spell
 }
 
 // casting functions

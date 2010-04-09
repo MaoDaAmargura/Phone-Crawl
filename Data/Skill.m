@@ -10,7 +10,6 @@ NSMutableArray *abilityList = nil;
 
 BOOL have_set_abilities = FALSE;
 
-// implementation for Skill
 @implementation Skill
 
 // getter and setter methods
@@ -24,7 +23,6 @@ BOOL have_set_abilities = FALSE;
 - (id) initWithInfo: (NSString *) abilityName damageMultiplier: (float) abilityDamage abilityLevel: (int) level 
 		 abilityId: (int) desiredId abilityFn: (SEL) fn turnPoints:(int) turnPntCost {
 	if (self = [super init]) {
-		// set values based on given parameters
 		name = abilityName;
 		damageMultiplier = abilityDamage;
 		abilityLevel = level;
@@ -77,7 +75,7 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	return [abilityList objectAtIndex: 3 * type + lvl];
 }
 
-// when caster uses an ability on target, this is called
+// Main logic function that handles the use of skills by one critter on another
 - (NSString *) useAbility: (Critter *) caster target: (Critter *) target 
 {
 	int abilityResult = 0;
@@ -91,9 +89,8 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	}
 	// if damage was done
 	if (abilityResult >= 0) {
-		// deal damage to target
 		[target takeDamage:abilityResult];
-		// tell player how much damage was done
+		// generate a report string
 		return [NSString stringWithFormat:@"%@ was dealt %d damage!!", target.stringName, abilityResult];
 	} else {
 		// otherwise there was an error. Flag it
@@ -112,35 +109,9 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	return [ca useAbility:caster target:target];
 };
 
-// mitigateDamage
-- (int) mitigateDamage:(Critter *)caster target:(Critter *)target damage: (int) amountDamage {
-	// store target's armor
-	int resist = target.defense.armor;
-	// clamp armor level to acceptable bounds
-	if (resist > STAT_MAX) {
-		resist = STAT_MAX;
-	} else if (resist < STAT_MIN) {
-		resist = STAT_MIN;
-	}
-	// compute level difference
-	int level_diff = caster.level - target.level;
-	// if the castor has a lower level than the target
-	if(level_diff < 0) {
-		// compute new resistance
-		resist = STAT_MAX - resist * LEVEL_DIFF_MULT / level_diff;
-	} else if(level_diff > 0) {
-		// else compute new resistance with a different algorithm
-		resist = resist * LEVEL_DIFF_MULT / level_diff;
-	}
-	// return the new damage
-	return amountDamage * resist / 100;
-}
-
 // basicAttack
 - (int) basicAttack:(Critter *)attacker def:(Critter *)defender {
-	// get base damage
 	float basedamage = [attacker getPhysDamage];
-	// increase by muiltplier
 	basedamage *= damageMultiplier;
 	// return damage with the defender's armor factored in
 	return basedamage*((120-defender.defense.armor)/54+0.1); 
@@ -151,11 +122,8 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	// resistance and damage variables
 	float resist;
 	float elementDamage = [attacker getElemDamage];
-	// type of element and type of condition
-	elemType type = attacker.equipment.rhand.element;
+	elemType type = attacker.equipment.rhand.element; //Determines which effect to add
 	conditionType condtype = NO_CONDITION;
-	// based on the type, find the resistance of the defender and the condition
-	// which might be applied
 	switch (type) {
 		case FIRE:
 			resist = defender.defense.fire;
@@ -182,18 +150,14 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 			break;
 	}
 
-	// compute final damage
 	int finaldamage = (elementDamage * (100-resist) / 100);
-	// if a random number is greater than 20*level of ability
 	if ([Rand min:0 max:100] > 20 * abilityLevel) {
-		// give the defender the given condition
 		[defender gainCondition:condtype];
 	}
-	// return damage
 	return finaldamage;
 }
 
-// action function for MIX_STRIKe
+// action function for MIX_STRIKE
 - (int) mixedStrike: (Critter *) attacker target: (Critter *) defender {
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
@@ -216,9 +180,7 @@ abilityLevel:abilityLvl++%3+1 abilityId:id_cnt++ abilityFn:FN turnPoints:TPNTS] 
 	if (attacker == nil || defender == nil) {
 		DLog(@"ABILITY_ERR");
 	}
-	// do basic attack and return damage
-	int dmg = [self basicAttack: attacker def: defender];
-	return dmg;
+	return [self basicAttack: attacker def: defender];
 }
 
 @end
