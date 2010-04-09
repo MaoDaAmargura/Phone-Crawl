@@ -234,7 +234,6 @@
 - (NSString*) performActionForCreature:(Critter*) critter
 {
 	NSString *actionResult = @"";
-	
 	if(critter.target.skillToUse)
 	{
 		actionResult = [critter useSkill];

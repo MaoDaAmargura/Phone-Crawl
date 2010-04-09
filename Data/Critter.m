@@ -432,7 +432,7 @@
 - (NSString*) useItem
 {
 	NSString *actionResult = @"";
-	if (target.critterForAction) 
+	if (target.critterForAction && target.itemForUse.type == WAND ) 
 	{
 		if (target.itemForUse && target.itemForUse.charges > 0)
 		{
@@ -450,7 +450,15 @@
 			}
 			[self setItemToUse:nil];
 		}
+	} else if (target.itemForUse.type == SCROLL || target.itemForUse.type == POTION) {
+		[target.itemForUse cast:self target:target.critterForAction];
+		turnPoints -= TURN_POINTS_FOR_ITEM_USE;
+		target.itemForUse.charges--;
+		if (target.itemForUse.charges <= 0) 
+			[inventory removeObject:target.itemForUse];
+		[self setItemToUse:nil];
 	}
+		
 	return actionResult;
 }
 

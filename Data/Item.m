@@ -123,10 +123,10 @@ static const int baseItemStats[10][9] = {
             if (arc4random() % 2)
                 return [NSString stringWithFormat:@"%@ %@ Helm",
                         elemString1[elem],
-                        itemNameString[desiredType][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
+                        itemNameString[desiredType - 2][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]]];
             else
                 return [NSString stringWithFormat:@"%@ Helm of %@",
-                        itemNameString[desiredType][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
+                        itemNameString[desiredType - 2][[Rand min:0 max:NUM_NAMES_PER_ITEM-1]],
                         elemString2[elem]];
         case HEAVY_CHEST:
         case LIGHT_CHEST:
