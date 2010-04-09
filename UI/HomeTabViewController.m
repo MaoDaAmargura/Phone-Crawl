@@ -234,10 +234,6 @@
 	gotSword = NO;
 	equippedSword = NO;
 	
-	Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:11 Z:0]];
-	
-	down.blockMove = YES;
-	
 	tutorialDialogueBox = [[[UILabel alloc] initWithFrame:CGRectMake(15, 15, 290, 80)] autorelease];
 	tutorialDialogueBox.backgroundColor = [UIColor whiteColor];
 	tutorialDialogueBox.text = @"This is the town of Andor. The fat man in the building is the merchant. Go say hello.";
@@ -245,7 +241,7 @@
 	
 	[wView.view addSubview:tutorialDialogueBox];
 	
-	[self moveHighlightInWorldView:wView toCoord:[Coord withX:3 Y:1 Z:0]];
+	[self moveHighlightInWorldView:wView toCoord:[Coord withX:4 Y:1 Z:0]];
 	wView.highlight.hidden = NO;
 	wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 	
@@ -281,12 +277,9 @@
 		tutorialDialogueBox.text = @"Not bad. Seems to me you've held one before. Listen, why don't you take a walk in the mines? The way should be clear now.";
 		equippedSword = YES;
 		
-		[self moveHighlightInWorldView:wView toCoord:[Coord withX:0 Y:10 Z:0]];
+		[self moveHighlightInWorldView:wView toCoord:[Coord withX:2 Y:5 Z:0]];
 		wView.highlight.backgroundColor = HIGHLIGHT_GREEN;
 		wView.highlight.hidden = NO;
-		
-		Tile* down = [gameEngine.currentDungeon tileAt:[Coord withX:0 Y:11 Z:0]];
-		down.blockMove = NO;
 	}
 }
 
