@@ -318,18 +318,14 @@
 	{
 		if (critter == player)
 		{
-			if(!player.inBattle)
-				[player regenShield];
+			if(!player.inBattle) [player regenShield];
 		}
 		else
 		{
 			[critter think:player]; 
 		}
-	
 		if ([critter hasActionToTake])
-		{
 			actionResult = [self performActionForCreature:critter];
-		}
 	
 		if ([critter hasMoveToMake] && ([actionResult isEqualToString:OUT_OF_RANGE] || [actionResult isEqualToString:@""]))
 		{

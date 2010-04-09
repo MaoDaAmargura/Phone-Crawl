@@ -38,8 +38,6 @@
 	
 	scoreController = [[HighScoreManager alloc] init];
 	gameManager = [[GameFileManager alloc] init];
-
-	isAllowedToLoadGame = [[NSUserDefaults standardUserDefaults] boolForKey:ALLOWED_TO_LOAD_GAME_KEY];
 	
 	//return;
 	if(QUICK_START) {
@@ -66,9 +64,7 @@
 		printf("saving game\n");
 		//[homeTabController.gameEngine saveGame:@"phonecrawlsave.gam"];
 		[gameManager saveCharacter:[self playerObject] toFile:SAVED_GAME_FILE_NAME];
-		isAllowedToLoadGame = YES;
 	}
-	[[NSUserDefaults standardUserDefaults] setBool:isAllowedToLoadGame forKey:ALLOWED_TO_LOAD_GAME_KEY];
 }
 
 
@@ -82,11 +78,16 @@
 #pragma mark -
 #pragma mark Delegates
 
+/*!
+ @method		fireGameLoop
+ @abstract		Timer controlled function fired to perform a turn
+ @discussion	only enter -[engine gameLoop] if player is alive.
+				handle death here.
+ */
 - (void) fireGameLoop
 {
 	if (gameStarted)
 	{
-		// check to see if player is dead
 		if ([homeTabController.gameEngine.player isAlive]) 
 		{
 			[homeTabController.gameEngine gameLoop];
@@ -94,8 +95,6 @@
 		else 
 		{
 			[homeTabController.wView.view addSubview:homeTabController.endView.view];
-			// TODO: get view to change to endgame properly
-			//[homeTabController.navigationController pushViewController:homeTabController.endView animated:YES];
 		}
 	}
 }
@@ -104,7 +103,6 @@
 {
 	[window bringSubviewToFront:homeTabController.view];
 	[homeTabController.gameEngine changeToDungeon:town];
-	isAllowedToLoadGame = YES;
 	gameStarted = YES;
 }
 
@@ -119,7 +117,11 @@
 
 #pragma mark -
 #pragma mark IBActions
-
+/*!
+ @method		startNewGame
+ @abstract		starts a new game
+ @discussion	called from XIB
+ */
 - (IBAction) startNewGame
 {
 	flow = [[NewGameFlowControl alloc] init];
@@ -128,18 +130,26 @@
 	[flow begin];
 }
 
+/*!
+ @method		loadSaveGame
+ @abstract		loads game from save file
+ @discussion	called from XIB
+ */
 - (IBAction) loadSaveGame
 {
-	if(!isAllowedToLoadGame) return;
 	homeTabController.gameEngine.player = [gameManager loadCharacterFromFile:SAVED_GAME_FILE_NAME];
 	if(homeTabController.gameEngine.player)
 	{
 		homeTabController.gameEngine.tutorialMode = NO;
 		[self loadGameWorld];
 	}
-
 }
 
+/*!
+ @method		viewScores
+ @abstract		creates a highScoreController to show scores in
+ @discussion	called from XIB. always uses same scoreManager.
+ */
 - (IBAction) viewScores
 {
 	[hView release];
@@ -147,14 +157,25 @@
 	[window addSubview:hView.view];
 }
 
+/*!
+ @method		endOfPlayersLife
+ @abstract		called when player decides not to continue.
+ @discussion	should clear game, disable game modes, and enter player into high scores.
+ */
 - (void) endOfPlayersLife
 {
-	isAllowedToLoadGame = NO;
 	gameStarted = NO;
 	Critter *player = [homeTabController.gameEngine player];
 	[scoreController insertPossibleNewScore:[player score] name:player.stringName];
 	[window bringSubviewToFront:mainMenuView];
+	
+	// delete the save game
+	NSFileManager *fm = [NSFileManager defaultManager];
+	[fm removeItemAtPath:SAVED_GAME_FILE_NAME error:nil];
 }
+
+#pragma mark -
+#pragma mark Accessors
 
 - (Critter*) playerObject
 {

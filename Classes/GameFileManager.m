@@ -34,7 +34,7 @@
 	const char *fname = [filename cStringUsingEncoding:NSASCIIStringEncoding];
 	FILE *file;
 	if (!(file = fopen(fname,"r"))) {
-		NSLog(@"Unable to open file for reading: %@", fname);
+		[[[[UIAlertView alloc] initWithTitle:@"No Save Games" message:@"You don't have a saved character." delegate:nil cancelButtonTitle:@"Okay" otherButtonTitles:nil] autorelease] show];
 		return nil;
 	}
 	char line[150];

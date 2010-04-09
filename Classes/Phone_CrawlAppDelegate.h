@@ -25,7 +25,6 @@
 	HomeTabViewController *homeTabController;
 	NewGameFlowControl *flow;
 	BOOL gameStarted;
-	BOOL isAllowedToLoadGame;
 	
 	HighScoreManager *scoreController;
 	GameFileManager *gameManager;
