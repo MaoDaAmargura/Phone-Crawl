@@ -73,9 +73,7 @@
 
 // init methods
 -(id) initWithCritter:(Critter *)c;
-// given a chosen response, moves the conversation to the required dialog
--(void) changeDialog:(Response *)r;
-
+// handle actions
 -(void) handle:(NSString *)act target:(Critter *) t;
 
 @end

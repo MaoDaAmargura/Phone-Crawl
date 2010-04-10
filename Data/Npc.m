@@ -70,15 +70,7 @@
 	return self;
 }
 
--(void) changeDialog:(Response *)r {
-	// update current dialog
-	current = [dialogs objectAtIndex:r.pointsTo];
-	// perform action if one is designated
-	
-	[self handle:r.action];
-}
-
--(void) handle:(NSString *)act {
+-(void) handle:(NSString *)act target:(Critter *)c {
 
 }
 
