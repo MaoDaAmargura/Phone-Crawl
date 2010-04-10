@@ -23,6 +23,7 @@
 
 @implementation NewGameFlowControl
 
+@synthesize nameField, iconField;
 
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
 - (id)init
@@ -51,8 +52,6 @@
 	[bottomLeft setBackgroundImage:[UIImage imageNamed:BOTTOM_LEFT_ICON] forState:UIControlStateNormal];
 	[bottomRight setBackgroundImage:[UIImage imageNamed:BOTTOM_RIGHT_ICON] forState:UIControlStateNormal];
 	
-
-
 }
 
 - (void)didReceiveMemoryWarning 
@@ -83,7 +82,6 @@
 }
 
 
-
 - (IBAction) nextState
 {
 	++state;
@@ -102,7 +100,6 @@
 		case 4:
 			nameSelect.hidden = YES;
 			[mainTextLabel setText:THIRD_DIALOGUE];
-			nameField = nameSelect.text;
 			break;
 		case CHAR_SELECTION:
 			[self setButtonsHidden:NO];
@@ -130,12 +127,6 @@
 	[self.view bringSubviewToFront:dialogueView];
 }
 
-/*
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField;        // return NO to disallow editing.
-- (void)textFieldDidBeginEditing:(UITextField *)textField;           // became first responder
-- (BOOL)textFieldShouldEndEditing:(UITextField *)textField;          // return YES to allow editing to stop and to resign first responder status. NO to disallow the editing session to end
-- (void)textFieldDidEndEditing:(UITextField *)textField;             // may be called if forced even if shouldEndEditing returns NO (e.g. view removed from window) or endEditing:YES called
-*/
 
 - (BOOL)textFieldShouldClear:(UITextField *)textField
 {
@@ -144,15 +135,21 @@
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-	if(textField.text.length > 3)
+	NSString *name = textField.text;
+	if(name.length > 3)
 	{
-		nameField = textField.text;
+		self.nameField = name;
 		[textField resignFirstResponder];
 		okayButton.userInteractionEnabled = YES;
 	}
 	else
 	{
 		okayButton.userInteractionEnabled = NO;
+		[[[[UIAlertView alloc] initWithTitle:@"Invalid Name"
+									 message:@"Names must be 4 characters long."
+									delegate:nil
+						   cancelButtonTitle:@"Okay"
+						   otherButtonTitles:nil] autorelease] show];
 	}
 
 	return YES;
@@ -160,7 +157,7 @@
 
 - (void) selectedCharacterPicture:(NSString*)icon
 {
-	iconField = icon;
+	self.iconField = icon;
 	[self setButtonsHidden:YES];
 	[self nextState];
 }

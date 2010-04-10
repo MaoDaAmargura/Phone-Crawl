@@ -21,6 +21,9 @@
 	NSString *iconField;
 }
 
+@property (nonatomic, retain) NSString *nameField;
+@property (nonatomic, retain) NSString *iconField;
+
 - (void) begin;
 
 - (IBAction) nextState;
