@@ -898,8 +898,8 @@
 
 - (void) sellItem: (Item*) it
 {
-	[player loseItem:it];
 	int val = [Item getItemValue:it];
+	[player loseItem:it];
 	player.money += val >= 10 ? val : 10;
 	[self refreshInventoryScreen];
 }
